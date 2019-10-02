@@ -16,9 +16,12 @@ module.exports =  {
     },
     rules: {
       "prettier/prettier": ["error", { "singleQuote": true }],
+      "@typescript-eslint/explicit-function-return-type": "off",
+      "@typescript-eslint/interface-name-prefix": [1, { "prefixWithI": "always", "allowUnderscorePrefix": true }]
     },
     env: {
       browser: true,
+      node: true,
       jasmine: true,
       jest: true
     },
