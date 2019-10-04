@@ -1,9 +1,7 @@
 import {createMuiTheme, Theme} from "@material-ui/core";
 import {MainColor} from "./MainColor";
 
-
-
-const theme: Theme = createMuiTheme({
+export const MainTheme: Theme = createMuiTheme({
   props: {
     MuiButton: {
       variant: "contained",
@@ -19,13 +17,14 @@ const theme: Theme = createMuiTheme({
     },
     MuiBackdrop: {
       root: {
-        backgroundColor: MainColor[400],
+        backgroundColor: "FAFAFA",
       },
     },
     MuiButton: {
       contained: {
         backgroundColor: MainColor[700],
         color: "white",
+        borderRadius: '24px',
       },
       focusVisible: {
         backgroundColor: MainColor[400],
@@ -34,6 +33,3 @@ const theme: Theme = createMuiTheme({
     }
   }
 })
-
-
-export default theme

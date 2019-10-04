@@ -1,11 +1,15 @@
 import React from 'react';
 import {Backdrop, Box, Button, makeStyles, Typography} from '@material-ui/core';
 import {PROJECT_NAME} from "../../../config/names";
-import StartingPageTheme from "../../themes/MainTheme";
+import {MainTheme} from "../../themes/MainTheme";
 import {ThemeProvider} from '@material-ui/styles';
 import About from "../../components/About";
+import {MainColor} from "../../themes/MainColor";
 
 const useStyles = makeStyles({
+  backdrop: {
+    backgroundColor: MainColor[400]
+  },
   heading: {
     textShadow: '0px 3px 5px rgba(0, 0, 0, 0.2), 0px 1px 18px rgba(0, 0, 0, 0.12), 0px 6px 10px rgba(0, 0, 0, 0.14);',
     paddingBottom: '80px'
@@ -29,8 +33,8 @@ const StartingPage: React.FC = (props) => {
   const classes = useStyles(props)
 
   return (
-    <ThemeProvider theme={StartingPageTheme}>
-      <Backdrop open={true}>
+    <ThemeProvider theme={MainTheme}>
+      <Backdrop className={classes.backdrop} open={true}>
         <Box display='flex' flexDirection={'column'}>
           <Typography className={classes.heading} variant={'h3'}>{PROJECT_NAME}</Typography>
           <Button className={classes.button}>Авторизация</Button>
