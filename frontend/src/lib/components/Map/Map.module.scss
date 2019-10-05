@@ -2,3 +2,12 @@
     width: 100vw;
     height: 80vh;
 }
+
+.RoleButtons {
+    display: flex;
+    position: absolute;
+    justify-content: space-between;
+    width: 400px;
+    transform: translate(37vw, -20vh);
+    z-index: 5
+}

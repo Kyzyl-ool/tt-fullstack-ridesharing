@@ -1,4 +1,5 @@
 import * as React from 'react';
+import Button from '@material-ui/core/Button';
 import ReactMapGL, { NavigationControl } from 'react-map-gl';
 import styles from './Map.module.scss';
 
@@ -90,6 +91,14 @@ export default class Map extends React.Component<{}, IMapState> {
             <NavigationControl onViewportChange={this.updateViewport} />
           </div>
         </ReactMapGL>
+        <div className={styles.RoleButtons}>
+          <Button color="primary" size="large">
+            Водитель
+          </Button>
+          <Button color="primary" size="large">
+            Пассажир
+          </Button>
+        </div>
       </div>
     );
   }
