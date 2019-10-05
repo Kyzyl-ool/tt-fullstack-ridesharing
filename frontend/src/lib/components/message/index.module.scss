@@ -1,8 +1,9 @@
 $r: 16px;
-$backgroundColorMine: rgba(255, 25, 25, 0.1);
+
+
 
 .message {
-  border: 1px solid #d0d0d0;
+  border: 1px solid #e0e0e0;
   box-sizing: border-box;
   padding: 4px 8px 4px 8px;
   flex-wrap: wrap;
@@ -33,10 +34,10 @@ $backgroundColorMine: rgba(255, 25, 25, 0.1);
   }
 
   &__mine {
-    background-color: $backgroundColorMine;
+    background-color: #e8eaf6;
   }
   &__notmine {
-
+    background-color: #f0f0f0;
   }
 }
 
