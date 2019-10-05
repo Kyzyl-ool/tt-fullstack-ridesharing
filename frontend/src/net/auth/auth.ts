@@ -4,6 +4,7 @@ interface IAuth {
 }
 
 export function authorize(data: IAuth) {
+  console.log(data);
   return new Promise( (resolve, reject) => setTimeout(() => reject(1), 1000))
 }
 

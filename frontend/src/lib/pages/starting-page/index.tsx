@@ -1,8 +1,6 @@
 import React from 'react';
 import {Backdrop, Box, Button, makeStyles, Typography} from '@material-ui/core';
 import {PROJECT_NAME} from "../../../config/names";
-import {MainTheme} from "../../themes/MainTheme";
-import {ThemeProvider} from '@material-ui/styles';
 import About from "../../components/About";
 import {MainColor} from "../../themes/MainColor";
 
@@ -33,18 +31,16 @@ const StartingPage: React.FC = (props) => {
   const classes = useStyles(props)
 
   return (
-    <ThemeProvider theme={MainTheme}>
-      <Backdrop className={classes.backdrop} open={true}>
-        <Box display='flex' flexDirection={'column'}>
-          <Typography className={classes.heading} variant={'h3'}>{PROJECT_NAME}</Typography>
-          <Button className={classes.button}>Авторизация</Button>
-          <Button className={classes.button}>Регистрация</Button>
-          <Box className={classes.about}>
-            <About/>
-          </Box>
+    <Backdrop className={classes.backdrop} open={true}>
+      <Box display='flex' flexDirection={'column'}>
+        <Typography className={classes.heading} variant={'h3'}>{PROJECT_NAME}</Typography>
+        <Button className={classes.button}>Авторизация</Button>
+        <Button className={classes.button}>Регистрация</Button>
+        <Box className={classes.about}>
+          <About/>
         </Box>
-      </Backdrop>
-    </ThemeProvider>
+      </Box>
+    </Backdrop>
   );
 };
 
