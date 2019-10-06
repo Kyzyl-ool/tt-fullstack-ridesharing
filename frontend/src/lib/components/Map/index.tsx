@@ -66,9 +66,7 @@ export default class Map extends React.Component<{}, IMapState> {
   public resize = () => {
     this.setState(prevState => ({
       viewport: {
-        ...prevState.viewport,
-        height: window.innerHeight,
-        width: window.innerWidth,
+        ...prevState.viewport
       },
     }));
   };
