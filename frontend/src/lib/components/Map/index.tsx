@@ -18,10 +18,10 @@ interface IViewport {
 const MAPBOX_TOKEN = process.env.REACT_APP_MAPBOX_TOKEN || '';
 const initialState = {
   viewport: {
-    height: '80vh',
+    height: window.innerHeight * 0.8,
     latitude: 55.751244,
     longitude: 37.618423,
-    width: '100vw',
+    width: window.innerWidth,
     zoom: 14,
   },
 };
@@ -66,7 +66,9 @@ export default class Map extends React.Component<{}, IMapState> {
   public resize = () => {
     this.setState(prevState => ({
       viewport: {
-        ...prevState.viewport
+        ...prevState.viewport,
+        height: window.innerHeight * 0.8,
+        width: window.innerWidth
       },
     }));
   };
@@ -89,13 +91,17 @@ export default class Map extends React.Component<{}, IMapState> {
             <NavigationControl onViewportChange={this.updateViewport} />
           </div>
         </ReactMapGL>
-        <div className={styles.RoleButtons}>
-          <Button color="primary" size="large">
-            Водитель
-          </Button>
-          <Button color="primary" size="large">
-            Пассажир
-          </Button>
+        <div className={styles.RoleButtonsContainer}>
+          <div className={styles.RoleButtons}>
+          {/* <Box display='flex' flexDirection='column'> */}
+            <Button color="primary" size="large">
+              Водитель
+            </Button>
+            <Button color="primary" size="large">
+              Пассажир
+            </Button>
+          {/* </Box> */}
+          </div>
         </div>
       </div>
     );
