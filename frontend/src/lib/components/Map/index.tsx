@@ -1,5 +1,7 @@
-import * as React from 'react';
-import ReactMapGL, { NavigationControl } from 'react-map-gl';
+import React, { Fragment } from 'react';
+import Button from '@material-ui/core/Button';
+import ReactMapGL, { NavigationControl, GeolocateControl } from 'react-map-gl';
+import Header from '../Header';
 import styles from './Map.module.scss';
 
 interface IMapState {
@@ -17,10 +19,10 @@ interface IViewport {
 const MAPBOX_TOKEN = process.env.REACT_APP_MAPBOX_TOKEN || '';
 const initialState = {
   viewport: {
-    height: '80vh',
+    height: window.innerHeight * 0.8,
     latitude: 55.751244,
     longitude: 37.618423,
-    width: '100vw',
+    width: window.innerWidth,
     zoom: 14,
   },
 };
@@ -66,8 +68,8 @@ export default class Map extends React.Component<{}, IMapState> {
     this.setState(prevState => ({
       viewport: {
         ...prevState.viewport,
-        height: window.innerHeight,
-        width: window.innerWidth,
+        height: window.innerHeight * 0.8,
+        width: window.innerWidth
       },
     }));
   };
@@ -75,7 +77,9 @@ export default class Map extends React.Component<{}, IMapState> {
   public render() {
     const { viewport } = this.state;
     return (
-      <div className={styles.Map}>
+      <Fragment>
+        <Header/>
+        <div className={styles.Map}>
         <ReactMapGL
           {...viewport}
           ref={this.mapRef}
@@ -88,9 +92,25 @@ export default class Map extends React.Component<{}, IMapState> {
         >
           <div style={{ position: 'absolute', right: 30, bottom: 30 }}>
             <NavigationControl onViewportChange={this.updateViewport} />
+            <GeolocateControl 
+            positionOptions={{enableHighAccuracy: true}}
+            trackUserLocation={true}/>
           </div>
         </ReactMapGL>
+        <div className={styles.RoleButtonsContainer}>
+          <div className={styles.RoleButtons}>
+          {/* <Box display='flex' flexDirection='column'> */}
+            <Button color="primary" size="large">
+              Водитель
+            </Button>
+            <Button color="primary" size="large">
+              Пассажир
+            </Button>
+          {/* </Box> */}
+          </div>
+        </div>
       </div>
+      </Fragment>
     );
   }
 }
