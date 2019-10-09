@@ -1,5 +1,5 @@
 import React from 'react';
-import { BrowserRouter as Router, Route, Switch, Link } from 'react-router-dom';
+import { BrowserRouter as Router, Route, Switch, Redirect } from 'react-router-dom';
 import ChatPage from './lib/pages/chat-page';
 import { messagesMockData } from './mocks/messages';
 import { ThemeProvider } from '@material-ui/styles';
@@ -17,6 +17,7 @@ const App: React.FC = () => (
           <Route exact path="/" component={StartingPage} />
           <Route exact path="/auth" component={AuthPage} />
           <Route exact path="/map" component={MapComponent} />
+          <Redirect to="/"/>
         </Switch>
       </Router>
     </ThemeProvider>
