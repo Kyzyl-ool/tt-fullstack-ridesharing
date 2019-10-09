@@ -1,4 +1,3 @@
-import {deepPurple} from "@material-ui/core/colors";
+import { deepPurple } from '@material-ui/core/colors';
 
-export const MainColor = deepPurple
-
+export const MainColor = deepPurple;
