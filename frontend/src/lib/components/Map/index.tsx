@@ -69,7 +69,7 @@ export default class Map extends React.Component<{}, IMapState> {
       viewport: {
         ...prevState.viewport,
         height: window.innerHeight * 0.8,
-        width: window.innerWidth
+        width: window.innerWidth,
       },
     }));
   };
@@ -78,38 +78,36 @@ export default class Map extends React.Component<{}, IMapState> {
     const { viewport } = this.state;
     return (
       <Fragment>
-        <Header/>
+        <Header />
         <div className={styles.Map}>
-        <ReactMapGL
-          {...viewport}
-          ref={this.mapRef}
-          mapboxApiAccessToken={MAPBOX_TOKEN}
-          onViewportChange={(v: any) => this.updateViewport(v)}
-          mapStyle="mapbox://styles/shinnik/ck18kcqmj04q61cqnjc7o84qs"
-          onLoad={() => {
-            this.rusifyMap();
-          }}
-        >
-          <div style={{ position: 'absolute', right: 30, bottom: 30 }}>
-            <NavigationControl onViewportChange={this.updateViewport} />
-            <GeolocateControl 
-            positionOptions={{enableHighAccuracy: true}}
-            trackUserLocation={true}/>
-          </div>
-        </ReactMapGL>
-        <div className={styles.RoleButtonsContainer}>
-          <div className={styles.RoleButtons}>
-          {/* <Box display='flex' flexDirection='column'> */}
-            <Button color="primary" size="large">
-              Водитель
-            </Button>
-            <Button color="primary" size="large">
-              Пассажир
-            </Button>
-          {/* </Box> */}
+          <ReactMapGL
+            {...viewport}
+            ref={this.mapRef}
+            mapboxApiAccessToken={MAPBOX_TOKEN}
+            onViewportChange={(v: any) => this.updateViewport(v)}
+            mapStyle="mapbox://styles/shinnik/ck18kcqmj04q61cqnjc7o84qs"
+            onLoad={() => {
+              this.rusifyMap();
+            }}
+          >
+            <div style={{ position: 'absolute', right: 30, bottom: 30 }}>
+              <NavigationControl onViewportChange={this.updateViewport} />
+              <GeolocateControl positionOptions={{ enableHighAccuracy: true }} trackUserLocation={true} />
+            </div>
+          </ReactMapGL>
+          <div className={styles.RoleButtonsContainer}>
+            <div className={styles.RoleButtons}>
+              {/* <Box display='flex' flexDirection='column'> */}
+              <Button color="primary" size="large">
+                Водитель
+              </Button>
+              <Button color="primary" size="large">
+                Пассажир
+              </Button>
+              {/* </Box> */}
+            </div>
           </div>
         </div>
-      </div>
       </Fragment>
     );
   }
