@@ -25,9 +25,12 @@ const initialState = {
     width: window.innerWidth,
     zoom: 14,
   },
+  initialPosition: {
+    latitude: 55.751244,
+    langitude: 37.618423,
+  },
 };
 type State = typeof initialState;
-type Viewport = typeof initialState.viewport;
 
 export default class Map extends React.Component<{}, IMapState> {
   public state: State = initialState;
@@ -36,25 +39,25 @@ export default class Map extends React.Component<{}, IMapState> {
   public componentDidMount() {
     window.addEventListener('resize', this.resize);
     this.resize();
+    this.getLocation();
   }
 
   public componentWillUnmount() {
     window.removeEventListener('resize', this.resize);
   }
 
-  public rusifyMap = () => {
-    // replace all english labels with russian
-    if (this.mapRef.current) {
-      const map = this.mapRef.current.getMap();
-      if (map) {
-        const symbolicLabelIds = map
-          .getStyle()
-          .layers.filter(layer => layer.type === 'symbol')
-          .map(labelLayer => labelLayer.id);
-        if (symbolicLabelIds.length > 0) {
-          symbolicLabelIds.forEach(id => map.setLayoutProperty(id, 'text-field', ['get', 'name']));
-        }
-      }
+  public getLocation = () => {
+    if (navigator.geolocation) {
+      navigator.geolocation.getCurrentPosition(position => {
+        console.log(position.coords);
+        this.setState({
+          viewport: {
+            ...this.state.viewport,
+            latitude: position.coords.latitude,
+            longitude: position.coords.longitude,
+          },
+        });
+      });
     }
   };
 
@@ -69,7 +72,7 @@ export default class Map extends React.Component<{}, IMapState> {
       viewport: {
         ...prevState.viewport,
         height: window.innerHeight * 0.8,
-        width: window.innerWidth
+        width: window.innerWidth,
       },
     }));
   };
@@ -78,38 +81,33 @@ export default class Map extends React.Component<{}, IMapState> {
     const { viewport } = this.state;
     return (
       <Fragment>
-        <Header/>
+        <Header />
         <div className={styles.Map}>
-        <ReactMapGL
-          {...viewport}
-          ref={this.mapRef}
-          mapboxApiAccessToken={MAPBOX_TOKEN}
-          onViewportChange={(v: any) => this.updateViewport(v)}
-          mapStyle="mapbox://styles/shinnik/ck18kcqmj04q61cqnjc7o84qs"
-          onLoad={() => {
-            this.rusifyMap();
-          }}
-        >
-          <div style={{ position: 'absolute', right: 30, bottom: 30 }}>
-            <NavigationControl onViewportChange={this.updateViewport} />
-            <GeolocateControl 
-            positionOptions={{enableHighAccuracy: true}}
-            trackUserLocation={true}/>
-          </div>
-        </ReactMapGL>
-        <div className={styles.RoleButtonsContainer}>
-          <div className={styles.RoleButtons}>
-          {/* <Box display='flex' flexDirection='column'> */}
-            <Button color="primary" size="large">
-              Водитель
-            </Button>
-            <Button color="primary" size="large">
-              Пассажир
-            </Button>
-          {/* </Box> */}
+          <ReactMapGL
+            {...viewport}
+            ref={this.mapRef}
+            mapboxApiAccessToken={MAPBOX_TOKEN}
+            onViewportChange={(v: any) => this.updateViewport(v)}
+            mapStyle="mapbox://styles/shinnik/ck18kcqmj04q61cqnjc7o84qs"
+          >
+            <div style={{ position: 'absolute', right: 30, bottom: 30 }}>
+              <NavigationControl onViewportChange={this.updateViewport} />
+              <GeolocateControl positionOptions={{ enableHighAccuracy: true }} trackUserLocation={true} />
+            </div>
+          </ReactMapGL>
+          <div className={styles.RoleButtonsContainer}>
+            <div className={styles.RoleButtons}>
+              {/* <Box display='flex' flexDirection='column'> */}
+              <Button color="primary" size="large">
+                Водитель
+              </Button>
+              <Button color="primary" size="large">
+                Пассажир
+              </Button>
+              {/* </Box> */}
+            </div>
           </div>
         </div>
-      </div>
       </Fragment>
     );
   }

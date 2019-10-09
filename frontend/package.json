@@ -18,8 +18,8 @@
     "build": "react-scripts build",
     "test": "react-scripts test",
     "eject": "react-scripts eject",
-    "lint:ts": "eslint src/** --ext .ts --ext .tsx",
-    "lint:ts:fix": "eslint src/** --ext .ts --ext .tsx --fix"
+    "lint:ts": "eslint src/lib/** --ext .ts --ext .tsx",
+    "lint:ts:fix": "eslint src/lib/** --ext .ts --ext .tsx --fix"
   },
   "eslintConfig": {
     "extends": "react-app"
@@ -57,7 +57,7 @@
     "prettier": "^1.18.2"
   },
   "lint-staged": {
-    "src/**/*.{ts,tsx}": [
+    "src/lib/**/*.{ts,tsx}": [
       "yarn run lint:ts:fix", "git add"
     ]
   },
