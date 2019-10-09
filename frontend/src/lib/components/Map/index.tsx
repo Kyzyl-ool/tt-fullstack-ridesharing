@@ -1,6 +1,7 @@
-import * as React from 'react';
+import React, { Fragment } from 'react';
 import Button from '@material-ui/core/Button';
-import ReactMapGL, { NavigationControl } from 'react-map-gl';
+import ReactMapGL, { NavigationControl, GeolocateControl } from 'react-map-gl';
+import Header from '../Header';
 import styles from './Map.module.scss';
 
 interface IMapState {
@@ -76,7 +77,9 @@ export default class Map extends React.Component<{}, IMapState> {
   public render() {
     const { viewport } = this.state;
     return (
-      <div className={styles.Map}>
+      <Fragment>
+        <Header/>
+        <div className={styles.Map}>
         <ReactMapGL
           {...viewport}
           ref={this.mapRef}
@@ -89,6 +92,9 @@ export default class Map extends React.Component<{}, IMapState> {
         >
           <div style={{ position: 'absolute', right: 30, bottom: 30 }}>
             <NavigationControl onViewportChange={this.updateViewport} />
+            <GeolocateControl 
+            positionOptions={{enableHighAccuracy: true}}
+            trackUserLocation={true}/>
           </div>
         </ReactMapGL>
         <div className={styles.RoleButtonsContainer}>
@@ -104,6 +110,7 @@ export default class Map extends React.Component<{}, IMapState> {
           </div>
         </div>
       </div>
+      </Fragment>
     );
   }
 }
