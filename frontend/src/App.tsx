@@ -12,16 +12,13 @@ import './App.css';
 const App: React.FC = () => (
   <div className="App">
     <ThemeProvider theme={MainTheme}>
-      {/*<StartingPage />*/}
       <Router>
         <Switch>
-          <Route exact path="/" component={StartingPage} />
-          <Route exact path="/auth" component={AuthPage} />
+          <Route exact path="/" component={AuthPage} />
+          {/* <Route exact path="/auth" component={AuthPage} /> */}
           <Route exact path="/map" component={MapComponent} />
         </Switch>
       </Router>
-      {/*<AuthPage />*/}
-      {/* <ChatPage {...messagesMockData} /> */}
     </ThemeProvider>
   </div>
 );
