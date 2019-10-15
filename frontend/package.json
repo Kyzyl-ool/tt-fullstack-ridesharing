@@ -61,5 +61,16 @@
     "jest": "^24.9.0",
     "lint-staged": "^9.4.1",
     "prettier": "^1.18.2"
+  },
+  "lint-staged": {
+    "src/lib/**/*.{ts,tsx}": [
+      "yarn run lint:ts:fix",
+      "git add"
+    ]
+  },
+  "husky": {
+    "hooks": {
+      "pre-commit": "lint-staged"
+    }
   }
 }
