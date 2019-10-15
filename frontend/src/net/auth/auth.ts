@@ -17,3 +17,5 @@ export function authHandler(fetcher: Promise<any>, onSuccess: CallableFunction, 
       onFail();
     });
 }
+
+export function authOnServer() {}

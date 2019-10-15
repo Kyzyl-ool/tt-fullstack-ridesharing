@@ -1,5 +1,6 @@
 import React from 'react';
 import { BrowserRouter as Router, Route, Switch, Redirect } from 'react-router-dom';
+import './App.css';
 import ChatPage from './lib/pages/chat-page';
 import { messagesMockData } from './mocks/messages';
 import { ThemeProvider } from '@material-ui/styles';
@@ -7,7 +8,9 @@ import { MainTheme } from './lib/themes/MainTheme';
 import StartingPage from './lib/pages/starting-page';
 import AuthPage from './lib/pages/auth-page';
 import MapComponent from './lib/components/Map';
-import './App.css';
+import { AppBar, Toolbar, IconButton } from '@material-ui/core';
+import { Menu } from '@material-ui/icons';
+import { MainContainer } from './lib/containers/MainContainer';
 
 const App: React.FC = () => (
   <div className="App">
@@ -20,6 +23,10 @@ const App: React.FC = () => (
           <Redirect to="/"/>
         </Switch>
       </Router>
+      <MainContainer heading={'Hello'}>Hello</MainContainer>
+      {/*<StartingPage />*/}
+      {/*<AuthPage />*/}
+      {/*<ChatPage {...messagesMockData} />*/}
     </ThemeProvider>
   </div>
 );
