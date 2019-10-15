@@ -11,6 +11,7 @@ import MapComponent from './lib/components/Map';
 import { AppBar, Toolbar, IconButton } from '@material-ui/core';
 import { Menu } from '@material-ui/icons';
 import { MainContainer } from './lib/containers/MainContainer';
+import { CreateTripPage } from './lib/pages/create-trip';
 
 const App: React.FC = () => (
   <div className="App">
@@ -23,7 +24,9 @@ const App: React.FC = () => (
           <Redirect to="/"/>
         </Switch>
       </Router>
-      <MainContainer heading={'Hello'}>Hello</MainContainer>
+      <MainContainer heading={'Hello'}>
+        <CreateTripPage />
+      </MainContainer>
       {/*<StartingPage />*/}
       {/*<AuthPage />*/}
       {/*<ChatPage {...messagesMockData} />*/}
