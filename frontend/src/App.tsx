@@ -6,7 +6,7 @@ import { ThemeProvider } from '@material-ui/styles';
 import { MainTheme } from './lib/themes/MainTheme';
 import StartingPage from './lib/pages/starting-page';
 import AuthPage from './lib/pages/auth-page';
-import MapComponent from './lib/components/Map';
+import SelectAddressPage from './lib/pages/SelectAddressPage';
 import './App.css';
 
 const App: React.FC = () => (
@@ -16,8 +16,8 @@ const App: React.FC = () => (
         <Switch>
           <Route exact path="/" component={StartingPage} />
           <Route exact path="/auth" component={AuthPage} />
-          <Route exact path="/map" component={MapComponent} />
-          <Redirect to="/"/>
+          <Route exact path="/map" component={SelectAddressPage} />
+          <Redirect to="/" />
         </Switch>
       </Router>
     </ThemeProvider>
