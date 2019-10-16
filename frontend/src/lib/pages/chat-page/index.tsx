@@ -19,8 +19,8 @@ interface IChatPageProps {
 const useStyles = makeStyles({
   message: {
     margin: '8px',
-    backgroundColor: MainColor[50],
-  },
+    backgroundColor: MainColor[50]
+  }
 });
 
 const ChatPage: React.FC<IChatPageProps> = props => {
@@ -49,7 +49,7 @@ const ChatPage: React.FC<IChatPageProps> = props => {
                 time={array[currentIndex].time}
                 mine={array[currentIndex].from === props.myId}
               />
-            ),
+            )
           });
           return newValue;
         }, [])
