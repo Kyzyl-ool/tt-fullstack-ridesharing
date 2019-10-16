@@ -7,28 +7,28 @@ import {
   makeStyles,
   Snackbar,
   TextField,
-  Typography,
+  Typography
 } from '@material-ui/core';
 import { PROJECT_NAME } from '../../../config/names';
 import { authHandler, authorize } from '../../../net/auth/auth';
 
 const useStyles = makeStyles({
   heading: {
-    paddingBottom: '64px',
+    paddingBottom: '64px'
   },
   form: {
     margin: '4px 0 4px 0',
-    width: '280px',
+    width: '280px'
   },
   button: {
     boxShadow: '0px 4px 4px rgba(0, 0, 0, 0.25);',
     margin: '40px 0 4px 0',
-    width: '200px',
+    width: '200px'
   },
   progress: {
     position: 'absolute',
-    bottom: '48px',
-  },
+    bottom: '48px'
+  }
 });
 
 const AuthPage: React.FC = props => {
@@ -70,7 +70,7 @@ const AuthPage: React.FC = props => {
               () => {
                 setLoading(false);
                 setOpenSnackbar(true);
-              },
+              }
             );
           }}
           variant={'contained'}

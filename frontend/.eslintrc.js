@@ -9,7 +9,6 @@ module.exports =  {
     plugins: ["react", "@typescript-eslint", "prettier"],
     parserOptions:  {
     project: 'tsconfig.json',
-    // tsconfigRootDir: 'frontend',
     ecmaVersion:  2018,
     sourceType:  'module',
     ecmaFeatures:  {

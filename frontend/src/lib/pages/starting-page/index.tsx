@@ -6,25 +6,25 @@ import { MainColor } from '../../themes/MainColor';
 
 const useStyles = makeStyles({
   backdrop: {
-    backgroundColor: MainColor[400],
+    backgroundColor: MainColor[400]
   },
   heading: {
     textShadow: '0px 3px 5px rgba(0, 0, 0, 0.2), 0px 1px 18px rgba(0, 0, 0, 0.12), 0px 6px 10px rgba(0, 0, 0, 0.14);',
-    paddingBottom: '80px',
+    paddingBottom: '80px'
   },
   button: {
     boxShadow: '0px 4px 4px rgba(0, 0, 0, 0.25);',
     borderRadius: '24px',
     border: '1px solid white',
-    margin: '4px 0 4px 0',
+    margin: '4px 0 4px 0'
   },
   buttonFocusVisible: {
-    boxShadow: '0px 4px 4px rgba(0, 0, 0, 0.25);',
+    boxShadow: '0px 4px 4px rgba(0, 0, 0, 0.25);'
   },
   about: {
     position: 'absolute',
-    bottom: '24px',
-  },
+    bottom: '24px'
+  }
 });
 
 const StartingPage: React.FC = props => {
