@@ -8,7 +8,9 @@ const useStyles = makeStyles((theme: Theme) =>
     card: {
       margin: theme.spacing(1),
       border: `1px solid ${theme.palette.primary.light}`,
-      position: 'relative'
+      position: 'relative',
+      cursor: 'pointer',
+      paddingBottom: theme.spacing(1)
     },
     space: {
       height: theme.spacing(1),
@@ -16,13 +18,28 @@ const useStyles = makeStyles((theme: Theme) =>
     },
     bottom: {
       position: 'absolute',
-      bottom: '0'
+      bottom: theme.spacing(1)
     },
-    avatar: {
+    rightTopElement: {
       position: 'absolute',
-      margin: theme.spacing(2),
       top: 0,
       right: 0
+    },
+    avatar: {
+      margin: theme.spacing(2),
+      borderRadius: '50%',
+      [theme.breakpoints.down('sm')]: {
+        width: '48px',
+        height: '48px'
+      },
+      [theme.breakpoints.between('sm', 'lg')]: {
+        width: '60px',
+        height: '60px'
+      },
+      [theme.breakpoints.up['lg']]: {
+        width: '80px',
+        height: '80px'
+      }
     }
   })
 );
@@ -54,13 +71,13 @@ export const SearchResultItem: React.FC<ISearchResultItemProps> = props => {
           <Typography variant={'h5'} color={'textSecondary'}>
             {props.amountOfFreePlaces}
           </Typography>
-          &nbsp;
+          &nbsp; &nbsp;
           <Typography variant={'body2'} color={'textSecondary'}>
             {`${props.address}`}
           </Typography>
         </Box>
-        <Box className={classes.avatar}>
-          <Avatar />
+        <Box className={classes.rightTopElement}>
+          <img className={classes.avatar} src={'https://material-ui.com/static/images/avatar/1.jpg'} />
         </Box>
       </CardContent>
     </Card>
