@@ -2,6 +2,7 @@ import React from 'react';
 import { Avatar, Box, Card, CardContent, createStyles, makeStyles, Theme, Typography } from '@material-ui/core';
 import dateFnsFormat from 'date-fns/format';
 import ruLocale from 'date-fns/locale/ru';
+import { MyAvatar } from '../Avatar/Avatar';
 
 const useStyles = makeStyles((theme: Theme) =>
   createStyles({
@@ -24,22 +25,6 @@ const useStyles = makeStyles((theme: Theme) =>
       position: 'absolute',
       top: 0,
       right: 0
-    },
-    avatar: {
-      margin: theme.spacing(2),
-      borderRadius: '50%',
-      [theme.breakpoints.down('sm')]: {
-        width: '48px',
-        height: '48px'
-      },
-      [theme.breakpoints.between('sm', 'lg')]: {
-        width: '60px',
-        height: '60px'
-      },
-      [theme.breakpoints.up['lg']]: {
-        width: '80px',
-        height: '80px'
-      }
     }
   })
 );
@@ -77,7 +62,7 @@ export const SearchResultItem: React.FC<ISearchResultItemProps> = props => {
           </Typography>
         </Box>
         <Box className={classes.rightTopElement}>
-          <img className={classes.avatar} src={'https://material-ui.com/static/images/avatar/1.jpg'} />
+          <MyAvatar src={'https://material-ui.com/static/images/avatar/1.jpg'} />
         </Box>
       </CardContent>
     </Card>
