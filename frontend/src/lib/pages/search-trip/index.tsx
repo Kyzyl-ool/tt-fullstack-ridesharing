@@ -8,7 +8,7 @@ import {
   Paper,
   TextField,
   Theme,
-  Typography,
+  Typography
 } from '@material-ui/core';
 import { SearchResults } from '../../containers/SearchResults';
 import { DateTimePicker, MuiPickersUtilsProvider } from '@material-ui/pickers';
@@ -22,9 +22,9 @@ const localPaperElevation = 4;
 const useStyles = makeStyles((theme: Theme) =>
   createStyles({
     root: {
-      padding: theme.spacing(3, 2),
-    },
-  }),
+      padding: theme.spacing(3, 2)
+    }
+  })
 );
 
 function fetchDataFromServer(): ISearchItem[] {
@@ -34,15 +34,15 @@ function fetchDataFromServer(): ISearchItem[] {
       name: 'Иван Иванов',
       address: 'ул. Ленинградский проспект, д. 39, к. 1',
       avatar: 'some url',
-      amountOfFreePlaces: 3,
+      amountOfFreePlaces: 3
     },
     {
       date: new Date(),
       name: 'Марина Ушакова',
       address: 'ул. Ленинградский проспект, д. 39, к. 1',
       avatar: 'some url',
-      amountOfFreePlaces: 3,
-    },
+      amountOfFreePlaces: 3
+    }
   ];
 }
 
