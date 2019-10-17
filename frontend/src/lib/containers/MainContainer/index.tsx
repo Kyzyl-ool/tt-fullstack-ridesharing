@@ -3,6 +3,7 @@ import { AppBar, IconButton, Toolbar, Typography } from '@material-ui/core';
 import { Menu } from '@material-ui/icons';
 
 interface IMainContainerProps {
+  show?: boolean;
   heading?: string;
   search?: {
     onChange: (e: Event) => any;
@@ -11,7 +12,8 @@ interface IMainContainerProps {
   children?: React.ReactNode;
 }
 
-export const MainContainer: React.FC<IMainContainerProps> = props => {
+export const MainContainer: React.FC<IMainContainerProps> = ({ show = true, ...props }) => {
+  if (!show) return <>{props.children}</>;
   return (
     <div>
       <AppBar position={'static'}>
