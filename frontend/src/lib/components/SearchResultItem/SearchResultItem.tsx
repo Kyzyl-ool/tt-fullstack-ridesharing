@@ -8,23 +8,23 @@ const useStyles = makeStyles((theme: Theme) =>
     card: {
       margin: theme.spacing(1),
       border: `1px solid ${theme.palette.primary.light}`,
-      position: 'relative',
+      position: 'relative'
     },
     space: {
       height: theme.spacing(1),
-      width: '100%',
+      width: '100%'
     },
     bottom: {
       position: 'absolute',
-      bottom: '0',
+      bottom: '0'
     },
     avatar: {
       position: 'absolute',
       margin: theme.spacing(2),
       top: 0,
-      right: 0,
-    },
-  }),
+      right: 0
+    }
+  })
 );
 
 interface ISearchResultItemProps {
@@ -51,7 +51,7 @@ export const SearchResultItem: React.FC<ISearchResultItemProps> = props => {
         </Box>
         <Box className={classes.space} />
         <Box display={'flex'} flexDirection={'row'} alignItems={'center'} className={classes.bottom}>
-          <Typography variant={'h6'} color={'textSecondary'}>
+          <Typography variant={'h5'} color={'textSecondary'}>
             {props.amountOfFreePlaces}
           </Typography>
           &nbsp;
