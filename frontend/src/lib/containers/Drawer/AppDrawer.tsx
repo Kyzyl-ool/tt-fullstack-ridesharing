@@ -9,6 +9,19 @@ const useStyles = makeStyles((theme: Theme) =>
       borderRadius: '50%',
       width: '60px',
       height: '60px'
+    },
+    root: {
+      padding: theme.spacing(1)
+    },
+    buttons: {
+      display: 'flex',
+      flexDirection: 'column',
+      padding: theme.spacing(1),
+      justifyContent: 'space-between'
+      // marginTop: theme.spacing(1)
+    },
+    button: {
+      marginTop: theme.spacing(1)
     }
   })
 );
@@ -25,17 +38,21 @@ export const AppDrawer: React.FC<IAppDrawerProps> = props => {
 
   return (
     <Drawer open={open} onClose={() => setOpen(false)}>
-      <MyAvatar src="https://material-ui.com/static/images/avatar/1.jpg" />
-      <Box>
-        <Typography variant={'h5'}>{name}</Typography>
-        <Typography variant={'body1'}>{email}</Typography>
+      <Box className={classes.root}>
+        <MyAvatar src="https://material-ui.com/static/images/avatar/1.jpg" />
+        <Box>
+          <Typography variant={'h5'}>{name}</Typography>
+          <Typography variant={'body1'}>{email}</Typography>
+        </Box>
+        <Divider />
+        <Box className={classes.buttons}>
+          <Button className={classes.button}>На главную</Button>
+          <Button className={classes.button}>Мои организации</Button>
+        </Box>
+        <Divider />
+        <Typography variant={'body1'} align={'center'}>{`Вы участвуете в ${trips.length} поездках:`}</Typography>
+        <MyTrips data={props.trips} />
       </Box>
-      <Divider />
-      <Button>На главную</Button>
-      <Button>Мои организации</Button>
-      <Divider />
-      <Typography variant={'body1'}>{`Вы участвуете в ${trips.length} поездках:`}</Typography>
-      <MyTrips data={props.trips} />
     </Drawer>
   );
 };
