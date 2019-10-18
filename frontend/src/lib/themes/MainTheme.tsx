@@ -30,12 +30,6 @@ export const MainTheme: Theme = createMuiTheme({
         backgroundColor: MainColor[400],
         color: 'white'
       }
-    },
-    MuiAvatar: {
-      root: {
-        maxHeight: '32px',
-        maxWidth: '32px'
-      }
     }
   }
 });

@@ -28,6 +28,5 @@ const useStyles = makeStyles((theme: Theme) =>
 
 export const MyAvatar: React.FC<IAvatarProps> = props => {
   const classes = useStyles(props);
-
   return <img className={classes.avatar} src={props.src} />;
 };
