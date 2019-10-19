@@ -20,7 +20,7 @@ interface IChatPageProps {
 const useStyles = makeStyles((theme: Theme) =>
   createStyles({
     chat: {
-      paddingBottom: theme.spacing(2)
+      paddingBottom: '24vh'
     },
     dense: {
       marginTop: theme.spacing(2)
@@ -42,9 +42,10 @@ const useStyles = makeStyles((theme: Theme) =>
       margin: theme.spacing(2)
     },
     messageFormContainer: {
+      height: '20vh',
       position: 'fixed',
       bottom: 0,
-      marginLeft: -theme.spacing(2),
+      left: 0,
       width: '100%',
       borderWidth: '1px',
       borderStyle: 'solid',
