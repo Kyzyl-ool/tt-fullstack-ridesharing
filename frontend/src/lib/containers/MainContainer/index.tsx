@@ -10,6 +10,7 @@ interface IMainContainerProps {
     onSubmit: (e: Event) => any;
   };
   children?: React.ReactNode;
+  onClick: () => any;
 }
 
 export const MainContainer: React.FC<IMainContainerProps> = ({ show = true, ...props }) => {
@@ -18,7 +19,7 @@ export const MainContainer: React.FC<IMainContainerProps> = ({ show = true, ...p
     <div>
       <AppBar position={'static'}>
         <Toolbar>
-          <IconButton edge={'start'} aria-label={'menu'}>
+          <IconButton edge={'start'} aria-label={'menu'} onClick={props.onClick}>
             <Menu style={{ color: 'white' }} />
           </IconButton>
           <Typography variant={'h5'}>{props.heading}</Typography>

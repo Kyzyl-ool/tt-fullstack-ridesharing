@@ -31,12 +31,25 @@ const useStyles = makeStyles({
   }
 });
 
-const AuthPage: React.FC = props => {
+interface IAuthPage {
+  onSuccess: () => any;
+}
+
+const AuthPage: React.FC<IAuthPage> = props => {
   const classes = useStyles(props);
   const [loading, setLoading] = useState(false);
   const [openSnackbar, setOpenSnackbar] = useState(false);
   const [login, setLogin] = useState('');
   const [password, setPassword] = useState('');
+
+  const onSuccess = () => {
+    setLoading(false);
+    props.onSuccess();
+  };
+  const onFail = () => {
+    setLoading(false);
+    setOpenSnackbar(true);
+  };
 
   return (
     <Backdrop open={true}>
@@ -53,7 +66,7 @@ const AuthPage: React.FC = props => {
           placeholder={'Введите логин'}
         />
         <TextField
-          onChange={event => setLogin(event.target.value)}
+          onChange={event => setPassword(event.target.value)}
           value={password}
           className={classes.form}
           label={'Пароль'}
@@ -64,14 +77,7 @@ const AuthPage: React.FC = props => {
         <Button
           onClick={() => {
             setLoading(true);
-            authHandler(
-              authorize({ login, password }),
-              () => setLoading(false),
-              () => {
-                setLoading(false);
-                setOpenSnackbar(true);
-              }
-            );
+            authHandler(authorize({ login, password }), () => onSuccess(), () => onFail());
           }}
           variant={'contained'}
           className={classes.button}

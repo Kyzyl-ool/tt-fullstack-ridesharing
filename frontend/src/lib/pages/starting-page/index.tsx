@@ -3,6 +3,7 @@ import { Backdrop, Box, Button, makeStyles, Typography } from '@material-ui/core
 import { PROJECT_NAME } from '../../../config/names';
 import About from '../../components/About';
 import { MainColor } from '../../themes/MainColor';
+import { Link, NavLink } from 'react-router-dom';
 
 const useStyles = makeStyles({
   backdrop: {
@@ -24,6 +25,9 @@ const useStyles = makeStyles({
   about: {
     position: 'absolute',
     bottom: '24px'
+  },
+  noTextDecoration: {
+    textDecoration: 'none'
   }
 });
 
@@ -36,8 +40,12 @@ const StartingPage: React.FC = props => {
         <Typography className={classes.heading} variant={'h3'}>
           {PROJECT_NAME}
         </Typography>
-        <Button className={classes.button}>Авторизация</Button>
-        <Button className={classes.button}>Регистрация</Button>
+        <NavLink to={'/auth'} className={classes.noTextDecoration}>
+          <Button className={classes.button}>Авторизация</Button>
+        </NavLink>
+        <NavLink to={'/registration'} className={classes.noTextDecoration}>
+          <Button className={classes.button}>Регистрация</Button>
+        </NavLink>
         <Box className={classes.about}>
           <About />
         </Box>

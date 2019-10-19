@@ -1,6 +1,7 @@
 import React from 'react';
 import { Avatar, Box, Typography } from '@material-ui/core';
 import styles from './index.module.scss';
+import { MyAvatar } from '../Avatar/Avatar';
 
 interface IMessageProps {
   first: boolean;
@@ -19,7 +20,7 @@ const Message: React.FC<IMessageProps> = props => {
   return (
     <Box display={'flex'} flexDirection={`${props.mine ? 'row-reverse' : 'row'}`} alignItems={'flex-end'}>
       <Box style={{ margin: '0px 8px 0 8px', opacity: `${props.last ? 1 : 0}` }}>
-        <Avatar />
+        <Avatar src={'https://material-ui.com/static/images/avatar/1.jpg'} />
       </Box>
       <div
         className={`${styles.message} ${props.first ? styles.message__first : styles.message__notfirst} ${

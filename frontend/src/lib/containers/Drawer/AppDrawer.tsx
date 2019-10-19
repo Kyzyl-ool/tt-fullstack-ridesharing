@@ -2,6 +2,7 @@ import React, { useState } from 'react';
 import { Box, Button, createStyles, Divider, Drawer, makeStyles, Theme, Typography } from '@material-ui/core';
 import { MyAvatar } from '../../components/Avatar/Avatar';
 import { MyTrips } from '../MyTrips/MyTrips';
+import { NavLink } from 'react-router-dom';
 
 const useStyles = makeStyles((theme: Theme) =>
   createStyles({
@@ -30,14 +31,15 @@ interface IAppDrawerProps {
   name: string;
   email: string;
   trips: { name: string; date: Date; avatar: string }[];
+  open: boolean;
+  onClose: () => any;
 }
 export const AppDrawer: React.FC<IAppDrawerProps> = props => {
-  const [open, setOpen] = useState(true);
   const classes = useStyles(props);
   const { name, email, trips } = props;
 
   return (
-    <Drawer open={open} onClose={() => setOpen(false)}>
+    <Drawer open={props.open} onClose={props.onClose}>
       <Box className={classes.root}>
         <MyAvatar src="https://material-ui.com/static/images/avatar/1.jpg" />
         <Box>
@@ -46,7 +48,9 @@ export const AppDrawer: React.FC<IAppDrawerProps> = props => {
         </Box>
         <Divider />
         <Box className={classes.buttons}>
-          <Button className={classes.button}>На главную</Button>
+          <NavLink to={'/map'}>
+            <Button className={classes.button}>На главную</Button>
+          </NavLink>
           <Button className={classes.button}>Мои организации</Button>
         </Box>
         <Divider />

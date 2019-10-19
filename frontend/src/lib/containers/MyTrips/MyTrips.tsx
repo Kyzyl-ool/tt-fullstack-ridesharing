@@ -8,7 +8,7 @@ const useStyles = makeStyles((theme: Theme) =>
   createStyles({
     trip: {
       display: 'flex',
-      // border: '1px solid black',
+      border: '1px solid #f0f0f0',
       flexDirection: 'row',
       marginTop: theme.spacing(1)
     }
