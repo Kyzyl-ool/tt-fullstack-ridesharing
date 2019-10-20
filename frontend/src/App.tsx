@@ -68,7 +68,7 @@ const useStyles = makeStyles((theme: Theme) =>
 
 const App: React.FC = props => {
   const classes = useStyles(props);
-  const [authorized, setAuthorized] = useState(true);
+  const [authorized, setAuthorized] = useState(false);
   const [drawerOpened, setDrawerOpened] = useState(false);
   const [heading, setHeading] = useState('Heading');
 
@@ -77,9 +77,9 @@ const App: React.FC = props => {
       <ThemeProvider theme={MainTheme}>
         <MainContainer show={authorized} onClick={() => setDrawerOpened(!drawerOpened)} heading={heading}>
           <Router>
-            {/* {authorized ? <Redirect to="/new_trip" /> : } */}
+            {authorized ? <Redirect to="/new_trip" /> : <Redirect to="/auth" />}
             <Switch>
-              {authorized ? (
+              {authorized && (
                 <>
                   <Route exact path="/main" component={MainPage} />
                   <Route exact path="/new_trip" component={CreateTripPage} />
@@ -87,8 +87,6 @@ const App: React.FC = props => {
                   <Route exact path="/search_trip" component={SearchTripPage} />
                   <Route exact path="/trip/1" component={() => <TripPage {...tripData} />} />
                 </>
-              ) : (
-                <Redirect to={'/'} />
               )}
               <Route exact path="/" component={StartingPage} />
               <Route exact path="/auth" component={() => <AuthPage onSuccess={() => setAuthorized(true)} />} />

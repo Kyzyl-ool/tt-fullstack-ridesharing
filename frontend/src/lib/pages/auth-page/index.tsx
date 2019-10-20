@@ -12,6 +12,7 @@ import {
 } from '@material-ui/core';
 import { PROJECT_NAME } from '../../../config/names';
 import { authHandler, authorize } from '../../../net/auth/auth';
+import { connect } from 'react-redux';
 
 const useStyles = makeStyles({
   heading: {
@@ -43,7 +44,8 @@ const AuthPage: React.FC<IAuthPage> = props => {
   const [login, setLogin] = useState('');
   const [password, setPassword] = useState('');
 
-  const onSuccess = () => {
+  const onSuccess = value => {
+    console.log(value);
     setLoading(false);
     props.onSuccess();
   };
@@ -52,8 +54,18 @@ const AuthPage: React.FC<IAuthPage> = props => {
     setOpenSnackbar(true);
   };
 
-  const authorizeAxios = ({ login, password }: { login: string; password: string }) => {
-    // axios.post('')
+  const authorizeAxios = async ({ login, password }: { login: string; password: string }): Promise<any> => {
+    await axios.post('http://localhost:5000/login', { login, password }, { withCredentials: true });
+  };
+
+  const initUserData = async (login: string) => {
+    const res = await axios.get(`http://localhost:5000/get_user_data`);
+    console.log(res);
+  };
+
+  const authorize = async ({ login, password }: { login: string; password: string }): Promise<any> => {
+    await authorizeAxios({ login, password });
+    await initUserData(login);
   };
 
   return (
@@ -82,7 +94,7 @@ const AuthPage: React.FC<IAuthPage> = props => {
         <Button
           onClick={() => {
             setLoading(true);
-            authHandler(authorize({ login, password }), () => onSuccess(), () => onFail());
+            authHandler(authorizeAxios({ login, password }), onSuccess, onFail);
           }}
           variant={'contained'}
           className={classes.button}
