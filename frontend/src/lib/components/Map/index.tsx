@@ -14,7 +14,7 @@ interface IViewport {
 
 interface IUrbicaMapProps {
   style?: React.CSSProperties;
-  onBuildingClick: (selectedBuildingAddress: string) => Promise<void>;
+  onBuildingClick: (selectedBuildingAddress: string) => void;
 }
 
 interface IUrbicaMapState {

@@ -1,20 +1,22 @@
-import React, {useState} from 'react';
-import {BrowserRouter as Router, Route, Switch, Redirect} from 'react-router-dom';
+import React, { useState } from 'react';
+import { BrowserRouter as Router, Route, Switch, Redirect } from 'react-router-dom';
 import './App.css';
-import {ThemeProvider} from '@material-ui/styles';
-import {MainTheme} from './lib/themes/MainTheme';
+import { ThemeProvider } from '@material-ui/styles';
+import { MainTheme } from './lib/themes/MainTheme';
 import StartingPage from './lib/pages/starting-page';
 import AuthPage from './lib/pages/auth-page';
 import MapComponent from './lib/components/Map';
-import {SearchTripPage} from "./lib/pages/search-trip";
-import {AppDrawer} from "./lib/containers/Drawer/AppDrawer";
-import {TripPage} from "./lib/pages/trip-page";
-import {CreateTripPage} from "./lib/pages/create-trip";
+import { SearchTripPage } from './lib/pages/search-trip';
+import MainPage from './lib/pages/MainPage';
+import SelectAddressPage from './lib/pages/SelectAddressPage';
+import { AppDrawer } from './lib/containers/Drawer/AppDrawer';
+import { TripPage } from './lib/pages/trip-page';
+import { CreateTripPage } from './lib/pages/create-trip';
 import MenuIcon from '@material-ui/icons/Menu';
-import {AppBar, Button, createStyles, IconButton, makeStyles, Theme, Toolbar, Typography} from "@material-ui/core";
-import {PROJECT_NAME} from "./config/names";
-import {MainContainer} from "./lib/containers/MainContainer";
-import {RegistrationPage} from "./lib/pages/registration-page";
+import { AppBar, Button, createStyles, IconButton, makeStyles, Theme, Toolbar, Typography } from '@material-ui/core';
+import { PROJECT_NAME } from './config/names';
+import MainContainer from './lib/containers/MainContainer';
+import { RegistrationPage } from './lib/pages/registration-page';
 
 const tripData = {
   data: {
@@ -25,7 +27,7 @@ const tripData = {
     amountOfFreeSpaces: 3,
     cost: 100
   }
-}
+};
 
 const trips = [
   {
@@ -43,12 +45,12 @@ const trips = [
     date: new Date(),
     avatar: 'https://material-ui.com/static/images/avatar/1.jpg'
   }
-]
+];
 const mockAppDrawerProps = {
   email: 'kyzyl.okm@phystced.edu',
   name: 'Кежик',
   trips: trips
-}
+};
 
 const useStyles = makeStyles((theme: Theme) =>
   createStyles({
@@ -60,40 +62,41 @@ const useStyles = makeStyles((theme: Theme) =>
     },
     title: {
       // flexGrow: 1,
-    },
-  }),
+    }
+  })
 );
 
-
 const App: React.FC = props => {
-  const classes = useStyles(props)
-  const [authorized, setAuthorized] = useState(false)
-  const [drawerOpened, setDrawerOpened] = useState(false)
-  const [heading, setHeading] = useState('Heading')
+  const classes = useStyles(props);
+  const [authorized, setAuthorized] = useState(true);
+  const [drawerOpened, setDrawerOpened] = useState(false);
+  const [heading, setHeading] = useState('Heading');
 
   return (
     <div className="App">
       <ThemeProvider theme={MainTheme}>
-        <MainContainer show={authorized} onClick={() => setDrawerOpened(!drawerOpened)} heading={heading} >
-        <Router>
-          {authorized ? <Redirect to='/new_trip' /> : <Redirect to={'/'} />}
-          <Switch>
-            {authorized && <>
-                <Route exact path="/new_trip" component={CreateTripPage}/>
-                <Route exact path="/map" component={MapComponent}/>
-                <Route exact path="/search_trip" component={SearchTripPage}/>
-                <Route exact path="/trip/1" component={() => <TripPage {...tripData} />}/>
-                </>}
-            <Route exact path="/" component={StartingPage}/>
-            <Route exact path="/auth" component={() => <AuthPage onSuccess={() => setAuthorized(true)}/>}/>
-            <Route exact path={'/registration'} component={RegistrationPage} />
+        <MainContainer show={authorized} onClick={() => setDrawerOpened(!drawerOpened)} heading={heading}>
+          <Router>
+            {/* {authorized ? <Redirect to="/new_trip" /> : } */}
+            <Switch>
+              {authorized ? (
+                <>
+                  <Route exact path="/main" component={MainPage} />
+                  <Route exact path="/new_trip" component={CreateTripPage} />
+                  <Route exact path="/select_address" component={SelectAddressPage} />
+                  <Route exact path="/search_trip" component={SearchTripPage} />
+                  <Route exact path="/trip/1" component={() => <TripPage {...tripData} />} />
+                </>
+              ) : (
+                <Redirect to={'/'} />
+              )}
+              <Route exact path="/" component={StartingPage} />
+              <Route exact path="/auth" component={() => <AuthPage onSuccess={() => setAuthorized(true)} />} />
+              <Route exact path={'/registration'} component={RegistrationPage} />
+            </Switch>
 
-
-
-          </Switch>
-
-          <AppDrawer open={drawerOpened} onClose={() => setDrawerOpened(false)} {...mockAppDrawerProps} />
-        </Router>
+            <AppDrawer open={drawerOpened} onClose={() => setDrawerOpened(false)} {...mockAppDrawerProps} />
+          </Router>
         </MainContainer>
 
         {/*<StartingPage />*/}
@@ -102,6 +105,6 @@ const App: React.FC = props => {
       </ThemeProvider>
     </div>
   );
-}
+};
 
 export default App;

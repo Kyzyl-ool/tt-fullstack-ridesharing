@@ -1,5 +1,7 @@
 import React from 'react';
 import { Box, Button, Checkbox, Container, Switch, TextField, Typography } from '@material-ui/core';
+import CrosshairButton from '../../components/CrosshairButton';
+import { Link } from 'react-router-dom';
 
 const localMargin = 1;
 
@@ -8,15 +10,21 @@ export const CreateTripPage: React.FC = props => {
     <Container maxWidth={'sm'}>
       <Box display={'flex'} justifyContent={'space-evenly'} alignItems={'center'}>
         <Typography noWrap display={'inline'} variant={'h6'}>
-          Время начала поездки:
+          Время начала:
         </Typography>
-        <TextField style={{ width: '80px' }} variant={'outlined'} type={'time'} />
+        <TextField variant={'outlined'} type={'time'} />
       </Box>
-      <Box m={localMargin}>
+      <Box display={'flex'} alignItems={'center'} m={localMargin}>
         <TextField fullWidth placeholder={'Откуда?'} variant={'outlined'} />
+        <Link to="select_address">
+          <CrosshairButton onClick={() => console.log('e')} />
+        </Link>
       </Box>
-      <Box m={localMargin}>
+      <Box display={'flex'} alignItems={'center'} m={localMargin}>
         <TextField fullWidth placeholder={'Куда?'} variant={'outlined'} />
+        <Link to="select_address">
+          <CrosshairButton onClick={() => console.log('e')} />
+        </Link>
       </Box>
       <Box m={localMargin}>
         <TextField fullWidth placeholder={'Кол-во мест'} variant={'outlined'} />

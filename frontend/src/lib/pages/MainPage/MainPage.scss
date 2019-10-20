@@ -1,0 +1,17 @@
+.main-page {
+  &__button {
+    color: white;
+    text-decoration: none;
+  }
+  &__container {
+    display: flex;
+    height: 90vh;
+    align-items: center;
+    justify-content: center
+  }
+  &__button-container {
+    display: flex;
+    width: 100%;
+    justify-content: space-around
+  }
+}

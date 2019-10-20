@@ -1,4 +1,5 @@
 import React, { useState } from 'react';
+import axios from 'axios';
 import {
   Backdrop,
   Box,
@@ -49,6 +50,10 @@ const AuthPage: React.FC<IAuthPage> = props => {
   const onFail = () => {
     setLoading(false);
     setOpenSnackbar(true);
+  };
+
+  const authorizeAxios = ({ login, password }: { login: string; password: string }) => {
+    // axios.post('')
   };
 
   return (

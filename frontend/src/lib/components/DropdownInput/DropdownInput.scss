@@ -1,0 +1,25 @@
+.dropdown-input {
+  &__container {
+    display: flex;
+    flex-direction: column;
+    width: 30%
+  }
+  &__menu {
+    overflow: auto;
+    margin: 0;
+    padding: 0;
+    max-height: 6em;
+  }
+  &__menu-item {
+    white-space: nowrap;
+    padding: 2px;
+    border-bottom: 1px solid lightgrey;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    text-align: left;
+    cursor: pointer;
+    &:hover {
+      background-color: lightgrey
+    }
+  }
+}
