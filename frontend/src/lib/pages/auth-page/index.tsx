@@ -13,6 +13,7 @@ import {
 import { PROJECT_NAME } from '../../../config/names';
 import { authHandler, authorize } from '../../../net/auth/auth';
 import { connect } from 'react-redux';
+import Cookies from 'js-cookie';
 
 const useStyles = makeStyles({
   heading: {
@@ -55,7 +56,7 @@ const AuthPage: React.FC<IAuthPage> = props => {
   };
 
   const authorizeAxios = async ({ login, password }: { login: string; password: string }): Promise<any> => {
-    await axios.post('http://localhost:5000/login', { login, password }, { withCredentials: true });
+    return await axios.post('http://localhost:5000/login', { login, password }, { withCredentials: true });
   };
 
   const initUserData = async (login: string) => {
