@@ -1,0 +1,12 @@
+.crosshair-button {
+  &__crosshair {
+    width: 30px;
+    margin: 0 8px;
+    height: 30px;
+    border: none;
+    outline: none;
+    cursor: pointer;
+    background: url('getlocation.svg') no-repeat;
+    background-size: cover;
+  }
+}

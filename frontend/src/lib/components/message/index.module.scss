@@ -1,0 +1,58 @@
+$r: 16px;
+
+
+
+.message {
+  border: 1px solid #e0e0e0;
+  box-sizing: border-box;
+  padding: 4px 8px 4px 8px;
+  flex-wrap: wrap;
+  display: flex;
+  max-width: calc(90% - 56px);
+  position: relative;
+  justify-content: flex-end;
+
+
+  &__first {
+    border-top-left-radius: $r;
+    border-top-right-radius: $r;
+    margin-top: 8px;
+  }
+  &__notfirst {
+    border-top-left-radius: $r;
+    border-top-right-radius: $r;
+    margin-top: 2px;
+  }
+
+  &__last {
+    border-bottom-left-radius: $r;
+    border-bottom-right-radius: $r;
+  }
+  &__notlast {
+    border-bottom-left-radius: $r;
+    border-bottom-right-radius: $r;
+  }
+
+  &__mine {
+    background-color: #e8eaf6;
+  }
+  &__notmine {
+    background-color: #f0f0f0;
+  }
+}
+
+.body {
+  word-break: break-word;
+
+  &__mine {
+    text-align: right;
+  }
+  &__notmine {
+    text-align: left;
+  }
+}
+.time {
+  justify-self: flex-end;
+  align-self: flex-end;
+  padding-left: 8px;
+}
