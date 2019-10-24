@@ -17,7 +17,7 @@ interface IMainContainerProps {
 
 const MainContainer: React.FC<IMainContainerProps> = ({ show = true, ...props }) => {
   if (!show) return <>{props.children}</>;
-  console.log(props.role);
+  // console.log(props.role);
   return (
     <div>
       <AppBar position={'static'}>
@@ -36,7 +36,7 @@ const MainContainer: React.FC<IMainContainerProps> = ({ show = true, ...props })
 };
 
 const mapStateToProps = state => {
-  console.log(state);
+  // console.log(state);
   return {
     role: state.usr.role
   };

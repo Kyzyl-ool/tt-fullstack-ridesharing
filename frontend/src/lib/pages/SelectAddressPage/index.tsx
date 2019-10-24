@@ -152,7 +152,7 @@ class SelectAddressPage extends PureComponent<ISelectedAddressPageProps, ISelect
             {/* <Button size="small">На карте</Button> */}
           </Container>
           <Button
-            onClick={() => console.log(selectedAddressFrom, selectedAddressTo)}
+            onClick={() => {}}
             variant="outlined"
             color="primary"
             disabled={!selectedAddressFrom.label || !selectedAddressTo.label}

@@ -10,10 +10,10 @@ import {
   TextField,
   Typography
 } from '@material-ui/core';
+import UserModel from '../../models/userModel';
 import { PROJECT_NAME } from '../../../config/names';
 import { authHandler, authorize } from '../../../net/auth/auth';
 import { connect } from 'react-redux';
-import Cookies from 'js-cookie';
 
 const useStyles = makeStyles({
   heading: {
@@ -46,7 +46,6 @@ const AuthPage: React.FC<IAuthPage> = props => {
   const [password, setPassword] = useState('');
 
   const onSuccess = value => {
-    console.log(value);
     setLoading(false);
     props.onSuccess();
   };
@@ -55,17 +54,17 @@ const AuthPage: React.FC<IAuthPage> = props => {
     setOpenSnackbar(true);
   };
 
-  const authorizeAxios = async ({ login, password }: { login: string; password: string }): Promise<any> => {
-    return await axios.post('http://localhost:5000/login', { login, password }, { withCredentials: true });
+  const authorizeUser = async ({ login, password }: { login: string; password: string }): Promise<any> => {
+    return UserModel.authorize({ login, password });
   };
 
   const initUserData = async (login: string) => {
-    const res = await axios.get(`http://localhost:5000/get_user_data`);
-    console.log(res);
+    const res = await UserModel.getUserData();
+    // console.log(res);
   };
 
-  const authorize = async ({ login, password }: { login: string; password: string }): Promise<any> => {
-    await authorizeAxios({ login, password });
+  const initializeUser = async ({ login, password }: { login: string; password: string }): Promise<any> => {
+    await authorizeUser({ login, password });
     await initUserData(login);
   };
 
@@ -95,7 +94,7 @@ const AuthPage: React.FC<IAuthPage> = props => {
         <Button
           onClick={() => {
             setLoading(true);
-            authHandler(authorizeAxios({ login, password }), onSuccess, onFail);
+            authHandler(initializeUser({ login, password }), onSuccess, onFail);
           }}
           variant={'contained'}
           className={classes.button}

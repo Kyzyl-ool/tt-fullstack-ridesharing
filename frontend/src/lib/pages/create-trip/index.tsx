@@ -17,13 +17,13 @@ export const CreateTripPage: React.FC = props => {
       <Box display={'flex'} alignItems={'center'} m={localMargin}>
         <TextField fullWidth placeholder={'Откуда?'} variant={'outlined'} />
         <Link to="select_address">
-          <CrosshairButton onClick={() => console.log('e')} />
+          <CrosshairButton onClick={() => {}} />
         </Link>
       </Box>
       <Box display={'flex'} alignItems={'center'} m={localMargin}>
         <TextField fullWidth placeholder={'Куда?'} variant={'outlined'} />
         <Link to="select_address">
-          <CrosshairButton onClick={() => console.log('e')} />
+          <CrosshairButton onClick={() => {}} />
         </Link>
       </Box>
       <Box m={localMargin}>

@@ -4,7 +4,7 @@ interface IAuth {
 }
 
 export function authorize(data: IAuth) {
-  console.log(data);
+  // console.log(data);
   return new Promise((resolve, reject) => setTimeout(() => resolve(1), 1000));
 }
 
@@ -18,4 +18,4 @@ export function authHandler(fetcher: Promise<any>, onSuccess: CallableFunction, 
     });
 }
 
-export function authOnServer() {}
+export function authOnServer() { }
