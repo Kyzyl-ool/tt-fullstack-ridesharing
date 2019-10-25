@@ -17,6 +17,7 @@ import { AppBar, Button, createStyles, IconButton, makeStyles, Theme, Toolbar, T
 import { PROJECT_NAME } from './config/names';
 import MainContainer from './lib/containers/MainContainer';
 import { RegistrationPage } from './lib/pages/registration-page';
+import Cookies from 'js-cookie';
 
 const tripData = {
   data: {
@@ -68,7 +69,8 @@ const useStyles = makeStyles((theme: Theme) =>
 
 const App: React.FC = props => {
   const classes = useStyles(props);
-  const [authorized, setAuthorized] = useState(false);
+  // TODO MAKE 
+  const [authorized, setAuthorized] = useState(Cookies.get('remember_token'));
   const [drawerOpened, setDrawerOpened] = useState(false);
   const [heading, setHeading] = useState('Heading');
 
