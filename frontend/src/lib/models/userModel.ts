@@ -1,4 +1,5 @@
 import axios from 'axios';
+import Cookies from 'js-cookie';
 
 interface ICredentials {
   login: string;
@@ -16,7 +17,7 @@ export default class UserModel {
   };
   public static getUserData = async () => {
     try {
-      const res = await axios.get(`http://localhost:5000/get_user_data`);
+      const res = await axios.get(`http://localhost:5000/get_user_data`, { withCredentials: true });
       return res.data;
     } catch (e) {
       return null;

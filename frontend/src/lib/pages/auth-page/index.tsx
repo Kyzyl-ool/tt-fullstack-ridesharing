@@ -14,6 +14,7 @@ import UserModel from '../../models/userModel';
 import { PROJECT_NAME } from '../../../config/names';
 import { authHandler, authorize } from '../../../net/auth/auth';
 import { connect } from 'react-redux';
+import Cookies from 'js-cookie';
 
 const useStyles = makeStyles({
   heading: {
@@ -47,6 +48,7 @@ const AuthPage: React.FC<IAuthPage> = props => {
 
   const onSuccess = value => {
     setLoading(false);
+    // console.log(Cookies.get('remember_token'));
     props.onSuccess();
   };
   const onFail = () => {
