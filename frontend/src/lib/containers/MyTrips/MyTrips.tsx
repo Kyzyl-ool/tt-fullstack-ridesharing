@@ -3,6 +3,7 @@ import { Box, Card, createStyles, makeStyles, Theme, Typography } from '@materia
 import dateFormat from 'date-fns/format';
 import ruLocale from 'date-fns/locale/ru';
 import { MyAvatar } from '../../components/Avatar/Avatar';
+import { NavLink } from 'react-router-dom';
 
 const useStyles = makeStyles((theme: Theme) =>
   createStyles({
@@ -29,16 +30,18 @@ export const MyTrips: React.FC<IMyTripsProps> = props => {
   return (
     <Box display={'flex'} flexDirection={'column'}>
       {props.data.map((value, index) => (
-        <Card key={index} className={classes.trip} elevation={2}>
-          <MyAvatar src={value.avatar} />
-          <Box alignSelf={'center'}>
-            <Typography>
-              {' '}
-              <b> {value.name} </b>
-            </Typography>
-            <Typography>{`${dateFormat(value.date, `d MMMM HH':'mm`, { locale: ruLocale })}`}</Typography>
-          </Box>
-        </Card>
+        <NavLink key={index} to={'/trip/1'}>
+          <Card className={classes.trip} elevation={2}>
+            <MyAvatar src={value.avatar} />
+            <Box alignSelf={'center'}>
+              <Typography>
+                {' '}
+                <b> {value.name} </b>
+              </Typography>
+              <Typography>{`${dateFormat(value.date, `d MMMM HH':'mm`, { locale: ruLocale })}`}</Typography>
+            </Box>
+          </Card>
+        </NavLink>
       ))}
     </Box>
   );
