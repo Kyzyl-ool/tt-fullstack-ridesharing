@@ -1,8 +1,9 @@
 import React from 'react';
-import { Avatar, Box, Card, CardContent, createStyles, makeStyles, Theme, Typography } from '@material-ui/core';
+import { Box, Card, CardContent, createStyles, makeStyles, Theme, Typography } from '@material-ui/core';
 import dateFnsFormat from 'date-fns/format';
 import ruLocale from 'date-fns/locale/ru';
 import { MyAvatar } from '../Avatar/Avatar';
+import { NavLink } from 'react-router-dom';
 
 const useStyles = makeStyles((theme: Theme) =>
   createStyles({
@@ -42,29 +43,31 @@ export const SearchResultItem: React.FC<ISearchResultItemProps> = props => {
 
   return (
     <Card className={classes.card}>
-      <CardContent>
-        <Box textAlign={'left'}>
-          <Typography variant={'body1'} color={'textSecondary'}>
-            {`${dateFnsFormat(props.date, `d MMMM HH':'mm`, { locale: ruLocale })}`}
-          </Typography>
-          <Typography variant={'h5'} color={'textPrimary'}>
-            {`${props.name}`}
-          </Typography>
-        </Box>
-        <Box className={classes.space} />
-        <Box display={'flex'} flexDirection={'row'} alignItems={'center'} className={classes.bottom}>
-          <Typography variant={'h5'} color={'textSecondary'}>
-            {props.amountOfFreePlaces}
-          </Typography>
-          &nbsp; &nbsp;
-          <Typography variant={'body2'} color={'textSecondary'}>
-            {`${props.address}`}
-          </Typography>
-        </Box>
-        <Box className={classes.rightTopElement}>
-          <MyAvatar src={'https://material-ui.com/static/images/avatar/1.jpg'} />
-        </Box>
-      </CardContent>
+      <NavLink to={'/trip/1'}>
+        <CardContent>
+          <Box textAlign={'left'}>
+            <Typography variant={'body1'} color={'textSecondary'}>
+              {`${dateFnsFormat(props.date, `d MMMM HH':'mm`, { locale: ruLocale })}`}
+            </Typography>
+            <Typography variant={'h5'} color={'textPrimary'}>
+              {`${props.name}`}
+            </Typography>
+          </Box>
+          <Box className={classes.space} />
+          <Box display={'flex'} flexDirection={'row'} alignItems={'center'} className={classes.bottom}>
+            <Typography variant={'h5'} color={'textSecondary'}>
+              {props.amountOfFreePlaces}
+            </Typography>
+            &nbsp; &nbsp;
+            <Typography variant={'body2'} color={'textSecondary'}>
+              {`${props.address}`}
+            </Typography>
+          </Box>
+          <Box className={classes.rightTopElement}>
+            <MyAvatar src={'https://material-ui.com/static/images/avatar/1.jpg'} />
+          </Box>
+        </CardContent>
+      </NavLink>
     </Card>
   );
 };

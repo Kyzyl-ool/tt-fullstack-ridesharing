@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { Box, Button, CardMedia, createStyles, makeStyles, Tab, Tabs, Theme, Typography } from '@material-ui/core';
+import { Box, Button, Container, createStyles, makeStyles, Tab, Tabs, Theme, Typography } from '@material-ui/core';
 import dateFormat from 'date-fns/format';
 import ruLocale from 'date-fns/locale/ru';
 
@@ -73,6 +73,27 @@ export const TripPage: React.FC<ITripPageProps> = props => {
           <img
             src={'https://mir-cdn.behance.net/v1/rendition/projects/max_808/f143f651301549.Y3JvcCw1MDEsMzkyLDAsNTQ.jpg'}
           />
+        </TabPanel>
+        <TabPanel index={1} value={currentTab}>
+          <Container>
+            <Typography variant={'h4'}>Свободных мест: {props.data.amountOfFreeSpaces}</Typography>
+            <Typography variant={'h5'}>Mazda RX-7 красный</Typography>
+            <Typography>К 901 АУ</Typography>
+            <Typography variant={'caption'}>Стоимость</Typography>
+            <Typography variant={'h5'}>
+              <b>100 ₽ </b>
+            </Typography>
+          </Container>
+        </TabPanel>
+        <TabPanel index={2} value={currentTab}>
+          <Typography variant={'caption'}>Контактный телефон</Typography>
+          <Typography variant={'h5'}>+7(999)123-45-56</Typography>
+
+          <Typography variant={'caption'}>VK</Typography>
+          <Typography variant={'h5'}>@ivan_ivanov</Typography>
+
+          <Typography variant={'caption'}>TELEGRAM</Typography>
+          <Typography variant={'h5'}>@ivan_ivanov</Typography>
         </TabPanel>
       </Box>
       <Box className={classes.tabActions}>

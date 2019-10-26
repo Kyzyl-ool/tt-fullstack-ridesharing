@@ -93,7 +93,8 @@ const useStyles = makeStyles((theme: Theme) =>
 const App: React.FC = props => {
   const classes = useStyles(props);
   // TODO MAKE
-  const [authorized, setAuthorized] = useState(Cookies.get('remember_token'));
+  // const [authorized, setAuthorized] = useState(Cookies.get('remember_token'));
+  const [authorized, setAuthorized] = useState(true);
   const [drawerOpened, setDrawerOpened] = useState(false);
   const [heading, setHeading] = useState('Heading');
 
