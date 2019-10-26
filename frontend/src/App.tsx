@@ -18,6 +18,10 @@ import { PROJECT_NAME } from './config/names';
 import MainContainer from './lib/containers/MainContainer';
 import { RegistrationPage } from './lib/pages/registration-page';
 import Cookies from 'js-cookie';
+import {OrganizationPage} from "./lib/pages/organizations-page";
+import {IOrganizationCardProps} from "./lib/components/OrganizationItem/OrganizationItem";
+import {AddNewOrganizationPage} from "./lib/pages/add-new-organization-page";
+import {OrganizationCard} from "./lib/components/OrganizationCard/OrganizationCard";
 
 const tripData = {
   data: {
@@ -53,6 +57,25 @@ const mockAppDrawerProps = {
   trips: trips
 };
 
+const mockOrganizations: IOrganizationCardProps[] = [
+  {
+    name: 'Mail.ru Group',
+    address: 'ул. Ленинский проспект, д. 39',
+    id: 1
+  },
+  {
+    name: 'Общежитие №7',
+    address: 'г. Долгопрудный, ул. Первомайская, д. 30, к. 7',
+    id: 2
+  },
+  {
+    name: 'Яндекс',
+    address: 'ул. Льва Толстого, д. 16',
+    id: 3
+  }
+]
+
+
 const useStyles = makeStyles((theme: Theme) =>
   createStyles({
     root: {
@@ -69,8 +92,9 @@ const useStyles = makeStyles((theme: Theme) =>
 
 const App: React.FC = props => {
   const classes = useStyles(props);
-  // TODO MAKE 
-  const [authorized, setAuthorized] = useState(Cookies.get('remember_token'));
+  // TODO MAKE
+  // const [authorized, setAuthorized] = useState(Cookies.get('remember_token'));
+  const [authorized, setAuthorized] = useState(true);
   const [drawerOpened, setDrawerOpened] = useState(false);
   const [heading, setHeading] = useState('Heading');
 
@@ -79,15 +103,21 @@ const App: React.FC = props => {
       <ThemeProvider theme={MainTheme}>
         <MainContainer show={authorized} onClick={() => setDrawerOpened(!drawerOpened)} heading={heading}>
           <Router>
-            {authorized ? <Redirect to="/new_trip" /> : <Redirect to="/auth" />}
+            {/*{authorized ? <Redirect to="/new_trip" /> : <Redirect to="/auth" />}*/}
             <Switch>
               {authorized && (
                 <>
                   <Route exact path="/main" component={MainPage} />
+                  <Route exact path="/map" component={<MapComponent />} />
                   <Route exact path="/new_trip" component={CreateTripPage} />
                   <Route exact path="/select_address" component={SelectAddressPage} />
                   <Route exact path="/search_trip" component={SearchTripPage} />
                   <Route exact path="/trip/1" component={() => <TripPage {...tripData} />} />
+                  <Route exact path="/organizations" component={() => <OrganizationPage data={mockOrganizations}/> } />
+                  <Route exact path="/new_organization" component={() => <AddNewOrganizationPage/> } />
+                  <Route exact path="/organizations/1" component={() => <OrganizationCard {...mockOrganizations[0]} amountOfPeople={42} amountOfDrivers={10}  /> } />
+                  <Route exact path="/organizations/2" component={() => <OrganizationCard {...mockOrganizations[1]} amountOfPeople={42} amountOfDrivers={10}  /> } />
+                  <Route exact path="/organizations/3" component={() => <OrganizationCard {...mockOrganizations[2]} amountOfPeople={42} amountOfDrivers={10}  /> } />
                 </>
               )}
               <Route exact path="/" component={StartingPage} />

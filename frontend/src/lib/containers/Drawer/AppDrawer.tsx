@@ -51,7 +51,9 @@ export const AppDrawer: React.FC<IAppDrawerProps> = props => {
           <NavLink to={'/map'}>
             <Button className={classes.button}>На главную</Button>
           </NavLink>
-          <Button className={classes.button}>Мои организации</Button>
+          <NavLink to={'/organizations'}>
+            <Button className={classes.button}>Мои организации</Button>
+          </NavLink>
         </Box>
         <Divider />
         <Typography variant={'body1'} align={'center'}>{`Вы участвуете в ${trips.length} поездках:`}</Typography>
