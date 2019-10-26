@@ -107,7 +107,7 @@ const App: React.FC = props => {
               {authorized && (
                 <>
                   <Route exact path="/main" component={MainPage} />
-                  <Route exact path="/map" component={<MapComponent />} />
+                  {/* <Route exact path="/map" component={<MapComponent />} /> */}
                   <Route exact path="/new_trip" component={CreateTripPage} />
                   <Route exact path="/select_address" component={SelectAddressPage} />
                   <Route exact path="/search_trip" component={SearchTripPage} />
