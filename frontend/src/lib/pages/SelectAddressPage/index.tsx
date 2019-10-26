@@ -1,4 +1,5 @@
 import React, { memo, PureComponent } from 'react';
+import _isEmpty from 'lodash/isEmpty';
 import Map from '../../components/Map';
 import Header from '../../components/Header';
 import MapModel from '../../models/mapModel';
@@ -52,14 +53,10 @@ interface IAddress {
 
 interface ISelectedAddressPageState {
   lastSelectedAddress: string;
-  currentAddressFrom: string;
-  selectedAddressFrom: IAddress;
-  selectedAddressTo: IAddress;
-  currentAddressTo: string;
-  addressesSearchedFrom: IAddress[];
-  addressesSearchedTo: IAddress[];
-  selectionOptionsFrom: string[];
-  selectionOptionsTo: string[];
+  currentAddress: string;
+  selectedAddress: IAddress;
+  addressesSearched: IAddress[];
+  selectionOptions: string[];
 }
 
 interface ISelectedAddressPageProps {
@@ -68,71 +65,55 @@ interface ISelectedAddressPageProps {
 
 const initialState: ISelectedAddressPageState = {
   lastSelectedAddress: '',
-  currentAddressFrom: '',
-  currentAddressTo: '',
-  selectedAddressFrom: {},
-  selectedAddressTo: {},
-  addressesSearchedFrom: [],
-  addressesSearchedTo: [],
-  selectionOptionsFrom: [],
-  selectionOptionsTo: []
+  currentAddress: '',
+  selectedAddress: {},
+  addressesSearched: [],
+  selectionOptions: []
 };
 
 class SelectAddressPage extends PureComponent<ISelectedAddressPageProps, ISelectedAddressPageState> {
   public state = initialState;
-  public onBuildingClick = (address: string) => this.setState({ lastSelectedAddress: address });
+  public onBuildingClick = async (address: string) => {
+    const res = await MapModel.forwardGeocoding(address);
+    if (res) {
+      const { addresses } = getDataFromGeocoding(res);
+      this.setState({ selectedAddress: addresses[0], lastSelectedAddress: address, currentAddress: address });
+    }
+  };
   public onInputChange = async (e: React.ChangeEvent<HTMLInputElement>) => {
     e.persist();
     const address = e.currentTarget.value;
     const res = await MapModel.forwardGeocoding(e.currentTarget.value);
     if (res) {
       const geocodingData = getDataFromGeocoding(res);
-      if (e.target.id === 'from') {
-        this.setState({
-          selectionOptionsFrom: geocodingData.options,
-          addressesSearchedFrom: geocodingData.addresses,
-          currentAddressFrom: address
-        });
-      } else {
-        this.setState({
-          selectionOptionsTo: geocodingData.options,
-          addressesSearchedTo: geocodingData.addresses,
-          currentAddressTo: address
-        });
-      }
+      this.setState({
+        selectionOptions: geocodingData.options,
+        addressesSearched: geocodingData.addresses,
+        currentAddress: address
+      });
     } else {
       this.setState({
-        currentAddressTo: '',
-        currentAddressFrom: '',
-        selectionOptionsFrom: [],
-        selectionOptionsTo: []
+        currentAddress: '',
+        selectionOptions: []
       });
     }
   };
   public onSelectAddress = ({ id, value }: { id: string; value: string }) => {
-    if (id === 'from') {
-      const selectedAddressFrom = this.state.addressesSearchedFrom.find(adr => adr.label === value);
-      this.setState({ selectionOptionsFrom: [], currentAddressFrom: value, selectedAddressFrom });
-    } else {
-      const selectedAddressTo = this.state.addressesSearchedTo.find(adr => adr.label === value);
-      this.setState({ selectionOptionsTo: [], currentAddressTo: value, selectedAddressTo });
-    }
+    const selectedAddress = this.state.addressesSearched.find(adr => adr.label === value);
+    this.setState({ selectionOptions: [], currentAddress: value, selectedAddress });
   };
   public render() {
-    const {
-      lastSelectedAddress,
-      currentAddressFrom,
-      selectedAddressFrom,
-      selectedAddressTo,
-      selectionOptionsFrom,
-      selectionOptionsTo,
-      currentAddressTo
-    } = this.state;
+    const { lastSelectedAddress, currentAddress, selectedAddress, selectionOptions } = this.state;
     const { styles } = this.props;
+    const viewport = !_isEmpty(selectedAddress) && {
+      latitude: parseFloat(selectedAddress.pos.lat),
+      longitude: parseFloat(selectedAddress.pos.lng),
+      zoom: 18
+    };
     return (
       <div>
         <Header />
-        <Map onBuildingClick={this.onBuildingClick} />
+        <Map viewport={viewport} onBuildingClick={this.onBuildingClick} />
         <Container className={styles.addressContainer}>
           <Typography className={styles.address} color="primary" component="h3" variant="h3">
             {lastSelectedAddress}
@@ -142,20 +123,19 @@ class SelectAddressPage extends PureComponent<ISelectedAddressPageProps, ISelect
           <Container className={styles.inputContainer}>
             <DropdownInput
               id="to"
-              label="Введите организацию"
-              value={currentAddressTo}
+              label="Введите адрес"
+              value={currentAddress}
               placeholder=""
-              suggestions={selectionOptionsTo}
+              suggestions={selectionOptions}
               onSelect={this.onSelectAddress}
               onChange={this.onInputChange}
             />
-            {/* <Button size="small">На карте</Button> */}
           </Container>
           <Button
             onClick={() => {}}
             variant="outlined"
             color="primary"
-            disabled={!selectedAddressFrom.label || !selectedAddressTo.label}
+            disabled={!selectedAddress.label}
             className={styles.goButton}
           >
             Готово

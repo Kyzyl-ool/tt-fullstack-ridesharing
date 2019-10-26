@@ -14,7 +14,7 @@ import UserModel from '../../models/userModel';
 import { PROJECT_NAME } from '../../../config/names';
 import { authHandler, authorize } from '../../../net/auth/auth';
 import { connect } from 'react-redux';
-import Cookies from 'js-cookie';
+import { setUserDataAction, setOrganizationsAction } from '../../store/actions';
 
 const useStyles = makeStyles({
   heading: {
@@ -60,14 +60,20 @@ const AuthPage: React.FC<IAuthPage> = props => {
     return UserModel.authorize({ login, password });
   };
 
-  const initUserData = async (login: string) => {
+  const initOrganizations = async () => {
+    const res = await UserModel.getOrganizations();
+    // console.log(res);
+  };
+
+  const initUserData = async () => {
     const res = await UserModel.getUserData();
     // console.log(res);
   };
 
   const initializeUser = async ({ login, password }: { login: string; password: string }): Promise<any> => {
     await authorizeUser({ login, password });
-    await initUserData(login);
+    await initUserData();
+    await initOrganizations();
   };
 
   return (
@@ -115,4 +121,21 @@ const AuthPage: React.FC<IAuthPage> = props => {
   );
 };
 
-export default AuthPage;
+const mapStateToProps = state => {
+  // console.log(state);
+  // return {
+  //   role: state.usr.role
+  // };
+};
+
+const mapDispatchToProps = dispatch => {
+  return {
+    onInitUser: () => dispatch(setUserDataAction),
+    onInitOrganizations: () => dispatch(setOrganizationsAction)
+  };
+};
+
+export default connect(
+  mapStateToProps,
+  mapDispatchToProps
+)(AuthPage);

@@ -10,11 +10,15 @@ interface ISelectedOption {
 
 interface IDropdownInputProps {
   suggestions?: string[];
-  id: string;
-  placeholder: string;
-  label: string;
+  variant?: any;
+  id?: string;
+  placeholder?: string;
+  fullWidth?: boolean;
+  label?: string;
+  margin?: number;
   value: string;
-  onChange: (e: React.ChangeEvent<HTMLInputElement>) => Promise<void>;
+  // onChange: (e: React.ChangeEvent<HTMLInputElement>) => Promise<void>;
+  onChange: any;
   onSelect: (option: ISelectedOption) => void;
 }
 
@@ -25,20 +29,22 @@ export default class DropdownInput extends PureComponent<IDropdownInputProps, {}
   };
 
   render() {
-    const { suggestions, onChange, placeholder, value, label, id } = this.props;
+    const { suggestions, onChange, placeholder, value, label, id, variant, margin = 8, fullWidth = false } = this.props;
     return (
-      <div className="dropdown-input__container">
+      <div className={fullWidth ? 'dropdown-input__fullwidth-container' : 'dropdown-input__container'}>
         <TextField
           id={id}
           label={label}
           value={value}
-          style={{ margin: 8 }}
+          style={{ margin }}
           placeholder={placeholder}
           margin="normal"
           onChange={onChange}
           InputLabelProps={{
             shrink: true
           }}
+          variant={variant}
+          fullWidth={fullWidth}
         />
         {suggestions && !_isEmpty(suggestions) && (
           <div className="dropdown-input__menu-container">

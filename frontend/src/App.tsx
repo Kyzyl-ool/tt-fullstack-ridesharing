@@ -11,7 +11,7 @@ import MainPage from './lib/pages/MainPage';
 import SelectAddressPage from './lib/pages/SelectAddressPage';
 import { AppDrawer } from './lib/containers/Drawer/AppDrawer';
 import { TripPage } from './lib/pages/trip-page';
-import { CreateTripPage } from './lib/pages/create-trip';
+import CreateTripPage from './lib/pages/create-trip';
 import MenuIcon from '@material-ui/icons/Menu';
 import { AppBar, Button, createStyles, IconButton, makeStyles, Theme, Toolbar, Typography } from '@material-ui/core';
 import { PROJECT_NAME } from './config/names';
@@ -69,7 +69,7 @@ const useStyles = makeStyles((theme: Theme) =>
 
 const App: React.FC = props => {
   const classes = useStyles(props);
-  // TODO MAKE 
+  // TODO MAKE
   const [authorized, setAuthorized] = useState(Cookies.get('remember_token'));
   const [drawerOpened, setDrawerOpened] = useState(false);
   const [heading, setHeading] = useState('Heading');
@@ -79,7 +79,7 @@ const App: React.FC = props => {
       <ThemeProvider theme={MainTheme}>
         <MainContainer show={authorized} onClick={() => setDrawerOpened(!drawerOpened)} heading={heading}>
           <Router>
-            {authorized ? <Redirect to="/new_trip" /> : <Redirect to="/auth" />}
+            {authorized ? <Redirect to="/main" /> : <Redirect to="/auth" />}
             <Switch>
               {authorized && (
                 <>

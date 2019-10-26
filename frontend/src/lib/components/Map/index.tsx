@@ -1,4 +1,5 @@
 import React, { PureComponent } from 'react';
+import _isEmpty from 'lodash/isEmpty';
 import _get from 'lodash/get';
 import MapGL, { Source, Layer, NavigationControl, GeolocateControl } from '@urbica/react-map-gl';
 import MapModel from '../../models/mapModel';
@@ -15,6 +16,7 @@ interface IViewport {
 interface IUrbicaMapProps {
   style?: React.CSSProperties;
   onBuildingClick: (selectedBuildingAddress: string) => void;
+  viewport?: IViewport;
 }
 
 interface IUrbicaMapState {
@@ -32,6 +34,14 @@ class UrbicaMap extends PureComponent<IUrbicaMapProps, IUrbicaMapState> {
 
   public componentDidMount() {
     this.getInitialLocation();
+  }
+
+  public componentDidUpdate(prevProps: IUrbicaMapProps) {
+    if (!_isEmpty(this.props.viewport)) {
+      if (prevProps.viewport !== this.props.viewport) {
+        this.setState({ viewport: this.props.viewport });
+      }
+    }
   }
 
   public getAddress = async ({ lng, lat }: { lng: number; lat: number }): Promise<string> => {
@@ -64,7 +74,7 @@ class UrbicaMap extends PureComponent<IUrbicaMapProps, IUrbicaMapState> {
 
   public render() {
     const { viewport } = this.state;
-    const { style = { width: '100%', height: '80vh' } } = this.props;
+    const { style = { width: '100%', height: '70vh' } } = this.props;
     return (
       <>
         <MapGL

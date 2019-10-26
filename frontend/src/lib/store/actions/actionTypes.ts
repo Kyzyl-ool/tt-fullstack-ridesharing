@@ -1,1 +1,4 @@
 export const SET_ROLE = 'SET_ROLE';
+export const SET_USER = 'SET_USER';
+export const SET_ORGANIZATIONS = 'SET_ORGANIZATIONS';
+export const SET_START_ORGANIZATION = 'SET_START_ORGANIZATION';

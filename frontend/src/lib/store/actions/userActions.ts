@@ -6,3 +6,17 @@ export const setRoleAction = role => {
     role
   };
 };
+
+export const setUserDataAction = userData => {
+  return {
+    type: actions.SET_USER,
+    payload: userData
+  };
+};
+
+export const setOrganizationsAction = organizations => {
+  return {
+    type: actions.SET_ORGANIZATIONS,
+    organizations
+  };
+};

@@ -23,4 +23,12 @@ export default class UserModel {
       return null;
     }
   };
+  public static getOrganizations = async () => {
+    try {
+      const res = await axios.get('http://localhost:5000/get_all_organizations', { withCredentials: true });
+      return res.data;
+    } catch (e) {
+      return null;
+    }
+  };
 }

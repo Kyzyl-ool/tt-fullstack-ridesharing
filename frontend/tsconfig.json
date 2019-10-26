@@ -24,6 +24,7 @@
     "src"
   ],
   "exclude": [
-    "**/*.svg"
+    "**/*.svg",
+    "**/node_modules/**"
   ]
 }

@@ -17,12 +17,20 @@ const initialData: IGeocodingData = {
 };
 
 const getDataFromGeocoding = (data: any): IGeocodingData => {
-  return data.response.GeoObjectCollection.featureMember.reduce((acc, { GeoObject: { name, description, Point } }) => {
-    const latLng = Point.pos.split(' ');
-    acc.options.push(`${name} (${description})`);
-    acc.addresses.push({ label: `${name} (${description})`, pos: { lat: latLng[0], lng: latLng[1] } });
-    return acc;
-  }, initialData);
+  const initial = { ...initialData };
+  return data.response.GeoObjectCollection.featureMember.reduce(
+    (acc, { GeoObject: { name, metaDataProperty, Point } }) => {
+      const latLng = Point.pos.split(' ').reverse();
+      return metaDataProperty.GeocoderMetaData.kind === 'street' || metaDataProperty.GeocoderMetaData.kind === 'house'
+        ? {
+            ...acc,
+            options: [...acc.options, `${name}`],
+            addresses: [...acc.addresses, { label: `${name}`, pos: { lat: latLng[0], lng: latLng[1] } }]
+          }
+        : acc;
+    },
+    initial
+  );
 };
 
 export default getDataFromGeocoding;

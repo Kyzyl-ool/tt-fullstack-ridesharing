@@ -1,1 +1,1 @@
-export { setRoleAction } from './userActions';
+export { setRoleAction, setOrganizationsAction, setUserDataAction } from './userActions';
