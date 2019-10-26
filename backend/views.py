@@ -1,11 +1,12 @@
 from flask import request, url_for, redirect, flash, Blueprint, jsonify
 from flask_login import current_user, login_user, login_required, logout_user
 from model import RegisterUserSchema, User, RegisterDriverSchema, Driver, Ride, Organization, \
-    OrganizationSchema, UserSchema, CreateRideSchema, JoinRideSchema
+    OrganizationSchema, UserSchema, CreateRideSchema, JoinRideSchema, FindBestRidesSchema
 from sqlalchemy.exc import IntegrityError
 from utils.exceptions import InvalidData, ResponseExamples
 from utils.misc import validate_is_in_db, validate_params_with_schema, validate_is_authorized_with_id, validate_all
 from app import db
+from utils.ride_matcher import find_best_rides
 
 api = Blueprint('api', __name__)
 
@@ -114,7 +115,7 @@ def get_user_data():
 @api.route('/get_all_rides', methods=['GET'])
 @login_required
 def get_all_rides():
-    rides = db.session.query(Ride).all()
+    rides = db.session.query(Ride).filter_by(is_available=True).all()
     response = []
     organization_schema = OrganizationSchema()
     user_schema = UserSchema(many=True)
@@ -123,7 +124,8 @@ def get_all_rides():
         start_organization = db.session.query(Organization).filter_by(id=ride.start_organization_id).first()
         stop_organization = db.session.query(Organization).filter_by(id=ride.stop_organization_id).first()
         ride_info['start_organization'] = organization_schema.dump(start_organization)
-        ride_info['stop_organization'] = organization_schema.dump(stop_organization)
+        ride_info['stop_latitude'] = ride.stop_latitude
+        ride_info['stop_longitude'] = ride.stop_longitude
         ride_info['start_time'] = str(ride.start_time)
         ride_info['host_driver_id'] = ride.host_driver_id
         ride_info['estimated_time'] = ride.estimated_time
@@ -148,10 +150,19 @@ def create_ride():
         error = ResponseExamples.IS_NOT_DRIVER
         error['value'] = user_id
         return error, 401
+    # 3. Организация должна существовать
+    organization = db.session.query(Organization).filter_by(id=data['start_organization_id']).first()
+    if not organization:
+        error = ResponseExamples.INVALID_ORGANIZATION_ID
+        error['value'] = data['start_organization_id']
+        return error, 400
     ride = Ride(
-        start_organization_id=data.get('start_organization_id'),
-        stop_organization_id=data.get('stop_organization_id'),
-        start_time=data.get('start_time')
+        start_organization_id=organization.id,
+        start_organization=organization,
+        stop_latitude=data['stop_latitude'],
+        stop_longitude=data['stop_longitude'],
+        start_time=data.get('start_time'),
+        host_driver_id=user_id
     )
     db.session.add(ride)
     db.session.commit()
@@ -188,6 +199,26 @@ def join_ride():
     db.session.commit()
     response = ResponseExamples.RIDE_ID
     response['ride_id'] = ride.id
+    return jsonify(response), 200
+
+
+@api.route('/find_best_rides', methods=['POST'])
+@login_required
+def find_best_rides():
+    """
+    Здесь как раз будут все данные: откуда, id организации отправления, куда -- геокоординаты
+
+    :return:
+    """
+    data = request.get_json()
+    errors = validate_all([validate_params_with_schema(FindBestRidesSchema(), data)])
+    if errors:
+        return errors
+    start_organization_id = data['start_organization_id']
+    destination_gps = (data['destination_latitude'], data['destination_longitude'])
+    matching_results = find_best_rides(start_organization_id, destination_gps)
+    response = ResponseExamples.MATCHING_RESULTS
+    response['top'] = matching_results
     return jsonify(response), 200
 
 
