@@ -1,5 +1,5 @@
 import React from 'react';
-import { AppBar, IconButton, Toolbar, Typography } from '@material-ui/core';
+import { AppBar, Container, IconButton, Toolbar, Typography } from '@material-ui/core';
 import { Menu } from '@material-ui/icons';
 import { connect } from 'react-redux';
 
@@ -30,7 +30,7 @@ const MainContainer: React.FC<IMainContainerProps> = ({ show = true, ...props })
           </Typography>
         </Toolbar>
       </AppBar>
-      {props.children}
+      <Container>{props.children}</Container>
     </div>
   );
 };
