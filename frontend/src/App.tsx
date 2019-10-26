@@ -93,12 +93,7 @@ const useStyles = makeStyles((theme: Theme) =>
 const App: React.FC = props => {
   const classes = useStyles(props);
   // TODO MAKE
-<<<<<<< HEAD
   const [authorized, setAuthorized] = useState(Cookies.get('remember_token'));
-=======
-  // const [authorized, setAuthorized] = useState(Cookies.get('remember_token'));
-  const [authorized, setAuthorized] = useState(true);
->>>>>>> baad476460cb224bbbae0b1daf64e1c80f958204
   const [drawerOpened, setDrawerOpened] = useState(false);
   const [heading, setHeading] = useState('Heading');
 
@@ -107,11 +102,7 @@ const App: React.FC = props => {
       <ThemeProvider theme={MainTheme}>
         <MainContainer show={authorized} onClick={() => setDrawerOpened(!drawerOpened)} heading={heading}>
           <Router>
-<<<<<<< HEAD
             {authorized ? <Redirect to="/main" /> : <Redirect to="/auth" />}
-=======
-            {/*{authorized ? <Redirect to="/new_trip" /> : <Redirect to="/auth" />}*/}
->>>>>>> baad476460cb224bbbae0b1daf64e1c80f958204
             <Switch>
               {authorized && (
                 <>
