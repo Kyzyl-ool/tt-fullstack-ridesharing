@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, {useEffect, useState} from 'react';
 import { BrowserRouter as Router, Route, Switch, Redirect } from 'react-router-dom';
 import './App.css';
 import { ThemeProvider } from '@material-ui/styles';
@@ -22,6 +22,7 @@ import {OrganizationPage} from "./lib/pages/organizations-page";
 import {IOrganizationCardProps} from "./lib/components/OrganizationItem/OrganizationItem";
 import {AddNewOrganizationPage} from "./lib/pages/add-new-organization-page";
 import {OrganizationCard} from "./lib/components/OrganizationCard/OrganizationCard";
+import {checkAuth} from "./net/auth/auth";
 
 const tripData = {
   data: {
@@ -93,9 +94,19 @@ const useStyles = makeStyles((theme: Theme) =>
 const App: React.FC = props => {
   const classes = useStyles(props);
   // TODO MAKE
-  const [authorized, setAuthorized] = useState(Cookies.get('remember_token'));
+  const [authorized, setAuthorized] = useState(false);
   // const [authorized, setAuthorized] = useState(true);
   const [drawerOpened, setDrawerOpened] = useState(false);
+
+  useEffect( () => {
+    checkAuth()
+      .then(value => {
+        setAuthorized(value)
+      })
+      .catch(() => {
+        setAuthorized(false)
+      })
+  }, [])
 
   return (
     <div className="App">
@@ -110,7 +121,6 @@ const App: React.FC = props => {
                     <Route exact path="/select_address" component={SelectAddressPage} />
                     <Route exact path="/search_trip" component={SearchTripPage} />
                     <Route exact path="/trip/1" component={() => <TripPage {...tripData} />} />
-                    <Route exact path="/organizations" component={() => <OrganizationPage data={mockOrganizations}/> } />
                     <Route exact path="/new_organization" component={() => <AddNewOrganizationPage/> } />
                     <Route exact path="/organizations/1" component={() => <OrganizationCard {...mockOrganizations[0]} amountOfPeople={42} amountOfDrivers={10}  /> } />
                     <Route exact path="/organizations/2" component={() => <OrganizationCard {...mockOrganizations[1]} amountOfPeople={42} amountOfDrivers={10}  /> } />
@@ -120,6 +130,7 @@ const App: React.FC = props => {
               <Route exact path="/" component={StartingPage} />
               <Route exact path="/auth" component={() => <AuthPage onSuccess={() => setAuthorized(true)} />} />
               <Route exact path={'/registration'} component={RegistrationPage} />
+              <Route exact path="/organizations" component={() => <OrganizationPage data={mockOrganizations}/> } />
             </Switch>
             <AppDrawer open={drawerOpened} onClose={() => setDrawerOpened(false)} {...mockAppDrawerProps} />
           </Router>

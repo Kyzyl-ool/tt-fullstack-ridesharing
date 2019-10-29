@@ -15,7 +15,7 @@ export const OrganizationPage: React.FC<IOrganizationPageProps> = ({ data }) => 
       ))}
       <NavLink to={'/new_organization'}>
         <Button variant={'text'} color={'primary'}>
-          Добавить организацию
+          Присоединиться к новой организации
         </Button>
       </NavLink>
     </Box>

@@ -1,8 +1,11 @@
-import React from 'react';
+import React, { useReducer, useState } from 'react';
 import clsx from 'clsx';
-import { Container, createStyles, makeStyles, Paper, TextField, Theme } from '@material-ui/core';
+import { Button, Container, createStyles, makeStyles, Paper, TextField, Theme } from '@material-ui/core';
 import { MainColor } from '../../themes/MainColor';
 import Message from '../../components/message';
+import { messagesMockData } from '../../../mocks/messages';
+import { messagesReducer } from '../../store/reducers/messagesReducer';
+import { useHistory } from 'react-router-dom';
 
 interface IMessage {
   from: number;
@@ -10,17 +13,11 @@ interface IMessage {
   message: string;
 }
 
-interface IChatPageProps {
-  title: string;
-  messages: Array<IMessage>;
-  participants: Array<number>;
-  myId: number;
-}
-
 const useStyles = makeStyles((theme: Theme) =>
   createStyles({
     chat: {
-      paddingBottom: '24vh'
+      paddingBottom: '24vh',
+      minHeight: '100vh'
     },
     dense: {
       marginTop: theme.spacing(2)
@@ -38,11 +35,17 @@ const useStyles = makeStyles((theme: Theme) =>
       },
       [theme.breakpoints.up['lg']]: {
         width: '50%'
-      },
-      margin: theme.spacing(2)
+      }
+      // margin: theme.spacing(2)
     },
     messageFormContainer: {
-      height: '20vh',
+      display: 'flex',
+      flexDirection: 'row',
+      justifyContent: 'space-evenly',
+      alignItems: 'center',
+      // margin: theme.spacing(2),
+      padding: theme.spacing(2),
+      maxHeight: '20vh',
       position: 'fixed',
       bottom: 0,
       left: 0,
@@ -50,23 +53,67 @@ const useStyles = makeStyles((theme: Theme) =>
       borderWidth: '1px',
       borderStyle: 'solid',
       borderColor: theme.palette.divider
+    },
+    sendButton: {
+      height: '50%'
     }
   })
 );
 
-const ChatPage: React.FC<IChatPageProps> = props => {
+const ChatPage = ({ ...props }) => {
   const classes = useStyles(props);
+  const [messages, dispatch] = useReducer(messagesReducer, messagesMockData.messages);
+  // const [title, setTitle] = useState(messagesMockData.title);
+  const [myId, setMyId] = useState(messagesMockData.myId);
+  // const [participants, setParticipants] = useState(messagesMockData.participants);
+  const [text, setText] = useState('');
+  const [formEnable, setFormEnable] = useState(false);
+  const [plotIndex, setPlotIndex] = useState(0);
+  const history = useHistory();
+
+  const submitHandler = () => {
+    if (text) {
+      dispatch({ type: 'new', payload: { time: new Date().toLocaleTimeString(), from: myId, message: text } });
+      setText('');
+      dispatch({
+        type: 'next'
+      });
+      setPlotIndex(plotIndex + 1);
+    }
+  };
+  const tapHandler = () => {
+    switch (plotIndex) {
+      case 2:
+      case 3:
+      case 4:
+      case 5: {
+        !formEnable && setFormEnable(true);
+        break;
+      }
+      case 6: {
+        history.push('/organizations');
+        break;
+      }
+      default: {
+        dispatch({
+          type: 'next'
+        });
+        setPlotIndex(plotIndex + 1);
+      }
+    }
+  };
 
   return (
     <Container>
-      <Paper className={classes.chat}>
-        {props.messages
+      <Paper className={classes.chat} onClick={tapHandler}>
+        {messages
           .reduce((previousValue, currentValue, currentIndex, array) => {
             const newValue = previousValue;
             newValue.push({
               lastSenderId: array[currentIndex].from,
               component: (
                 <Message
+                  key={currentIndex}
                   first={
                     !previousValue.length
                       ? true
@@ -79,7 +126,7 @@ const ChatPage: React.FC<IChatPageProps> = props => {
                   }
                   body={array[currentIndex].message}
                   time={array[currentIndex].time}
-                  mine={array[currentIndex].from === props.myId}
+                  mine={array[currentIndex].from === myId}
                 />
               )
             });
@@ -87,17 +134,23 @@ const ChatPage: React.FC<IChatPageProps> = props => {
           }, [])
           .map(value => value.component)}
       </Paper>
-      <Paper className={classes.messageFormContainer}>
-        <TextField
-          label="Введите сообщение..."
-          className={clsx(classes.dense, classes.messageForm)}
-          margin="dense"
-          variant="filled"
-          multiline
-          rowsMax="4"
-          rows={4}
-        />
-      </Paper>
+      {formEnable && (
+        <Paper className={classes.messageFormContainer}>
+          <TextField
+            label="Введите сообщение..."
+            className={clsx(classes.dense, classes.messageForm)}
+            variant="filled"
+            multiline
+            rowsMax="4"
+            rows={4}
+            value={text}
+            onChange={e => setText(e.target.value)}
+          />
+          <Button className={classes.sendButton} onClick={submitHandler}>
+            Отправить
+          </Button>
+        </Paper>
+      )}
     </Container>
   );
 };

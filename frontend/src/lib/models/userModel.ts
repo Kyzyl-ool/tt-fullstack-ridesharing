@@ -11,7 +11,7 @@ export default class UserModel {
       const res = await axios.post(`${BACKEND_URL}/login`, { login, password }, { withCredentials: true });
       return res.data;
     } catch (e) {
-      return null;
+      throw new Error('Login failure');
     }
   };
   public static getUserData = async () => {

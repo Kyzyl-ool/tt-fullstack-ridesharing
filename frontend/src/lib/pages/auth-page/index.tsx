@@ -12,7 +12,7 @@ import {
 } from '@material-ui/core';
 import UserModel from '../../models/userModel';
 import { PROJECT_NAME } from '../../../config/names';
-import { authHandler, authorize } from '../../../net/auth/auth';
+import { authHandler } from '../../../net/auth/auth';
 import { connect } from 'react-redux';
 import { setUserDataAction, setOrganizationsAction } from '../../store/actions';
 
