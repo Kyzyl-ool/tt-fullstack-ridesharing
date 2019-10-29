@@ -10,7 +10,7 @@ export const setRoleAction = role => {
 export const setUserDataAction = userData => {
   return {
     type: actions.SET_USER,
-    payload: userData
+    userData
   };
 };
 

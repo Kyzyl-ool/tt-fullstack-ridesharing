@@ -6,7 +6,7 @@ import MapModel from '../../models/mapModel';
 import DropdownInput from '../../components/DropdownInput';
 import getDataFromGeocoding from '../../helpers/getDataFromGeocoding';
 import { Typography, Container, makeStyles, Theme, Button } from '@material-ui/core';
-
+import { connect } from 'react-redux';
 const useStyles = makeStyles((theme: Theme) => ({
   address: {
     [theme.breakpoints.down('sm')]: {
