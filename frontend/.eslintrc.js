@@ -8,7 +8,7 @@ module.exports =  {
       'plugin:prettier/recommended'    ],
     plugins: ["react", "@typescript-eslint", "prettier"],
     parserOptions:  {
-    project: 'tsconfig.json',
+    // project: 'frontend/tsconfig.json',
     ecmaVersion:  2018,
     sourceType:  'module',
     ecmaFeatures:  {

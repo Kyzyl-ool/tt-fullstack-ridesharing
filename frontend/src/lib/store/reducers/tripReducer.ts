@@ -9,9 +9,11 @@ const initialState = {
   isPlanned: false
 };
 
-const tripReducer = (state = initialState, action) => {
+export const tripReducer = (state = initialState, action) => {
   switch (action.type) {
     case actions.SET_START_ORGANIZATION:
       return { ...state, startOrganization: action.startOrganization };
+    default:
+      return state;
   }
 };

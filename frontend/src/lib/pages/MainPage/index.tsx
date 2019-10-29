@@ -1,21 +1,34 @@
 import React, { PureComponent } from 'react';
 import { Link } from 'react-router-dom';
 import { Button } from '@material-ui/core';
-import { setRoleAction } from '../../store/actions';
+import { setRoleAction, setUserDataAction, setOrganizationsAction } from '../../store/actions';
+import UserModel from '../../models/userModel';
 import { connect } from 'react-redux';
 import './MainPage.scss';
+import { IUser } from '../../domain/user';
+import { IOrganization } from '../../domain/organization';
 
 interface IMainPageProps {
   setRole: (role: string) => void;
+  setUserData: (userData: IUser) => void;
+  setOrganizations: (organizations: IOrganization) => void;
 }
 
 class MainPage extends PureComponent<IMainPageProps> {
+  public async componentDidMount() {
+    const organizations = await UserModel.getOrganizations();
+    const userData = await UserModel.getUserData();
+    this.props.setUserData(userData);
+    this.props.setOrganizations(organizations);
+    // console.log(organizations, userData);
+  }
   public onDriverButtonClick = (e: React.MouseEvent<HTMLButtonElement>) => {
     this.props.setRole('DRIVER');
   };
   public onPassengerButtonClick = (e: React.MouseEvent<HTMLButtonElement>) => {
     this.props.setRole('PASSENGER');
   };
+
   render() {
     return (
       <div className="main-page__container">
@@ -42,7 +55,9 @@ class MainPage extends PureComponent<IMainPageProps> {
 
 const mapDispatchToProps = dispatch => {
   return {
-    setRole: role => dispatch(setRoleAction(role))
+    setRole: role => dispatch(setRoleAction(role)),
+    setUserData: userData => dispatch(setUserDataAction(userData)),
+    setOrganizations: organizations => dispatch(setOrganizationsAction(organizations))
   };
 };
 

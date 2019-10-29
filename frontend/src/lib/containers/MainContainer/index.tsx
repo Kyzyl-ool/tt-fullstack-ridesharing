@@ -5,7 +5,6 @@ import { connect } from 'react-redux';
 
 interface IMainContainerProps {
   show?: boolean;
-  heading?: string;
   search?: {
     onChange: (e: Event) => any;
     onSubmit: (e: Event) => any;
@@ -13,11 +12,13 @@ interface IMainContainerProps {
   children?: React.ReactNode;
   onClick: () => any;
   role?: string;
+  firstName: string;
+  lastName: string;
 }
 
 const MainContainer: React.FC<IMainContainerProps> = ({ show = true, ...props }) => {
   if (!show) return <>{props.children}</>;
-  // console.log(props.role);
+  const fullName = `${props.firstName} ${props.lastName}`;
   return (
     <div>
       <AppBar position={'static'}>
@@ -25,9 +26,7 @@ const MainContainer: React.FC<IMainContainerProps> = ({ show = true, ...props })
           <IconButton edge={'start'} aria-label={'menu'} onClick={props.onClick}>
             <Menu style={{ color: 'white' }} />
           </IconButton>
-          <Typography variant={'h5'}>
-            {props.role === 'DRIVER' ? `${props.heading} (Водитель)` : `${props.heading}`}
-          </Typography>
+          <Typography variant={'h5'}>{props.role === 'DRIVER' ? `${fullName} (Водитель)` : `${fullName}`}</Typography>
         </Toolbar>
       </AppBar>
       <Container>{props.children}</Container>
@@ -38,7 +37,9 @@ const MainContainer: React.FC<IMainContainerProps> = ({ show = true, ...props })
 const mapStateToProps = state => {
   // console.log(state);
   return {
-    role: state.usr.role
+    role: state.usr.role,
+    firstName: state.usr.firstName,
+    lastName: state.usr.lastName
   };
 };
 

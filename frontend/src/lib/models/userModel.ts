@@ -1,13 +1,9 @@
 import axios from 'axios';
-import Cookies from 'js-cookie';
-
-interface ICredentials {
-  login: string;
-  password: string;
-}
+import { ICredentials } from '../domain/credentials';
+import { IUser } from '../domain/user';
 
 export default class UserModel {
-  public static authorize = async ({ login, password }: ICredentials): Promise<any> => {
+  public static authorize = async ({ login, password }: ICredentials): Promise<IUser> => {
     try {
       const res = await axios.post('http://localhost:5000/login', { login, password }, { withCredentials: true });
       return res.data;
@@ -17,7 +13,7 @@ export default class UserModel {
   };
   public static getUserData = async () => {
     try {
-      const res = await axios.get(`http://localhost:5000/get_user_data`, { withCredentials: true });
+      const res = await axios.get(`http://localhost:5000/get_user_info`, { withCredentials: true });
       return res.data;
     } catch (e) {
       return null;

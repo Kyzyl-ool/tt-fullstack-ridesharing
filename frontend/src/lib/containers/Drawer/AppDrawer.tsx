@@ -48,7 +48,7 @@ export const AppDrawer: React.FC<IAppDrawerProps> = props => {
         </Box>
         <Divider />
         <Box className={classes.buttons}>
-          <NavLink to={'/map'}>
+          <NavLink to={'/main'}>
             <Button className={classes.button}>На главную</Button>
           </NavLink>
           <NavLink to={'/organizations'}>

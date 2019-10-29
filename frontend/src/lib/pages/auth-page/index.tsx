@@ -60,20 +60,8 @@ const AuthPage: React.FC<IAuthPage> = props => {
     return UserModel.authorize({ login, password });
   };
 
-  const initOrganizations = async () => {
-    const res = await UserModel.getOrganizations();
-    // console.log(res);
-  };
-
-  const initUserData = async () => {
-    const res = await UserModel.getUserData();
-    // console.log(res);
-  };
-
   const initializeUser = async ({ login, password }: { login: string; password: string }): Promise<any> => {
     await authorizeUser({ login, password });
-    await initUserData();
-    await initOrganizations();
   };
 
   return (

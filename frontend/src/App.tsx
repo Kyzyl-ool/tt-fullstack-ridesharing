@@ -51,6 +51,7 @@ const trips = [
     avatar: 'https://material-ui.com/static/images/avatar/1.jpg'
   }
 ];
+
 const mockAppDrawerProps = {
   email: 'kyzyl.okm@phystced.edu',
   name: 'Кежик',
@@ -75,7 +76,6 @@ const mockOrganizations: IOrganizationCardProps[] = [
   }
 ]
 
-
 const useStyles = makeStyles((theme: Theme) =>
   createStyles({
     root: {
@@ -96,12 +96,11 @@ const App: React.FC = props => {
   const [authorized, setAuthorized] = useState(Cookies.get('remember_token'));
   // const [authorized, setAuthorized] = useState(true);
   const [drawerOpened, setDrawerOpened] = useState(false);
-  const [heading, setHeading] = useState('Heading');
 
   return (
     <div className="App">
       <ThemeProvider theme={MainTheme}>
-        <MainContainer show={authorized} onClick={() => setDrawerOpened(!drawerOpened)} heading={heading}>
+        <MainContainer show={authorized} onClick={() => setDrawerOpened(!drawerOpened)}>
           <Router>
             {authorized ? <Redirect to="/main" /> : <Redirect to="/" />}
             <Switch>
