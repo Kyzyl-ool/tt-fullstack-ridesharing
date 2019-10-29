@@ -38,7 +38,6 @@ const CreateTripPage: React.FC<ICreateTripPageProps> = ({ availableOrganizations
   // const onSelectOrganization = ({ id, value }: { id: string; value: string }) => {
   //   setSelectedStartOrganization({ id, value });
   // };
-  console.log(startOrganization);
   return (
     <Container maxWidth={'sm'}>
       <Box display={'flex'} justifyContent={'space-evenly'} alignItems={'center'}>
