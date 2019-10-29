@@ -28,6 +28,8 @@ export default class DropdownInput extends PureComponent<IDropdownInputProps, {}
     onSelect({ id, value: e.currentTarget.innerText });
   };
 
+  // public onStartTyping = ()
+
   render() {
     const { suggestions, onChange, placeholder, value, label, id, variant, margin = 8, fullWidth = false } = this.props;
     return (

@@ -1,22 +1,43 @@
 import React, { useState } from 'react';
-import { Box, Button, Checkbox, Container, Switch, TextField, Typography } from '@material-ui/core';
+import { Box, Button, Checkbox, Container, Switch, TextField, Typography, MenuItem } from '@material-ui/core';
+import { makeStyles } from '@material-ui/core/styles';
 import CrosshairButton from '../../components/CrosshairButton';
 import DropdownInput from '../../components/DropdownInput';
 import { Link } from 'react-router-dom';
 import { connect } from 'react-redux';
+import { IOrganization } from '../../domain/organization';
 
 const localMargin = 1;
 
-const CreateTripPage: React.FC = props => {
+const useStyles = makeStyles(theme => ({
+  container: {
+    display: 'flex',
+    flexWrap: 'wrap'
+  },
+  textField: {
+    marginLeft: theme.spacing(1),
+    marginRight: theme.spacing(1)
+  },
+  menu: {
+    width: 200
+  }
+}));
+
+interface ICreateTripPageProps {
+  availableOrganizations: IOrganization[];
+}
+
+const CreateTripPage: React.FC<ICreateTripPageProps> = ({ availableOrganizations }) => {
+  const classes = useStyles({});
   const [time, setTime] = useState('');
   const [startOrganization, setStartOrganization] = useState('');
   const [selectedStartOrganization, setSelectedStartOrganization] = useState({});
   const [destinationOrganization, setDestinationOrganization] = useState('');
   const [cost, setCost] = useState('');
 
-  const onSelectOrganization = ({ id, value }: { id: string; value: string }) => {
-    setSelectedStartOrganization({ id, value });
-  };
+  // const onSelectOrganization = ({ id, value }: { id: string; value: string }) => {
+  //   setSelectedStartOrganization({ id, value });
+  // };
   return (
     <Container maxWidth={'sm'}>
       <Box display={'flex'} justifyContent={'space-evenly'} alignItems={'center'}>
@@ -26,15 +47,28 @@ const CreateTripPage: React.FC = props => {
         <TextField value={time} onChange={e => setTime(e.target.value)} variant={'outlined'} type={'time'} />
       </Box>
       <Box display={'flex'} alignItems={'center'} m={localMargin}>
-        <DropdownInput
+        <TextField
           fullWidth
           value={startOrganization}
-          margin={0}
-          onSelect={onSelectOrganization}
+          className={classes.textField}
+          // onSelect={onSelectOrganization}
           onChange={e => setStartOrganization(e.target.value)}
-          placeholder={'Откуда?'}
-          variant={'outlined'}
-        />
+          select
+          SelectProps={{
+            MenuProps: {
+              className: classes.menu
+            }
+          }}
+          placeholder="Откуда?"
+          variant="outlined"
+          margin="normal"
+        >
+          {availableOrganizations.map((org, index) => (
+            <MenuItem key={index} value={org.id}>
+              {org.name}
+            </MenuItem>
+          ))}
+        </TextField>
       </Box>
       <Box display={'flex'} alignItems={'center'} m={localMargin}>
         <TextField
@@ -78,17 +112,17 @@ const CreateTripPage: React.FC = props => {
   );
 };
 
-// const mapStateToProps = state => {
-//   return {
-//     arrivalPoint: state.
-//   }
-// }
+const mapStateToProps = state => {
+  return {
+    availableOrganizations: state.org.organizations
+  };
+};
 
 const mapDispatchToProps = dispatch => {
   return {};
 };
 
 export default connect(
-  null,
+  mapStateToProps,
   mapDispatchToProps
 )(CreateTripPage);

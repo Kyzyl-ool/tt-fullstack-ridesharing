@@ -3,6 +3,7 @@ import { Link } from 'react-router-dom';
 import { Button } from '@material-ui/core';
 import { setRoleAction, setUserDataAction, setOrganizationsAction } from '../../store/actions';
 import UserModel from '../../models/userModel';
+import OrganizationsModel from '../../models/organizationsModel';
 import { connect } from 'react-redux';
 import './MainPage.scss';
 import { IUser } from '../../domain/user';
@@ -16,7 +17,7 @@ interface IMainPageProps {
 
 class MainPage extends PureComponent<IMainPageProps> {
   public async componentDidMount() {
-    const organizations = await UserModel.getOrganizations();
+    const organizations = await OrganizationsModel.getOrganizations();
     const userData = await UserModel.getUserData();
     this.props.setUserData(userData);
     this.props.setOrganizations(organizations);

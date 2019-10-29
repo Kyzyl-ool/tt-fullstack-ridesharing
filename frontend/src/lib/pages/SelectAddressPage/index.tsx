@@ -1,4 +1,4 @@
-import React, { memo, PureComponent } from 'react';
+import React, { memo, PureComponent, Fragment } from 'react';
 import _isEmpty from 'lodash/isEmpty';
 import Map from '../../components/Map';
 import Header from '../../components/Header';
@@ -21,8 +21,9 @@ const useStyles = makeStyles((theme: Theme) => ({
   },
   addressContainer: {
     position: 'absolute',
-    maxWidth: 'none',
-    top: '140px'
+    // maxWidth: 'none',
+    top: '140px',
+    width: '100%'
   },
   inputContainer: {
     display: 'flex',
@@ -111,7 +112,7 @@ class SelectAddressPage extends PureComponent<ISelectedAddressPageProps, ISelect
       zoom: 18
     };
     return (
-      <div>
+      <Fragment>
         <Header />
         <Map viewport={viewport} onBuildingClick={this.onBuildingClick} />
         <Container className={styles.addressContainer}>
@@ -141,7 +142,7 @@ class SelectAddressPage extends PureComponent<ISelectedAddressPageProps, ISelect
             Готово
           </Button>
         </Container>
-      </div>
+      </Fragment>
     );
   }
 }
