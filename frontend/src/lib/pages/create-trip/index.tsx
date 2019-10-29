@@ -15,8 +15,8 @@ const useStyles = makeStyles(theme => ({
     flexWrap: 'wrap'
   },
   textField: {
-    marginLeft: theme.spacing(1),
-    marginRight: theme.spacing(1)
+    // marginLeft: theme.spacing(1),
+    // marginRight: theme.spacing(1)
   },
   menu: {
     width: 200
@@ -30,7 +30,7 @@ interface ICreateTripPageProps {
 const CreateTripPage: React.FC<ICreateTripPageProps> = ({ availableOrganizations }) => {
   const classes = useStyles({});
   const [time, setTime] = useState('');
-  const [startOrganization, setStartOrganization] = useState('');
+  const [startOrganization, setStartOrganization] = useState('Откуда?');
   const [selectedStartOrganization, setSelectedStartOrganization] = useState({});
   const [destinationOrganization, setDestinationOrganization] = useState('');
   const [cost, setCost] = useState('');
@@ -38,6 +38,7 @@ const CreateTripPage: React.FC<ICreateTripPageProps> = ({ availableOrganizations
   // const onSelectOrganization = ({ id, value }: { id: string; value: string }) => {
   //   setSelectedStartOrganization({ id, value });
   // };
+  console.log(startOrganization);
   return (
     <Container maxWidth={'sm'}>
       <Box display={'flex'} justifyContent={'space-evenly'} alignItems={'center'}>
@@ -49,22 +50,23 @@ const CreateTripPage: React.FC<ICreateTripPageProps> = ({ availableOrganizations
       <Box display={'flex'} alignItems={'center'} m={localMargin}>
         <TextField
           fullWidth
-          value={startOrganization}
+          value={startOrganization || 'Откуда?'}
           className={classes.textField}
-          // onSelect={onSelectOrganization}
           onChange={e => setStartOrganization(e.target.value)}
           select
           SelectProps={{
+            defaultValue: 'none',
             MenuProps: {
               className: classes.menu
             }
           }}
-          placeholder="Откуда?"
           variant="outlined"
-          margin="normal"
         >
+          <MenuItem value="none" disabled>
+            Откуда?
+          </MenuItem>
           {availableOrganizations.map((org, index) => (
-            <MenuItem key={index} value={org.id}>
+            <MenuItem key={index} value={org.name}>
               {org.name}
             </MenuItem>
           ))}
@@ -98,10 +100,8 @@ const CreateTripPage: React.FC<ICreateTripPageProps> = ({ availableOrganizations
           На усмотрение пассажира
         </Typography>
       </Box>
-      <Box m={localMargin}>
-        <Typography display={'inline'} variant={'caption'}>
-          Запланировать поездку на несколько дней
-        </Typography>
+      <Box display="flex" justifyContent="center" m={localMargin}>
+        <Typography variant={'caption'}>Запланировать поездку на несколько дней</Typography>
         <Switch />
       </Box>
       <Box m={localMargin} display={'flex'} justifyContent={'space-evenly'}>

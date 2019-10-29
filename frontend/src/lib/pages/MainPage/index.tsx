@@ -1,13 +1,13 @@
 import React, { PureComponent } from 'react';
 import { Link } from 'react-router-dom';
 import { Button } from '@material-ui/core';
+import { connect } from 'react-redux';
 import { setRoleAction, setUserDataAction, setOrganizationsAction } from '../../store/actions';
 import UserModel from '../../models/userModel';
 import OrganizationsModel from '../../models/organizationsModel';
-import { connect } from 'react-redux';
-import './MainPage.scss';
 import { IUser } from '../../domain/user';
 import { IOrganization } from '../../domain/organization';
+import './MainPage.scss';
 
 interface IMainPageProps {
   setRole: (role: string) => void;
