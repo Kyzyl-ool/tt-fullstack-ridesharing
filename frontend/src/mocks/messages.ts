@@ -84,3 +84,5 @@ export const messagesMockData = {
   participants: [1, 2],
   myId: 2,
 };
+
+
