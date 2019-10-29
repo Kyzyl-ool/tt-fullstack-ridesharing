@@ -102,7 +102,7 @@ const App: React.FC = props => {
       <ThemeProvider theme={MainTheme}>
         <MainContainer show={authorized} onClick={() => setDrawerOpened(!drawerOpened)}>
           <Router>
-            {authorized ? <Redirect to="/main" /> : <Redirect to="/auth" />}
+            {authorized ? <Redirect to="/main" /> : <Redirect to="/" />}
             <Switch>
               {authorized && (
                 <>

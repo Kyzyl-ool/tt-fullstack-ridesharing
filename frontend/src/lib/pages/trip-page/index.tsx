@@ -81,7 +81,7 @@ export const TripPage: React.FC<ITripPageProps> = props => {
             <Typography>К 901 АУ</Typography>
             <Typography variant={'caption'}>Стоимость</Typography>
             <Typography variant={'h5'}>
-              <b>100 ₽ </b>
+              <b>100 ₽</b>
             </Typography>
           </Container>
         </TabPanel>
