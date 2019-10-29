@@ -100,32 +100,30 @@ const App: React.FC = props => {
   return (
     <div className="App">
       <ThemeProvider theme={MainTheme}>
-        <MainContainer show={authorized} onClick={() => setDrawerOpened(!drawerOpened)}>
           <Router>
             {authorized ? <Redirect to="/main" /> : <Redirect to="/" />}
             <Switch>
               {authorized && (
-                <>
-                  <Route exact path="/main" component={MainPage} />
-                  <Route exact path="/new_trip" component={CreateTripPage} />
-                  <Route exact path="/select_address" component={SelectAddressPage} />
-                  <Route exact path="/search_trip" component={SearchTripPage} />
-                  <Route exact path="/trip/1" component={() => <TripPage {...tripData} />} />
-                  <Route exact path="/organizations" component={() => <OrganizationPage data={mockOrganizations}/> } />
-                  <Route exact path="/new_organization" component={() => <AddNewOrganizationPage/> } />
-                  <Route exact path="/organizations/1" component={() => <OrganizationCard {...mockOrganizations[0]} amountOfPeople={42} amountOfDrivers={10}  /> } />
-                  <Route exact path="/organizations/2" component={() => <OrganizationCard {...mockOrganizations[1]} amountOfPeople={42} amountOfDrivers={10}  /> } />
-                  <Route exact path="/organizations/3" component={() => <OrganizationCard {...mockOrganizations[2]} amountOfPeople={42} amountOfDrivers={10}  /> } />
-                </>
+                  <MainContainer show={authorized} onClick={() => setDrawerOpened(!drawerOpened)}>
+                    <Route exact path="/main" component={MainPage} />
+                    <Route exact path="/new_trip" component={CreateTripPage} />
+                    <Route exact path="/select_address" component={SelectAddressPage} />
+                    <Route exact path="/search_trip" component={SearchTripPage} />
+                    <Route exact path="/trip/1" component={() => <TripPage {...tripData} />} />
+                    <Route exact path="/organizations" component={() => <OrganizationPage data={mockOrganizations}/> } />
+                    <Route exact path="/new_organization" component={() => <AddNewOrganizationPage/> } />
+                    <Route exact path="/organizations/1" component={() => <OrganizationCard {...mockOrganizations[0]} amountOfPeople={42} amountOfDrivers={10}  /> } />
+                    <Route exact path="/organizations/2" component={() => <OrganizationCard {...mockOrganizations[1]} amountOfPeople={42} amountOfDrivers={10}  /> } />
+                    <Route exact path="/organizations/3" component={() => <OrganizationCard {...mockOrganizations[2]} amountOfPeople={42} amountOfDrivers={10}  /> } />
+                  </MainContainer>
               )}
               <Route exact path="/" component={StartingPage} />
               <Route exact path="/auth" component={() => <AuthPage onSuccess={() => setAuthorized(true)} />} />
               <Route exact path={'/registration'} component={RegistrationPage} />
             </Switch>
-
             <AppDrawer open={drawerOpened} onClose={() => setDrawerOpened(false)} {...mockAppDrawerProps} />
           </Router>
-        </MainContainer>
+
 
         {/*<StartingPage />*/}
         {/*<AuthPage />*/}

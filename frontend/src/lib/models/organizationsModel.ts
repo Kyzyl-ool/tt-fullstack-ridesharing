@@ -1,5 +1,6 @@
 /* eslint-disable @typescript-eslint/camelcase */
 import axios from 'axios';
+import { BACKEND_URL } from '../../config/backend/backend';
 
 export default class OrganizationsModel {
   public static joinOrganization = async (organizationId: number) => {
@@ -17,7 +18,7 @@ export default class OrganizationsModel {
   public static leaveOrganization = async (organizationId: number) => {
     try {
       const res = await axios.post(
-        'http://localhost:5000/leave_organization',
+        `${BACKEND_URL}/leave_organization`,
         { organization_id: organizationId },
         { withCredentials: true }
       );
@@ -28,7 +29,7 @@ export default class OrganizationsModel {
   };
   public static getOrganizations = async () => {
     try {
-      const res = await axios.get('http://localhost:5000/get_all_organizations', { withCredentials: true });
+      const res = await axios.get(`${BACKEND_URL}/get_all_organizations`, { withCredentials: true });
       return res.data;
     } catch (e) {
       return null;

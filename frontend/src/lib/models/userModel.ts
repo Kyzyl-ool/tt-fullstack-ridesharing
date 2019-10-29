@@ -3,11 +3,12 @@ import axios from 'axios';
 import { ICredentials } from '../domain/credentials';
 import { IUser } from '../domain/user';
 import { IUserRegistrationData, IDriverRegistrationData } from '../domain/registration';
+import { BACKEND_URL } from '../../config/backend/backend';
 
 export default class UserModel {
   public static authorize = async ({ login, password }: ICredentials): Promise<IUser> => {
     try {
-      const res = await axios.post('http://localhost:5000/login', { login, password }, { withCredentials: true });
+      const res = await axios.post(`${BACKEND_URL}/login`, { login, password }, { withCredentials: true });
       return res.data;
     } catch (e) {
       return null;
@@ -15,7 +16,7 @@ export default class UserModel {
   };
   public static getUserData = async () => {
     try {
-      const res = await axios.get(`http://localhost:5000/get_user_info`, { withCredentials: true });
+      const res = await axios.get(`${BACKEND_URL}/get_user_info`, { withCredentials: true });
       return res.data;
     } catch (e) {
       return null;
@@ -23,7 +24,7 @@ export default class UserModel {
   };
   public static registerUser = async ({ firstName, lastName, email, password }: IUserRegistrationData) => {
     try {
-      const res = await axios.post('http://localhost:5000/register_user', {
+      const res = await axios.post(`${BACKEND_URL}/register_user`, {
         first_name: firstName,
         last_name: lastName,
         email,
@@ -43,7 +44,7 @@ export default class UserModel {
     license2
   }: IDriverRegistrationData) => {
     try {
-      const res = await axios.post('http://localhost:5000/register_driver', {
+      const res = await axios.post(`${BACKEND_URL}/register_driver`, {
         id,
         passport_url_1: passportUrl1,
         passport_url_2: passportUrl2,

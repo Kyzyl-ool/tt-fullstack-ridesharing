@@ -1,6 +1,7 @@
 /* eslint-disable @typescript-eslint/camelcase */
 import axios from 'axios';
 import { ITrip } from '../domain/trip';
+import { BACKEND_URL } from '../../config/backend/backend';
 
 export default class TripModel {
   public static createTrip = async ({
@@ -12,7 +13,7 @@ export default class TripModel {
   }: ITrip) => {
     try {
       return await axios.post(
-        'http://localhost:5000/create_ride',
+        `${BACKEND_URL}/create_ride`,
         {
           start_organization_id: startOrganizationId,
           stop_latitude: stopLatitude,
@@ -28,7 +29,7 @@ export default class TripModel {
   };
   public static joinTrip = async (rideId: number) => {
     try {
-      return await axios.post('http://localhost:5000/create_ride', { ride_id: rideId }, { withCredentials: true });
+      return await axios.post(`${BACKEND_URL}/create_ride`, { ride_id: rideId }, { withCredentials: true });
     } catch (e) {
       return null;
     }
