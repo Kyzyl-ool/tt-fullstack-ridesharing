@@ -1,7 +1,7 @@
 from flask import request, url_for, redirect, flash, Blueprint, jsonify
 from flask_login import current_user, login_user, login_required, logout_user
 from model import RegisterUserSchema, User, RegisterDriverSchema, Driver, Ride, Organization, \
-    OrganizationSchema, UserSchema, CreateRideSchema, JoinRideSchema, FindBestRidesSchema, OrganizationIDSchema
+    OrganizationSchema, UserSchema, CreateRideSchema, JoinRideSchema, FindBestRidesSchema, OrganizationIDSchema, RideSchema
 from sqlalchemy.exc import IntegrityError
 from utils.exceptions import InvalidData, ResponseExamples
 from utils.misc import validate_is_in_db, validate_params_with_schema, validate_is_authorized_with_id, validate_all
@@ -55,9 +55,6 @@ def register_driver():
         return errors
     driver = Driver(
         id=int(user_id),
-        passport_1=data['passport_url_1'],
-        passport_2=data['passport_url_2'],
-        passport_selfie=data['passport_url_selfie'],
         driver_license_1=data['license_1'],
         driver_license_2=data['license_2']
     )
@@ -118,19 +115,8 @@ def get_user_info():
 def get_all_rides():
     rides = db.session.query(Ride).filter_by(is_available=True).all()
     response = []
-    organization_schema = OrganizationSchema()
-    user_schema = UserSchema(many=True)
-    for ride in rides:
-        ride_info = ResponseExamples.RIDE_INFO
-        start_organization = db.session.query(Organization).filter_by(id=ride.start_organization_id).first()
-        ride_info['start_organization'] = organization_schema.dump(start_organization)
-        ride_info['stop_latitude'] = ride.stop_latitude
-        ride_info['stop_longitude'] = ride.stop_longitude
-        ride_info['start_time'] = str(ride.start_time)
-        ride_info['host_driver_id'] = ride.host_driver_id
-        ride_info['estimated_time'] = ride.estimated_time
-        ride_info['passengers'] = user_schema.dump(ride.passengers, many=True)
-        response.append(ride_info)
+    ride_schema = RideSchema(many=True)
+    response = ride_schema.dump(rides)
     return jsonify(response), 200
 
 
@@ -144,7 +130,7 @@ def create_ride():
     errors = validate_all([validate_params_with_schema(CreateRideSchema(), data)])
     if errors:
         return errors
-    user_id = data.get('host_driver_id')
+    user_id = current_user.id
     # 2. Пользователь должен быть водителем
     if not db.session.query(Driver).filter_by(id=user_id).first():
         error = ResponseExamples.IS_NOT_DRIVER
@@ -159,9 +145,12 @@ def create_ride():
     ride = Ride(
         start_organization_id=organization.id,
         start_organization=organization,
+        cost=data.get('cost'),
         stop_latitude=data['stop_latitude'],
         stop_longitude=data['stop_longitude'],
         start_time=data.get('start_time'),
+        total_seats=data.get('total_seats'),
+        description=data.get('description'),
         host_driver_id=user_id
     )
     db.session.add(ride)
@@ -190,12 +179,15 @@ def join_ride():
     ride_id = data['ride_id']
     # 2. Поездка должна существовать
     ride = db.session.query(Ride).filter_by(id=ride_id).first()
-    if not ride:
+    if not ride or not ride.is_available:
         error = ResponseExamples.INVALID_RIDE_WITH_ID
         error['value'] = ride_id
         return jsonify(error), 400
-    # 3. Вроде, все ок. Можно добавлять в поездку
+    # 4. Вроде, все ок. Можно добавлять в поездку
     ride.passengers.append(current_user)
+    # Если все места заняты, то сделать поездку недоступной
+    if ride.total_seats == len(ride.passengers):
+        ride.is_available = False
     db.session.commit()
     response = ResponseExamples.RIDE_ID
     response['ride_id'] = ride.id
@@ -286,3 +278,24 @@ def am_i_driver():
     if driver:
         return jsonify(is_driver=True), 200
     return jsonify(is_driver=False)
+
+
+@api.route('/get_my_organization_members', methods=['GET'])
+@login_required
+def get_my_organization_members():
+    data = request.args
+    user_schema = UserSchema(many=True)
+    id = data.get('organization_id')
+    try:
+        id = int(id)
+    except:
+        error = ResponseExamples.INVALID_ORGANIZATION_ID
+        error['value'] = id
+        return jsonify(error), 400
+    organization = db.session.query(Organization).filter_by(id=id).first()
+    if organization not in current_user.organizations:
+        error = ResponseExamples.NO_PERMISSION_FOR_USER
+        error['value'] = current_user.id
+        return jsonify(error), 403
+    response = user_schema.dump(organization.users)
+    return jsonify(response), 200

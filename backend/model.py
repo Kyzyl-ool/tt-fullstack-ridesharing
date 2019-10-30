@@ -40,6 +40,7 @@ class User(UserMixin, db.Model):
 class UserSchema(ma.ModelSchema):
     class Meta:
         model = User
+        exclude = ['password_hash']
 
 
 class RegisterUserSchema(ma.ModelSchema):
@@ -50,18 +51,12 @@ class RegisterUserSchema(ma.ModelSchema):
 
 class Driver(db.Model):
     id = db.Column(db.Integer, db.ForeignKey(User.__tablename__ + '.id'), primary_key=True)
-    passport_1 = db.Column(db.String(MAX_URL_LENGTH), nullable=False)
-    passport_2 = db.Column(db.String(MAX_URL_LENGTH), nullable=False)
-    passport_selfie = db.Column(db.String(MAX_URL_LENGTH), nullable=False)
     driver_license_1 = db.Column(db.String(MAX_URL_LENGTH), nullable=False)
     driver_license_2 = db.Column(db.String(MAX_URL_LENGTH), nullable=False)
 
 
 class RegisterDriverSchema(ma.ModelSchema):
     user_id = fields.Integer(required=True)
-    passport_url_1 = fields.String(required=True)
-    passport_url_2 = fields.String(required=True)
-    passport_url_selfie = fields.String(required=True)
     license_1 = fields.String(required=True)
     license_2 = fields.String(required=True)
 
@@ -91,15 +86,19 @@ class Ride(db.Model):
     stop_latitude = db.Column(db.Float, nullable=False)
     stop_longitude = db.Column(db.Float, nullable=False)
     start_time = db.Column(db.DateTime, nullable=False)
+    total_seats = db.Column(db.Integer, server_default='4', nullable=False)
     host_driver_id = db.Column(db.Integer, db.ForeignKey('driver.id'), nullable=False)
     estimated_time = db.Column(db.Time)
     is_available = db.Column(db.Boolean, nullable=False, default=True)
     passengers = db.relationship('User', secondary=association_user_ride, backref='all_rides')
+    cost = db.Column(db.Float)
+    description = db.Column(db.String(600))
 
 
 class RideSchema(ma.ModelSchema):
     class Meta:
         model = Ride
+        include_fk = True
 
 
 class JoinRideSchema(ma.ModelSchema):
@@ -110,8 +109,10 @@ class CreateRideSchema(ma.ModelSchema):
     start_organization_id = fields.Integer(required=True)
     stop_latitude = fields.Float(required=True)
     stop_longitude = fields.Float(required=True)
-    stop_organization_id = fields.Integer(required=True)
     start_time = fields.String(required=True)
+    description = fields.String(required=False)
+    total_seats = fields.Integer(required=True)
+    cost = fields.Float(required=False)
 
 
 class FindBestRidesSchema(ma.ModelSchema):
