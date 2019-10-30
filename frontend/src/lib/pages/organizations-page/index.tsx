@@ -10,7 +10,7 @@ interface IOrganizationPageProps {
 
 export const OrganizationPage: React.FC<IOrganizationPageProps> = ({ data }) => {
   const [addingNew, setAddingNew] = useState(false);
-
+  console.log('RENDERED', data);
   return (
     <Box>
       {data.map((value, index) => (

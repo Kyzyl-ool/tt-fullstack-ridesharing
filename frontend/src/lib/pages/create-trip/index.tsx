@@ -76,7 +76,7 @@ const CreateTripPage: React.FC<ICreateTripPageProps> = props => {
 
   const onCreateTripButtonClick = async () => {
     const { startOrganization, arrivalPoint, rideTime, totalSeats, cost } = props;
-    await TripModel.createTrip({
+    const response = await TripModel.createTrip({
       startOrganizationId: +startOrganization.id,
       stopLatitude: arrivalPoint.latitude,
       stopLongitude: arrivalPoint.longitude,
@@ -85,6 +85,7 @@ const CreateTripPage: React.FC<ICreateTripPageProps> = props => {
       description: ''
     });
     props.cleanCreateForm();
+    if (response) history.push('/search_trip');
   };
 
   return (
