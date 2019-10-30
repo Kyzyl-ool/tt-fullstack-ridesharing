@@ -1,2 +1,2 @@
-const BACKEND_HOST = 'alekseik1.mooo.com/api'
-export const BACKEND_URL = `https://${BACKEND_HOST}`
+const BACKEND_HOST = '51.15.247.52/api'
+export const BACKEND_URL = `http://${BACKEND_HOST}`
