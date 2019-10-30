@@ -1,12 +1,14 @@
-import React, { memo, PureComponent, Fragment } from 'react';
+import React, { PureComponent, Fragment } from 'react';
 import _isEmpty from 'lodash/isEmpty';
+import { Typography, Container, makeStyles, Theme, Button } from '@material-ui/core';
+import { connect } from 'react-redux';
+import { useHistory, RouteComponentProps } from 'react-router';
 import Map from '../../components/Map';
 import Header from '../../components/Header';
 import MapModel from '../../models/mapModel';
 import DropdownInput from '../../components/DropdownInput';
 import getDataFromGeocoding from '../../helpers/getDataFromGeocoding';
-import { Typography, Container, makeStyles, Theme, Button } from '@material-ui/core';
-import { connect } from 'react-redux';
+import { setArrivalPointAction } from '../../store/actions/tripActions';
 const useStyles = makeStyles((theme: Theme) => ({
   address: {
     [theme.breakpoints.down('sm')]: {
@@ -22,6 +24,7 @@ const useStyles = makeStyles((theme: Theme) => ({
   addressContainer: {
     position: 'absolute',
     // maxWidth: 'none',
+    textAlign: 'center',
     top: '140px',
     width: '100%'
   },
@@ -62,6 +65,8 @@ interface ISelectedAddressPageState {
 
 interface ISelectedAddressPageProps {
   styles: any;
+  history: RouteComponentProps['history'];
+  onSetArrivalPoint: (arrivalPoint: { name: string; latitude: number; longitude: number }) => void;
 }
 
 const initialState: ISelectedAddressPageState = {
@@ -99,6 +104,17 @@ class SelectAddressPage extends PureComponent<ISelectedAddressPageProps, ISelect
       });
     }
   };
+
+  public onReady = () => {
+    const { selectedAddress } = this.state;
+    this.props.onSetArrivalPoint({
+      name: selectedAddress.label,
+      latitude: parseFloat(selectedAddress.pos.lat),
+      longitude: parseFloat(selectedAddress.pos.lng)
+    });
+    this.props.history.goBack();
+  };
+
   public onSelectAddress = ({ id, value }: { id: string; value: string }) => {
     const selectedAddress = this.state.addressesSearched.find(adr => adr.label === value);
     this.setState({ selectionOptions: [], currentAddress: value, selectedAddress });
@@ -109,12 +125,12 @@ class SelectAddressPage extends PureComponent<ISelectedAddressPageProps, ISelect
     const viewport = !_isEmpty(selectedAddress) && {
       latitude: parseFloat(selectedAddress.pos.lat),
       longitude: parseFloat(selectedAddress.pos.lng),
-      zoom: 18
+      zoom: 16
     };
     return (
       <Fragment>
         <Header />
-        <Map viewport={viewport} onBuildingClick={this.onBuildingClick} />
+        <Map viewport={viewport} onBuildingClick={this.onBuildingClick} markered />
         <Container className={styles.addressContainer}>
           <Typography className={styles.address} color="primary" component="h3" variant="h3">
             {lastSelectedAddress}
@@ -133,7 +149,8 @@ class SelectAddressPage extends PureComponent<ISelectedAddressPageProps, ISelect
             />
           </Container>
           <Button
-            onClick={() => {}}
+            onClick={this.onReady}
+            //   onClick={() => {}}
             variant="outlined"
             color="primary"
             disabled={!selectedAddress.label}
@@ -147,9 +164,25 @@ class SelectAddressPage extends PureComponent<ISelectedAddressPageProps, ISelect
   }
 }
 
-const StyledSelectAddressPage: React.FC = props => {
+const StyledSelectAddressPage: React.FC<Omit<ISelectedAddressPageProps, 'styles'>> = props => {
   const styles = useStyles({});
-  return <SelectAddressPage {...props} styles={styles} />;
+  const history = useHistory();
+  return <SelectAddressPage {...props} history={history} styles={styles} />;
 };
 
-export default memo(StyledSelectAddressPage);
+const mapStateToProps = state => {
+  return {
+    availableOrganizations: state.org.organizations
+  };
+};
+
+const mapDispatchToProps = dispatch => {
+  return {
+    onSetArrivalPoint: arrivalPoint => dispatch(setArrivalPointAction(arrivalPoint))
+  };
+};
+
+export default connect(
+  mapStateToProps,
+  mapDispatchToProps
+)(StyledSelectAddressPage);

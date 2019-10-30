@@ -9,6 +9,7 @@ export default class TripModel {
     stopLatitude,
     stopLongitude,
     startTime,
+    totalSeats,
     description
   }: ITrip) => {
     try {
@@ -19,6 +20,7 @@ export default class TripModel {
           stop_latitude: stopLatitude,
           stop_longitude: stopLongitude,
           start_time: startTime,
+          total_seats: totalSeats,
           description
         },
         { withCredentials: true }

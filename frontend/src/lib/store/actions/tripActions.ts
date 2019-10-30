@@ -8,7 +8,7 @@ export const setStartOrganizationAction = (startOrganization: Omit<IOrganization
   };
 };
 
-export const setArrivalPointAction = (arrivalPoint: { latitude: number; longitude: number }) => {
+export const setArrivalPointAction = (arrivalPoint: { name: string; latitude: number; longitude: number }) => {
   return {
     type: actions.SET_ARRIVAL_POINT,
     arrivalPoint

@@ -1,7 +1,8 @@
 import React, { PureComponent } from 'react';
+import markerImage from './location_marker.svg';
 import _isEmpty from 'lodash/isEmpty';
 import _get from 'lodash/get';
-import MapGL, { Source, Layer, NavigationControl, GeolocateControl } from '@urbica/react-map-gl';
+import MapGL, { Source, Layer, NavigationControl, GeolocateControl, Marker } from '@urbica/react-map-gl';
 import MapModel from '../../models/mapModel';
 import 'mapbox-gl/dist/mapbox-gl.css';
 
@@ -17,6 +18,7 @@ interface IUrbicaMapProps {
   style?: React.CSSProperties;
   onBuildingClick: (selectedBuildingAddress: string) => void;
   viewport?: IViewport;
+  markered?: boolean;
 }
 
 interface IUrbicaMapState {
@@ -74,7 +76,7 @@ class UrbicaMap extends PureComponent<IUrbicaMapProps, IUrbicaMapState> {
 
   public render() {
     const { viewport } = this.state;
-    const { style = { width: '100%', height: '70vh' } } = this.props;
+    const { style = { width: '100%', height: '70vh' }, markered = false } = this.props;
     return (
       <>
         <MapGL
@@ -99,6 +101,11 @@ class UrbicaMap extends PureComponent<IUrbicaMapProps, IUrbicaMapState> {
             }}
             onClick={this.onBuildingClick}
           />
+          {markered && (
+            <Marker latitude={viewport.latitude} longitude={viewport.longitude}>
+              <img src={markerImage} />
+            </Marker>
+          )}
           <NavigationControl showCompass showZoom position="bottom-right" />
           <GeolocateControl position="bottom-right" />
         </MapGL>
