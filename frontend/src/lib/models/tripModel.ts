@@ -33,7 +33,7 @@ export default class TripModel {
   };
   public static joinTrip = async (rideId: number) => {
     try {
-      return await axios.post(`${BACKEND_URL}/create_ride`, { ride_id: rideId }, { withCredentials: true });
+      return await axios.post(`${BACKEND_URL}/join_ride`, { ride_id: rideId }, { withCredentials: true });
     } catch (e) {
       return null;
     }
@@ -41,7 +41,8 @@ export default class TripModel {
 
   public static getTripInfo = async (rideId: number) => {
     try {
-      return await axios.get(`${BACKEND_URL}/create_ride?rideId=${rideId}`, { withCredentials: true });
+      const res = await axios.get(`${BACKEND_URL}/get_ride_info?ride_id=${rideId}`, { withCredentials: true });
+      return res.data;
     } catch (e) {
       return null;
     }

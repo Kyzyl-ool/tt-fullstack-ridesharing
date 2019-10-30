@@ -9,7 +9,7 @@ import { SearchTripPage } from './lib/pages/search-trip';
 import MainPage from './lib/pages/MainPage';
 import SelectAddressPage from './lib/pages/SelectAddressPage';
 import { AppDrawer } from './lib/containers/Drawer/AppDrawer';
-import { TripPage } from './lib/pages/trip-page';
+import TripPage from './lib/pages/trip-page';
 import CreateTripPage from './lib/pages/create-trip';
 import { createStyles, makeStyles, Theme } from '@material-ui/core';
 import MainContainer from './lib/containers/MainContainer';
