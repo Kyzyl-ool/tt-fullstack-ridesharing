@@ -23,6 +23,7 @@ import {IOrganizationCardProps} from "./lib/components/OrganizationItem/Organiza
 import {AddNewOrganizationPage} from "./lib/pages/add-new-organization-page";
 import {OrganizationCard} from "./lib/components/OrganizationCard/OrganizationCard";
 import {checkAuth} from "./net/auth/auth";
+import {connect} from 'react-redux';
 
 const tripData = {
   data: {
@@ -115,7 +116,7 @@ const App: React.FC = props => {
             {authorized ? <Redirect to="/main" /> : <Redirect to="/" />}
             <Switch>
               {authorized && (
-                  <MainContainer show={authorized} onClick={() => setDrawerOpened(!drawerOpened)}>
+                  <MainContainer onLogout={() => setAuthorized(false)} show={authorized} onClick={() => setDrawerOpened(!drawerOpened)}>
                     <Route exact path="/main" component={MainPage} />
                     <Route exact path="/new_trip" component={CreateTripPage} />
                     <Route exact path="/select_address" component={SelectAddressPage} />
