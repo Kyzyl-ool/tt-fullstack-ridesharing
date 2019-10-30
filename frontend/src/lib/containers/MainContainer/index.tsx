@@ -24,9 +24,9 @@ const MainContainer: React.FC<IMainContainerProps> = ({ show = true, onLogout, .
   const logoutHandler = () => {
     logout().then(value => {
       if (value) {
-        console.log('Logged out');
+        // console.log('Logged out');
       } else {
-        console.log('Log out error');
+        // console.log('Log out error');
       }
     });
     history.push('/auth');
