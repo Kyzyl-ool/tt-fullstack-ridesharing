@@ -31,6 +31,7 @@ const useStyles = makeStyles((theme: Theme) =>
 );
 
 interface ISearchResultItemProps {
+  id: string;
   date: Date;
   name: string;
   address: string;
@@ -43,11 +44,11 @@ export const SearchResultItem: React.FC<ISearchResultItemProps> = props => {
 
   return (
     <Card className={classes.card}>
-      <NavLink to={'/trip/1'}>
+      <NavLink to={`/trip/${props.id}`}>
         <CardContent>
           <Box textAlign={'left'}>
             <Typography variant={'body1'} color={'textSecondary'}>
-              {`${dateFnsFormat(props.date, `d MMMM HH':'mm`, { locale: ruLocale })}`}
+              {`${props.date}`}
             </Typography>
             <Typography variant={'h5'} color={'textPrimary'}>
               {`${props.name}`}

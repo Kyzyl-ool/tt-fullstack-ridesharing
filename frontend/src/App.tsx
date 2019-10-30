@@ -125,7 +125,7 @@ const App: React.FC = props => {
                 <Route exact path="/new_trip" component={CreateTripPage} />
                 <Route exact path="/select_address" component={SelectAddressPage} />
                 <Route exact path="/search_trip" component={SearchTripPage} />
-                <Route exact path="/trip/1" component={() => <TripPage {...tripData} />} />
+                <Route path="/trip/:tripId" component={() => <TripPage {...tripData} />} />
                 <Route exact path="/new_organization" component={() => <AddNewOrganizationPage />} />
                 <Route
                   exact

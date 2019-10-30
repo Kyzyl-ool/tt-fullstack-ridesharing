@@ -11,6 +11,7 @@ import {
   Theme,
   Typography
 } from '@material-ui/core';
+import _isEmpty from 'lodash/isEmpty';
 import { DateTimePicker, MuiPickersUtilsProvider } from '@material-ui/pickers';
 import DateFnsUtils from '@date-io/date-fns';
 import ruLocale from 'date-fns/locale/ru';
@@ -33,35 +34,22 @@ const useStyles = makeStyles((theme: Theme) =>
 );
 
 const serializeTrip = (tripData: any) => {
-  const camelTripData = snakeObjectToCamel(tripData);
+  const { id, startTime, hostDriverInfo, stopAddress, totalSeats } = snakeObjectToCamel(tripData);
+
   return {
-    date: camelTripData.startTime,
-    name: 'Driver',
-    address: camelTripData.stopAddress,
+    id,
+    date: startTime,
+    name: hostDriverInfo && `${hostDriverInfo.first_name} ${hostDriverInfo.last_name}`,
+    address: stopAddress,
     avatar: null,
-    amountOfFreePlaces: camelTripData.totalSeats
+    amountOfFreePlaces: totalSeats
   };
 };
 
 const fetchDataFromServer = async () => {
   const trips = await TripModel.getAllTrips();
-  console.log(trips.map(trip => serializeTrip(trip)));
-  return [
-    {
-      date: new Date(),
-      name: 'Иван Иванов',
-      address: 'ул. Ленинградский проспект, д. 39, к. 1',
-      avatar: 'some url',
-      amountOfFreePlaces: 3
-    },
-    {
-      date: new Date(),
-      name: 'Марина Ушакова',
-      address: 'ул. Ленинградский проспект, д. 39, к. 1',
-      avatar: 'some url',
-      amountOfFreePlaces: 3
-    }
-  ];
+  // console.log();
+  return trips.map(trip => serializeTrip(trip));
 };
 
 export const SearchTripPage: React.FC = props => {

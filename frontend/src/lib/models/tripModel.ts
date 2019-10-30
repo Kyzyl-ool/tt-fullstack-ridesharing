@@ -38,6 +38,14 @@ export default class TripModel {
       return null;
     }
   };
+
+  public static getTripInfo = async (rideId: number) => {
+    try {
+      return await axios.get(`${BACKEND_URL}/create_ride?rideId=${rideId}`, { withCredentials: true });
+    } catch (e) {
+      return null;
+    }
+  };
   public static getAllTrips = async () => {
     try {
       const res = await axios.get('http://localhost:5000/get_all_rides', { withCredentials: true });

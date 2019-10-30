@@ -1,7 +1,9 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { Box, Button, Container, createStyles, makeStyles, Tab, Tabs, Theme, Typography } from '@material-ui/core';
 import dateFormat from 'date-fns/format';
 import ruLocale from 'date-fns/locale/ru';
+import { useParams } from 'react-router-dom';
+import TripModel from '../../models/tripModel';
 
 interface TabPanelProps {
   children?: React.ReactNode;
@@ -43,6 +45,18 @@ interface ITripPageProps {
 export const TripPage: React.FC<ITripPageProps> = props => {
   const classes = useStyles(props);
   const [currentTab, setCurrentTab] = useState(0);
+  const params = useParams() as any;
+
+  const getTripInfo = async () => {
+    return TripModel.getTripInfo(params.rideId);
+  };
+
+  useEffect(() => {
+    (async function loadData() {
+      const data = await getTripInfo();
+      console.log(data);
+    })();
+  }, []);
 
   return (
     <Box display={'flex'} flexDirection={'column'} flexWrap={'nowrap'} height={'100%'}>
