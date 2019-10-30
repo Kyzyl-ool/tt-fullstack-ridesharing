@@ -4,9 +4,11 @@ from model import RegisterUserSchema, User, RegisterDriverSchema, Driver, Ride, 
     OrganizationSchema, UserSchema, CreateRideSchema, JoinRideSchema, FindBestRidesSchema, OrganizationIDSchema, RideSchema
 from sqlalchemy.exc import IntegrityError
 from utils.exceptions import InvalidData, ResponseExamples
-from utils.misc import validate_is_in_db, validate_params_with_schema, validate_is_authorized_with_id, validate_all
+from utils.misc import validate_is_in_db, validate_params_with_schema, validate_is_authorized_with_id, validate_all, \
+    format_time
 from app import db
 from utils.ride_matcher import _find_best_rides
+from datetime import datetime
 
 api = Blueprint('api', __name__)
 # TODO: перенести это в конфиг
@@ -117,8 +119,9 @@ def get_all_rides():
     response = []
     ride_schema = RideSchema(many=True)
     response = ride_schema.dump(rides)
+    # Форматируем время
+    response = format_time(response)
     return jsonify(response), 200
-
 
 # TODO: tests
 @api.route('/create_ride', methods=['POST'])
@@ -148,6 +151,7 @@ def create_ride():
         cost=data.get('cost'),
         stop_latitude=data['stop_latitude'],
         stop_longitude=data['stop_longitude'],
+        stop_address=data.get('stop_address'),
         start_time=data.get('start_time'),
         total_seats=data.get('total_seats'),
         description=data.get('description'),
