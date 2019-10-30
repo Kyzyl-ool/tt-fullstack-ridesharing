@@ -141,9 +141,6 @@ const App: React.FC<IApp> = ({organizations, setOrgs, ...props}) => {
                                                                   amountOfDrivers={0} address={`${value.latitude}`}/>}/>
                       ))
                     }
-
-                    <Route exact path="/organizations/2" component={() => <OrganizationCard {...mockOrganizations[1]} amountOfPeople={42} amountOfDrivers={10}  /> } />
-                    <Route exact path="/organizations/3" component={() => <OrganizationCard {...mockOrganizations[2]} amountOfPeople={42} amountOfDrivers={10}  /> } />
                   </MainContainer>
               )}
               <Route exact path="/organizations" component={() => <OrganizationPage/>}/>
