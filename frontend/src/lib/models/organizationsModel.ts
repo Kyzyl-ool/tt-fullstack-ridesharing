@@ -6,7 +6,7 @@ export default class OrganizationsModel {
   public static joinOrganization = async (organizationId: number) => {
     try {
       const res = await axios.post(
-        'http://localhost:5000/join_organization',
+        `${BACKEND_URL}/join_organization`,
         { organization_id: organizationId },
         { withCredentials: true }
       );

@@ -25,11 +25,11 @@ export const MainTheme: Theme = createMuiTheme({
         backgroundColor: MainColor[700],
         color: 'white',
         borderRadius: '24px'
-      },
-      focusVisible: {
-        backgroundColor: MainColor[400],
-        color: 'white'
       }
+      // focusVisible: {
+      //   backgroundColor: MainColor[400],
+      //   color: 'white'
+      // }
     }
   }
 });

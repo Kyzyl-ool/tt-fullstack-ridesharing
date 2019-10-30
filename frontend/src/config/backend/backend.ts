@@ -1,2 +1,2 @@
-const BACKEND_HOST = 'localhost:5000';
-export const BACKEND_URL = `http://${BACKEND_HOST}`;
+const BACKEND_HOST = '51.15.247.52/api'
+export const BACKEND_URL = `http://${BACKEND_HOST}`

@@ -110,6 +110,7 @@ const AuthPage: React.FC<IAuthPage> = props => {
 };
 
 const mapStateToProps = state => {
+  return {};
   // console.log(state);
   // return {
   //   role: state.usr.role
