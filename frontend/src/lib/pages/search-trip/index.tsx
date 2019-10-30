@@ -1,3 +1,4 @@
+/* eslint-disable no-inner-declarations */
 import React, { useEffect, useState } from 'react';
 import {
   Box,
@@ -10,10 +11,12 @@ import {
   Theme,
   Typography
 } from '@material-ui/core';
-import { SearchResults } from '../../containers/SearchResults';
 import { DateTimePicker, MuiPickersUtilsProvider } from '@material-ui/pickers';
 import DateFnsUtils from '@date-io/date-fns';
 import ruLocale from 'date-fns/locale/ru';
+import { SearchResults } from '../../containers/SearchResults';
+import TripModel from '../../models/tripModel';
+import MapModel from '../../models/mapModel';
 import { ISearchItem } from '../../../net/interfaces/ISearchItem';
 
 const localMargin = 1;
@@ -27,7 +30,15 @@ const useStyles = makeStyles((theme: Theme) =>
   })
 );
 
-function fetchDataFromServer(): ISearchItem[] {
+const fetchDataFromServer = async () => {
+  const trips = await TripModel.getAllTrips();
+  console.log(trips[3]);
+  const address = await MapModel.reverseGeocoding({
+    latitude: trips[3].stop_latitude,
+    longitude: trips[3].stop_longitude
+  });
+  console.log(address);
+
   return [
     {
       date: new Date(),
@@ -44,7 +55,7 @@ function fetchDataFromServer(): ISearchItem[] {
       amountOfFreePlaces: 3
     }
   ];
-}
+};
 
 export const SearchTripPage: React.FC = props => {
   const classes = useStyles(props);
@@ -57,7 +68,10 @@ export const SearchTripPage: React.FC = props => {
 
   useEffect(() => {
     if (progress) {
-      setData(fetchDataFromServer());
+      (async function loadData() {
+        const data = await fetchDataFromServer();
+        setData(data);
+      })();
       setProgress(false);
     }
   }, [progress]);

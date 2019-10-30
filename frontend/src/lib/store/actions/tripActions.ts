@@ -35,3 +35,10 @@ export const setCostAction = (cost: number) => {
     cost
   };
 };
+
+export const cleanCreateFormAction = () => {
+  return {
+    type: actions.CLEAN_CREATE_FORM,
+    payload: {}
+  };
+};

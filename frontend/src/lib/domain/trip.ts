@@ -6,3 +6,12 @@ export interface ITrip {
   totalSeats: number;
   description: string;
 }
+
+export interface ITripCardData {
+  name: string;
+  from: string;
+  to: string;
+  time: string;
+  amountOfFreeSpaces: number;
+  cost: number;
+}
