@@ -1,8 +1,8 @@
 import React, { useState } from 'react';
+import _debounce from 'lodash/debounce';
 import { Box, Button, Checkbox, Container, Switch, TextField, Typography, MenuItem } from '@material-ui/core';
 import { makeStyles } from '@material-ui/core/styles';
 import CrosshairButton from '../../components/CrosshairButton';
-import DropdownInput from '../../components/DropdownInput';
 import { Link } from 'react-router-dom';
 import { connect } from 'react-redux';
 import { IOrganization } from '../../domain/organization';
@@ -30,7 +30,7 @@ interface ICreateTripPageProps {
 const CreateTripPage: React.FC<ICreateTripPageProps> = ({ availableOrganizations }) => {
   const classes = useStyles({});
   const [time, setTime] = useState('');
-  const [startOrganization, setStartOrganization] = useState('Откуда?');
+  const [startOrganization, setStartOrganization] = useState('');
   const [selectedStartOrganization, setSelectedStartOrganization] = useState({});
   const [destinationOrganization, setDestinationOrganization] = useState('');
   const [cost, setCost] = useState('');
@@ -49,12 +49,12 @@ const CreateTripPage: React.FC<ICreateTripPageProps> = ({ availableOrganizations
       <Box display={'flex'} alignItems={'center'} m={localMargin}>
         <TextField
           fullWidth
-          value={startOrganization || 'Откуда?'}
+          value={startOrganization || 'none'}
           className={classes.textField}
           onChange={e => setStartOrganization(e.target.value)}
           select
           SelectProps={{
-            defaultValue: 'none',
+            // defaultValue: 'none',
             MenuProps: {
               className: classes.menu
             }
@@ -75,7 +75,7 @@ const CreateTripPage: React.FC<ICreateTripPageProps> = ({ availableOrganizations
         <TextField
           fullWidth
           value={destinationOrganization}
-          onChange={e => setDestinationOrganization(e.target.value)}
+          onChange={e => _debounce(() => setDestinationOrganization(e.target.value), 500)}
           placeholder={'Куда?'}
           variant={'outlined'}
         />
