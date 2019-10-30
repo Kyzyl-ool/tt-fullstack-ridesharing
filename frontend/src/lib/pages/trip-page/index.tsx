@@ -60,6 +60,12 @@ const initialTripInfo = {
   cost: ''
 };
 
+//TODO REMOVE IT AFTER
+const translateMonth = {
+  October: 'октября',
+  December: 'декабря'
+};
+
 const TripPage: React.FC<ITripPageProps> = props => {
   const classes = useStyles(props);
   const [currentTab, setCurrentTab] = useState(0);
@@ -98,7 +104,10 @@ const TripPage: React.FC<ITripPageProps> = props => {
           </Box>
           <Box className={classes.time}>
             <Typography variant={'h1'} display={'inline'}>
-              {`${tripInfo.startTime}`}
+              {`${tripInfo.startTime.split(' ')[2]}`}
+            </Typography>
+            <Typography variant={'h4'} display={'inline'}>
+              {`  ${tripInfo.startTime.split(' ')[0]} ${translateMonth[tripInfo.startTime.split(' ')[1]]}`}
             </Typography>
             {/* <Typography display={'inline'}>{`${dateFormat(tripInfo.startTime, `d' 'MMMM`, {
               locale: ruLocale
