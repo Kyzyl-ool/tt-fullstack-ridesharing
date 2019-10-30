@@ -80,6 +80,7 @@ const CreateTripPage: React.FC<ICreateTripPageProps> = props => {
       startOrganizationId: +startOrganization.id,
       stopLatitude: arrivalPoint.latitude,
       stopLongitude: arrivalPoint.longitude,
+      stopAddress: arrivalPoint.name,
       startTime: rideTime,
       totalSeats: +totalSeats,
       description: ''

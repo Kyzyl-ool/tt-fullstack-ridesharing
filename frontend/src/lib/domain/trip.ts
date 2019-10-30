@@ -2,6 +2,7 @@ export interface ITrip {
   startOrganizationId: number;
   stopLatitude: number;
   stopLongitude: number;
+  stopAddress: string;
   startTime: string;
   totalSeats: number;
   description: string;

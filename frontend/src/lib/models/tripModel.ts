@@ -8,6 +8,7 @@ export default class TripModel {
     startOrganizationId,
     stopLatitude,
     stopLongitude,
+    stopAddress,
     startTime,
     totalSeats,
     description
@@ -21,6 +22,7 @@ export default class TripModel {
           stop_longitude: stopLongitude,
           start_time: startTime,
           total_seats: totalSeats,
+          stop_address: stopAddress,
           description
         },
         { withCredentials: true }

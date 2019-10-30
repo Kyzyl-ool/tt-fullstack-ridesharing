@@ -18,6 +18,8 @@ import { SearchResults } from '../../containers/SearchResults';
 import TripModel from '../../models/tripModel';
 import MapModel from '../../models/mapModel';
 import { ISearchItem } from '../../../net/interfaces/ISearchItem';
+import { ITripCardData } from '../../domain/trip';
+import { snakeObjectToCamel } from '../../helpers/snakeToCamelCase';
 
 const localMargin = 1;
 const localPaperElevation = 4;
@@ -30,15 +32,20 @@ const useStyles = makeStyles((theme: Theme) =>
   })
 );
 
+const serializeTrip = (tripData: any) => {
+  const camelTripData = snakeObjectToCamel(tripData);
+  return {
+    date: camelTripData.startTime,
+    name: 'Driver',
+    address: camelTripData.stopAddress,
+    avatar: null,
+    amountOfFreePlaces: camelTripData.totalSeats
+  };
+};
+
 const fetchDataFromServer = async () => {
   const trips = await TripModel.getAllTrips();
-  console.log(trips[3]);
-  const address = await MapModel.reverseGeocoding({
-    latitude: trips[3].stop_latitude,
-    longitude: trips[3].stop_longitude
-  });
-  console.log(address);
-
+  console.log(trips.map(trip => serializeTrip(trip)));
   return [
     {
       date: new Date(),
