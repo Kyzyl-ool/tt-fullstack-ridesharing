@@ -24,6 +24,8 @@ export const tripReducer = (state = initialState, action) => {
       return { ...state, totalSeats: action.totalSeats };
     case actions.SET_COST:
       return { ...state, cost: action.cost };
+    case actions.CLEAN_CREATE_FORM:
+      return initialState;
     default:
       return state;
   }

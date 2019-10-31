@@ -1,7 +1,7 @@
 from app import db, ma, login
 from werkzeug.security import generate_password_hash, check_password_hash
 from flask_login import UserMixin
-from marshmallow import fields
+from marshmallow import fields, validates, ValidationError
 
 MAX_NAME_LENGTH = 40
 MAX_SURNAME_LENGTH = 40
@@ -86,6 +86,8 @@ class Ride(db.Model):
     stop_latitude = db.Column(db.Float, nullable=False)
     stop_longitude = db.Column(db.Float, nullable=False)
     start_time = db.Column(db.DateTime, nullable=False)
+    # TODO: Очень плохо брать со стороны фронта адрес, а не определять самим
+    stop_address = db.Column(db.String(600))
     total_seats = db.Column(db.Integer, server_default='4', nullable=False)
     host_driver_id = db.Column(db.Integer, db.ForeignKey('driver.id'), nullable=False)
     estimated_time = db.Column(db.Time)
@@ -109,10 +111,16 @@ class CreateRideSchema(ma.ModelSchema):
     start_organization_id = fields.Integer(required=True)
     stop_latitude = fields.Float(required=True)
     stop_longitude = fields.Float(required=True)
+    stop_address = fields.String(required=False)
     start_time = fields.String(required=True)
     description = fields.String(required=False)
     total_seats = fields.Integer(required=True)
     cost = fields.Float(required=False)
+
+    @validates('start_time')
+    def is_not_empty(self, value):
+        if len(value) == 0:
+            raise ValidationError('Should not be empty string')
 
 
 class FindBestRidesSchema(ma.ModelSchema):

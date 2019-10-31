@@ -1,7 +1,14 @@
 from app import db
-from model import Ride, RideSchema
+from model import Ride, RideSchema, UserSchema, User
 import operator
 from geopy.distance import great_circle
+from utils.misc import format_time
+
+
+def _get_user_info(user_id):
+    user_schema = UserSchema()
+    user = db.session.query(User).filter_by(id=user_id).first()
+    return user_schema.dump(user)
 
 
 # TODO: for now, `organizations` is ignored
@@ -20,6 +27,9 @@ def _find_best_rides(start_organization_id, destination_gps):
             (ride.stop_latitude, ride.stop_longitude),
             destination_gps
         ).kilometers
-        result_top.append((ride_schema.dump(ride), distance))
+        ride_info = ride_schema.dump(ride)
+        ride_info['host_driver_info'] = _get_user_info(ride.host_driver_id)
+        ride_info = format_time([ride_info])[0]
+        result_top.append((ride_info, distance))
     result_top.sort(key=operator.itemgetter(1))
     return result_top

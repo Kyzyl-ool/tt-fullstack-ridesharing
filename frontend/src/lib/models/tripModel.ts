@@ -8,6 +8,7 @@ export default class TripModel {
     startOrganizationId,
     stopLatitude,
     stopLongitude,
+    stopAddress,
     startTime,
     totalSeats,
     description
@@ -21,6 +22,7 @@ export default class TripModel {
           stop_longitude: stopLongitude,
           start_time: startTime,
           total_seats: totalSeats,
+          stop_address: stopAddress,
           description
         },
         { withCredentials: true }
@@ -31,7 +33,16 @@ export default class TripModel {
   };
   public static joinTrip = async (rideId: number) => {
     try {
-      return await axios.post(`${BACKEND_URL}/create_ride`, { ride_id: rideId }, { withCredentials: true });
+      return await axios.post(`${BACKEND_URL}/join_ride`, { ride_id: rideId }, { withCredentials: true });
+    } catch (e) {
+      return null;
+    }
+  };
+
+  public static getTripInfo = async (rideId: number) => {
+    try {
+      const res = await axios.get(`${BACKEND_URL}/get_ride_info?ride_id=${rideId}`, { withCredentials: true });
+      return res.data;
     } catch (e) {
       return null;
     }

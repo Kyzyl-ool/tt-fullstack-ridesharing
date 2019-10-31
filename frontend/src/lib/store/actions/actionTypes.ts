@@ -6,6 +6,7 @@ export const SET_ARRIVAL_POINT = 'SET_ARRIVAL_POINT';
 export const SET_RIDE_TIME = 'SET_RIDE_TIME';
 export const SET_TOTAL_SEATS = 'SET_TOTAL_SEATS';
 export const SET_COST = 'SET_COST';
+export const CLEAN_CREATE_FORM = 'CLEAN_CREATE_FORM';
 
 export const CHAT_NEW_MESSAGE = 'CHAT_NEW_MESSAGE';
 export const CHAT_NEXT_STEP = 'CHAT_NEXT_STEP';

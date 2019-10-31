@@ -4,9 +4,11 @@ from model import RegisterUserSchema, User, RegisterDriverSchema, Driver, Ride, 
     OrganizationSchema, UserSchema, CreateRideSchema, JoinRideSchema, FindBestRidesSchema, OrganizationIDSchema, RideSchema
 from sqlalchemy.exc import IntegrityError
 from utils.exceptions import InvalidData, ResponseExamples
-from utils.misc import validate_is_in_db, validate_params_with_schema, validate_is_authorized_with_id, validate_all
+from utils.misc import validate_is_in_db, validate_params_with_schema, validate_is_authorized_with_id, validate_all, \
+    format_time
 from app import db
-from utils.ride_matcher import _find_best_rides
+from utils.ride_matcher import _find_best_rides, _get_user_info
+from datetime import datetime
 
 api = Blueprint('api', __name__)
 # TODO: перенести это в конфиг
@@ -114,11 +116,13 @@ def get_user_info():
 @login_required
 def get_all_rides():
     rides = db.session.query(Ride).filter_by(is_available=True).all()
-    response = []
     ride_schema = RideSchema(many=True)
     response = ride_schema.dump(rides)
+    for x in response:
+        x['host_driver_info'] = _get_user_info(x['host_driver_id'])
+    # Форматируем время
+    response = format_time(response)
     return jsonify(response), 200
-
 
 # TODO: tests
 @api.route('/create_ride', methods=['POST'])
@@ -148,6 +152,7 @@ def create_ride():
         cost=data.get('cost'),
         stop_latitude=data['stop_latitude'],
         stop_longitude=data['stop_longitude'],
+        stop_address=data.get('stop_address'),
         start_time=data.get('start_time'),
         total_seats=data.get('total_seats'),
         description=data.get('description'),
@@ -298,4 +303,23 @@ def get_my_organization_members():
         error['value'] = current_user.id
         return jsonify(error), 403
     response = user_schema.dump(organization.users)
+    return jsonify(response), 200
+
+
+@api.route('/get_ride_info', methods=['GET'])
+@login_required
+def get_ride_info():
+    data = request.args
+    ride_schema = RideSchema()
+    id = data.get('ride_id')
+    try:
+        id = int(id)
+    except:
+        error = ResponseExamples.INVALID_RIDE_WITH_ID
+        error['value'] = id
+        return jsonify(error), 400
+    ride = db.session.query(Ride).filter_by(id=id).first()
+    response = ride_schema.dump(ride)
+    response = format_time([response])[0]
+    response['host_driver_info'] = _get_user_info(ride.host_driver_id)
     return jsonify(response), 200
