@@ -65,7 +65,7 @@ export const OrganizationCard: React.FC<IOrganizationCardProps> = ({
       </CardContent>
       <CardActions className={classes.actions}>
         <Button variant={'text'} color={'primary'}>
-          Удалить организацию
+          Выйти из организации
         </Button>
       </CardActions>
     </Card>

@@ -11,7 +11,10 @@ const useStyles = makeStyles((theme: Theme) =>
       flexDirection: 'row',
       alignItems: 'center'
     },
-    text: {}
+    text: {},
+    noTextDecoration: {
+      textDecoration: 'none'
+    }
   })
 );
 
@@ -27,7 +30,7 @@ export const OrganizationItem: React.FC<IOrganizationCardProps> = ({ name, addre
 
   return (
     <Card>
-      <NavLink to={`/organizations/${id}`}>
+      <NavLink to={`/organizations/${id}`} className={classes.noTextDecoration}>
         <CardContent className={classes.card}>
           <Box>
             <MyAvatar

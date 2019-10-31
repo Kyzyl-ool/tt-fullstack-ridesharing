@@ -9,7 +9,7 @@ interface IAuth {
 export async function checkAuth(): Promise<boolean> {
   try {
     const response = await axios.get(`${BACKEND_URL}/get_user_info`, {withCredentials: true})
-    if (typeof response.data.user_id === "number")
+    if (typeof response.data.id === "number")
       return true
   } catch (e) {
     return false
