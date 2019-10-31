@@ -12,6 +12,9 @@ const useStyles = makeStyles((theme: Theme) =>
       border: '1px solid #f0f0f0',
       flexDirection: 'row',
       marginTop: theme.spacing(1)
+    },
+    noTextDecoration: {
+      textDecoration: 'none'
     }
   })
 );
@@ -30,7 +33,7 @@ export const MyTrips: React.FC<IMyTripsProps> = props => {
   return (
     <Box display={'flex'} flexDirection={'column'}>
       {props.data.map((value, index) => (
-        <NavLink key={index} to={'/trip/1'}>
+        <NavLink key={index} to={'/trip/1'} className={classes.noTextDecoration}>
           <Card className={classes.trip} elevation={2}>
             <MyAvatar src={value.avatar} />
             <Box alignSelf={'center'}>

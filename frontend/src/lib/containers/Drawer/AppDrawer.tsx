@@ -23,6 +23,9 @@ const useStyles = makeStyles((theme: Theme) =>
     },
     button: {
       marginTop: theme.spacing(1)
+    },
+    noTextDecoration: {
+      textDecoration: 'none'
     }
   })
 );
@@ -48,10 +51,10 @@ export const AppDrawer: React.FC<IAppDrawerProps> = props => {
         </Box>
         <Divider />
         <Box className={classes.buttons}>
-          <NavLink to={'/main'}>
+          <NavLink to={'/main'} className={classes.noTextDecoration}>
             <Button className={classes.button}>На главную</Button>
           </NavLink>
-          <NavLink to={'/organizations'}>
+          <NavLink to={'/organizations'} className={classes.noTextDecoration}>
             <Button className={classes.button}>Мои организации</Button>
           </NavLink>
         </Box>
