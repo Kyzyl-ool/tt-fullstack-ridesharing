@@ -26,9 +26,7 @@ const NewOrganizationCard: React.FC<INewOrganizationCard> = ({ organizations, ..
   const classes = useStyles(props);
 
   const onSelect = id => {
-    OrganizationsModel.joinOrganization(id).then(value1 => {
-      console.log(value1);
-    });
+    OrganizationsModel.joinOrganization(id).then(value1 => {});
   };
 
   return (

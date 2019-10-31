@@ -2,7 +2,7 @@ import React from 'react';
 import { createStore, applyMiddleware, compose, combineReducers } from 'redux';
 import thunk from 'redux-thunk';
 import { Provider } from 'react-redux';
-import {userReducer, tripReducer, organizationsReducer} from './lib/store/reducers';
+import {userReducer, createTripReducer, organizationsReducer} from './lib/store/reducers';
 import ReactDOM from 'react-dom';
 import './index.css';
 import App from './App';
@@ -10,7 +10,7 @@ import * as serviceWorker from './serviceWorker';
 
 const rootReducer = combineReducers({
   usr: userReducer,
-  trip: tripReducer,
+  trip: createTripReducer,
   org: organizationsReducer,
 });
 

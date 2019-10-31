@@ -6,6 +6,7 @@ import {
   Container,
   createStyles,
   makeStyles,
+  MenuItem,
   Paper,
   TextField,
   Theme,
@@ -95,15 +96,6 @@ export const SearchTripPage: React.FC = props => {
                 okLabel={'Ок'}
               />
             </MuiPickersUtilsProvider>
-          </Box>
-          <Box m={localMargin}>
-            <TextField
-              fullWidth
-              placeholder={'Откуда?'}
-              variant={'outlined'}
-              value={addressFrom}
-              onChange={e => handleAddressFrom(e.target.value)}
-            />
           </Box>
           <Box m={localMargin}>
             <TextField
