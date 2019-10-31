@@ -23,6 +23,7 @@ import { connect } from 'react-redux';
 import { IOrganization } from './lib/domain/organization';
 import organizationsModel from './lib/models/organizationsModel';
 import * as actions from './lib/store/actions';
+import {ITripProps} from "./lib/containers/MyTrips/MyTrips";
 
 const tripData = {
   data: {
@@ -35,21 +36,24 @@ const tripData = {
   }
 };
 
-const trips = [
+const trips: ITripProps[] = [
   {
     name: 'Алексей Кожарин',
     date: new Date(),
-    avatar: 'https://material-ui.com/static/images/avatar/1.jpg'
+    avatar: 'https://material-ui.com/static/images/avatar/1.jpg',
+    id: 3
   },
   {
     name: 'Никита Израилев',
     date: new Date(),
-    avatar: 'https://material-ui.com/static/images/avatar/1.jpg'
+    avatar: 'https://material-ui.com/static/images/avatar/1.jpg',
+    id: 4
   },
   {
     name: 'Вы',
     date: new Date(),
-    avatar: 'https://material-ui.com/static/images/avatar/1.jpg'
+    avatar: 'https://material-ui.com/static/images/avatar/1.jpg',
+    id: 5
   }
 ];
 

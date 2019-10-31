@@ -19,13 +19,14 @@ const useStyles = makeStyles((theme: Theme) =>
   })
 );
 
-interface ITrip {
+export interface ITripProps {
   name: string;
   date: Date;
   avatar: string;
+  id: number;
 }
 interface IMyTripsProps {
-  data: ITrip[];
+  data: ITripProps[];
 }
 
 export const MyTrips: React.FC<IMyTripsProps> = props => {
@@ -33,7 +34,7 @@ export const MyTrips: React.FC<IMyTripsProps> = props => {
   return (
     <Box display={'flex'} flexDirection={'column'}>
       {props.data.map((value, index) => (
-        <NavLink key={index} to={'/trip/1'} className={classes.noTextDecoration}>
+        <NavLink key={index} to={`/trip/${value.id}`} className={classes.noTextDecoration}>
           <Card className={classes.trip} elevation={2}>
             <MyAvatar src={value.avatar} />
             <Box alignSelf={'center'}>

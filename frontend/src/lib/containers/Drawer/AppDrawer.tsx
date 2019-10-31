@@ -1,8 +1,9 @@
 import React, { useState } from 'react';
 import { Box, Button, createStyles, Divider, Drawer, makeStyles, Theme, Typography } from '@material-ui/core';
 import { MyAvatar } from '../../components/Avatar/Avatar';
-import { MyTrips } from '../MyTrips/MyTrips';
+import { ITripProps, MyTrips } from '../MyTrips/MyTrips';
 import { NavLink } from 'react-router-dom';
+import { ITrip } from '../../domain/trip';
 
 const useStyles = makeStyles((theme: Theme) =>
   createStyles({
@@ -33,7 +34,7 @@ const useStyles = makeStyles((theme: Theme) =>
 interface IAppDrawerProps {
   name: string;
   email: string;
-  trips: { name: string; date: Date; avatar: string }[];
+  trips: ITripProps[];
   open: boolean;
   onClose: () => any;
 }
@@ -51,10 +52,10 @@ export const AppDrawer: React.FC<IAppDrawerProps> = props => {
         </Box>
         <Divider />
         <Box className={classes.buttons}>
-          <NavLink to={'/main'} className={classes.noTextDecoration}>
+          <NavLink to={'/main'} className={classes.noTextDecoration} onClick={props.onClose}>
             <Button className={classes.button}>На главную</Button>
           </NavLink>
-          <NavLink to={'/organizations'} className={classes.noTextDecoration}>
+          <NavLink to={'/organizations'} className={classes.noTextDecoration} onClick={props.onClose}>
             <Button className={classes.button}>Мои организации</Button>
           </NavLink>
         </Box>
