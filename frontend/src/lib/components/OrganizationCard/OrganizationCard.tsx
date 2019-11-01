@@ -1,6 +1,5 @@
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 import {
-  Box,
   Button,
   Card,
   CardActions,
@@ -12,14 +11,9 @@ import {
   Theme,
   Typography
 } from '@material-ui/core';
-
-interface IOrganizationCardProps {
-  name: string;
-  amountOfPeople: number;
-  amountOfDrivers: number;
-  address: string;
-  organizationPhotoSrc?: string;
-}
+import { NavLink, useParams } from 'react-router-dom';
+import userModel from '../../models/userModel';
+import { IOrganization } from '../../domain/organization';
 
 const useStyles = makeStyles((theme: Theme) =>
   createStyles({
@@ -32,15 +26,29 @@ const useStyles = makeStyles((theme: Theme) =>
   })
 );
 
-export const OrganizationCard: React.FC<IOrganizationCardProps> = ({
-  name,
-  address,
-  amountOfDrivers,
-  amountOfPeople,
-  organizationPhotoSrc,
-  ...props
-}) => {
+export const OrganizationCard: React.FC = ({ ...props }) => {
   const classes = useStyles(props);
+  const params = useParams() as any;
+  const orgId = params.orgId;
+  const [organizationPhotoSrc, setOrganizationPhotoSrc] = useState(undefined);
+  const [amountOfPeople, setAmountOfPeople] = useState(undefined);
+  const [amountOfDrivers, setAmountOfDrivers] = useState(undefined);
+  const [address, setAddress] = useState(undefined);
+  const [name, setName] = useState(undefined);
+
+  useEffect(() => {
+    const fetchOrgData = async () => {
+      const response = await userModel.getUserData();
+      const data = response.organizations.find(value => value.id === +orgId);
+      setAddress(data.address);
+      setAmountOfPeople(data.users.length);
+      setAmountOfDrivers(0); // todo must be set correctly
+      setName(data.name);
+    };
+
+    fetchOrgData();
+  }, []);
+
   return (
     <Card>
       <CardMedia
@@ -57,9 +65,11 @@ export const OrganizationCard: React.FC<IOrganizationCardProps> = ({
           <Typography variant={'h5'}>
             <b>{name}</b>
           </Typography>
-          <Typography>
-            Участников: {amountOfPeople}, них них водителей {amountOfDrivers}
-          </Typography>
+          <NavLink to={`/organizations/${orgId}/members`}>
+            <Typography>
+              Участников: {amountOfPeople}, них них водителей {amountOfDrivers}
+            </Typography>
+          </NavLink>
           <Typography>Адрес: {address}</Typography>
         </Container>
       </CardContent>

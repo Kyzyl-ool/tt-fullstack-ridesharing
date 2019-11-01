@@ -22,7 +22,7 @@ const useStyles = makeStyles((theme: Theme) =>
 export interface ITripProps {
   name: string;
   date: Date;
-  avatar: string;
+  avatar?: string;
   id: number;
 }
 interface IMyTripsProps {

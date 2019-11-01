@@ -49,7 +49,16 @@ export default class TripModel {
   };
   public static getAllTrips = async () => {
     try {
-      const res = await axios.get('http://localhost:5000/get_all_rides', { withCredentials: true });
+      const res = await axios.get(`${BACKEND_URL}/get_all_rides`, { withCredentials: true });
+      return res.data;
+    } catch (e) {
+      return null;
+    }
+  };
+
+  public static getMyTrips = async () => {
+    try {
+      const res = await axios.get(`${BACKEND_URL}/get_my_rides`, { withCredentials: true });
       return res.data;
     } catch (e) {
       return null;

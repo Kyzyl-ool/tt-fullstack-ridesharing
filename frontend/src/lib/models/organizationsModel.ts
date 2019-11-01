@@ -35,4 +35,14 @@ export default class OrganizationsModel {
       return null;
     }
   };
+  public static getOrganizationMembers = async orgId => {
+    try {
+      const res = await axios.get(`${BACKEND_URL}/get_my_organization_members?organization_id=${orgId}`, {
+        withCredentials: true
+      });
+      return res.data;
+    } catch (e) {
+      return null;
+    }
+  };
 }

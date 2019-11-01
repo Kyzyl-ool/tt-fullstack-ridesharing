@@ -1,9 +1,8 @@
-import React, { useEffect, useState } from 'react';
-import { Card, createStyles, makeStyles, Paper, TextField, Theme, Typography } from '@material-ui/core';
-import { connect } from 'react-redux';
-import * as actions from '../../store/actions/index';
+import React, { useState } from 'react';
+import { Button, Card, createStyles, makeStyles, Paper, TextField, Theme, Typography } from '@material-ui/core';
 import OrganizationsModel from '../../models/organizationsModel';
 import { IOrganization } from '../../domain/organization';
+import { NavLink } from 'react-router-dom';
 
 const useStyles = makeStyles((theme: Theme) =>
   createStyles({
@@ -12,16 +11,20 @@ const useStyles = makeStyles((theme: Theme) =>
     },
     padding1: {
       padding: theme.spacing(1)
+    },
+    noTextDecoration: {
+      textDecoration: 'none'
     }
   })
 );
 
 interface INewOrganizationCard {
   organizations: IOrganization[];
+  myOrganizations: IOrganization[];
   children?: React.ReactNode;
 }
 
-const NewOrganizationCard: React.FC<INewOrganizationCard> = ({ organizations, ...props }) => {
+const NewOrganizationCard: React.FC<INewOrganizationCard> = ({ organizations, myOrganizations, ...props }) => {
   const [value, setValue] = useState('');
   const classes = useStyles(props);
 
@@ -42,7 +45,11 @@ const NewOrganizationCard: React.FC<INewOrganizationCard> = ({ organizations, ..
       <Paper>
         {organizations &&
           organizations
-            .filter(value1 => value1.name.toLowerCase().includes(value.toLowerCase()))
+            .filter(
+              value1 =>
+                myOrganizations.every(currentValue => currentValue.id !== value1.id) &&
+                value1.name.toLowerCase().includes(value.toLowerCase())
+            )
             .map((value1, index) => (
               <div key={index} onClick={() => onSelect(value1.id)}>
                 <Paper className={classes.padding1}>
@@ -50,6 +57,13 @@ const NewOrganizationCard: React.FC<INewOrganizationCard> = ({ organizations, ..
                 </Paper>
               </div>
             ))}
+        <div>
+          <NavLink to={'/new_organization'} className={classes.noTextDecoration}>
+            <Button variant={'text'} color={'primary'}>
+              Создать новую организацию
+            </Button>
+          </NavLink>
+        </div>
       </Paper>
     </Card>
   );

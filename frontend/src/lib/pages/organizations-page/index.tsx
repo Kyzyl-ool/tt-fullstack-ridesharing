@@ -9,14 +9,14 @@ import * as actions from '../../store/actions';
 
 interface IOrganizationPageProps {
   organizations: IOrganization[];
+  myOrganizations: IOrganization[];
 }
 
-const UnconnectedOrganizationPage: React.FC<IOrganizationPageProps> = ({ organizations }) => {
+const UnconnectedOrganizationPage: React.FC<IOrganizationPageProps> = ({ organizations, myOrganizations }) => {
   const [addingNew, setAddingNew] = useState(false);
   const data: IOrganizationCardProps[] =
-    organizations &&
-    organizations.length &&
-    organizations.map(value => {
+    myOrganizations &&
+    myOrganizations.map(value => {
       return {
         name: value.name,
         address: `${value.latitude}`, // todo: incorrect
@@ -26,8 +26,8 @@ const UnconnectedOrganizationPage: React.FC<IOrganizationPageProps> = ({ organiz
 
   return (
     <div>
-      {data && data.length && data.map((value, index) => <OrganizationItem key={index} {...value} />)}
-      {addingNew && <NewOrganizationCard organizations={organizations} />}
+      {data && data.map((value, index) => <OrganizationItem key={index} {...value} />)}
+      {addingNew && <NewOrganizationCard myOrganizations={myOrganizations} organizations={organizations} />}
       <Button variant={'text'} color={'primary'} onClick={() => setAddingNew(true)}>
         Присоединиться к новой организации
       </Button>
