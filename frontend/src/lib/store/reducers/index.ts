@@ -1,5 +1,5 @@
 import { userReducer } from './userReducer';
 import { organizationsReducer } from './organizationsReducer';
-import { createTripReducer } from './createTripReducer';
+import { tripReducer } from './tripReducer';
 
-export { userReducer, organizationsReducer, createTripReducer };
+export { userReducer, organizationsReducer, tripReducer };

@@ -172,13 +172,13 @@ const StyledSelectAddressPage: React.FC<Omit<ISelectedAddressPageProps, 'styles'
 
 const mapStateToProps = state => {
   return {
-    availableOrganizations: state.org.organizations
+    availableOrganizations: state.org.create.organizations
   };
 };
 
 const mapDispatchToProps = dispatch => {
   return {
-    onSetArrivalPoint: arrivalPoint => dispatch(setArrivalPointAction(arrivalPoint))
+    onSetArrivalPoint: arrivalPoint => dispatch(setArrivalPointAction(arrivalPoint, 'create'))
   };
 };
 

@@ -17,6 +17,7 @@ import {
   cleanCreateFormAction
 } from '../../store/actions/tripActions';
 import TripModel from '../../models/tripModel';
+import { SelectOrganizationInput } from '../../containers/SelectOrganizationInput';
 
 const localMargin = 1;
 
@@ -61,14 +62,6 @@ const CreateTripPage: React.FC<ICreateTripPageProps> = props => {
     props.onSetTotalSeats(e.target.value);
   };
 
-  const onStartOrganizationChange = e => {
-    const orgName = e.target.value;
-    props.onSetStartOrganization({
-      label: orgName,
-      id: props.availableOrganizations.find(org => org.name === orgName).id
-    });
-  };
-
   const onTimeInputChange = time => {
     props.onSetTime(convertDate(time.toString()));
   };
@@ -108,31 +101,11 @@ const CreateTripPage: React.FC<ICreateTripPageProps> = props => {
           />
         </MuiPickersUtilsProvider>
       </Box>
-      <Box display={'flex'} alignItems={'center'} m={localMargin}>
-        <TextField
-          fullWidth
-          value={props.startOrganization.label || 'none'}
-          className={classes.textField}
-          onChange={onStartOrganizationChange}
-          select
-          SelectProps={{
-            // defaultValue: 'none',
-            MenuProps: {
-              className: classes.menu
-            }
-          }}
-          variant="outlined"
-        >
-          <MenuItem value="none" disabled>
-            Откуда?
-          </MenuItem>
-          {props.availableOrganizations.map((org, index) => (
-            <MenuItem key={index} value={org.name}>
-              {org.name}
-            </MenuItem>
-          ))}
-        </TextField>
-      </Box>
+      <SelectOrganizationInput
+        onChange={props.onSetStartOrganization}
+        currentOrganization={props.startOrganization}
+        availableOrganizations={props.availableOrganizations}
+      />
       <Box display={'flex'} alignItems={'center'} m={localMargin}>
         <TextField
           fullWidth
@@ -187,20 +160,20 @@ const CreateTripPage: React.FC<ICreateTripPageProps> = props => {
 const mapStateToProps = state => {
   return {
     availableOrganizations: state.org.organizations,
-    totalSeats: state.trip.totalSeats,
-    rideTime: state.trip.rideTime,
-    cost: state.trip.cost,
-    arrivalPoint: state.trip.arrivalPoint,
-    startOrganization: state.trip.startOrganization
+    totalSeats: state.trip.create.totalSeats,
+    rideTime: state.trip.create.rideTime,
+    cost: state.trip.create.cost,
+    arrivalPoint: state.trip.create.arrivalPoint,
+    startOrganization: state.trip.create.startOrganization
   };
 };
 
 const mapDispatchToProps = dispatch => {
   return {
-    onSetCost: cost => dispatch(setCostAction(+cost)),
-    onSetTotalSeats: totalSeats => dispatch(setTotalSeatsAction(+totalSeats)),
-    onSetTime: time => dispatch(setRideTimeAction(time)),
-    onSetStartOrganization: startOrganization => dispatch(setStartOrganizationAction(startOrganization)),
+    onSetCost: cost => dispatch(setCostAction(+cost, 'create')),
+    onSetTotalSeats: totalSeats => dispatch(setTotalSeatsAction(+totalSeats, 'create')),
+    onSetTime: time => dispatch(setRideTimeAction(time, 'create')),
+    onSetStartOrganization: startOrganization => dispatch(setStartOrganizationAction(startOrganization, 'create')),
     cleanCreateForm: () => dispatch(cleanCreateFormAction())
   };
 };

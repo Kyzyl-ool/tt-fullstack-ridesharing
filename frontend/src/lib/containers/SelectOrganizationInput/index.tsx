@@ -13,17 +13,17 @@ const useStyles = makeStyles(theme => ({
 }));
 
 interface ISelectAddressInputProps {
-  onSetStartOrganization: (startOrganization: { id: string; label: string }) => void;
+  onChange: (startOrganization: { id: string; label: string }) => void;
   availableOrganizations: IOrganization[];
-  startOrganization: { id: string; label: string };
+  currentOrganization: { id: string; label: string };
 }
 
-export const SelectAddressInput: React.FunctionComponent<ISelectAddressInputProps> = props => {
+export const SelectOrganizationInput: React.FunctionComponent<ISelectAddressInputProps> = props => {
   const classes = useStyles({});
 
   const onStartOrganizationChange = e => {
     const orgName = e.target.value;
-    props.onSetStartOrganization({
+    props.onChange({
       label: orgName,
       id: props.availableOrganizations.find(org => org.name === orgName).id
     });
@@ -32,7 +32,7 @@ export const SelectAddressInput: React.FunctionComponent<ISelectAddressInputProp
     <Box display={'flex'} alignItems={'center'} m={1}>
       <TextField
         fullWidth
-        value={props.startOrganization.label || 'none'}
+        value={props.currentOrganization.label || 'none'}
         onChange={onStartOrganizationChange}
         select
         SelectProps={{

@@ -12,16 +12,17 @@ import {
   Theme,
   Typography
 } from '@material-ui/core';
-import _isEmpty from 'lodash/isEmpty';
+import { connect } from 'react-redux';
 import { DateTimePicker, MuiPickersUtilsProvider } from '@material-ui/pickers';
 import DateFnsUtils from '@date-io/date-fns';
 import ruLocale from 'date-fns/locale/ru';
 import { SearchResults } from '../../containers/SearchResults';
 import TripModel from '../../models/tripModel';
-import MapModel from '../../models/mapModel';
-import { ISearchItem } from '../../../net/interfaces/ISearchItem';
-import { ITripCardData } from '../../domain/trip';
+
 import { snakeObjectToCamel } from '../../helpers/snakeToCamelCase';
+import { SelectOrganizationInput } from '../../containers/SelectOrganizationInput';
+import { setStartOrganizationAction } from '../../store/actions/tripActions';
+import { IOrganization } from '../../domain/organization';
 
 const localMargin = 1;
 const localPaperElevation = 4;
@@ -53,8 +54,18 @@ const fetchDataFromServer = async () => {
   return trips.map(trip => serializeTrip(trip));
 };
 
-export const SearchTripPage: React.FC = props => {
-  const classes = useStyles(props);
+interface ISearchTripPageProps {
+  onSetStartOrganization: (startOrganization: { id: string; label: string }) => void;
+  startOrganization: { id: string; label: string };
+  availableOrganizations: IOrganization[];
+}
+
+const SearchTripPage: React.FC<ISearchTripPageProps> = ({
+  onSetStartOrganization,
+  startOrganization,
+  availableOrganizations
+}) => {
+  const classes = useStyles({});
   const [searchButtonState, setSearchButtonState] = useState(false);
   const [selectedDate, setSelectedDate] = useState(new Date());
   const [progress, setProgress] = useState(true); // todo: must be false
@@ -75,7 +86,6 @@ export const SearchTripPage: React.FC = props => {
   useEffect(() => {
     setSearchButtonState(addressFrom.length > 0 && addressTo.length > 0);
   }, [addressFrom, addressTo]);
-
   return (
     <Box display={'flex'} alignContent={'space-between'} flexDirection={'column'}>
       <Paper elevation={localPaperElevation} className={classes.root}>
@@ -97,6 +107,11 @@ export const SearchTripPage: React.FC = props => {
               />
             </MuiPickersUtilsProvider>
           </Box>
+          <SelectOrganizationInput
+            onChange={onSetStartOrganization}
+            currentOrganization={startOrganization}
+            availableOrganizations={availableOrganizations}
+          />
           <Box m={localMargin}>
             <TextField
               fullWidth
@@ -112,3 +127,21 @@ export const SearchTripPage: React.FC = props => {
     </Box>
   );
 };
+
+const mapStateToProps = state => {
+  return {
+    availableOrganizations: state.org.organizations,
+    startOrganization: state.trip.search.startOrganization
+  };
+};
+
+const mapDispatchToProps = dispatch => {
+  return {
+    onSetStartOrganization: startOrganization => dispatch(setStartOrganizationAction(startOrganization, 'search'))
+  };
+};
+
+export default connect(
+  mapStateToProps,
+  mapDispatchToProps
+)(SearchTripPage);
