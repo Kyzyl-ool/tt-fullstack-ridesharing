@@ -20,3 +20,12 @@ export const setOrganizationsAction = organizations => {
     organizations
   };
 };
+
+export const setMyOrganizationsAction = myOrgs => {
+  return {
+    type: actions.SET_MY_ORGANIZATIONS,
+    payload: {
+      myOrgs
+    }
+  };
+};

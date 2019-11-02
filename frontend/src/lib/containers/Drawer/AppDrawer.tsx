@@ -1,9 +1,10 @@
-import React, { useState } from 'react';
+import React, { useEffect } from 'react';
 import { Box, Button, createStyles, Divider, Drawer, makeStyles, Theme, Typography } from '@material-ui/core';
 import { MyAvatar } from '../../components/Avatar/Avatar';
-import { ITripProps, MyTrips } from '../MyTrips/MyTrips';
+import { MyTrips } from '../MyTrips/MyTrips';
 import { NavLink } from 'react-router-dom';
-import { ITrip } from '../../domain/trip';
+import { connect } from 'react-redux';
+import { IResponseTrip } from '../../store/reducers/allTripsReducer';
 
 const useStyles = makeStyles((theme: Theme) =>
   createStyles({
@@ -32,22 +33,48 @@ const useStyles = makeStyles((theme: Theme) =>
 );
 
 interface IAppDrawerProps {
-  name: string;
+  firstName: string;
+  lastName: string;
   email: string;
-  trips: ITripProps[];
+  trips: IResponseTrip[];
   open: boolean;
   onClose: () => any;
 }
-export const AppDrawer: React.FC<IAppDrawerProps> = props => {
+
+const AppDrawer: React.FC<IAppDrawerProps> = ({ firstName, lastName, email, trips, ...props }) => {
   const classes = useStyles(props);
-  const { name, email, trips } = props;
+
+  useEffect(() => {
+    const fetchData = async () => {
+      // console.log(trips);
+      /*
+      cost: null
+      description: ""
+      estimated_time: null
+      host_driver_id: 1
+      id: 4
+      is_available: true
+      is_finished: false
+      passengers: [1]
+      start_organization: 2
+      start_organization_id: 2
+      start_time: "2019-10-30T22:20:00.001000"
+      stop_address: null
+      stop_latitude: 55.72893
+      stop_longitude: 37.618255
+      total_seats: 3
+       */
+    };
+
+    fetchData();
+  }, []);
 
   return (
     <Drawer open={props.open} onClose={props.onClose}>
       <Box className={classes.root}>
         <MyAvatar src="https://material-ui.com/static/images/avatar/1.jpg" />
         <Box>
-          <Typography variant={'h5'}>{name}</Typography>
+          <Typography variant={'h5'}>{`${firstName} ${lastName}`}</Typography>
           <Typography variant={'body1'}>{email}</Typography>
         </Box>
         <Divider />
@@ -61,8 +88,20 @@ export const AppDrawer: React.FC<IAppDrawerProps> = props => {
         </Box>
         <Divider />
         <Typography variant={'body1'} align={'center'}>{`Вы участвуете в ${trips.length} поездках:`}</Typography>
-        <MyTrips data={props.trips} />
+        <MyTrips
+          data={trips.map(value => ({ id: +value.id, date: new Date(value.startTime), name: `${value.hostDriverId}` }))}
+        />
       </Box>
     </Drawer>
   );
 };
+
+const mapStateToProps = state => {
+  return {
+    ...state.usr,
+    ...state.org,
+    ...state.trips
+  };
+};
+
+export default connect(mapStateToProps)(AppDrawer);

@@ -1,5 +1,6 @@
 import * as actions from './actionTypes';
 import { IOrganization } from '../../domain/organization';
+import { snakeObjectToCamel } from '../../helpers/snakeToCamelCase';
 
 type actionFlag = 'create' | 'search';
 
@@ -44,5 +45,14 @@ export const setCostAction = (cost: number, flag: actionFlag) => {
 export const cleanCreateFormAction = () => {
   return {
     type: actions.CLEAN_CREATE_FORM
+  };
+};
+
+export const setMyTripsAction = trips => {
+  return {
+    type: actions.SET_ALL_TRIPS,
+    payload: {
+      trips: trips.map(value => snakeObjectToCamel(value))
+    }
   };
 };

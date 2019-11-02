@@ -55,4 +55,13 @@ export default class TripModel {
       return null;
     }
   };
+
+  public static getMyTrips = async () => {
+    try {
+      const res = await axios.get(`${BACKEND_URL}/get_my_rides`, { withCredentials: true });
+      return res.data;
+    } catch (e) {
+      return null;
+    }
+  };
 }

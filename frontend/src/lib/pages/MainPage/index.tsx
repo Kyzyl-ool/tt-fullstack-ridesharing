@@ -8,20 +8,25 @@ import OrganizationsModel from '../../models/organizationsModel';
 import { IUser } from '../../domain/user';
 import { IOrganization } from '../../domain/organization';
 import './MainPage.scss';
+import { setMyTripsAction } from '../../store/actions/tripActions';
+import { IResponseTrip } from '../../store/reducers/allTripsReducer';
+import tripModel from '../../models/tripModel';
 
 interface IMainPageProps {
   setRole: (role: string) => void;
   setUserData: (userData: IUser) => void;
   setOrganizations: (organizations: IOrganization) => void;
+  setMyTrips: (trips: IResponseTrip) => void;
 }
 
 class MainPage extends PureComponent<IMainPageProps> {
   public async componentDidMount() {
     const organizations = await OrganizationsModel.getOrganizations();
     const userData = await UserModel.getUserData();
+    const trips = await tripModel.getMyTrips();
     this.props.setUserData(userData);
     this.props.setOrganizations(organizations);
-    // console.log(organizations, userData);
+    this.props.setMyTrips(trips);
   }
   public onDriverButtonClick = (e: React.MouseEvent<HTMLButtonElement>) => {
     this.props.setRole('DRIVER');
@@ -51,14 +56,15 @@ class MainPage extends PureComponent<IMainPageProps> {
 }
 
 // const mapStateToProps = (state) => ({
-
+//
 // })
 
 const mapDispatchToProps = dispatch => {
   return {
     setRole: role => dispatch(setRoleAction(role)),
     setUserData: userData => dispatch(setUserDataAction(userData)),
-    setOrganizations: organizations => dispatch(setOrganizationsAction(organizations))
+    setOrganizations: organizations => dispatch(setOrganizationsAction(organizations)),
+    setMyTrips: trips => dispatch(setMyTripsAction(trips))
   };
 };
 

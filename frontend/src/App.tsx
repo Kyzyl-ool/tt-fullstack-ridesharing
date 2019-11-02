@@ -1,40 +1,31 @@
-import React, { useEffect, useState } from 'react';
-import { BrowserRouter as Router, Route, Switch, Redirect } from 'react-router-dom';
+import React, {useEffect, useState} from 'react';
+import {BrowserRouter as Router, Redirect, Route, Switch} from 'react-router-dom';
 import './App.css';
-import { ThemeProvider } from '@material-ui/styles';
-import { MainTheme } from './lib/themes/MainTheme';
+import {ThemeProvider} from '@material-ui/styles';
+import {MainTheme} from './lib/themes/MainTheme';
 import StartingPage from './lib/pages/starting-page';
 import AuthPage from './lib/pages/auth-page';
 import SearchTripPage from './lib/pages/search-trip';
 import MainPage from './lib/pages/MainPage';
 import SelectAddressPage from './lib/pages/SelectAddressPage';
-import { AppDrawer } from './lib/containers/Drawer/AppDrawer';
+import AppDrawer from './lib/containers/Drawer/AppDrawer';
 import TripPage from './lib/pages/trip-page';
 import CreateTripPage from './lib/pages/create-trip';
-import { createStyles, makeStyles, Theme } from '@material-ui/core';
+import {createStyles, makeStyles, Theme} from '@material-ui/core';
 import MainContainer from './lib/containers/MainContainer';
-import { RegistrationPage } from './lib/pages/registration-page';
-import { OrganizationPage } from './lib/pages/organizations-page';
-import { IOrganizationCardProps } from './lib/components/OrganizationItem/OrganizationItem';
-import { AddNewOrganizationPage } from './lib/pages/add-new-organization-page';
-import { OrganizationCard } from './lib/components/OrganizationCard/OrganizationCard';
-import { checkAuth } from './net/auth/auth';
-import { connect } from 'react-redux';
-import { IOrganization } from './lib/domain/organization';
+import {RegistrationPage} from './lib/pages/registration-page';
+import {OrganizationPage} from './lib/pages/organizations-page';
+import {IOrganizationCardProps} from './lib/components/OrganizationItem/OrganizationItem';
+import {AddNewOrganizationPage} from './lib/pages/add-new-organization-page';
+import {OrganizationCard} from './lib/components/OrganizationCard/OrganizationCard';
+import {checkAuth} from './net/auth/auth';
+import {connect} from 'react-redux';
+import {IOrganization} from './lib/domain/organization';
 import organizationsModel from './lib/models/organizationsModel';
 import * as actions from './lib/store/actions';
 import {ITripProps} from "./lib/containers/MyTrips/MyTrips";
-
-const tripData = {
-  data: {
-    name: 'Иван Иванов',
-    from: 'ул. Ленинградский проспект, д. 39, к. 1',
-    to: 'ул. Первомайская, д. 30 к. 7',
-    time: new Date(),
-    amountOfFreeSpaces: 3,
-    cost: 100
-  }
-};
+import userModel from "./lib/models/userModel";
+import {OrganizationMembersPage} from "./lib/pages/organization-members-page";
 
 const trips: ITripProps[] = [
   {
@@ -57,30 +48,6 @@ const trips: ITripProps[] = [
   }
 ];
 
-const mockAppDrawerProps = {
-  email: 'kyzyl.okm@phystced.edu',
-  name: 'Кежик',
-  trips: trips
-};
-
-const mockOrganizations: IOrganizationCardProps[] = [
-  {
-    name: 'Mail.ru Group',
-    address: 'ул. Ленинский проспект, д. 39',
-    id: 1
-  },
-  {
-    name: 'Общежитие №7',
-    address: 'г. Долгопрудный, ул. Первомайская, д. 30, к. 7',
-    id: 2
-  },
-  {
-    name: 'Яндекс',
-    address: 'ул. Льва Толстого, д. 16',
-    id: 3
-  }
-];
-
 const useStyles = makeStyles((theme: Theme) =>
   createStyles({
     root: {
@@ -97,15 +64,16 @@ const useStyles = makeStyles((theme: Theme) =>
 
 interface IApp {
   organizations: IOrganization[];
+  myOrganizations: IOrganization[];
   setOrgs: (any) => any;
+  setMyOrgs: (any) => any;
   children?: React.ReactNode;
 }
 
-const App: React.FC<IApp> = ({ organizations, setOrgs, ...props }) => {
+const App: React.FC<IApp> = ({organizations, myOrganizations, setOrgs, setMyOrgs, ...props}) => {
   const classes = useStyles(props);
   // TODO MAKE
   const [authorized, setAuthorized] = useState(false);
-  // const [authorized, setAuthorized] = useState(true);
   const [drawerOpened, setDrawerOpened] = useState(false);
 
   useEffect(() => {
@@ -117,8 +85,13 @@ const App: React.FC<IApp> = ({ organizations, setOrgs, ...props }) => {
         setAuthorized(false);
       });
     const fetchOrgs = async () => {
-      const result = await organizationsModel.getOrganizations();
-      setOrgs(result);
+      try {
+        const result = await organizationsModel.getOrganizations();
+        setOrgs(result);
+        const myOrgsResult = await userModel.getUserData();
+        setMyOrgs(myOrgsResult.organizations);
+      } catch (e) {
+      }
     };
     fetchOrgs();
   }, []);
@@ -139,29 +112,15 @@ const App: React.FC<IApp> = ({ organizations, setOrgs, ...props }) => {
                 <Route exact path="/new_trip" component={CreateTripPage} />
                 <Route exact path="/select_address" component={SelectAddressPage} />
                 <Route exact path="/search_trip" component={SearchTripPage} />
-                <Route path="/trip/:tripId" component={() => <TripPage {...tripData} />} />
+                <Route path="/trip/:tripId" component={() => <TripPage />} />
                 <Route exact path="/new_organization" component={() => <AddNewOrganizationPage />} />
                 <Route
                   exact
                   path="/organizations"
-                  component={() => <OrganizationPage organizations={organizations} />}
+                  component={() => <OrganizationPage myOrganizations={myOrganizations} organizations={organizations}/>}
                 />
-                {organizations &&
-                  organizations.map((value, index) => (
-                    <Route
-                      key={index}
-                      exact
-                      path={`/organizations/${value.id}`}
-                      component={() => (
-                        <OrganizationCard
-                          name={value.name}
-                          amountOfPeople={value.users.length}
-                          amountOfDrivers={0}
-                          address={`${value.latitude}`}
-                        />
-                      )}
-                    />
-                  ))}
+                <Route exact path={`/organizations/:orgId/members`} component={() => <OrganizationMembersPage/>} />
+                <Route exact path={`/organizations/:orgId`} component={() => <OrganizationCard />} />
               </MainContainer>
             )}
             <Route exact path="/organizations" component={() => <OrganizationPage />} />
@@ -169,7 +128,7 @@ const App: React.FC<IApp> = ({ organizations, setOrgs, ...props }) => {
             <Route exact path="/auth" component={() => <AuthPage onSuccess={() => setAuthorized(true)} />} />
             <Route exact path={'/registration'} component={RegistrationPage} />
           </Switch>
-          <AppDrawer open={drawerOpened} onClose={() => setDrawerOpened(false)} {...mockAppDrawerProps} />
+          <AppDrawer open={drawerOpened} onClose={() => setDrawerOpened(false)} />
         </Router>
       </ThemeProvider>
     </div>
@@ -184,7 +143,8 @@ const mapStateToProps = state => {
 
 const mapDispatchToProps = dispatch => {
   return {
-    setOrgs: orgs => dispatch(actions.setOrganizationsAction(orgs))
+    setOrgs: orgs => dispatch(actions.setOrganizationsAction(orgs)),
+    setMyOrgs: myOrgs => dispatch(actions.setMyOrganizationsAction(myOrgs))
   };
 };
 
