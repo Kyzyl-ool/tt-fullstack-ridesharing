@@ -47,7 +47,7 @@ const AppDrawer: React.FC<IAppDrawerProps> = ({ firstName, lastName, email, trip
   return (
     <Drawer open={props.open} onClose={props.onClose}>
       <Box className={classes.root}>
-        <MyAvatar src="https://material-ui.com/static/images/avatar/1.jpg" />
+        <MyAvatar />
         <Box>
           <Typography variant={'h5'}>{`${firstName} ${lastName}`}</Typography>
           <Typography variant={'body1'}>{email}</Typography>
@@ -67,6 +67,7 @@ const AppDrawer: React.FC<IAppDrawerProps> = ({ firstName, lastName, email, trip
           data={Object.entries(trips)
             .map(value => value[1])
             .map(value => ({ id: +value.id, date: new Date(value.startTime), name: `${value.hostDriverId}` }))}
+          onClick={props.onClose}
         />
       </Box>
     </Drawer>
