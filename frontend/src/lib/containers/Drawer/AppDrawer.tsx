@@ -62,7 +62,9 @@ const AppDrawer: React.FC<IAppDrawerProps> = ({ firstName, lastName, email, trip
           </NavLink>
         </Box>
         <Divider />
-        <Typography variant={'body1'} align={'center'}>{`Вы участвуете в ${trips.length} поездках:`}</Typography>
+        <Typography variant={'body1'} align={'center'}>{`Вы участвуете в ${
+          Object.entries(trips).length
+        } поездках:`}</Typography>
         <MyTrips
           data={Object.entries(trips)
             .map(value => value[1])
