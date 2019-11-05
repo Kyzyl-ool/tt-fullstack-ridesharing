@@ -28,9 +28,11 @@ const UnconnectedOrganizationPage: React.FC<IOrganizationPageProps> = ({ organiz
     <div>
       {data && data.map((value, index) => <OrganizationItem key={index} {...value} />)}
       {addingNew && <NewOrganizationCard myOrganizations={myOrganizations} organizations={organizations} />}
-      <Button variant={'text'} color={'primary'} onClick={() => setAddingNew(true)}>
-        Присоединиться к новой организации
-      </Button>
+      {!addingNew && (
+        <Button variant={'text'} color={'primary'} onClick={() => setAddingNew(true)}>
+          Присоединиться к новой организации
+        </Button>
+      )}
     </div>
   );
 };

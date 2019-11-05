@@ -14,6 +14,7 @@ import {
 import { NavLink, useParams } from 'react-router-dom';
 import userModel from '../../models/userModel';
 import { IOrganization } from '../../domain/organization';
+import organizationsModel from '../../models/organizationsModel';
 
 const useStyles = makeStyles((theme: Theme) =>
   createStyles({
@@ -22,6 +23,9 @@ const useStyles = makeStyles((theme: Theme) =>
     },
     actions: {
       placeContent: 'center'
+    },
+    disabledCard: {
+      opacity: 0.5
     }
   })
 );
@@ -35,6 +39,13 @@ export const OrganizationCard: React.FC = ({ ...props }) => {
   const [amountOfDrivers, setAmountOfDrivers] = useState(undefined);
   const [address, setAddress] = useState(undefined);
   const [name, setName] = useState(undefined);
+  const [disabled, setDisabled] = useState(false); // shows whether you left from organization or not
+  const handleLeave = async () => {
+    const response = await organizationsModel.leaveOrganization(orgId);
+    if (response.organization_id === orgId) {
+      setDisabled(true);
+    }
+  };
 
   useEffect(() => {
     const fetchOrgData = async () => {
@@ -50,7 +61,7 @@ export const OrganizationCard: React.FC = ({ ...props }) => {
   }, []);
 
   return (
-    <Card>
+    <Card className={disabled && classes.disabledCard}>
       <CardMedia
         component={'img'}
         image={
@@ -74,8 +85,8 @@ export const OrganizationCard: React.FC = ({ ...props }) => {
         </Container>
       </CardContent>
       <CardActions className={classes.actions}>
-        <Button variant={'text'} color={'primary'}>
-          Выйти из организации
+        <Button variant={'text'} color={'primary'} disabled={disabled} onClick={handleLeave}>
+          {disabled ? 'Вы вышли из этой организации' : 'Выйти из организации'}
         </Button>
       </CardActions>
     </Card>
