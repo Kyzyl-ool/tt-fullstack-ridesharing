@@ -44,32 +44,6 @@ interface IAppDrawerProps {
 const AppDrawer: React.FC<IAppDrawerProps> = ({ firstName, lastName, email, trips, ...props }) => {
   const classes = useStyles(props);
 
-  useEffect(() => {
-    const fetchData = async () => {
-      console.log(trips);
-
-      /*
-      cost: null
-      description: ""
-      estimated_time: null
-      host_driver_id: 1
-      id: 4
-      is_available: true
-      is_finished: false
-      passengers: [1]
-      start_organization: 2
-      start_organization_id: 2
-      start_time: "2019-10-30T22:20:00.001000"
-      stop_address: null
-      stop_latitude: 55.72893
-      stop_longitude: 37.618255
-      total_seats: 3
-       */
-    };
-
-    fetchData();
-  }, []);
-
   return (
     <Drawer open={props.open} onClose={props.onClose}>
       <Box className={classes.root}>
@@ -90,7 +64,9 @@ const AppDrawer: React.FC<IAppDrawerProps> = ({ firstName, lastName, email, trip
         <Divider />
         <Typography variant={'body1'} align={'center'}>{`Вы участвуете в ${trips.length} поездках:`}</Typography>
         <MyTrips
-          data={trips.map(value => ({ id: +value.id, date: new Date(value.startTime), name: `${value.hostDriverId}` }))}
+          data={Object.entries(trips)
+            .map(value => value[1])
+            .map(value => ({ id: +value.id, date: new Date(value.startTime), name: `${value.hostDriverId}` }))}
         />
       </Box>
     </Drawer>
