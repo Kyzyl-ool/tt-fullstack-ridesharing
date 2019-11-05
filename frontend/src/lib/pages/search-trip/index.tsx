@@ -56,7 +56,7 @@ export const SearchTripPage: React.FC = props => {
   const classes = useStyles(props);
   const [searchButtonState, setSearchButtonState] = useState(false);
   const [selectedDate, setSelectedDate] = useState(new Date());
-  const [progress, setProgress] = useState(true); // todo: must be false
+  const [progress, setProgress] = useState(false); // if search complete
   const [data, setData] = useState();
   const [addressFrom, handleAddressFrom] = useState('');
   const [addressTo, handleAddressTo] = useState('');
