@@ -109,7 +109,6 @@ const ChatPage = ({ ...props }) => {
         break;
       }
       case 3: {
-        console.log(text);
         setPhoneNumer(text);
         break;
       }
@@ -118,7 +117,6 @@ const ChatPage = ({ ...props }) => {
         break;
       }
       case 5: {
-        console.log(arg);
         setIsDriver(arg);
         dispatch({
           type: arg ? 'next_driver' : 'next'
@@ -147,7 +145,6 @@ const ChatPage = ({ ...props }) => {
         }
       }
     } else {
-      console.log(plotIndex);
       switch (plotIndex) {
         case 2:
         case 3:
