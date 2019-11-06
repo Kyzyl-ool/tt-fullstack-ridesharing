@@ -4,7 +4,7 @@ const plot = [
   'Ваш номер телефона? (для контакта других пользователей с вами)',
   'Придумайте пароль для входа в приложение.',
   'Вы являетесь водителем? (Да/Нет)',
-  'Регистрация вашего профиля почти закончена. Осталось присоединиться к организации, либо создать новую.',
+  'Регистрация вашего профиля закончена. Осталось присоединиться к организации, либо создать новую. Это можно будет сделать на странице Вашего профиля.',
   'На этом регистрация завершена. Приятного пользования нашим приложением =)'
 ];
 
@@ -14,7 +14,7 @@ const driverPlot = [
 ];
 
 let plotIndex = 0;
-const driverIndex = 0;
+let driverIndex = 0;
 
 export const messagesReducer = (state, action) => {
   switch (action.type) {
@@ -37,6 +37,19 @@ export const messagesReducer = (state, action) => {
             from: 0,
             time: new Date().toLocaleTimeString(),
             message: plot[plotIndex++]
+          }
+        ]);
+      } else {
+        return state;
+      }
+    }
+    case 'next_driver': {
+      if (driverIndex < driverPlot.length) {
+        return Array.from(state).concat([
+          {
+            from: 0,
+            time: new Date().toLocaleTimeString(),
+            message: driverPlot[driverIndex++]
           }
         ]);
       } else {

@@ -127,7 +127,7 @@ const App: React.FC<IApp> = ({organizations, myOrganizations, setOrgs, setMyOrgs
             <Route exact path="/organizations" component={() => <OrganizationPage />} />
             <Route exact path="/" component={StartingPage} />
             <Route exact path="/auth" component={() => <AuthPage onSuccess={() => setAuthorized(true)} />} />
-            <Route exact path={'/registration'} component={RegistrationPage} />
+            <Route exact path={'/registration'} component={() => <RegistrationPage onAuth={() => setAuthorized(true)} />} />
           </Switch>
           <AppDrawer open={drawerOpened} onClose={() => setDrawerOpened(false)} />
         </Router>
