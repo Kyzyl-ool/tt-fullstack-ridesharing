@@ -26,6 +26,9 @@ const useStyles = makeStyles((theme: Theme) =>
       position: 'absolute',
       top: 0,
       right: 0
+    },
+    noTextDecoration: {
+      textDecoration: 'none'
     }
   })
 );
@@ -44,7 +47,7 @@ export const SearchResultItem: React.FC<ISearchResultItemProps> = props => {
 
   return (
     <Card className={classes.card}>
-      <NavLink to={`/trip/${props.id}`}>
+      <NavLink to={`/trip/${props.id}`} className={classes.noTextDecoration}>
         <CardContent>
           <Box textAlign={'left'}>
             <Typography variant={'body1'} color={'textSecondary'}>

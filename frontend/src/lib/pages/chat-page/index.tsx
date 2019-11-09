@@ -1,11 +1,14 @@
 import React, { useReducer, useState } from 'react';
 import clsx from 'clsx';
-import { Button, Container, createStyles, makeStyles, Paper, TextField, Theme } from '@material-ui/core';
+import { Button, Container, createStyles, Drawer, makeStyles, Paper, TextField, Theme } from '@material-ui/core';
 import { MainColor } from '../../themes/MainColor';
 import Message from '../../components/message';
 import { messagesMockData } from '../../../mocks/messages';
 import { messagesReducer } from '../../store/reducers/messagesReducer';
 import { useHistory } from 'react-router-dom';
+import MuiPhoneNumber from 'material-ui-phone-number';
+import userModel from '../../models/userModel';
+import { checkAuth } from '../../../net/auth/auth';
 
 interface IMessage {
   from: number;
@@ -41,21 +44,24 @@ const useStyles = makeStyles((theme: Theme) =>
     messageFormContainer: {
       display: 'flex',
       flexDirection: 'row',
-      justifyContent: 'space-evenly',
+      justifyContent: 'space-around',
       alignItems: 'center',
       // margin: theme.spacing(2),
-      padding: theme.spacing(2),
-      maxHeight: '20vh',
-      position: 'fixed',
-      bottom: 0,
-      left: 0,
-      width: '100%',
-      borderWidth: '1px',
-      borderStyle: 'solid',
-      borderColor: theme.palette.divider
+      padding: theme.spacing(2)
+      // maxHeight: '20vh',
+      // position: 'fixed',
+      // bottom: 0,
+      // left: 0,
+      // width: '100%',
+      // borderWidth: '1px',
+      // borderStyle: 'solid',
+      // borderColor: theme.palette.divider
     },
     sendButton: {
       height: '50%'
+    },
+    input: {
+      color: 'white'
     }
   })
 );
@@ -69,36 +75,114 @@ const ChatPage = ({ ...props }) => {
   const [text, setText] = useState('');
   const [formEnable, setFormEnable] = useState(false);
   const [plotIndex, setPlotIndex] = useState(0);
+  const [driverPlotIndex, setDriverPlotIndex] = useState(0);
   const history = useHistory();
+  const [name, setName] = useState(''); //user name
+  const [phoneNumer, setPhoneNumer] = useState(''); // user phone number
+  const [password, setPassword] = useState(''); // user password
+  const [isDriver, setIsDriver] = useState(undefined); // user is driver
+  const [file, setFile] = useState(undefined);
 
-  const submitHandler = () => {
+  const fileHandler = () => {
+    if (file) {
+      // console.log(file);
+    }
+  };
+  const submitHandler = arg => {
     if (text) {
-      dispatch({ type: 'new', payload: { time: new Date().toLocaleTimeString(), from: myId, message: text } });
-      setText('');
+      plotIndex !== 4 &&
+        dispatch({
+          type: 'new',
+          payload: { time: new Date().toLocaleTimeString(), from: myId, message: text }
+        });
       dispatch({
         type: 'next'
       });
+
+      setText('');
       setPlotIndex(plotIndex + 1);
     }
-  };
-  const tapHandler = () => {
+
     switch (plotIndex) {
-      case 2:
-      case 3:
-      case 4:
+      case 2: {
+        setName(text);
+        break;
+      }
+      case 3: {
+        setPhoneNumer(text);
+        break;
+      }
+      case 4: {
+        setPassword(text);
+        break;
+      }
       case 5: {
-        !formEnable && setFormEnable(true);
-        break;
-      }
-      case 6: {
-        history.push('/organizations');
-        break;
-      }
-      default: {
+        setIsDriver(arg);
         dispatch({
-          type: 'next'
+          type: arg ? 'next_driver' : 'next'
         });
-        setPlotIndex(plotIndex + 1);
+        setFormEnable(false);
+        break;
+      }
+      default:
+        // console.log(plotIndex);
+        break;
+    }
+  };
+  // const onFileLoad = (e, file) => console.log(e.target.result, file.name);
+  const tapHandler = () => {
+    if (isDriver) {
+      switch (driverPlotIndex) {
+        case 1: {
+          setFormEnable(true);
+          break;
+        }
+        default: {
+          dispatch({
+            type: 'next_driver'
+          });
+          setDriverPlotIndex(driverPlotIndex + 1);
+        }
+      }
+    } else {
+      switch (plotIndex) {
+        case 2:
+        case 3:
+        case 4: {
+          !formEnable && setFormEnable(true);
+          break;
+        }
+        case 6: {
+          userModel
+            .registerUser({
+              firstName: name,
+              lastName: name,
+              email: phoneNumer,
+              password: password
+            })
+            .then(value => {
+              if (typeof value.user_id === 'number') {
+                userModel
+                  .authorize({
+                    login: phoneNumer,
+                    password: password
+                  })
+                  .then(async value1 => {
+                    if (await checkAuth()) {
+                      props.onAuth();
+                      history.push('/main');
+                    }
+                  });
+              }
+            });
+          break;
+        }
+        default: {
+          dispatch({
+            type: 'next'
+          });
+          setPlotIndex(plotIndex + 1);
+        }
       }
     }
   };
@@ -134,23 +218,92 @@ const ChatPage = ({ ...props }) => {
           }, [])
           .map(value => value.component)}
       </Paper>
-      {formEnable && (
+      <Drawer open={formEnable} anchor={'bottom'} variant={'persistent'}>
         <Paper className={classes.messageFormContainer}>
-          <TextField
-            label="Введите сообщение..."
-            className={clsx(classes.dense, classes.messageForm)}
-            variant="filled"
-            multiline
-            rowsMax="4"
-            rows={4}
-            value={text}
-            onChange={e => setText(e.target.value)}
-          />
-          <Button className={classes.sendButton} onClick={submitHandler}>
-            Отправить
-          </Button>
+          {isDriver && (
+            <>
+              {driverPlotIndex === 1 && (
+                <>
+                  <form>
+                    <label htmlFor={'file-upload'}>
+                      <Button>Выбрать файл</Button>
+                    </label>
+                    <input
+                      hidden
+                      id={'file-upload'}
+                      type={'file'}
+                      className={clsx(classes.input)}
+                      onChange={event => setFile(event.target.files[0])}
+                    />
+                    <label htmlFor={'file-upload-camera'}>
+                      <Button>Сфотографировать</Button>
+                    </label>
+                    <input
+                      hidden
+                      id={'file-upload-camera'}
+                      type={'file'}
+                      className={classes.input}
+                      accept="image/*"
+                      capture={'camera'}
+                    />
+                    <Button onClick={fileHandler}>Отправить</Button>
+                  </form>
+                </>
+              )}
+            </>
+          )}
+          {!isDriver && (
+            <>
+              {plotIndex === 5 && (
+                <>
+                  <Button onClick={() => submitHandler(true)}>Да</Button>
+                  <Button onClick={() => submitHandler(false)}>Нет</Button>
+                </>
+              )}
+              {plotIndex === 4 && (
+                <TextField
+                  label="Придумайте пароль..."
+                  className={clsx(classes.messageForm)}
+                  variant="filled"
+                  // multiline
+                  rowsMax="2"
+                  rows={1}
+                  value={text}
+                  onChange={e => setText(e.target.value)}
+                  type={'password'}
+                />
+              )}
+              {plotIndex === 3 && (
+                <MuiPhoneNumber
+                  defaultCountry={'ru'}
+                  disableDropdown
+                  className={clsx(classes.messageForm)}
+                  value={text}
+                  onChange={e => setText(e)}
+                />
+              )}
+              {plotIndex === 2 && (
+                <TextField
+                  label="Введите ваше имя..."
+                  className={clsx(classes.messageForm)}
+                  variant="filled"
+                  // multiline
+                  rowsMax="2"
+                  rows={1}
+                  value={text}
+                  onChange={e => setText(e.target.value)}
+                />
+              )}
+            </>
+          )}
+
+          {[2, 3, 4].includes(plotIndex) && (
+            <Button className={classes.sendButton} onClick={submitHandler}>
+              Отправить
+            </Button>
+          )}
         </Paper>
-      )}
+      </Drawer>
     </Container>
   );
 };

@@ -90,6 +90,7 @@ const CreateTripPage: React.FC<ICreateTripPageProps> = props => {
         {/* <TextField value={props.rideTime} onChange={onTimeInputChange} variant={'outlined'} type={'time'} /> */}
         <MuiPickersUtilsProvider utils={DateFnsUtils} locale={ruLocale}>
           <DateTimePicker
+            disablePast
             value={props.rideTime || new Date()}
             onChange={onTimeInputChange}
             inputVariant={'outlined'}
@@ -98,6 +99,8 @@ const CreateTripPage: React.FC<ICreateTripPageProps> = props => {
             cancelLabel={'Отмена'}
             todayLabel={'Сейчас'}
             okLabel={'Ок'}
+            ampm={false}
+            format="dd MMMM HH:mm"
           />
         </MuiPickersUtilsProvider>
       </Box>

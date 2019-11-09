@@ -44,35 +44,10 @@ interface IAppDrawerProps {
 const AppDrawer: React.FC<IAppDrawerProps> = ({ firstName, lastName, email, trips, ...props }) => {
   const classes = useStyles(props);
 
-  useEffect(() => {
-    const fetchData = async () => {
-      // console.log(trips);
-      /*
-      cost: null
-      description: ""
-      estimated_time: null
-      host_driver_id: 1
-      id: 4
-      is_available: true
-      is_finished: false
-      passengers: [1]
-      start_organization: 2
-      start_organization_id: 2
-      start_time: "2019-10-30T22:20:00.001000"
-      stop_address: null
-      stop_latitude: 55.72893
-      stop_longitude: 37.618255
-      total_seats: 3
-       */
-    };
-
-    fetchData();
-  }, []);
-
   return (
     <Drawer open={props.open} onClose={props.onClose}>
       <Box className={classes.root}>
-        <MyAvatar src="https://material-ui.com/static/images/avatar/1.jpg" />
+        <MyAvatar />
         <Box>
           <Typography variant={'h5'}>{`${firstName} ${lastName}`}</Typography>
           <Typography variant={'body1'}>{email}</Typography>
@@ -87,9 +62,14 @@ const AppDrawer: React.FC<IAppDrawerProps> = ({ firstName, lastName, email, trip
           </NavLink>
         </Box>
         <Divider />
-        <Typography variant={'body1'} align={'center'}>{`Вы участвуете в ${trips.length} поездках:`}</Typography>
+        <Typography variant={'body1'} align={'center'}>{`Вы участвуете в ${
+          Object.entries(trips).length
+        } поездках:`}</Typography>
         <MyTrips
-          data={trips.map(value => ({ id: +value.id, date: new Date(value.startTime), name: `${value.hostDriverId}` }))}
+          data={Object.entries(trips)
+            .map(value => value[1])
+            .map(value => ({ id: +value.id, date: new Date(value.startTime), name: `${value.hostDriverId}` }))}
+          onClick={props.onClose}
         />
       </Box>
     </Drawer>

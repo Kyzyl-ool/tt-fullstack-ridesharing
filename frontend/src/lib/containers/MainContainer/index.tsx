@@ -1,5 +1,15 @@
 import React from 'react';
-import { AppBar, Button, Container, IconButton, Toolbar, Typography } from '@material-ui/core';
+import {
+  AppBar,
+  Button,
+  Container,
+  createStyles,
+  IconButton,
+  makeStyles,
+  Theme,
+  Toolbar,
+  Typography
+} from '@material-ui/core';
 import { Menu } from '@material-ui/icons';
 import { connect } from 'react-redux';
 import { logout } from '../../../net/auth/auth';
@@ -19,8 +29,21 @@ interface IMainContainerProps {
   onLogout: () => any;
 }
 
+const useStyles = makeStyles((theme: Theme) =>
+  createStyles({
+    logout: {
+      position: 'absolute',
+      right: theme.spacing(2)
+    },
+    toolbar: {
+      position: 'relative'
+    }
+  })
+);
+
 const MainContainer: React.FC<IMainContainerProps> = ({ show = true, onLogout, ...props }) => {
   const history = useHistory();
+  const classes = useStyles(props);
   const logoutHandler = () => {
     logout().then(value => {
       if (value) {
@@ -39,12 +62,14 @@ const MainContainer: React.FC<IMainContainerProps> = ({ show = true, onLogout, .
   return (
     <div>
       <AppBar position={'static'}>
-        <Toolbar>
+        <Toolbar className={classes.toolbar}>
           <IconButton edge={'start'} aria-label={'menu'} onClick={props.onClick}>
             <Menu style={{ color: 'white' }} />
           </IconButton>
           <Typography variant={'h5'}>{props.role === 'DRIVER' ? `${fullName} (Водитель)` : `${fullName}`}</Typography>
-          <Button onClick={logoutHandler}>Выйти</Button>
+          <Button className={classes.logout} onClick={logoutHandler}>
+            Выйти
+          </Button>
         </Toolbar>
       </AppBar>
       <Container>{props.children}</Container>

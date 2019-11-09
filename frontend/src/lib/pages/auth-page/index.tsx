@@ -1,5 +1,4 @@
 import React, { useState } from 'react';
-import axios from 'axios';
 import {
   Backdrop,
   Box,
@@ -15,6 +14,7 @@ import { PROJECT_NAME } from '../../../config/names';
 import { authHandler } from '../../../net/auth/auth';
 import { connect } from 'react-redux';
 import { setUserDataAction, setOrganizationsAction } from '../../store/actions';
+import MuiPhoneNumber from 'material-ui-phone-number';
 
 const useStyles = makeStyles({
   heading: {
@@ -70,13 +70,13 @@ const AuthPage: React.FC<IAuthPage> = props => {
         <Typography className={classes.heading} variant={'h4'}>
           {PROJECT_NAME}
         </Typography>
-        <TextField
-          onChange={event => setLogin(event.target.value)}
-          value={login}
+        <MuiPhoneNumber
+          defaultCountry={'ru'}
+          disableDropdown
           className={classes.form}
-          label={'Логин'}
+          value={login}
+          onChange={e => setLogin(e)}
           variant={'outlined'}
-          placeholder={'Введите логин'}
         />
         <TextField
           onChange={event => setPassword(event.target.value)}
