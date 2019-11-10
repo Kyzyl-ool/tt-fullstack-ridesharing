@@ -3,12 +3,10 @@ import _isEmpty from 'lodash/isEmpty';
 import { Typography, Container, makeStyles, Theme, Button } from '@material-ui/core';
 import { connect } from 'react-redux';
 import { useHistory, RouteComponentProps } from 'react-router';
-import Map from '../../components/Map';
-import Header from '../../components/Header';
+import Map from '../../components/Map/index';
 import MapModel from '../../models/mapModel';
-import DropdownInput from '../../components/DropdownInput';
+import DropdownInput from '../../components/DropdownInput/index';
 import getDataFromGeocoding from '../../helpers/getDataFromGeocoding';
-import { setArrivalPointAction } from '../../store/actions/tripActions';
 const useStyles = makeStyles((theme: Theme) => ({
   address: {
     [theme.breakpoints.down('sm')]: {
@@ -22,21 +20,27 @@ const useStyles = makeStyles((theme: Theme) => ({
     }
   },
   addressContainer: {
+    top: '70px',
+    maxWidth: '90%',
+    padding: 0,
     position: 'absolute',
-    // maxWidth: 'none',
     textAlign: 'center',
-    top: '140px',
-    width: '100%'
+    boxSizing: 'content-box'
+  },
+  inputWrapper: {
+    bottom: '30px',
+    padding: 0,
+    position: 'absolute',
+    maxWidth: '90%'
   },
   inputContainer: {
-    display: 'flex',
-    justifyContent: 'space-around'
-  },
-  wrapper: {
+    position: 'relative',
     display: 'flex',
     flexDirection: 'column',
-    height: '20vh',
-    justifyContent: 'space-between'
+    maxWidth: '300px'
+  },
+  wrapper: {
+    position: 'relative'
   },
   goButton: {
     alignSelf: 'center',
@@ -55,7 +59,7 @@ interface IAddress {
   };
 }
 
-interface ISelectedAddressPageState {
+interface ISelectedAddressContainerState {
   lastSelectedAddress: string;
   currentAddress: string;
   selectedAddress: IAddress;
@@ -63,13 +67,13 @@ interface ISelectedAddressPageState {
   selectionOptions: string[];
 }
 
-interface ISelectedAddressPageProps {
+interface ISelectedAddressContainerProps {
   styles: any;
   history: RouteComponentProps['history'];
   onSetArrivalPoint: (arrivalPoint: { name: string; latitude: number; longitude: number }) => void;
 }
 
-const initialState: ISelectedAddressPageState = {
+const initialState: ISelectedAddressContainerState = {
   lastSelectedAddress: '',
   currentAddress: '',
   selectedAddress: {},
@@ -77,7 +81,7 @@ const initialState: ISelectedAddressPageState = {
   selectionOptions: []
 };
 
-class SelectAddressPage extends PureComponent<ISelectedAddressPageProps, ISelectedAddressPageState> {
+class SelectAddressContainer extends PureComponent<ISelectedAddressContainerProps, ISelectedAddressContainerState> {
   public state = initialState;
   public onBuildingClick = async (address: string) => {
     const res = await MapModel.forwardGeocoding(address);
@@ -112,12 +116,12 @@ class SelectAddressPage extends PureComponent<ISelectedAddressPageProps, ISelect
       latitude: parseFloat(selectedAddress.pos.lat),
       longitude: parseFloat(selectedAddress.pos.lng)
     });
-    this.props.history.goBack();
+    // this.props.history.goBack();
   };
 
   public onSelectAddress = ({ id, value }: { id: string; value: string }) => {
     const selectedAddress = this.state.addressesSearched.find(adr => adr.label === value);
-    this.setState({ selectionOptions: [], currentAddress: value, selectedAddress });
+    this.setState({ selectionOptions: [], currentAddress: value, selectedAddress, lastSelectedAddress: value });
   };
   public render() {
     const { lastSelectedAddress, currentAddress, selectedAddress, selectionOptions } = this.state;
@@ -129,60 +133,46 @@ class SelectAddressPage extends PureComponent<ISelectedAddressPageProps, ISelect
     };
     return (
       <Fragment>
-        <Header />
-        <Map viewport={viewport} onBuildingClick={this.onBuildingClick} markered />
-        <Container className={styles.addressContainer}>
-          <Typography className={styles.address} color="primary" component="h3" variant="h3">
-            {lastSelectedAddress}
-          </Typography>
-        </Container>
         <Container className={styles.wrapper}>
-          <Container className={styles.inputContainer}>
-            <DropdownInput
-              id="to"
-              label="Введите адрес"
-              value={currentAddress}
-              placeholder=""
-              suggestions={selectionOptions}
-              onSelect={this.onSelectAddress}
-              onChange={this.onInputChange}
-            />
+          <Map viewport={viewport} onBuildingClick={this.onBuildingClick} markered />
+          <Container className={styles.addressContainer}>
+            <Typography className={styles.address} color="primary" component="h3" variant="h3">
+              {lastSelectedAddress}
+            </Typography>
           </Container>
-          <Button
-            onClick={this.onReady}
-            //   onClick={() => {}}
-            variant="outlined"
-            color="primary"
-            disabled={!selectedAddress.label}
-            className={styles.goButton}
-          >
-            Готово
-          </Button>
+          <Container className={styles.inputWrapper}>
+            <Container className={styles.inputContainer}>
+              <DropdownInput
+                id="to"
+                label="Введите адрес"
+                value={currentAddress}
+                placeholder=""
+                suggestions={selectionOptions}
+                onSelect={this.onSelectAddress}
+                onChange={this.onInputChange}
+              />
+              <Button
+                onClick={this.onReady}
+                //   onClick={() => {}}
+                variant="outlined"
+                color="primary"
+                disabled={!selectedAddress.label}
+                className={styles.goButton}
+              >
+                Готово
+              </Button>
+            </Container>
+          </Container>
         </Container>
       </Fragment>
     );
   }
 }
 
-const StyledSelectAddressPage: React.FC<Omit<ISelectedAddressPageProps, 'styles'>> = props => {
+const StyledSelectAddressContainer: React.FC<Omit<ISelectedAddressContainerProps, 'styles' | 'history'>> = props => {
   const styles = useStyles({});
   const history = useHistory();
-  return <SelectAddressPage {...props} history={history} styles={styles} />;
+  return <SelectAddressContainer {...props} history={history} styles={styles} />;
 };
 
-const mapStateToProps = state => {
-  return {
-    availableOrganizations: state.org.organizations
-  };
-};
-
-const mapDispatchToProps = dispatch => {
-  return {
-    onSetArrivalPoint: arrivalPoint => dispatch(setArrivalPointAction(arrivalPoint, 'create'))
-  };
-};
-
-export default connect(
-  mapStateToProps,
-  mapDispatchToProps
-)(StyledSelectAddressPage);
+export default StyledSelectAddressContainer;

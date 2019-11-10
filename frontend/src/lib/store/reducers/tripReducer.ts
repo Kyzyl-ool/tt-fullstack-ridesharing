@@ -1,8 +1,9 @@
 import * as actions from '../actions/actionTypes';
+import getTimeFromNow from '../../helpers/getTimeFromNow';
 
 const initialState = {
   search: {
-    rideTime: '',
+    rideTime: getTimeFromNow(15),
     arrivalPoint: {},
     startOrganization: {
       id: '',
@@ -13,7 +14,7 @@ const initialState = {
     isPlanned: false
   },
   create: {
-    rideTime: '',
+    rideTime: getTimeFromNow(15),
     arrivalPoint: {},
     startOrganization: {
       id: '',
@@ -28,15 +29,25 @@ const initialState = {
 export const tripReducer = (state = initialState, action) => {
   switch (action.type) {
     case actions.SET_START_ORGANIZATION:
-      return { ...state, [action.flag]: { startOrganization: action.startOrganization } };
+      console.log(action);
+      return {
+        ...state,
+        [action.payload.flag]: { ...state[action.payload.flag], startOrganization: action.payload.startOrganization }
+      };
     case actions.SET_ARRIVAL_POINT:
-      return { ...state, [action.flag]: { arrivalPoint: action.arrivalPoint } };
+      return {
+        ...state,
+        [action.payload.flag]: { ...state[action.payload.flag], arrivalPoint: action.payload.arrivalPoint }
+      };
     case actions.SET_RIDE_TIME:
-      return { ...state, [action.flag]: { rideTime: action.rideTime } };
+      return { ...state, [action.payload.flag]: { ...state[action.payload.flag], rideTime: action.payload.rideTime } };
     case actions.SET_TOTAL_SEATS:
-      return { ...state, [action.flag]: { totalSeats: action.totalSeats } };
+      return {
+        ...state,
+        [action.payload.flag]: { ...state[action.payload.flag], totalSeats: action.payload.totalSeats }
+      };
     case actions.SET_COST:
-      return { ...state, [action.flag]: { cost: action.cost } };
+      return { ...state, [action.payload.flag]: { ...state[action.payload.flag], cost: action.payload.cost } };
     case actions.CLEAN_CREATE_FORM:
       return initialState;
     default:
