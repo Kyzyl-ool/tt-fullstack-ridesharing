@@ -81,6 +81,7 @@ const ChatPage = ({ ...props }) => {
   const [phoneNumer, setPhoneNumer] = useState(''); // user phone number
   const [password, setPassword] = useState(''); // user password
   const [isDriver, setIsDriver] = useState(undefined); // user is driver
+  const [email, setEmail] = useState(''); // user email
   const [file, setFile] = useState(undefined);
 
   const fileHandler = () => {
@@ -90,7 +91,7 @@ const ChatPage = ({ ...props }) => {
   };
   const submitHandler = arg => {
     if (text) {
-      plotIndex !== 4 &&
+      plotIndex !== 5 && // special for password
         dispatch({
           type: 'new',
           payload: { time: new Date().toLocaleTimeString(), from: myId, message: text }
@@ -109,14 +110,18 @@ const ChatPage = ({ ...props }) => {
         break;
       }
       case 3: {
-        setPhoneNumer(text);
+        setEmail(text);
         break;
       }
       case 4: {
-        setPassword(text);
+        setPhoneNumer(text);
         break;
       }
       case 5: {
+        setPassword(text);
+        break;
+      }
+      case 6: {
         setIsDriver(arg);
         dispatch({
           type: arg ? 'next_driver' : 'next'
@@ -148,7 +153,8 @@ const ChatPage = ({ ...props }) => {
       switch (plotIndex) {
         case 2:
         case 3:
-        case 4: {
+        case 4:
+        case 5: {
           !formEnable && setFormEnable(true);
           break;
         }
@@ -157,7 +163,7 @@ const ChatPage = ({ ...props }) => {
             .registerUser({
               firstName: name,
               lastName: name,
-              email: phoneNumer,
+              email: email,
               password: password
             })
             .then(value => {
@@ -255,13 +261,13 @@ const ChatPage = ({ ...props }) => {
           )}
           {!isDriver && (
             <>
-              {plotIndex === 5 && (
+              {plotIndex === 6 && (
                 <>
                   <Button onClick={() => submitHandler(true)}>Да</Button>
                   <Button onClick={() => submitHandler(false)}>Нет</Button>
                 </>
               )}
-              {plotIndex === 4 && (
+              {plotIndex === 5 && (
                 <TextField
                   label="Придумайте пароль..."
                   className={clsx(classes.messageForm)}
@@ -274,13 +280,25 @@ const ChatPage = ({ ...props }) => {
                   type={'password'}
                 />
               )}
-              {plotIndex === 3 && (
+              {plotIndex === 4 && (
                 <MuiPhoneNumber
                   defaultCountry={'ru'}
                   disableDropdown
                   className={clsx(classes.messageForm)}
                   value={text}
                   onChange={e => setText(e)}
+                />
+              )}
+              {plotIndex === 3 && (
+                <TextField
+                  label="Ваш email..."
+                  className={clsx(classes.messageForm)}
+                  variant="filled"
+                  // multiline
+                  rowsMax="2"
+                  rows={1}
+                  value={text}
+                  onChange={e => setText(e.target.value)}
                 />
               )}
               {plotIndex === 2 && (
@@ -298,7 +316,7 @@ const ChatPage = ({ ...props }) => {
             </>
           )}
 
-          {[2, 3, 4].includes(plotIndex) && (
+          {[2, 3, 4, 5].includes(plotIndex) && (
             <Button className={classes.sendButton} onClick={submitHandler}>
               Отправить
             </Button>
