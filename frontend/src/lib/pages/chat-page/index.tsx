@@ -78,6 +78,7 @@ const ChatPage = ({ ...props }) => {
   const [driverPlotIndex, setDriverPlotIndex] = useState(0);
   const history = useHistory();
   const [name, setName] = useState(''); //user name
+  const [lastName, setLastName] = useState(''); //  user last name
   const [phoneNumer, setPhoneNumer] = useState(''); // user phone number
   const [password, setPassword] = useState(''); // user password
   const [isDriver, setIsDriver] = useState(undefined); // user is driver
@@ -110,18 +111,21 @@ const ChatPage = ({ ...props }) => {
         break;
       }
       case 3: {
-        setEmail(text);
+        setLastName(text);
         break;
       }
       case 4: {
-        setPhoneNumer(text);
         break;
       }
       case 5: {
-        setPassword(text);
+        setPhoneNumer(text);
         break;
       }
       case 6: {
+        setPassword(text);
+        break;
+      }
+      case 7: {
         setIsDriver(arg);
         dispatch({
           type: arg ? 'next_driver' : 'next'
@@ -154,15 +158,16 @@ const ChatPage = ({ ...props }) => {
         case 2:
         case 3:
         case 4:
-        case 5: {
+        case 5:
+        case 6: {
           !formEnable && setFormEnable(true);
           break;
         }
-        case 6: {
+        case 7: {
           userModel
             .registerUser({
               firstName: name,
-              lastName: name,
+              lastName: lastName,
               email: email,
               password: password
             })
@@ -261,13 +266,13 @@ const ChatPage = ({ ...props }) => {
           )}
           {!isDriver && (
             <>
-              {plotIndex === 6 && (
+              {plotIndex === 7 && (
                 <>
                   <Button onClick={() => submitHandler(true)}>Да</Button>
                   <Button onClick={() => submitHandler(false)}>Нет</Button>
                 </>
               )}
-              {plotIndex === 5 && (
+              {plotIndex === 6 && (
                 <TextField
                   label="Придумайте пароль..."
                   className={clsx(classes.messageForm)}
@@ -280,7 +285,7 @@ const ChatPage = ({ ...props }) => {
                   type={'password'}
                 />
               )}
-              {plotIndex === 4 && (
+              {plotIndex === 5 && (
                 <MuiPhoneNumber
                   defaultCountry={'ru'}
                   disableDropdown
@@ -289,9 +294,21 @@ const ChatPage = ({ ...props }) => {
                   onChange={e => setText(e)}
                 />
               )}
-              {plotIndex === 3 && (
+              {plotIndex === 4 && (
                 <TextField
                   label="Ваш email..."
+                  className={clsx(classes.messageForm)}
+                  variant="filled"
+                  // multiline
+                  rowsMax="2"
+                  rows={1}
+                  value={text}
+                  onChange={e => setText(e.target.value)}
+                />
+              )}
+              {plotIndex === 3 && (
+                <TextField
+                  label="Ваша фамилия..."
                   className={clsx(classes.messageForm)}
                   variant="filled"
                   // multiline
@@ -316,7 +333,7 @@ const ChatPage = ({ ...props }) => {
             </>
           )}
 
-          {[2, 3, 4, 5].includes(plotIndex) && (
+          {[2, 3, 4, 5, 6].includes(plotIndex) && (
             <Button className={classes.sendButton} onClick={submitHandler}>
               Отправить
             </Button>
