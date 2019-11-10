@@ -115,6 +115,7 @@ const ChatPage = ({ ...props }) => {
         break;
       }
       case 4: {
+        setEmail(text);
         break;
       }
       case 5: {
