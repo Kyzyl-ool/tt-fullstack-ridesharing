@@ -13,8 +13,7 @@ import UserModel from '../../models/userModel';
 import { PROJECT_NAME } from '../../../config/names';
 import { authHandler } from '../../../net/auth/auth';
 import { connect } from 'react-redux';
-import { setUserDataAction, setOrganizationsAction } from '../../store/actions';
-import MuiPhoneNumber from 'material-ui-phone-number';
+import { setOrganizationsAction, setUserDataAction } from '../../store/actions';
 
 const useStyles = makeStyles({
   heading: {
@@ -70,13 +69,13 @@ const AuthPage: React.FC<IAuthPage> = props => {
         <Typography className={classes.heading} variant={'h4'}>
           {PROJECT_NAME}
         </Typography>
-        <MuiPhoneNumber
-          defaultCountry={'ru'}
-          disableDropdown
-          className={classes.form}
+        <TextField
+          onChange={event => setLogin(event.target.value)}
           value={login}
-          onChange={e => setLogin(e)}
+          className={classes.form}
+          label={'email'}
           variant={'outlined'}
+          placeholder={'Введите ваш email'}
         />
         <TextField
           onChange={event => setPassword(event.target.value)}

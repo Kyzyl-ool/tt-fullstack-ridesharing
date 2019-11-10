@@ -170,7 +170,7 @@ const ChatPage = ({ ...props }) => {
               if (typeof value.user_id === 'number') {
                 userModel
                   .authorize({
-                    login: phoneNumer,
+                    login: email,
                     password: password
                   })
                   .then(async value1 => {
