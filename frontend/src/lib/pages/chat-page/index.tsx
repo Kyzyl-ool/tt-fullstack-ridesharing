@@ -87,7 +87,7 @@ const ChatPage = ({ ...props }) => {
 
   const fileHandler = () => {
     if (file) {
-      console.log(file);
+      // console.log(file);
     }
   };
   const submitHandler = arg => {
@@ -135,11 +135,11 @@ const ChatPage = ({ ...props }) => {
         break;
       }
       default:
-        console.log(plotIndex);
+        // console.log(plotIndex);
         break;
     }
   };
-  const onFileLoad = (e, file) => console.log(e.target.result, file.name);
+  // const onFileLoad = (e, file) => console.log(e.target.result, file.name);
   const tapHandler = () => {
     if (isDriver) {
       switch (driverPlotIndex) {
@@ -173,7 +173,6 @@ const ChatPage = ({ ...props }) => {
               password: password
             })
             .then(value => {
-              console.log(value);
               if (typeof value.user_id === 'number') {
                 userModel
                   .authorize({

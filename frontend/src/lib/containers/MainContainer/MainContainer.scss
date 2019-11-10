@@ -1,0 +1,22 @@
+%user-info-icon {
+  width: 1.3em;
+  height: 1.3em;
+  margin-left: 10px;
+}
+
+.main-container {
+  &__info {
+    align-items: center;
+    display: flex;
+  }
+  &__driver-icon {
+    @extend %user-info-icon;
+    background: url('./driver-icon.svg');
+    background-size: contain;
+  }
+  &__passenger-icon {
+    @extend %user-info-icon;
+    background: url('./passenger-icon.svg');
+    background-size: contain;
+  }
+}

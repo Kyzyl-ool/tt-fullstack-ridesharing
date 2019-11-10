@@ -5,7 +5,7 @@ import {ThemeProvider} from '@material-ui/styles';
 import {MainTheme} from './lib/themes/MainTheme';
 import StartingPage from './lib/pages/starting-page';
 import AuthPage from './lib/pages/auth-page';
-import {SearchTripPage} from './lib/pages/search-trip';
+import SearchTripPage from './lib/pages/search-trip';
 import MainPage from './lib/pages/MainPage';
 import SelectAddressPage from './lib/pages/SelectAddressPage';
 import AppDrawer from './lib/containers/Drawer/AppDrawer';
@@ -91,7 +91,6 @@ const App: React.FC<IApp> = ({organizations, myOrganizations, setOrgs, setMyOrgs
         const myOrgsResult = await userModel.getUserData();
         setMyOrgs(myOrgsResult.organizations);
       } catch (e) {
-        console.log(e);
       }
     };
     fetchOrgs();

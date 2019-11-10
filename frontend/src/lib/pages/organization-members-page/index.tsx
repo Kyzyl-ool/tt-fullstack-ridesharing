@@ -34,7 +34,6 @@ export const OrganizationMembersPage: React.FC = ({ ...props }) => {
   useEffect(() => {
     const fetchData = async () => {
       const response = await organizationsModel.getOrganizationMembers(orgId);
-      console.log(response);
       setMembers(response);
     };
 

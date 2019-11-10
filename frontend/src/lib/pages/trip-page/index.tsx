@@ -2,6 +2,7 @@
 import React, { useState, useEffect, Fragment } from 'react';
 import _isEmpty from 'lodash/isEmpty';
 import { Box, Button, Container, createStyles, makeStyles, Tab, Tabs, Theme, Typography } from '@material-ui/core';
+import Map from '../../components/Map';
 import dateFormat from 'date-fns/format';
 import ruLocale from 'date-fns/locale/ru';
 import { useParams, useHistory } from 'react-router-dom';
@@ -126,11 +127,7 @@ const TripPage: React.FC<ITripPageProps> = props => {
           </Tabs>
           <Box className={classes.tabContent}>
             <TabPanel value={currentTab} index={0}>
-              <img
-                src={
-                  'https://mir-cdn.behance.net/v1/rendition/projects/max_808/f143f651301549.Y3JvcCw1MDEsMzkyLDAsNTQ.jpg'
-                }
-              />
+              <Map onBuildingClick={() => {}} />
             </TabPanel>
             <TabPanel index={1} value={currentTab}>
               <Container>

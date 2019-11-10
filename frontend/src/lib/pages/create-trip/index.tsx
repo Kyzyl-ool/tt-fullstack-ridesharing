@@ -1,6 +1,5 @@
 import React, { useState } from 'react';
-import _debounce from 'lodash/debounce';
-import { Box, Button, Checkbox, Container, Switch, TextField, Typography, MenuItem } from '@material-ui/core';
+import { Box, Button, Checkbox, Container, Switch, TextField, Typography, MenuItem, Modal } from '@material-ui/core';
 import { DateTimePicker, MuiPickersUtilsProvider } from '@material-ui/pickers';
 import DateFnsUtils from '@date-io/date-fns';
 import ruLocale from 'date-fns/locale/ru';
@@ -15,9 +14,12 @@ import {
   setRideTimeAction,
   setStartOrganizationAction,
   setTotalSeatsAction,
-  cleanCreateFormAction
+  cleanCreateFormAction,
+  setArrivalPointAction
 } from '../../store/actions/tripActions';
 import TripModel from '../../models/tripModel';
+import { SelectOrganizationInput } from '../../containers/SelectOrganizationInput';
+import SelectAddressContainer from '../../containers/SelectAddressContainer';
 
 const localMargin = 1;
 
@@ -25,12 +27,12 @@ const seatsNumbers = [1, 2, 3, 4, 5, 6, 7];
 
 const useStyles = makeStyles(theme => ({
   container: {
-    display: 'flex',
-    flexWrap: 'wrap'
+    paddingTop: '50px'
   },
-  textField: {
-    // marginLeft: theme.spacing(1),
-    // marginRight: theme.spacing(1)
+  mapButton: {
+    whiteSpace: 'nowrap',
+    marginLeft: '8px',
+    minWidth: 'fit-content'
   },
   menu: {
     width: 200
@@ -44,6 +46,7 @@ interface ICreateTripPageProps {
   onSetTotalSeats: (totalSeats: string) => void;
   onSetTime: (time: string) => void;
   onSetStartOrganization: (startOrganization: { id: string; label: string }) => void;
+  onSetArrivalPoint: (arrivalPoint: { name: string; latitude: number; longitude: number }) => void;
   cleanCreateForm: () => void;
   rideTime: string;
   cost: string;
@@ -54,20 +57,13 @@ interface ICreateTripPageProps {
 const CreateTripPage: React.FC<ICreateTripPageProps> = props => {
   const classes = useStyles({});
   const history = useHistory();
+  const [isModalShown, setIsModalShown] = useState(false);
   const onCostInputChange = e => {
     props.onSetCost(e.target.value);
   };
 
   const onTotalSeatsChange = e => {
     props.onSetTotalSeats(e.target.value);
-  };
-
-  const onStartOrganizationChange = e => {
-    const orgName = e.target.value;
-    props.onSetStartOrganization({
-      label: orgName,
-      id: props.availableOrganizations.find(org => org.name === orgName).id
-    });
   };
 
   const onTimeInputChange = time => {
@@ -89,8 +85,13 @@ const CreateTripPage: React.FC<ICreateTripPageProps> = props => {
     if (response) history.push('/search_trip');
   };
 
+  const onSelectAddress = (arrivalPoint: { name: string; latitude: number; longitude: number }) => {
+    setIsModalShown(false);
+    props.onSetArrivalPoint(arrivalPoint);
+  };
+
   return (
-    <Container maxWidth={'sm'}>
+    <Container className={classes.container} maxWidth={'sm'}>
       <Box display={'flex'} justifyContent={'space-evenly'} alignItems={'center'}>
         <Typography noWrap display={'inline'} variant={'h6'}>
           Время начала:
@@ -99,7 +100,7 @@ const CreateTripPage: React.FC<ICreateTripPageProps> = props => {
         <MuiPickersUtilsProvider utils={DateFnsUtils} locale={ruLocale}>
           <DateTimePicker
             disablePast
-            value={props.rideTime || new Date()}
+            value={props.rideTime}
             onChange={onTimeInputChange}
             inputVariant={'outlined'}
             variant={'dialog'}
@@ -112,43 +113,26 @@ const CreateTripPage: React.FC<ICreateTripPageProps> = props => {
           />
         </MuiPickersUtilsProvider>
       </Box>
+      <SelectOrganizationInput
+        onChange={props.onSetStartOrganization}
+        currentOrganization={props.startOrganization}
+        availableOrganizations={props.availableOrganizations}
+      />
       <Box display={'flex'} alignItems={'center'} m={localMargin}>
         <TextField
           fullWidth
-          value={props.startOrganization.label || 'none'}
-          className={classes.textField}
-          onChange={onStartOrganizationChange}
-          select
-          SelectProps={{
-            // defaultValue: 'none',
-            MenuProps: {
-              className: classes.menu
-            }
-          }}
-          variant="outlined"
-        >
-          <MenuItem value="none" disabled>
-            Откуда?
-          </MenuItem>
-          {props.availableOrganizations.map((org, index) => (
-            <MenuItem key={index} value={org.name}>
-              {org.name}
-            </MenuItem>
-          ))}
-        </TextField>
-      </Box>
-      <Box display={'flex'} alignItems={'center'} m={localMargin}>
-        <TextField
-          fullWidth
-          value={props.arrivalPoint.name}
+          value={props.arrivalPoint.name || ''}
           onChange={() => {}}
           placeholder={'Куда?'}
           variant={'outlined'}
         />
-        <Link to="select_address">
-          <CrosshairButton onClick={() => {}} />
-        </Link>
+        <Button className={classes.mapButton} onClick={() => setIsModalShown(true)}>
+          На карте
+        </Button>
       </Box>
+      <Modal open={isModalShown} onClose={() => setIsModalShown(false)}>
+        <SelectAddressContainer onSetArrivalPoint={onSelectAddress} />
+      </Modal>
       <Box m={localMargin}>
         <TextField fullWidth value={props.totalSeats || 'none'} select onChange={onTotalSeatsChange} variant="outlined">
           <MenuItem value="none" disabled>
@@ -191,20 +175,21 @@ const CreateTripPage: React.FC<ICreateTripPageProps> = props => {
 const mapStateToProps = state => {
   return {
     availableOrganizations: state.org.organizations,
-    totalSeats: state.trip.totalSeats,
-    rideTime: state.trip.rideTime,
-    cost: state.trip.cost,
-    arrivalPoint: state.trip.arrivalPoint,
-    startOrganization: state.trip.startOrganization
+    totalSeats: state.trip.create.totalSeats,
+    rideTime: state.trip.create.rideTime,
+    cost: state.trip.create.cost,
+    arrivalPoint: state.trip.create.arrivalPoint,
+    startOrganization: state.trip.create.startOrganization
   };
 };
 
 const mapDispatchToProps = dispatch => {
   return {
-    onSetCost: cost => dispatch(setCostAction(+cost)),
-    onSetTotalSeats: totalSeats => dispatch(setTotalSeatsAction(+totalSeats)),
-    onSetTime: time => dispatch(setRideTimeAction(time)),
-    onSetStartOrganization: startOrganization => dispatch(setStartOrganizationAction(startOrganization)),
+    onSetCost: cost => dispatch(setCostAction(+cost, 'create')),
+    onSetTotalSeats: totalSeats => dispatch(setTotalSeatsAction(+totalSeats, 'create')),
+    onSetTime: time => dispatch(setRideTimeAction(time, 'create')),
+    onSetStartOrganization: startOrganization => dispatch(setStartOrganizationAction(startOrganization, 'create')),
+    onSetArrivalPoint: arrivalPoint => dispatch(setArrivalPointAction(arrivalPoint, 'create')),
     cleanCreateForm: () => dispatch(cleanCreateFormAction())
   };
 };

@@ -36,7 +36,7 @@ const StartingPage: React.FC = props => {
 
   return (
     <Backdrop className={classes.backdrop} open={true}>
-      <Box display="flex" flexDirection={'column'}>
+      <Box display="flex" flexDirection={'column'} alignItems="center">
         <Typography className={classes.heading} variant={'h3'}>
           {PROJECT_NAME}
         </Typography>

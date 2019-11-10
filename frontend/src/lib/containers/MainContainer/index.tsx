@@ -14,6 +14,7 @@ import { Menu } from '@material-ui/icons';
 import { connect } from 'react-redux';
 import { logout } from '../../../net/auth/auth';
 import { useHistory } from 'react-router-dom';
+import './MainContainer.scss';
 
 interface IMainContainerProps {
   show?: boolean;
@@ -37,6 +38,9 @@ const useStyles = makeStyles((theme: Theme) =>
     },
     toolbar: {
       position: 'relative'
+    },
+    container: {
+      height: '90vh'
     }
   })
 );
@@ -66,13 +70,24 @@ const MainContainer: React.FC<IMainContainerProps> = ({ show = true, onLogout, .
           <IconButton edge={'start'} aria-label={'menu'} onClick={props.onClick}>
             <Menu style={{ color: 'white' }} />
           </IconButton>
-          <Typography variant={'h5'}>{props.role === 'DRIVER' ? `${fullName} (Водитель)` : `${fullName}`}</Typography>
+          <Typography variant={'h5'}>
+            {
+              <div className="main-container__info">
+                {fullName}{' '}
+                {props.role === 'DRIVER' ? (
+                  <div title="Водитель" className="main-container__driver-icon" />
+                ) : props.role === 'PASSENGER' ? (
+                  <div title="Пассажир" className="main-container__passenger-icon" />
+                ) : null}
+              </div>
+            }
+          </Typography>
           <Button className={classes.logout} onClick={logoutHandler}>
             Выйти
           </Button>
         </Toolbar>
       </AppBar>
-      <Container>{props.children}</Container>
+      <Container className={classes.container}>{props.children}</Container>
     </div>
   );
 };

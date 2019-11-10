@@ -34,11 +34,8 @@ const NewOrganizationCard: React.FC<INewOrganizationCard> = ({ organizations, my
   );
 
   const onSelect = id => {
-    OrganizationsModel.joinOrganization(id).then(value1 => {
-      console.log(value1);
-    });
+    OrganizationsModel.joinOrganization(id).then(value1 => {});
   };
-  console.log(myOrganizations);
 
   return (
     <Card className={classes.card}>

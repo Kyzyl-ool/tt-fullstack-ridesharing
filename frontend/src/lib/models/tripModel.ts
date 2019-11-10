@@ -1,6 +1,6 @@
 /* eslint-disable @typescript-eslint/camelcase */
 import axios from 'axios';
-import { ITrip } from '../domain/trip';
+import { ITrip, IFindRidesRequest } from '../domain/trip';
 import { BACKEND_URL } from '../../config/backend/backend';
 
 export default class TripModel {
@@ -47,10 +47,24 @@ export default class TripModel {
       return null;
     }
   };
+
   public static getAllTrips = async () => {
     try {
       const res = await axios.get(`${BACKEND_URL}/get_all_rides`, { withCredentials: true });
       return res.data;
+    } catch (e) {
+      return null;
+    }
+  };
+
+  public static findBestTrips = async (data: IFindRidesRequest) => {
+    try {
+      const res = await axios.post(`${BACKEND_URL}/find_best_rides`, {
+        start_date: data.startTime,
+        start_organization_id: data.startOrganizationId,
+        destination_latitude: data.destinationLatitude,
+        destination_longitude: data.destinationLongitude
+      });
     } catch (e) {
       return null;
     }

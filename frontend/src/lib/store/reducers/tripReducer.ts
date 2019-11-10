@@ -1,29 +1,53 @@
 import * as actions from '../actions/actionTypes';
+import getTimeFromNow from '../../helpers/getTimeFromNow';
 
 const initialState = {
-  rideTime: '',
-  arrivalPoint: {},
-  startOrganization: {
-    id: '',
-    label: ''
+  search: {
+    rideTime: getTimeFromNow(15),
+    arrivalPoint: {},
+    startOrganization: {
+      id: '',
+      label: ''
+    },
+    totalSeats: '',
+    cost: '',
+    isPlanned: false
   },
-  totalSeats: '',
-  cost: '',
-  isPlanned: false
+  create: {
+    rideTime: getTimeFromNow(15),
+    arrivalPoint: {},
+    startOrganization: {
+      id: '',
+      label: ''
+    },
+    totalSeats: '',
+    cost: '',
+    isPlanned: false
+  }
 };
 
 export const tripReducer = (state = initialState, action) => {
   switch (action.type) {
     case actions.SET_START_ORGANIZATION:
-      return { ...state, startOrganization: action.startOrganization };
+      console.log(action);
+      return {
+        ...state,
+        [action.payload.flag]: { ...state[action.payload.flag], startOrganization: action.payload.startOrganization }
+      };
     case actions.SET_ARRIVAL_POINT:
-      return { ...state, arrivalPoint: action.arrivalPoint };
+      return {
+        ...state,
+        [action.payload.flag]: { ...state[action.payload.flag], arrivalPoint: action.payload.arrivalPoint }
+      };
     case actions.SET_RIDE_TIME:
-      return { ...state, rideTime: action.rideTime };
+      return { ...state, [action.payload.flag]: { ...state[action.payload.flag], rideTime: action.payload.rideTime } };
     case actions.SET_TOTAL_SEATS:
-      return { ...state, totalSeats: action.totalSeats };
+      return {
+        ...state,
+        [action.payload.flag]: { ...state[action.payload.flag], totalSeats: action.payload.totalSeats }
+      };
     case actions.SET_COST:
-      return { ...state, cost: action.cost };
+      return { ...state, [action.payload.flag]: { ...state[action.payload.flag], cost: action.payload.cost } };
     case actions.CLEAN_CREATE_FORM:
       return initialState;
     default:

@@ -2,45 +2,49 @@ import * as actions from './actionTypes';
 import { IOrganization } from '../../domain/organization';
 import { snakeObjectToCamel } from '../../helpers/snakeToCamelCase';
 
-export const setStartOrganizationAction = (startOrganization: Omit<IOrganization, 'users'>) => {
+type actionFlag = 'create' | 'search';
+
+export const setStartOrganizationAction = (startOrganization: Omit<IOrganization, 'users'>, flag: actionFlag) => {
   return {
     type: actions.SET_START_ORGANIZATION,
-    startOrganization
+    payload: { startOrganization, flag }
   };
 };
 
-export const setArrivalPointAction = (arrivalPoint: { name: string; latitude: number; longitude: number }) => {
+export const setArrivalPointAction = (
+  arrivalPoint: { name: string; latitude: number; longitude: number },
+  flag: actionFlag
+) => {
   return {
     type: actions.SET_ARRIVAL_POINT,
-    arrivalPoint
+    payload: { arrivalPoint, flag }
   };
 };
 
-export const setRideTimeAction = (rideTime: string) => {
+export const setRideTimeAction = (rideTime: string, flag: actionFlag) => {
   return {
     type: actions.SET_RIDE_TIME,
-    rideTime
+    payload: { rideTime, flag }
   };
 };
 
-export const setTotalSeatsAction = (totalSeats: number) => {
+export const setTotalSeatsAction = (totalSeats: number, flag: actionFlag) => {
   return {
     type: actions.SET_TOTAL_SEATS,
-    totalSeats
+    payload: { totalSeats, flag }
   };
 };
 
-export const setCostAction = (cost: number) => {
+export const setCostAction = (cost: number, flag: actionFlag) => {
   return {
     type: actions.SET_COST,
-    cost
+    payload: { cost, flag }
   };
 };
 
 export const cleanCreateFormAction = () => {
   return {
-    type: actions.CLEAN_CREATE_FORM,
-    payload: {}
+    type: actions.CLEAN_CREATE_FORM
   };
 };
 

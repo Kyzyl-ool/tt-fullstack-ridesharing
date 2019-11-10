@@ -8,6 +8,13 @@ export interface ITrip {
   description: string;
 }
 
+export interface IFindRidesRequest {
+  startTime: string;
+  startOrganizationId: number;
+  destinationLatitude: number;
+  destinationLongitude: number;
+}
+
 export interface ITripCardData {
   name: string;
   from: string;
