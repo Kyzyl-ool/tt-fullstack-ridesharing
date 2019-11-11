@@ -35,7 +35,6 @@ class MainPage extends PureComponent<IMainPageProps> {
     this.props.setOrganizations(organizations);
     this.props.setMyTrips(trips);
     this.props.canBeDriver(isUserDriver);
-    console.log(isUserDriver);
     if (isUserDriver) {
       const cars = await UserModel.getUserCars();
       this.props.setCars(cars);

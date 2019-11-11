@@ -5,6 +5,7 @@ import { snakeObjectToCamel } from '../../helpers/snakeToCamelCase';
 type State = IUser & { role: string };
 
 const initialState = {
+  isAuth: false,
   role: '',
   firstName: '',
   lastName: '',

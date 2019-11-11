@@ -9,6 +9,7 @@ import {
   TextField,
   Typography
 } from '@material-ui/core';
+import { useHistory, useLocation } from 'react-router-dom';
 import UserModel from '../../models/userModel';
 import { PROJECT_NAME } from '../../../config/names';
 import { authHandler } from '../../../net/auth/auth';
@@ -34,21 +35,26 @@ const useStyles = makeStyles({
   }
 });
 
-interface IAuthPage {
+interface IAuthPageProps {
   onSuccess: () => any;
+  onAuth: (isAuth: boolean) => void;
 }
 
-const AuthPage: React.FC<IAuthPage> = props => {
+const AuthPage: React.FC<IAuthPageProps> = props => {
   const classes = useStyles(props);
   const [loading, setLoading] = useState(false);
   const [openSnackbar, setOpenSnackbar] = useState(false);
   const [login, setLogin] = useState('');
   const [password, setPassword] = useState('');
+  const history = useHistory();
+  const location = useLocation();
 
   const onSuccess = value => {
     setLoading(false);
-    // console.log(Cookies.get('remember_token'));
     props.onSuccess();
+    const { from } = location.state || { from: { pathname: '/main' } };
+    console.log(from);
+    history.replace(from);
   };
   const onFail = () => {
     setLoading(false);
