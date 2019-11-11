@@ -8,7 +8,9 @@ import { messagesReducer } from '../../store/reducers/messagesReducer';
 import { useHistory } from 'react-router-dom';
 import MuiPhoneNumber from 'material-ui-phone-number';
 import userModel from '../../models/userModel';
+import UserModel from '../../models/userModel';
 import { checkAuth } from '../../../net/auth/auth';
+import Uploader from '../../components/Uploader/Uploader';
 
 interface IMessage {
   from: number;
@@ -83,13 +85,8 @@ const ChatPage = ({ ...props }) => {
   const [password, setPassword] = useState(''); // user password
   const [isDriver, setIsDriver] = useState(undefined); // user is driver
   const [email, setEmail] = useState(''); // user email
-  const [file, setFile] = useState(undefined);
+  const [licensePhotoURL, setLicensePhotoURL] = useState(''); // license url
 
-  const fileHandler = () => {
-    if (file) {
-      // console.log(file);
-    }
-  };
   const submitHandler = arg => {
     if (text) {
       plotIndex !== 5 && // special for password
@@ -139,12 +136,57 @@ const ChatPage = ({ ...props }) => {
         break;
     }
   };
+  const onLoaded = url => {
+    setLicensePhotoURL(url);
+    setDriverPlotIndex(0);
+    setPlotIndex(7);
+    submitHandler(false);
+  };
+  const finishRegistration = () => {
+    userModel
+      .registerUser({
+        firstName: name,
+        lastName: lastName,
+        email: email,
+        password: password
+      })
+      .then(value => {
+        if (typeof value.user_id === 'number') {
+          if (licensePhotoURL) {
+            UserModel.registerDriver({
+              id: value.user_id,
+              license1: licensePhotoURL,
+              license2: licensePhotoURL,
+              passportUrl1: '',
+              passportUrl2: '',
+              passportUrlSelfie: ''
+            });
+          }
+          userModel
+            .authorize({
+              login: email,
+              password: password
+            })
+            .then(async value1 => {
+              if (await checkAuth()) {
+                props.onAuth();
+                history.push('/main');
+              }
+            });
+        }
+      });
+  };
   // const onFileLoad = (e, file) => console.log(e.target.result, file.name);
   const tapHandler = () => {
     if (isDriver) {
       switch (driverPlotIndex) {
         case 1: {
           setFormEnable(true);
+          break;
+        }
+        case 2: {
+          setIsDriver(false);
+          // finishRegistration()
           break;
         }
         default: {
@@ -165,28 +207,7 @@ const ChatPage = ({ ...props }) => {
           break;
         }
         case 7: {
-          userModel
-            .registerUser({
-              firstName: name,
-              lastName: lastName,
-              email: email,
-              password: password
-            })
-            .then(value => {
-              if (typeof value.user_id === 'number') {
-                userModel
-                  .authorize({
-                    login: email,
-                    password: password
-                  })
-                  .then(async value1 => {
-                    if (await checkAuth()) {
-                      props.onAuth();
-                      history.push('/main');
-                    }
-                  });
-              }
-            });
+          finishRegistration();
           break;
         }
         default: {
@@ -232,38 +253,7 @@ const ChatPage = ({ ...props }) => {
       </Paper>
       <Drawer open={formEnable} anchor={'bottom'} variant={'persistent'}>
         <Paper className={classes.messageFormContainer}>
-          {isDriver && (
-            <>
-              {driverPlotIndex === 1 && (
-                <>
-                  <form>
-                    <label htmlFor={'file-upload'}>
-                      <Button>Выбрать файл</Button>
-                    </label>
-                    <input
-                      hidden
-                      id={'file-upload'}
-                      type={'file'}
-                      className={clsx(classes.input)}
-                      onChange={event => setFile(event.target.files[0])}
-                    />
-                    <label htmlFor={'file-upload-camera'}>
-                      <Button>Сфотографировать</Button>
-                    </label>
-                    <input
-                      hidden
-                      id={'file-upload-camera'}
-                      type={'file'}
-                      className={classes.input}
-                      accept="image/*"
-                      capture={'camera'}
-                    />
-                    <Button onClick={fileHandler}>Отправить</Button>
-                  </form>
-                </>
-              )}
-            </>
-          )}
+          {isDriver && <>{driverPlotIndex === 1 && <Uploader onLoaded={url => onLoaded(url)} />}</>}
           {!isDriver && (
             <>
               {plotIndex === 7 && (

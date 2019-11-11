@@ -26,6 +26,7 @@ import * as actions from './lib/store/actions';
 import {ITripProps} from "./lib/containers/MyTrips/MyTrips";
 import userModel from "./lib/models/userModel";
 import {OrganizationMembersPage} from "./lib/pages/organization-members-page";
+import Uploader from "./lib/components/Uploader/Uploader";
 
 const trips: ITripProps[] = [
   {

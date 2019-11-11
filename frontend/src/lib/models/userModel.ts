@@ -44,14 +44,18 @@ export default class UserModel {
     license2
   }: IDriverRegistrationData) => {
     try {
-      const res = await axios.post(`${BACKEND_URL}/register_driver`, {
-        id,
-        passport_url_1: passportUrl1,
-        passport_url_2: passportUrl2,
-        passport_url_selfie: passportUrlSelfie,
-        license_1: license1,
-        license_2: license2
-      });
+      const res = await axios.post(
+        `${BACKEND_URL}/register_driver`,
+        {
+          id,
+          passport_url_1: passportUrl1,
+          passport_url_2: passportUrl2,
+          passport_url_selfie: passportUrlSelfie,
+          license_1: license1,
+          license_2: license2
+        },
+        { withCredentials: true }
+      );
       return res.data;
     } catch (e) {
       return null;
