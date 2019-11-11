@@ -45,6 +45,15 @@ export default class UserModel {
     }
   };
 
+  public static isUserDriver = async () => {
+    try {
+      const res = await axios.get(`${BACKEND_URL}/am_i_driver`, { withCredentials: true });
+      return res.data.is_driver;
+    } catch (e) {
+      return null;
+    }
+  };
+
   public static registerDriver = async ({
     id,
     passportUrl1,

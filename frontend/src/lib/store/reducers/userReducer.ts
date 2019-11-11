@@ -9,7 +9,8 @@ const initialState = {
   firstName: '',
   lastName: '',
   email: '',
-  userId: 0
+  userId: 0,
+  isDriver: false
 };
 
 export const userReducer = (state: State = initialState, action) => {
