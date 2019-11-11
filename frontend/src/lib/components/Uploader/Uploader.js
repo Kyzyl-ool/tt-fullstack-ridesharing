@@ -27,7 +27,7 @@ class App extends Component {
         let fileName = fileParts[0];
         let fileType = fileParts[1];
         console.log("Preparing the upload");
-        axios.post("http://images.sharemyride.ru/api/sign_s3", {
+        axios.post("https://images.sharemyride.ru/api/sign_s3", {
             fileName: md5(fileName),
             fileType: fileType
         })
