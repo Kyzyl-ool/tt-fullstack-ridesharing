@@ -10,6 +10,8 @@ export default class TripModel {
     stopLongitude,
     stopAddress,
     startTime,
+    cost,
+    carId,
     totalSeats,
     description
   }: ITrip) => {
@@ -23,6 +25,8 @@ export default class TripModel {
           start_time: startTime,
           total_seats: totalSeats,
           stop_address: stopAddress,
+          car_id: carId,
+          cost,
           description
         },
         { withCredentials: true }
@@ -59,12 +63,17 @@ export default class TripModel {
 
   public static findBestTrips = async (data: IFindRidesRequest) => {
     try {
-      const res = await axios.post(`${BACKEND_URL}/find_best_rides`, {
-        start_date: data.startTime,
-        start_organization_id: data.startOrganizationId,
-        destination_latitude: data.destinationLatitude,
-        destination_longitude: data.destinationLongitude
-      });
+      const res = await axios.post(
+        `${BACKEND_URL}/find_best_rides`,
+        {
+          start_date: data.startTime,
+          start_organization_id: data.startOrganizationId,
+          destination_latitude: data.destinationLatitude,
+          destination_longitude: data.destinationLongitude
+        },
+        { withCredentials: true }
+      );
+      return res.data;
     } catch (e) {
       return null;
     }

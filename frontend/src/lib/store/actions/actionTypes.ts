@@ -10,6 +10,8 @@ export const SET_COST = 'SET_COST';
 export const CLEAN_CREATE_FORM = 'CLEAN_CREATE_FORM';
 export const SET_MY_TRIPS = 'SET_MY_TRIPS';
 export const SET_ALL_TRIPS = 'SET_ALL_TRIPS';
+export const SET_CARS = 'SET_CARS';
+export const SET_NEW_ORGANIZATION_ADDRESS = 'SET_NEW_ORGANIZATION_ADDRESS';
 
 export const CHAT_NEW_MESSAGE = 'CHAT_NEW_MESSAGE';
 export const CHAT_NEXT_STEP = 'CHAT_NEXT_STEP';

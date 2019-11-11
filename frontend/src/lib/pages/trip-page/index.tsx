@@ -26,7 +26,14 @@ function TabPanel(props: TabPanelProps) {
 const useStyles = makeStyles((theme: Theme) =>
   createStyles({
     mainInfo: {},
-    time: {},
+    time: {
+      flexWrap: 'wrap',
+      display: 'flex',
+      alignItems: 'baseline'
+    },
+    mapContainer: {
+      maxHeight: '30vh'
+    },
     tabs: {},
     tabContent: {
       height: '10%',
@@ -64,7 +71,17 @@ const initialTripInfo = {
 //TODO REMOVE IT AFTER
 const translateMonth = {
   October: 'октября',
-  December: 'декабря'
+  December: 'декабря',
+  January: 'января',
+  November: 'ноября',
+  July: 'июля',
+  June: 'июня',
+  August: 'августа',
+  September: 'сентября',
+  March: 'марта',
+  April: 'апреля',
+  May: 'мая',
+  February: 'февраля'
 };
 
 const TripPage: React.FC<ITripPageProps> = props => {
@@ -88,6 +105,9 @@ const TripPage: React.FC<ITripPageProps> = props => {
 
   const onJoinTripButtonClick = async () => {
     await TripModel.joinTrip(tripInfo.id);
+    // renew trip data
+    const renewedData = await getTripInfo();
+    setTripInfo(snakeObjectToCamel(renewedData));
   };
 
   return (
@@ -114,6 +134,14 @@ const TripPage: React.FC<ITripPageProps> = props => {
               locale: ruLocale
             })}`}</Typography> */}
           </Box>
+          <Box className={classes.tabActions}>
+            <Button onClick={() => history.goBack()} variant={'text'}>
+              Назад
+            </Button>
+            <Button onClick={onJoinTripButtonClick} variant={'contained'}>
+              Присоединиться
+            </Button>
+          </Box>
           <Tabs
             className={classes.tabs}
             variant={'fullWidth'}
@@ -127,11 +155,13 @@ const TripPage: React.FC<ITripPageProps> = props => {
           </Tabs>
           <Box className={classes.tabContent}>
             <TabPanel value={currentTab} index={0}>
-              <Map onBuildingClick={() => {}} />
+              <Box className={classes.mapContainer}>
+                <Map style={{ width: '100%', height: '40vh' }} onBuildingClick={() => {}} />
+              </Box>
             </TabPanel>
             <TabPanel index={1} value={currentTab}>
               <Container>
-                <Typography variant={'h4'}>Свободных мест: {tripInfo.totalSeats}</Typography>
+                <Typography variant={'h4'}>Свободных мест: {tripInfo.seatsAvailable}</Typography>
                 <Typography variant={'h5'}>Mazda RX-7 красный</Typography>
                 <Typography>К 901 АУ</Typography>
                 <Typography variant={'caption'}>Стоимость</Typography>
@@ -142,22 +172,14 @@ const TripPage: React.FC<ITripPageProps> = props => {
             </TabPanel>
             <TabPanel index={2} value={currentTab}>
               <Typography variant={'caption'}>Контактный телефон</Typography>
-              <Typography variant={'h5'}>+7(999)123-45-56</Typography>
+              <Typography variant={'h5'}>{tripInfo.phoneNumber ? tripInfo.phoneNumber : '—'}</Typography>
 
               <Typography variant={'caption'}>VK</Typography>
-              <Typography variant={'h5'}>@ivan_ivanov</Typography>
+              <Typography variant={'h5'}>{tripInfo.vk ? tripInfo.vk : '—'}</Typography>
 
-              <Typography variant={'caption'}>TELEGRAM</Typography>
-              <Typography variant={'h5'}>@ivan_ivanov</Typography>
+              <Typography variant={'caption'}>E-mail</Typography>
+              <Typography variant={'h5'}>{tripInfo.hostDriverInfo.email}</Typography>
             </TabPanel>
-          </Box>
-          <Box className={classes.tabActions}>
-            <Button onClick={() => history.goBack()} variant={'text'}>
-              Назад
-            </Button>
-            <Button onClick={onJoinTripButtonClick} variant={'contained'}>
-              Присоединиться
-            </Button>
           </Box>
         </Fragment>
       )}

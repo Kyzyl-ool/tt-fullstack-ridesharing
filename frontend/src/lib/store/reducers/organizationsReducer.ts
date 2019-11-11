@@ -4,11 +4,21 @@ import { IOrganization } from '../../domain/organization';
 interface IState {
   organizations: IOrganization[];
   myOrganizations: IOrganization[];
+  create: {
+    organizationAddress?: {
+      name?: string;
+      latitude?: number;
+      longitude?: number;
+    };
+  };
 }
 
 const initialState = {
   organizations: [],
-  myOrganizations: []
+  myOrganizations: [],
+  create: {
+    organizationAddress: {}
+  }
 };
 
 export const organizationsReducer = (state: IState = initialState, action) => {
@@ -19,6 +29,11 @@ export const organizationsReducer = (state: IState = initialState, action) => {
       return {
         ...state,
         myOrganizations: action.payload.myOrgs
+      };
+    case actions.SET_NEW_ORGANIZATION_ADDRESS:
+      return {
+        ...state,
+        create: { ...state.create, organizationAddress: action.organizationAddress }
       };
     default:
       return state;

@@ -35,6 +35,16 @@ export default class UserModel {
       return null;
     }
   };
+
+  public static getUserCars = async () => {
+    try {
+      const res = await axios.get(`${BACKEND_URL}/get_my_cars`, { withCredentials: true });
+      return res.data;
+    } catch (e) {
+      return null;
+    }
+  };
+
   public static registerDriver = async ({
     id,
     passportUrl1,

@@ -16,7 +16,7 @@ import MainContainer from './lib/containers/MainContainer';
 import {RegistrationPage} from './lib/pages/registration-page';
 import {OrganizationPage} from './lib/pages/organizations-page';
 import {IOrganizationCardProps} from './lib/components/OrganizationItem/OrganizationItem';
-import {AddNewOrganizationPage} from './lib/pages/add-new-organization-page';
+import AddNewOrganizationPage from './lib/pages/add-new-organization-page';
 import {OrganizationCard} from './lib/components/OrganizationCard/OrganizationCard';
 import {checkAuth} from './net/auth/auth';
 import {connect} from 'react-redux';

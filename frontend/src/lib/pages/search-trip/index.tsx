@@ -14,6 +14,7 @@ import {
   Typography
 } from '@material-ui/core';
 import { connect } from 'react-redux';
+import { useHistory } from 'react-router';
 import { DateTimePicker, MuiPickersUtilsProvider } from '@material-ui/pickers';
 import DateFnsUtils from '@date-io/date-fns';
 import ruLocale from 'date-fns/locale/ru';
@@ -34,10 +35,14 @@ const useStyles = makeStyles((theme: Theme) => ({
     whiteSpace: 'nowrap',
     marginLeft: '8px',
     minWidth: 'fit-content'
+  },
+  searchButton: {
+    margin: '10px'
   }
 }));
 
 const serializeTrip = (tripData: any) => {
+  console.log(tripData, 'TRIP DATA');
   const { id, startTime, hostDriverInfo, stopAddress, totalSeats } = snakeObjectToCamel(tripData);
 
   return {
@@ -76,9 +81,10 @@ const SearchTripPage: React.FC<ISearchTripPageProps> = ({
   availableOrganizations
 }) => {
   const classes = useStyles({});
+  const history = useHistory();
   const [searchButtonState, setSearchButtonState] = useState(false);
   // const [selectedDate, setSelectedDate] = useState(rideTime);
-  const [progress, setProgress] = useState(false); // if search complete
+  const [progress, setProgress] = useState(true); // if search complete
   const [data, setData] = useState();
   const [addressFrom, handleAddressFrom] = useState('');
   const [addressTo, handleAddressTo] = useState('');
@@ -88,6 +94,7 @@ const SearchTripPage: React.FC<ISearchTripPageProps> = ({
     if (progress) {
       (async function loadData() {
         const data = await fetchDataFromServer();
+        console.log(data, 'DATA');
         setData(data);
       })();
       setProgress(false);
@@ -100,12 +107,16 @@ const SearchTripPage: React.FC<ISearchTripPageProps> = ({
   };
 
   const onStartSearching = async () => {
-    await TripModel.findBestTrips({
+    const bestTrips = await TripModel.findBestTrips({
       startTime: rideTime,
       startOrganizationId: parseInt(startOrganization.id),
       destinationLatitude: arrivalPoint.latitude,
       destinationLongitude: arrivalPoint.longitude
     });
+    //info[0] is trip object
+    const serializedBestTrips = bestTrips.map(info => serializeTrip(info[0]));
+    console.log(serializedBestTrips);
+    setData(serializedBestTrips);
   };
 
   useEffect(() => {
@@ -147,14 +158,19 @@ const SearchTripPage: React.FC<ISearchTripPageProps> = ({
               fullWidth
               placeholder={'Куда?'}
               variant={'outlined'}
-              value={addressTo}
+              value={arrivalPoint.name}
               onChange={e => handleAddressTo(e.target.value)}
             />
             <Button className={classes.mapButton} onClick={() => setIsModalShown(true)}>
               На карте
             </Button>
           </Box>
-          <Button onClick={onStartSearching}>Найти</Button>
+          <Box display="flex" justifyContent="space-evenly" className={classes.searchButton}>
+            <Button variant="text" onClick={() => history.goBack()}>
+              Назад
+            </Button>
+            <Button onClick={onStartSearching}>Найти</Button>
+          </Box>
         </Container>
       </Paper>
       <SearchResults data={data} buttonState={searchButtonState} onClick={() => setProgress(true)} />

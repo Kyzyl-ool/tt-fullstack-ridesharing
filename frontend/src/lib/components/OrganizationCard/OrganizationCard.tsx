@@ -11,7 +11,7 @@ import {
   Theme,
   Typography
 } from '@material-ui/core';
-import { NavLink, useParams } from 'react-router-dom';
+import { NavLink, useParams, useHistory } from 'react-router-dom';
 import userModel from '../../models/userModel';
 import { IOrganization } from '../../domain/organization';
 import organizationsModel from '../../models/organizationsModel';
@@ -33,6 +33,7 @@ const useStyles = makeStyles((theme: Theme) =>
 export const OrganizationCard: React.FC = ({ ...props }) => {
   const classes = useStyles(props);
   const params = useParams() as any;
+  const history = useHistory();
   const orgId = params.orgId;
   const [organizationPhotoSrc, setOrganizationPhotoSrc] = useState(undefined);
   const [amountOfPeople, setAmountOfPeople] = useState(undefined);
@@ -44,6 +45,7 @@ export const OrganizationCard: React.FC = ({ ...props }) => {
     const response = await organizationsModel.leaveOrganization(orgId);
     if (response.organization_id === orgId) {
       setDisabled(true);
+      history.goBack();
     }
   };
 

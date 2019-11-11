@@ -30,7 +30,7 @@ class UrbicaMap extends PureComponent<IUrbicaMapProps, IUrbicaMapState> {
     viewport: {
       latitude: 37.78,
       longitude: -122.41,
-      zoom: 20
+      zoom: 15
     }
   };
 

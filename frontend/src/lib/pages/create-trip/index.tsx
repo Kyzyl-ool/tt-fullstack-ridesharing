@@ -9,6 +9,7 @@ import { convertDate } from '../../helpers/convertDate';
 import { Link, useHistory } from 'react-router-dom';
 import { connect } from 'react-redux';
 import { IOrganization } from '../../domain/organization';
+import { ICar } from '../../domain/car';
 import {
   setCostAction,
   setRideTimeAction,
@@ -50,6 +51,7 @@ interface ICreateTripPageProps {
   cleanCreateForm: () => void;
   rideTime: string;
   cost: string;
+  cars: ICar[];
   totalSeats: string;
   startOrganization: { id: string; label: string };
 }
@@ -71,13 +73,16 @@ const CreateTripPage: React.FC<ICreateTripPageProps> = props => {
   };
 
   const onCreateTripButtonClick = async () => {
-    const { startOrganization, arrivalPoint, rideTime, totalSeats, cost } = props;
+    const { startOrganization, arrivalPoint, rideTime, totalSeats, cost, cars } = props;
     const response = await TripModel.createTrip({
       startOrganizationId: +startOrganization.id,
       stopLatitude: arrivalPoint.latitude,
       stopLongitude: arrivalPoint.longitude,
       stopAddress: arrivalPoint.name,
       startTime: rideTime,
+      // 0 because now we do not select car
+      carId: +cars[0].id,
+      cost: +cost,
       totalSeats: +totalSeats,
       description: ''
     });
@@ -178,6 +183,7 @@ const mapStateToProps = state => {
     totalSeats: state.trip.create.totalSeats,
     rideTime: state.trip.create.rideTime,
     cost: state.trip.create.cost,
+    cars: state.car.cars,
     arrivalPoint: state.trip.create.arrivalPoint,
     startOrganization: state.trip.create.startOrganization
   };

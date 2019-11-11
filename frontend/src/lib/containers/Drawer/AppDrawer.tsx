@@ -43,6 +43,7 @@ interface IAppDrawerProps {
 
 const AppDrawer: React.FC<IAppDrawerProps> = ({ firstName, lastName, email, trips, ...props }) => {
   const classes = useStyles(props);
+  console.log(trips);
 
   return (
     <Drawer open={props.open} onClose={props.onClose}>
