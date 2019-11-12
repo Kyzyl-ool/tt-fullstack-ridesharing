@@ -152,22 +152,22 @@ const ChatPage = ({ ...props }) => {
       })
       .then(value => {
         if (typeof value.user_id === 'number') {
-          if (licensePhotoURL) {
-            UserModel.registerDriver({
-              id: value.user_id,
-              license1: licensePhotoURL,
-              license2: licensePhotoURL,
-              passportUrl1: '',
-              passportUrl2: '',
-              passportUrlSelfie: ''
-            });
-          }
           userModel
             .authorize({
               login: email,
               password: password
             })
             .then(async value1 => {
+              if (licensePhotoURL) {
+                UserModel.registerDriver({
+                  id: value.user_id,
+                  license1: licensePhotoURL,
+                  license2: licensePhotoURL,
+                  passportUrl1: '',
+                  passportUrl2: '',
+                  passportUrlSelfie: ''
+                });
+              }
               if (await checkAuth()) {
                 props.onAuth();
                 history.push('/main');
