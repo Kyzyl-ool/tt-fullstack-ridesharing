@@ -2,7 +2,14 @@ import React from 'react';
 import { createStore, applyMiddleware, compose, combineReducers } from 'redux';
 import thunk from 'redux-thunk';
 import { Provider } from 'react-redux';
-import {userReducer, tripReducer, organizationsReducer, allTripsReducer, carReducer} from './lib/store/reducers';
+import {
+  userReducer,
+  tripReducer,
+  organizationsReducer,
+  allTripsReducer,
+  carReducer,
+  notificationReducer
+} from './lib/store/reducers';
 import ReactDOM from 'react-dom';
 import './index.css';
 import App from './App';
@@ -13,7 +20,8 @@ const rootReducer = combineReducers({
   trip: tripReducer,
   org: organizationsReducer,
   trips: allTripsReducer,
-  car: carReducer
+  car: carReducer,
+  nots: notificationReducer
 });
 
 const composeEnhancers = (window['__REDUX_DEVTOOLS_EXTENSION_COMPOSE__'] as typeof compose) || compose;

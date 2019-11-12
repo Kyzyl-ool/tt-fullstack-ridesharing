@@ -1,6 +1,8 @@
 import React, { useState } from 'react';
 import { Button, Card, createStyles, makeStyles, Paper, TextField, Theme, Typography } from '@material-ui/core';
+import { connect } from 'react-redux';
 import OrganizationsModel from '../../models/organizationsModel';
+import addNotification from '../../store/actions/notificationsActions';
 import { IOrganization } from '../../domain/organization';
 import { NavLink } from 'react-router-dom';
 
@@ -18,13 +20,19 @@ const useStyles = makeStyles((theme: Theme) =>
   })
 );
 
-interface INewOrganizationCard {
+interface INotification {
+  text: string;
+  type: 'success' | 'failure';
+}
+
+interface INewOrganizationCardProps {
   organizations: IOrganization[];
   myOrganizations: IOrganization[];
   children?: React.ReactNode;
+  addNotification: (notification: INotification) => void;
 }
 
-const NewOrganizationCard: React.FC<INewOrganizationCard> = ({ organizations, myOrganizations, ...props }) => {
+const NewOrganizationCard: React.FC<INewOrganizationCardProps> = ({ organizations, myOrganizations, ...props }) => {
   const [value, setValue] = useState('');
   const classes = useStyles(props);
   const filteredOrganizations = organizations.filter(
@@ -33,8 +41,13 @@ const NewOrganizationCard: React.FC<INewOrganizationCard> = ({ organizations, my
       value1.name.toLowerCase().includes(value.toLowerCase())
   );
 
-  const onSelect = id => {
-    OrganizationsModel.joinOrganization(id).then(value1 => {});
+  const onSelect = async id => {
+    const res = await OrganizationsModel.joinOrganization(id);
+    if (res) {
+      props.addNotification({ text: 'Вы присоединились к организации', type: 'success' });
+    } else {
+      props.addNotification({ text: 'Присоединится к организации не удалось', type: 'failure' });
+    }
   };
 
   return (
@@ -67,4 +80,11 @@ const NewOrganizationCard: React.FC<INewOrganizationCard> = ({ organizations, my
   );
 };
 
-export default NewOrganizationCard;
+const mapDispatchToProps = {
+  addNotification
+};
+
+export default connect(
+  null,
+  mapDispatchToProps
+)(NewOrganizationCard);

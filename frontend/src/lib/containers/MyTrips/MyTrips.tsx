@@ -1,9 +1,11 @@
-import React from 'react';
+import React, { useState, useEffect } from 'react';
 import { Box, Card, createStyles, makeStyles, Theme, Typography } from '@material-ui/core';
 import dateFormat from 'date-fns/format';
 import ruLocale from 'date-fns/locale/ru';
 import { MyAvatar } from '../../components/Avatar/Avatar';
 import { NavLink } from 'react-router-dom';
+import { snakeObjectToCamel } from '../../helpers/snakeToCamelCase';
+import TripModel from '../../models/tripModel';
 
 const useStyles = makeStyles((theme: Theme) =>
   createStyles({
@@ -32,6 +34,16 @@ interface IMyTripsProps {
 
 export const MyTrips: React.FC<IMyTripsProps> = props => {
   const classes = useStyles(props);
+  const [trips, setTrips] = useState([]);
+  const getDriverName = async trip => {
+    // TODO MAKE GETTING INFO WITH ANOTHER ENDPOINT
+    // WHEN IT WILL EXIST
+    const hostDriverId = trip.hostDriverId;
+    const driverInfo = await TripModel.getPassengersInfo([hostDriverId]);
+    const camelDriverInfo = snakeObjectToCamel(driverInfo[0]);
+    return `${camelDriverInfo.firstName} ${camelDriverInfo.lastName}`;
+  };
+
   return (
     <Box display={'flex'} flexDirection={'column'}>
       {props.data.map((value, index) => (

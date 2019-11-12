@@ -1,0 +1,33 @@
+.notifications {
+  display: flex;
+  align-items: center;
+  text-align: center;
+  min-height: 40px;
+  margin: 8px 0 0 0;
+  max-width: 80%;
+  padding: 0 24px;
+  background: #1b2834;
+  border-radius: 20px;
+  &--success {
+    background: #16c98d;
+  }
+  &--failure {
+    background: #fa5e5b;
+  }
+}
+.notifications-text {
+  width: 360px;
+  margin: 0;
+  font-size: 14px;
+  color: #FFFFFF
+  &--success {
+    color: #FFFFFF
+  }
+  &--failure {
+    color: #FFFFFF
+  }
+}
+  
+  
+  
+    

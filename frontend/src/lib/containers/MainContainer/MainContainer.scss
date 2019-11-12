@@ -16,7 +16,7 @@
   }
   &__passenger-icon {
     @extend %user-info-icon;
-    background: url('./passenger-icon.svg');
+    background: url('./passenger-icon.svg') no-repeat;
     background-size: contain;
   }
 }

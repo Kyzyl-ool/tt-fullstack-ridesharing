@@ -1,0 +1,18 @@
+%seats-icon {
+  width: 1.3em;
+  height: 1.3em;
+  margin-left: 2px;
+}
+
+.search-result-item {
+  &__seat-icon {
+    @extend %seats-icon;
+    background: url('./car-seat-icon.svg') no-repeat;
+    background-size: contain;
+  }
+  &__taken-place-icon {
+    @extend %seats-icon;
+    background: url('./taken-place-icon.svg') no-repeat;
+    background-size: contain;
+  }
+}

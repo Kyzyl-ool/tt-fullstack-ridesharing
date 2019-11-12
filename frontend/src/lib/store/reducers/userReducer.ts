@@ -20,6 +20,8 @@ export const userReducer = (state: State = initialState, action) => {
       return { ...state, role: action.role };
     case actions.SET_USER:
       return { ...state, ...snakeObjectToCamel(action.userData) };
+    case actions.CAN_BE_DRIVER:
+      return { ...state, isDriver: action.canBe };
     default:
       return state;
   }

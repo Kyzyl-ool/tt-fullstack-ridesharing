@@ -42,16 +42,15 @@ const useStyles = makeStyles((theme: Theme) => ({
 }));
 
 const serializeTrip = (tripData: any) => {
-  console.log(tripData, 'TRIP DATA');
-  const { id, startTime, hostDriverInfo, stopAddress, totalSeats } = snakeObjectToCamel(tripData);
-
+  const { id, startTime, hostDriverInfo, stopAddress, totalSeats, passengers } = snakeObjectToCamel(tripData);
   return {
     id,
     date: startTime,
     name: hostDriverInfo && `${hostDriverInfo.first_name} ${hostDriverInfo.last_name}`,
     address: stopAddress,
     avatar: null,
-    amountOfFreePlaces: totalSeats
+    amountOfTakenPlaces: passengers.length,
+    amountOfFreePlaces: totalSeats - passengers.length
   };
 };
 
@@ -94,7 +93,6 @@ const SearchTripPage: React.FC<ISearchTripPageProps> = ({
     if (progress) {
       (async function loadData() {
         const data = await fetchDataFromServer();
-        console.log(data, 'DATA');
         setData(data);
       })();
       setProgress(false);
@@ -115,7 +113,6 @@ const SearchTripPage: React.FC<ISearchTripPageProps> = ({
     });
     //info[0] is trip object
     const serializedBestTrips = bestTrips.map(info => serializeTrip(info[0]));
-    console.log(serializedBestTrips);
     setData(serializedBestTrips);
   };
 

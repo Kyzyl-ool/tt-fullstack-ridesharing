@@ -43,6 +43,20 @@ export default class TripModel {
     }
   };
 
+  public static getPassengersInfo = async (passengerIds: number[]) => {
+    try {
+      const res = await axios.post(
+        `${BACKEND_URL}/get_multiple_users_info`,
+        { ids: passengerIds },
+        { withCredentials: true }
+      );
+      console.log(res.data);
+      return res.data;
+    } catch (e) {
+      return null;
+    }
+  };
+
   public static getTripInfo = async (rideId: number) => {
     try {
       const res = await axios.get(`${BACKEND_URL}/get_ride_info?ride_id=${rideId}`, { withCredentials: true });

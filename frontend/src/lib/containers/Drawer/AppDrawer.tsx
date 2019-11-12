@@ -43,8 +43,6 @@ interface IAppDrawerProps {
 
 const AppDrawer: React.FC<IAppDrawerProps> = ({ firstName, lastName, email, trips, ...props }) => {
   const classes = useStyles(props);
-  console.log(trips);
-
   return (
     <Drawer open={props.open} onClose={props.onClose}>
       <Box className={classes.root}>
@@ -69,7 +67,11 @@ const AppDrawer: React.FC<IAppDrawerProps> = ({ firstName, lastName, email, trip
         <MyTrips
           data={Object.entries(trips)
             .map(value => value[1])
-            .map(value => ({ id: +value.id, date: new Date(value.startTime), name: `${value.hostDriverId}` }))}
+            .map(value => ({
+              id: +value.id,
+              date: new Date(value.startTime),
+              name: `${value.hostDriverId}`
+            }))}
           onClick={props.onClose}
         />
       </Box>

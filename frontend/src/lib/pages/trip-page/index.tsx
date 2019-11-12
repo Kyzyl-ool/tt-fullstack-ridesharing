@@ -7,6 +7,7 @@ import dateFormat from 'date-fns/format';
 import ruLocale from 'date-fns/locale/ru';
 import { useParams, useHistory } from 'react-router-dom';
 import TripModel from '../../models/tripModel';
+import addNotification from '../../store/actions/notificationsActions';
 import { snakeObjectToCamel } from '../../helpers/snakeToCamelCase';
 import { connect } from 'react-redux';
 import { IOrganization } from '../../domain/organization';
@@ -25,11 +26,21 @@ function TabPanel(props: TabPanelProps) {
 
 const useStyles = makeStyles((theme: Theme) =>
   createStyles({
-    mainInfo: {},
+    mainInfo: {
+      marginTop: '10px'
+    },
     time: {
       flexWrap: 'wrap',
       display: 'flex',
-      alignItems: 'baseline'
+      alignItems: 'baseline',
+      maxWidth: '330px',
+      justifyContent: 'space-between',
+      margin: '10px 0'
+    },
+    buttons: {
+      display: 'flex',
+      maxWidth: '270px',
+      justifyContent: 'space-between'
     },
     mapContainer: {
       maxHeight: '30vh'
@@ -44,6 +55,11 @@ const useStyles = makeStyles((theme: Theme) =>
   })
 );
 
+interface INotification {
+  text: string;
+  type: 'success' | 'failure';
+}
+
 interface ITripPageProps {
   data: {
     name: string;
@@ -54,6 +70,7 @@ interface ITripPageProps {
     cost: number;
   };
   availableOrganizations: IOrganization[];
+  addNotification: (notification: INotification) => void;
 }
 
 const initialTripInfo = {
@@ -88,12 +105,19 @@ const TripPage: React.FC<ITripPageProps> = props => {
   const classes = useStyles(props);
   const [currentTab, setCurrentTab] = useState(0);
   const [tripInfo, setTripInfo] = useState({} as any);
+  const [passengers, setPassengers] = useState([]);
   const params = useParams() as any;
   const history = useHistory();
-  // console.log(params);
 
   const getTripInfo = async () => {
-    return TripModel.getTripInfo(params.tripId);
+    const res = await TripModel.getTripInfo(params.tripId);
+    if (res) {
+      const fetchedPassengers = await TripModel.getPassengersInfo(res.passengers);
+      if (fetchedPassengers) {
+        setPassengers(fetchedPassengers);
+      }
+    }
+    return res;
   };
 
   useEffect(() => {
@@ -104,17 +128,28 @@ const TripPage: React.FC<ITripPageProps> = props => {
   }, []);
 
   const onJoinTripButtonClick = async () => {
-    await TripModel.joinTrip(tripInfo.id);
+    const res = await TripModel.joinTrip(tripInfo.id);
     // renew trip data
-    const renewedData = await getTripInfo();
-    setTripInfo(snakeObjectToCamel(renewedData));
+    if (res) {
+      const renewedData = await getTripInfo();
+      setTripInfo(snakeObjectToCamel(renewedData));
+      const fetchedPassengers = await TripModel.getPassengersInfo(renewedData.passengers);
+      if (fetchedPassengers) {
+        setPassengers(fetchedPassengers);
+      }
+      props.addNotification({ type: 'success', text: 'Вы успешно присоединились к поездке' });
+    } else {
+      props.addNotification({ type: 'failure', text: 'Присоединится к поездке не удалось' });
+    }
   };
 
+  console.log(passengers, 'PASSENGERS');
+
   return (
-    <Box display={'flex'} flexDirection={'column'} flexWrap={'nowrap'} height={'100%'}>
+    <Box className={classes.mainInfo} display={'flex'} flexDirection={'column'} flexWrap={'nowrap'} height={'95%'}>
       {!_isEmpty(tripInfo) && (
         <Fragment>
-          <Box className={classes.mainInfo}>
+          <Box>
             <Typography
               variant={'h5'}
             >{`${tripInfo.hostDriverInfo.first_name} ${tripInfo.hostDriverInfo.last_name}`}</Typography>
@@ -124,7 +159,7 @@ const TripPage: React.FC<ITripPageProps> = props => {
             <Typography variant={'body1'}>{`До: ${tripInfo.stopAddress}`}</Typography>
           </Box>
           <Box className={classes.time}>
-            <Typography variant={'h1'} display={'inline'}>
+            <Typography variant={'h2'} display={'inline'}>
               {`${tripInfo.startTime.split(' ')[2]}`}
             </Typography>
             <Typography variant={'h4'} display={'inline'}>
@@ -134,7 +169,7 @@ const TripPage: React.FC<ITripPageProps> = props => {
               locale: ruLocale
             })}`}</Typography> */}
           </Box>
-          <Box className={classes.tabActions}>
+          <Box className={classes.buttons}>
             <Button onClick={() => history.goBack()} variant={'text'}>
               Назад
             </Button>
@@ -161,24 +196,24 @@ const TripPage: React.FC<ITripPageProps> = props => {
             </TabPanel>
             <TabPanel index={1} value={currentTab}>
               <Container>
-                <Typography variant={'h4'}>Свободных мест: {tripInfo.seatsAvailable}</Typography>
-                <Typography variant={'h5'}>Mazda RX-7 красный</Typography>
+                <Typography variant={'h5'}>Свободных мест: {tripInfo.seatsAvailable}</Typography>
+                <Typography variant={'h6'}>Mazda RX-7 красный</Typography>
                 <Typography>К 901 АУ</Typography>
                 <Typography variant={'caption'}>Стоимость</Typography>
-                <Typography variant={'h5'}>
+                <Typography variant={'h6'}>
                   <b>{tripInfo.cost ? `${tripInfo.cost} ₽` : 'По усмотрению пассажира'}</b>
                 </Typography>
               </Container>
             </TabPanel>
             <TabPanel index={2} value={currentTab}>
               <Typography variant={'caption'}>Контактный телефон</Typography>
-              <Typography variant={'h5'}>{tripInfo.phoneNumber ? tripInfo.phoneNumber : '—'}</Typography>
+              <Typography variant={'h6'}>{tripInfo.phoneNumber ? tripInfo.phoneNumber : '—'}</Typography>
 
               <Typography variant={'caption'}>VK</Typography>
-              <Typography variant={'h5'}>{tripInfo.vk ? tripInfo.vk : '—'}</Typography>
+              <Typography variant={'h6'}>{tripInfo.vk ? tripInfo.vk : '—'}</Typography>
 
               <Typography variant={'caption'}>E-mail</Typography>
-              <Typography variant={'h5'}>{tripInfo.hostDriverInfo.email}</Typography>
+              <Typography variant={'h6'}>{tripInfo.hostDriverInfo.email}</Typography>
             </TabPanel>
           </Box>
         </Fragment>
@@ -193,7 +228,11 @@ const mapStateToProps = state => {
   };
 };
 
+const mapDispatchToProps = {
+  addNotification
+};
+
 export default connect(
   mapStateToProps,
-  null
+  mapDispatchToProps
 )(TripPage);

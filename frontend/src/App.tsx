@@ -1,8 +1,7 @@
-import React, {useEffect, useState} from 'react';
-import {BrowserRouter as Router, Redirect, Route, Switch} from 'react-router-dom';
-import './App.css';
-import {ThemeProvider} from '@material-ui/styles';
-import {MainTheme} from './lib/themes/MainTheme';
+import React, { useEffect, useState } from 'react';
+import { BrowserRouter as Router, Redirect, Route, Switch } from 'react-router-dom';
+import { ThemeProvider } from '@material-ui/styles';
+import { MainTheme } from './lib/themes/MainTheme';
 import StartingPage from './lib/pages/starting-page';
 import AuthPage from './lib/pages/auth-page';
 import SearchTripPage from './lib/pages/search-trip';
@@ -11,43 +10,24 @@ import SelectAddressPage from './lib/pages/SelectAddressPage';
 import AppDrawer from './lib/containers/Drawer/AppDrawer';
 import TripPage from './lib/pages/trip-page';
 import CreateTripPage from './lib/pages/create-trip';
-import {createStyles, makeStyles, Theme} from '@material-ui/core';
+import { createStyles, makeStyles, Theme } from '@material-ui/core';
 import MainContainer from './lib/containers/MainContainer';
-import {RegistrationPage} from './lib/pages/registration-page';
-import {OrganizationPage} from './lib/pages/organizations-page';
-import {IOrganizationCardProps} from './lib/components/OrganizationItem/OrganizationItem';
+import { RegistrationPage } from './lib/pages/registration-page';
+import { OrganizationPage } from './lib/pages/organizations-page';
+import { IOrganizationCardProps } from './lib/components/OrganizationItem/OrganizationItem';
 import AddNewOrganizationPage from './lib/pages/add-new-organization-page';
-import {OrganizationCard} from './lib/components/OrganizationCard/OrganizationCard';
-import {checkAuth} from './net/auth/auth';
-import {connect} from 'react-redux';
-import {IOrganization} from './lib/domain/organization';
+import { OrganizationCard } from './lib/components/OrganizationCard/OrganizationCard';
+import Notifications from './lib/components/Notifications';
+import { checkAuth } from './net/auth/auth';
+import { connect } from 'react-redux';
+import { IOrganization } from './lib/domain/organization';
 import organizationsModel from './lib/models/organizationsModel';
 import * as actions from './lib/store/actions';
-import {ITripProps} from "./lib/containers/MyTrips/MyTrips";
-import userModel from "./lib/models/userModel";
-import {OrganizationMembersPage} from "./lib/pages/organization-members-page";
-import Uploader from "./lib/components/Uploader/Uploader";
-
-const trips: ITripProps[] = [
-  {
-    name: 'Алексей Кожарин',
-    date: new Date(),
-    avatar: 'https://material-ui.com/static/images/avatar/1.jpg',
-    id: 3
-  },
-  {
-    name: 'Никита Израилев',
-    date: new Date(),
-    avatar: 'https://material-ui.com/static/images/avatar/1.jpg',
-    id: 4
-  },
-  {
-    name: 'Вы',
-    date: new Date(),
-    avatar: 'https://material-ui.com/static/images/avatar/1.jpg',
-    id: 5
-  }
-];
+import { ITripProps } from './lib/containers/MyTrips/MyTrips';
+import userModel from './lib/models/userModel';
+import { OrganizationMembersPage } from './lib/pages/organization-members-page';
+import Uploader from './lib/components/Uploader/Uploader';
+import './App.scss';
 
 const useStyles = makeStyles((theme: Theme) =>
   createStyles({
@@ -71,7 +51,7 @@ interface IApp {
   children?: React.ReactNode;
 }
 
-const App: React.FC<IApp> = ({organizations, myOrganizations, setOrgs, setMyOrgs, ...props}) => {
+const App: React.FC<IApp> = ({ organizations, myOrganizations, setOrgs, setMyOrgs, ...props }) => {
   const classes = useStyles(props);
   // TODO MAKE
   const [authorized, setAuthorized] = useState(false);
@@ -91,8 +71,7 @@ const App: React.FC<IApp> = ({organizations, myOrganizations, setOrgs, setMyOrgs
         setOrgs(result);
         const myOrgsResult = await userModel.getUserData();
         setMyOrgs(myOrgsResult.organizations);
-      } catch (e) {
-      }
+      } catch (e) { }
     };
     fetchOrgs();
   }, []);
@@ -118,19 +97,26 @@ const App: React.FC<IApp> = ({organizations, myOrganizations, setOrgs, setMyOrgs
                 <Route
                   exact
                   path="/organizations"
-                  component={() => <OrganizationPage myOrganizations={myOrganizations} organizations={organizations}/>}
+                  component={() => <OrganizationPage myOrganizations={myOrganizations} organizations={organizations} />}
                 />
-                <Route exact path={`/organizations/:orgId/members`} component={() => <OrganizationMembersPage/>} />
+                <Route exact path={`/organizations/:orgId/members`} component={() => <OrganizationMembersPage />} />
                 <Route exact path={`/organizations/:orgId`} component={() => <OrganizationCard />} />
               </MainContainer>
             )}
             <Route exact path="/organizations" component={() => <OrganizationPage />} />
             <Route exact path="/" component={StartingPage} />
             <Route exact path="/auth" component={() => <AuthPage onSuccess={() => setAuthorized(true)} />} />
-            <Route exact path={'/registration'} component={() => <RegistrationPage onAuth={() => setAuthorized(true)} />} />
+            <Route
+              exact
+              path={'/registration'}
+              component={() => <RegistrationPage onAuth={() => setAuthorized(true)} />}
+            />
           </Switch>
           <AppDrawer open={drawerOpened} onClose={() => setDrawerOpened(false)} />
         </Router>
+        <div className="notification-group">
+          <Notifications />
+        </div>
       </ThemeProvider>
     </div>
   );

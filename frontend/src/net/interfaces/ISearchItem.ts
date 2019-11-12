@@ -5,4 +5,5 @@ export interface ISearchItem {
   address: string;
   avatar: string;
   amountOfFreePlaces: number;
+  amountOfTakenPlaces: number;
 }
