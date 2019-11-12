@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import { HashRouter, Redirect, Route, Switch} from 'react-router-dom';
+import {BrowserRouter, Redirect, Route, Switch} from 'react-router-dom';
 import { ThemeProvider } from '@material-ui/styles';
 import { MainTheme } from './lib/themes/MainTheme';
 import StartingPage from './lib/pages/starting-page';
@@ -79,7 +79,7 @@ const App: React.FC<IApp> = ({ organizations, myOrganizations, setOrgs, setMyOrg
   return (
     <div className="App">
       <ThemeProvider theme={MainTheme}>
-        <HashRouter basename={'/'}>
+        <BrowserRouter>
           {authorized ? <Redirect to="/main" /> : <Redirect to="/" />}
           <Switch>
             {authorized && (
@@ -113,7 +113,7 @@ const App: React.FC<IApp> = ({ organizations, myOrganizations, setOrgs, setMyOrg
             />
           </Switch>
           <AppDrawer open={drawerOpened} onClose={() => setDrawerOpened(false)} />
-        </HashRouter>
+        </BrowserRouter>
         <div className="notification-group">
           <Notifications />
         </div>
