@@ -28,6 +28,7 @@ class User(UserMixin, db.Model):
     last_name = db.Column(db.String(MAX_SURNAME_LENGTH), nullable=False)
     email = db.Column(db.String(MAX_EMAIL_LENGTH), nullable=False, unique=True)
     photo = db.Column(db.String(MAX_URL_LENGTH))
+    phone_number = db.Column(db.String(20), server_default='+71111111111', nullable=False)
     password_hash = db.Column(db.String(94))
 
     def set_password(self, password):
@@ -45,7 +46,7 @@ class Driver(db.Model):
 
 class Organization(db.Model):
     id = db.Column(db.Integer, primary_key=True)
-    name = db.Column(db.String(200))
+    name = db.Column(db.String(200), nullable=False)
     latitude = db.Column(db.Float)
     longitude = db.Column(db.Float)
     address = db.Column(db.String(600))

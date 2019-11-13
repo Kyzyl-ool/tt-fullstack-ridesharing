@@ -1,4 +1,6 @@
 import logging
+import os
+from datetime import datetime
 
 from flask import Flask, jsonify
 from flask_cors import CORS
@@ -49,19 +51,26 @@ def create_app(config_name):
     # register handler for uncaught errors
     # TODO: maybe move error handler to different module?
     def handle_uncaught_error(error):
-        logging.error(error)
+        app.logger.error(error)
         return jsonify({'name': 'uncaught error', 'value': 'see flask errors for more info'})
 
     # TODO: make all views in `views.py` raise `Unauthorized` instead of handling it on their own
     def handle_unauthorized(error):
         return SwaggerResponses.AUTHORIZATION_REQUIRED, 401
 
-    #app.register_error_handler(Exception, handle_uncaught_error)
+    app.register_error_handler(Exception, handle_uncaught_error)
     app.register_error_handler(Unauthorized, handle_unauthorized)
 
     return app
 
 
+def setup_logger():
+    os.makedirs('logs', exist_ok=True)
+    date = datetime.now().strftime('%d_%m__%H_%M')
+    logging.basicConfig(filename=f'logs/error_{date}.log', level=logging.DEBUG)
+
+
 if __name__ == '__main__':
     app = create_app('dev')
+    setup_logger()
     app.run(host='0.0.0.0')

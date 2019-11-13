@@ -46,8 +46,21 @@ def register_user():
     errors = validate_all([validate_params_with_schema(RegisterUserSchema(), data)])
     if errors:
         return errors
-    user = User(first_name=data['first_name'], last_name=data['last_name'], email=data['email'])
+    user = User(
+        first_name=data['first_name'],
+        last_name=data['last_name'],
+        email=data['email'],
+        phone_number=data['phone_number']
+    )
     user.set_password(password=data['password'])
     db.session.add(user)
     db.session.commit()
     return jsonify(user_id=user.id)
+
+
+@api.route('/get_auth', methods=['GET'])
+def get_auth():
+    if not current_user.is_authenticated:
+        return jsonify(dict(is_valid=False))
+    else:
+        return jsonify(dict(is_valid=True, user_id=current_user.id))

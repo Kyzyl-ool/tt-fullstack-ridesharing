@@ -181,6 +181,40 @@ paths:
                   $ref: '#/components/examples/errorAuthorizationRequred'
       security:
       - cookieAuth: []
+
+  /create_organization:
+    post:
+      tags:
+        - user
+      summary: Создать организацию. Вот тут, миленькие мои, нужно передавать всю инфу об организации
+      requestBody:
+        $ref: '#/components/requestBodies/createOrganization'
+      responses:
+        200:
+          description: Успех, организация добавлена
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/organizationID'
+        400:
+          description: Любая из проверок входных данных провалена
+          # TODO: Примеры!
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/errorBase'
+        401:
+          description: Нужна авторизация
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/errorBase'
+              examples:
+                main:
+                  $ref: '#/components/examples/errorAuthorizationRequred'
+      security:
+        - cookieAuth: []
+
   /join_organization:
     post:
       tags:
@@ -345,6 +379,77 @@ paths:
                   $ref: '#/components/examples/errorMissingTwoParameters'
         401:
           description: Пользователь не залогинен
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/errorBase'
+              examples:
+                not logged in:
+                  $ref: '#/components/examples/errorAuthorizationRequred'
+
+  /finish_ride:
+    post:
+      tags:
+        - driver
+      summary: Помечает поездку как завершенную
+      security:
+        - cookieAuth: []
+      description: Должно вызываться при авторизованном водителе
+      requestBody:
+        $ref: '#/components/requestBodies/joinRide'
+      responses:
+        200:
+          description: Успех, отмечена как завершена
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/rideID'
+        400:
+          description: Любая ошибка во входных данных
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/errorBase'
+              examples:
+                invalid ride ID:
+                  $ref: '#/components/examples/errorInvalidRide'
+        401:
+          description: Пользователь не залогинен. БАГ - пока можно быть не залогиненым как водитель
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/errorBase'
+              examples:
+                not logged in:
+                  $ref: '#/components/examples/errorAuthorizationRequred'
+  /leave_ride:
+    post:
+      tags:
+        - user
+      summary: Убирает себя (текущего пользователя) из поездки.
+      security:
+        - cookieAuth: []
+      description: Ты должен быть авторизован как пользователь.
+      requestBody:
+        $ref: '#/components/requestBodies/joinRide'
+      responses:
+        200:
+          description: Успех, пользователь больше не в поездке, а она снова доступна
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/rideID'
+        400:
+          description: Любая ошибка во входных данных
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/errorBase'
+              examples:
+                invalid ride ID:
+                  $ref: '#/components/examples/errorInvalidRide'
+        401:
+          description: Пользователь не залогинен. БАГ - пока можно быть не залогиненым как водитель
           content:
             application/json:
               schema:
@@ -603,6 +708,116 @@ paths:
                   $ref: '#/components/examples/errorAuthorizationRequred'
       security:
       - cookieAuth: []
+
+  /get_auth:
+    get:
+      tags:
+        - anonymous
+      summary: Проверить, валидна ли кука
+      responses:
+        200:
+          description: '`true` или `false`. Если `false`, то `user_id` будет -1'
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  is_valid:
+                    type: boolean
+                  user_id:
+                    type: integer
+  /get_multiple_users_info:
+    post:
+      tags:
+        - user
+      summary: Получить инфу о нескольких юзерах
+      description: Все поля, _кроме пароля и __организации___. `organization_id` при этом возвращается.
+        Если пользователь еще и водитель, то данные будут __только__ о пользователе, но не о водителе.
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                ids:
+                  type: array
+                  items:
+                    type: integer
+            examples:
+              three ids:
+                value:
+                  ids: [1, 3, 5]
+      responses:
+        200:
+          description: Все ок
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  allOf:
+                    - $ref: '#/components/schemas/userID'
+                    - $ref: '#/components/schemas/userBase'
+                    - $ref: '#/components/schemas/userExtra'
+        400:
+          description: Любая ошибка в данных
+          content:
+            application/json:
+              schema:
+                allOf:
+                  - $ref: '#/components/schemas/errorBase'
+              examples:
+                main:
+                  $ref: '#/components/examples/errorEmailNotFound'
+        401:
+          description: Нужна авторизация
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/errorBase'
+              examples:
+                main:
+                  $ref: '#/components/examples/errorAuthorizationRequred'
+      security:
+        - cookieAuth: []
+  /change_phone_number:
+    post:
+      tags:
+        - user
+      summary: Поменять свой номер телефона
+      description: Меняет только у текущего залогиненного пользователя
+      requestBody:
+        content:
+          application/json:
+            schema:
+              allOf:
+                - $ref: '#/components/schemas/phoneNumber'
+      responses:
+        200:
+          description: Все ок, номер сменился
+          content:
+            application/json:
+              schema:
+                allOf:
+                  - $ref: '#/components/schemas/phoneNumber'
+        400:
+          description: Телефон не валиден
+          content:
+            application/json:
+              schema:
+                allOf:
+                  - $ref: '#/components/schemas/errorBase'
+        401:
+          description: Нужна авторизация
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/errorBase'
+              examples:
+                main:
+                  $ref: '#/components/examples/errorAuthorizationRequred'
+      security:
+        - cookieAuth: []
   /get_user_info:
     get:
       tags:
@@ -768,6 +983,13 @@ components:
         id:
           type: integer
 
+    phoneNumber:
+      required:
+        - phone_number
+      properties:
+        phone_number:
+          type: string
+
     login:
       required:
       - login
@@ -785,6 +1007,7 @@ components:
       - email
       - first_name
       - last_name
+      - phone_number
       type: object
       properties:
         first_name:
@@ -795,6 +1018,8 @@ components:
           type: string
         organizations:
           $ref: '#/components/schemas/organizationInfo'
+        phone_number:
+          type: string
 
     userExtra:
       type: object
@@ -1120,6 +1345,13 @@ components:
                 - 37.5208155
                 items:
                   type: number
+
+    createOrganization:
+      content:
+        application/json:
+          schema:
+            allOf:
+              - $ref: '#/components/schemas/organizationInfo'
 
     registerCarForDriver:
       content:
