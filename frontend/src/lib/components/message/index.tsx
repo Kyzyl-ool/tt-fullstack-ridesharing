@@ -1,7 +1,7 @@
 import React from 'react';
 import { Avatar, Box, Typography } from '@material-ui/core';
-import styles from './index.module.scss';
 import { MyAvatar } from '../Avatar/Avatar';
+import './Message.scss';
 
 interface IMessageProps {
   first: boolean;
@@ -23,17 +23,14 @@ const Message: React.FC<IMessageProps> = props => {
         <Avatar src={'https://material-ui.com/static/images/avatar/1.jpg'} />
       </Box>
       <div
-        className={`${styles.message} ${props.first ? styles.message__first : styles.message__notfirst} ${
-          props.last ? styles.message__last : styles.message__notlast
-        } ${props.mine ? styles.message__mine : styles.message__notmine}`}
+        className={`message ${props.first ? 'message__first' : 'message__notfirst'} ${
+          props.last ? 'message__last' : 'message__notlast'
+        } ${props.mine ? 'message__mine' : 'message__notmine'}`}
       >
-        <Typography
-          className={`${styles.body} ${props.mine ? styles.body__mine : styles.body__notmine}`}
-          variant={'body1'}
-        >
+        <Typography className={`'body' ${props.mine ? 'body__mine' : 'body__notmine'}`} variant={'body1'}>
           {props.body}
         </Typography>
-        <Typography className={styles.time} variant={'caption'}>
+        <Typography className="time" variant={'caption'}>
           {props.time}{' '}
         </Typography>
       </div>
