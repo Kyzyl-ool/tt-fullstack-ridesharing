@@ -17,12 +17,18 @@ module.exports = {
   mode: process.env.NODE_ENV === 'production' ? 'production' : 'development',
   devtool: 'inline-source-map',
   entry: {
-    main: './src/index.tsx'
+    main: './src/index.tsx',
+    mainPage: './src/lib/pages/MainPage/index.tsx',
+    authPage: './src/lib/pages/auth-page/index.tsx',
+    registrationPage: './src/lib/pages/registration-page/index.tsx',
+    createTripPage: './src/lib/pages/create-trip/index.tsx',
+    searchTrip: './src/lib/pages/search-trip/index.tsx',
+    selectAddressPage: './src/lib/pages/SelectAddressPage/index.tsx'
   },
   output: {
     path: __dirname + '/dist',
-    filename: 'bundle.js',
-    chunkFilename: '[name].bundle.js'
+    filename: '[name].[hash].js'
+    // chunkFilename: '[name].bundle.js'
   },
   devServer: {
     historyApiFallback: true,
@@ -66,10 +72,11 @@ module.exports = {
       favicon: './public/favicon.ico'
     }),
     new MiniCssExtractPlugin({ filename: 'app.css' }),
-    new webpack.DefinePlugin(envKeys)
+    new webpack.DefinePlugin(envKeys),
+    new webpack.HashedModuleIdsPlugin()
   ],
   optimization: {
-    minimizer: [new UglifyJsPlugin()],
+    minimizer: [new UglifyJsPlugin({ parallel: true })],
     runtimeChunk: 'single',
     splitChunks: {
       chunks: 'all',
