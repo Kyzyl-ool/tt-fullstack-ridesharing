@@ -1,12 +1,24 @@
+const webpack = require('webpack');
 const HtmlWebPackPlugin = require('html-webpack-plugin');
 const MiniCssExtractPlugin = require('mini-css-extract-plugin');
 const UglifyJsPlugin = require('uglifyjs-webpack-plugin');
 const path = require('path');
+const dotenv = require('dotenv');
+
+const env = dotenv.config().parsed;
+
+// reduce it to a nice object, the same as before
+const envKeys = Object.keys(env).reduce((prev, next) => {
+  prev[`process.env.${next}`] = JSON.stringify(env[next]);
+  return prev;
+}, {});
 
 module.exports = {
   mode: process.env.NODE_ENV === 'production' ? 'production' : 'development',
   devtool: 'inline-source-map',
-  entry: './src/index.tsx',
+  entry: {
+    main: './src/index.tsx'
+  },
   output: {
     path: __dirname + '/dist',
     filename: 'bundle.js',
@@ -29,9 +41,9 @@ module.exports = {
       { test: /\.js$/, exclude: /node_modules/, use: ['cache-loader', 'babel-loader'] },
       { test: /\.css$/, use: ['style-loader', 'cache-loader', 'css-loader'] },
       { test: /\.scss$/, exclude: /node_modules/, use: ['style-loader', 'cache-loader', 'css-loader', 'sass-loader'] },
-      { test: /\.(svg|png|jpg|ico)$/, exclude: [/node_modules/, /-icon.svg$/], use: ['file-loader'] },
+      { test: /\.(svg|png|jpg|ico)$/, exclude: [/node_modules/, /-import-icon.svg$/], use: ['file-loader'] },
       {
-        test: /-icon.svg$/,
+        test: /-import-icon.svg$/,
         use: [
           'babel-loader',
           {
@@ -53,15 +65,29 @@ module.exports = {
       filename: 'index.html',
       favicon: './public/favicon.ico'
     }),
-    new MiniCssExtractPlugin({ filename: 'app.css' })
+    new MiniCssExtractPlugin({ filename: 'app.css' }),
+    new webpack.DefinePlugin(envKeys)
   ],
   optimization: {
     minimizer: [new UglifyJsPlugin()],
+    runtimeChunk: 'single',
     splitChunks: {
-      chunks: 'all'
-    },
-    runtimeChunk: {
-      name: 'runtime'
+      chunks: 'all',
+      maxInitialRequests: Infinity,
+      minSize: 0,
+      cacheGroups: {
+        vendor: {
+          test: /[\\/]node_modules[\\/]/,
+          name(module) {
+            // get the name. E.g. node_modules/packageName/not/this/part.js
+            // or node_modules/packageName
+            const packageName = module.context.match(/[\\/]node_modules[\\/](.*?)([\\/]|$)/)[1];
+
+            // npm package names are URL-safe, but some servers don't like @ symbols
+            return `npm.${packageName.replace('@', '')}`;
+          }
+        }
+      }
     }
   }
 };

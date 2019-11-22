@@ -13,7 +13,7 @@ import {
 import { connect } from 'react-redux';
 import { logout } from '../../../net/auth/auth';
 import { useHistory } from 'react-router-dom';
-import MenuIcon from './menu-icon.svg';
+import MenuIcon from './menu-import-icon.svg';
 import './MainContainer.scss';
 
 interface IMainContainerProps {
