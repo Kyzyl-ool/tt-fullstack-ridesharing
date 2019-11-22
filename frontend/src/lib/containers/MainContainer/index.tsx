@@ -10,7 +10,6 @@ import {
   Toolbar,
   Typography
 } from '@material-ui/core';
-import { Menu } from '@material-ui/icons';
 import { connect } from 'react-redux';
 import { logout } from '../../../net/auth/auth';
 import { useHistory } from 'react-router-dom';
@@ -68,7 +67,7 @@ const MainContainer: React.FC<IMainContainerProps> = ({ show = true, onLogout, .
       <AppBar position={'static'}>
         <Toolbar className={classes.toolbar}>
           <IconButton edge={'start'} aria-label={'menu'} onClick={props.onClick}>
-            <Menu style={{ color: 'white' }} />
+            {/* <Menu style={{ color: 'white' }} /> */}
           </IconButton>
           <Typography variant={'h5'}>
             {
@@ -101,7 +100,4 @@ const mapStateToProps = state => {
   };
 };
 
-export default connect(
-  mapStateToProps,
-  null
-)(MainContainer);
+export default connect(mapStateToProps, null)(MainContainer);
