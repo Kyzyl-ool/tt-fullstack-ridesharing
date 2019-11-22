@@ -29,7 +29,7 @@ module.exports = {
       { test: /\.js$/, exclude: /node_modules/, use: ['cache-loader', 'babel-loader'] },
       { test: /\.css$/, use: ['style-loader', 'cache-loader', 'css-loader'] },
       { test: /\.scss$/, exclude: /node_modules/, use: ['style-loader', 'cache-loader', 'css-loader', 'sass-loader'] },
-      { test: /\.(svg|png|jpg|ico)$/, exclude: /node_modules/, use: ['file-loader'] },
+      { test: /\.(svg|png|jpg|ico)$/, exclude: [/node_modules/, /-icon.svg$/], use: ['file-loader'] },
       {
         test: /-icon.svg$/,
         use: [
