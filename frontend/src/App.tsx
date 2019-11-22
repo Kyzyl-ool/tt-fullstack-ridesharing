@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import {BrowserRouter, Redirect, Route, Switch} from 'react-router-dom';
+import { BrowserRouter, Redirect, Route, Switch } from 'react-router-dom';
 import { ThemeProvider } from '@material-ui/styles';
 import { MainTheme } from './lib/themes/MainTheme';
 import StartingPage from './lib/pages/starting-page';
@@ -71,7 +71,7 @@ const App: React.FC<IApp> = ({ organizations, myOrganizations, setOrgs, setMyOrg
         setOrgs(result);
         const myOrgsResult = await userModel.getUserData();
         setMyOrgs(myOrgsResult.organizations);
-      } catch (e) { }
+      } catch (e) {}
     };
     fetchOrgs();
   }, []);
@@ -135,7 +135,4 @@ const mapDispatchToProps = dispatch => {
   };
 };
 
-export default connect(
-  mapStateToProps,
-  mapDispatchToProps
-)(App);
+export default connect(mapStateToProps, mapDispatchToProps)(App);
