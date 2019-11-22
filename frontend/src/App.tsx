@@ -6,7 +6,6 @@ import StartingPage from './lib/pages/starting-page';
 import AuthPage from './lib/pages/auth-page';
 import SearchTripPage from './lib/pages/search-trip';
 import MainPage from './lib/pages/MainPage';
-import SelectAddressPage from './lib/pages/SelectAddressPage';
 import AppDrawer from './lib/containers/Drawer/AppDrawer';
 import TripPage from './lib/pages/trip-page';
 import CreateTripPage from './lib/pages/create-trip';
@@ -90,7 +89,6 @@ const App: React.FC<IApp> = ({ organizations, myOrganizations, setOrgs, setMyOrg
               >
                 <Route exact path="/main" component={MainPage} />
                 <Route exact path="/new_trip" component={CreateTripPage} />
-                <Route exact path="/select_address" component={SelectAddressPage} />
                 <Route exact path="/search_trip" component={SearchTripPage} />
                 <Route path="/trip/:tripId" component={() => <TripPage />} />
                 <Route exact path="/new_organization" component={() => <AddNewOrganizationPage />} />
