@@ -13,6 +13,7 @@ import {
 import { connect } from 'react-redux';
 import { logout } from '../../../net/auth/auth';
 import { useHistory } from 'react-router-dom';
+import MenuIcon from './menu-icon.svg';
 import './MainContainer.scss';
 
 interface IMainContainerProps {
@@ -67,7 +68,7 @@ const MainContainer: React.FC<IMainContainerProps> = ({ show = true, onLogout, .
       <AppBar position={'static'}>
         <Toolbar className={classes.toolbar}>
           <IconButton edge={'start'} aria-label={'menu'} onClick={props.onClick}>
-            {/* <Menu style={{ color: 'white' }} /> */}
+            <MenuIcon style={{ fill: 'white' }} />
           </IconButton>
           <Typography variant={'h5'}>
             {
