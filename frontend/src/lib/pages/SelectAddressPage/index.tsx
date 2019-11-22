@@ -182,7 +182,4 @@ const mapDispatchToProps = dispatch => {
   };
 };
 
-export default connect(
-  mapStateToProps,
-  mapDispatchToProps
-)(StyledSelectAddressPage);
+export default connect(mapStateToProps, mapDispatchToProps)(StyledSelectAddressPage);

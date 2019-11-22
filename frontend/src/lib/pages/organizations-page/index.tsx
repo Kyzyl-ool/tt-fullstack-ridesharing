@@ -37,7 +37,4 @@ const UnconnectedOrganizationPage: React.FC<IOrganizationPageProps> = ({ organiz
   );
 };
 
-export const OrganizationPage = connect(
-  null,
-  null
-)(UnconnectedOrganizationPage);
+export const OrganizationPage = connect(null, null)(UnconnectedOrganizationPage);

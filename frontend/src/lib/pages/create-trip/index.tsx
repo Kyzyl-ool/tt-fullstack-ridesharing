@@ -200,7 +200,4 @@ const mapDispatchToProps = dispatch => {
   };
 };
 
-export default connect(
-  mapStateToProps,
-  mapDispatchToProps
-)(CreateTripPage);
+export default connect(mapStateToProps, mapDispatchToProps)(CreateTripPage);
