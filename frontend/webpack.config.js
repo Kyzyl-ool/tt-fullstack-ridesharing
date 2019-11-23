@@ -1,6 +1,7 @@
 const webpack = require('webpack');
 const HtmlWebPackPlugin = require('html-webpack-plugin');
 const MiniCssExtractPlugin = require('mini-css-extract-plugin');
+const { CleanWebpackPlugin } = require('clean-webpack-plugin');
 const UglifyJsPlugin = require('uglifyjs-webpack-plugin');
 const path = require('path');
 const dotenv = require('dotenv');
@@ -69,6 +70,7 @@ module.exports = {
       filename: 'index.html',
       favicon: './public/favicon.ico'
     }),
+    new CleanWebpackPlugin(),
     new MiniCssExtractPlugin({ filename: 'app.css' }),
     new webpack.DefinePlugin(envKeys),
     new webpack.HashedModuleIdsPlugin()

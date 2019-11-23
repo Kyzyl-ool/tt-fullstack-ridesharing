@@ -1,6 +1,7 @@
 import React from 'react';
 import { createStyles, makeStyles, Theme } from '@material-ui/core';
 import clsx from 'clsx';
+import placeholderUrl from './profile-placeholder-icon.svg';
 
 interface IAvatarProps {
   src?: string;
@@ -31,12 +32,12 @@ const useStyles = makeStyles((theme: Theme) =>
   })
 );
 
-export const MyAvatar: React.FC<IAvatarProps> = ({ src, variant, ...props }) => {
+export const Avatar: React.FC<IAvatarProps> = ({ src, variant, ...props }) => {
   const classes = useStyles(props);
   return (
     <img
       className={clsx(classes.avatar, variant === 'squared' ? classes.squared : classes.rounded)}
-      src={src ? src : 'https://material-ui.com/static/images/avatar/1.jpg'}
+      src={src ? src : placeholderUrl}
     />
   );
 };

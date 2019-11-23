@@ -1,6 +1,6 @@
 import React from 'react';
-import { Avatar, Box, Typography } from '@material-ui/core';
-import { MyAvatar } from '../Avatar/Avatar';
+import { Box, Typography } from '@material-ui/core';
+import { Avatar } from '../Avatar/Avatar';
 import './Message.scss';
 
 interface IMessageProps {

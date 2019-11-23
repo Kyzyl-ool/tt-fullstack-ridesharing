@@ -13,6 +13,7 @@ import { createStyles, makeStyles, Theme } from '@material-ui/core';
 import MainContainer from './lib/containers/MainContainer';
 import { RegistrationPage } from './lib/pages/registration-page';
 import { OrganizationPage } from './lib/pages/organizations-page';
+import UserProfilePage from './lib/pages/user-profile-page';
 import { IOrganizationCardProps } from './lib/components/OrganizationItem/OrganizationItem';
 import AddNewOrganizationPage from './lib/pages/add-new-organization-page';
 import { OrganizationCard } from './lib/components/OrganizationCard/OrganizationCard';
@@ -90,6 +91,7 @@ const App: React.FC<IApp> = ({ organizations, myOrganizations, setOrgs, setMyOrg
                 <Route exact path="/main" component={MainPage} />
                 <Route exact path="/new_trip" component={CreateTripPage} />
                 <Route exact path="/search_trip" component={SearchTripPage} />
+                <Route exact path="/profile" component={UserProfilePage} />
                 <Route path="/trip/:tripId" component={() => <TripPage />} />
                 <Route exact path="/new_organization" component={() => <AddNewOrganizationPage />} />
                 <Route

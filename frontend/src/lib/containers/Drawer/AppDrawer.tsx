@@ -1,6 +1,6 @@
 import React, { useEffect } from 'react';
 import { Box, Button, createStyles, Divider, Drawer, makeStyles, Theme, Typography } from '@material-ui/core';
-import { MyAvatar } from '../../components/Avatar/Avatar';
+import { Avatar } from '../../components/Avatar/Avatar';
 import { MyTrips } from '../MyTrips/MyTrips';
 import { NavLink } from 'react-router-dom';
 import { connect } from 'react-redux';
@@ -40,13 +40,12 @@ interface IAppDrawerProps {
   open: boolean;
   onClose: () => any;
 }
-
 const AppDrawer: React.FC<IAppDrawerProps> = ({ firstName, lastName, email, trips, ...props }) => {
   const classes = useStyles(props);
   return (
     <Drawer open={props.open} onClose={props.onClose}>
       <Box className={classes.root}>
-        <MyAvatar />
+        <Avatar />
         <Box>
           <Typography variant={'h5'}>{`${firstName} ${lastName}`}</Typography>
           <Typography variant={'body1'}>{email}</Typography>
@@ -55,6 +54,9 @@ const AppDrawer: React.FC<IAppDrawerProps> = ({ firstName, lastName, email, trip
         <Box className={classes.buttons}>
           <NavLink to={'/main'} className={classes.noTextDecoration} onClick={props.onClose}>
             <Button className={classes.button}>На главную</Button>
+          </NavLink>
+          <NavLink to={'/profile'} className={classes.noTextDecoration} onClick={props.onClose}>
+            <Button className={classes.button}>Мой профиль</Button>
           </NavLink>
           <NavLink to={'/organizations'} className={classes.noTextDecoration} onClick={props.onClose}>
             <Button className={classes.button}>Мои организации</Button>
@@ -70,7 +72,7 @@ const AppDrawer: React.FC<IAppDrawerProps> = ({ firstName, lastName, email, trip
             .map(value => ({
               id: +value.id,
               date: new Date(value.startTime),
-              name: `${value.hostDriverId}`
+              name: `${value.hostDriverInfo.firstName} ${value.hostDriverInfo.lastName}`
             }))}
           onClick={props.onClose}
         />

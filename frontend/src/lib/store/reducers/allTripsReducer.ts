@@ -1,4 +1,5 @@
 import * as actions from '../actions/actionTypes';
+import { IUser } from '../../domain/user';
 
 /*
  "cost": null,
@@ -23,10 +24,11 @@ export interface IResponseTrip {
   cost: number;
   description: string;
   hostDriverId: number;
+  hostDriverInfo: IUser;
   id: number;
   isAvalivable: boolean;
   isFinished: boolean;
-  passengers: number[];
+  passengers: IUser[];
   startOrganization: number;
   startOrganizationId: number;
   startTime: string;

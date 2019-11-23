@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import { useParams } from 'react-router-dom';
 import { Container, createStyles, makeStyles, Paper, Theme, Typography } from '@material-ui/core';
-import { MyAvatar } from '../../components/Avatar/Avatar';
+import { Avatar } from '../../components/Avatar/Avatar';
 import organizationsModel from '../../models/organizationsModel';
 
 const useStyles = makeStyles((theme: Theme) =>
@@ -43,7 +43,7 @@ export const OrganizationMembersPage: React.FC = ({ ...props }) => {
     <Container>
       {members.map((value, index) => (
         <Paper key={index} className={classes.member}>
-          <MyAvatar src={value.photo} />
+          <Avatar src={value.photo} />
           <Typography variant={'h5'} display={'inline'}>
             <b>{value.first_name}</b>
           </Typography>

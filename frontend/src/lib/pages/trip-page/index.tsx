@@ -75,8 +75,8 @@ interface ITripPageProps {
 
 const initialTripInfo = {
   hostDriverInfo: {
-    first_name: '',
-    last_name: ''
+    firstName: '',
+    lastName: ''
   },
   startOrganizationId: '',
   startTime: '',
@@ -152,7 +152,7 @@ const TripPage: React.FC<ITripPageProps> = props => {
           <Box>
             <Typography
               variant={'h5'}
-            >{`${tripInfo.hostDriverInfo.first_name} ${tripInfo.hostDriverInfo.last_name}`}</Typography>
+            >{`${tripInfo.hostDriverInfo.firstName} ${tripInfo.hostDriverInfo.lastName}`}</Typography>
             <Typography variant={'body1'}>{`От: ${
               props.availableOrganizations.find(org => org.id === tripInfo.startOrganizationId).name
             }`}</Typography>

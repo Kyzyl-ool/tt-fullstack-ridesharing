@@ -3,7 +3,7 @@ import _isEmpty from 'lodash/isEmpty';
 import { Box, Card, CardContent, createStyles, makeStyles, Theme, Typography } from '@material-ui/core';
 import dateFnsFormat from 'date-fns/format';
 import ruLocale from 'date-fns/locale/ru';
-import { MyAvatar } from '../Avatar/Avatar';
+import { Avatar } from '../Avatar/Avatar';
 import { NavLink } from 'react-router-dom';
 import './SearchResultItem.scss';
 
@@ -101,7 +101,7 @@ export const SearchResultItem: React.FC<ISearchResultItemProps> = props => {
             </Box>
           </Box>
           <Box className={classes.rightTopElement}>
-            <MyAvatar src={'https://material-ui.com/static/images/avatar/1.jpg'} />
+            <Avatar src={'https://material-ui.com/static/images/avatar/1.jpg'} />
           </Box>
         </CardContent>
       </NavLink>

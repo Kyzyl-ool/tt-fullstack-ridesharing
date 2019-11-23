@@ -73,7 +73,7 @@ const AuthPage: React.FC<IAuthPage> = props => {
           onChange={event => setLogin(event.target.value)}
           value={login}
           className={classes.form}
-          label={'email'}
+          label={'Email'}
           variant={'outlined'}
           placeholder={'Введите ваш email'}
         />

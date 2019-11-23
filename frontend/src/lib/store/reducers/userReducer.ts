@@ -10,6 +10,7 @@ const initialState = {
   lastName: '',
   email: '',
   userId: 0,
+  photo: '',
   isDriver: false
 };
 

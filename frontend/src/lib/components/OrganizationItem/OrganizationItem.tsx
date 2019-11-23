@@ -1,6 +1,6 @@
 import React from 'react';
 import { Box, Card, CardContent, createStyles, makeStyles, Theme, Typography } from '@material-ui/core';
-import { MyAvatar } from '../Avatar/Avatar';
+import { Avatar } from '../Avatar/Avatar';
 import { NavLink } from 'react-router-dom';
 
 const useStyles = makeStyles((theme: Theme) =>
@@ -33,7 +33,7 @@ export const OrganizationItem: React.FC<IOrganizationCardProps> = ({ name, addre
       <NavLink to={`/organizations/${id}`} className={classes.noTextDecoration}>
         <CardContent className={classes.card}>
           <Box>
-            <MyAvatar
+            <Avatar
               src={
                 (avatarSrc && avatarSrc) ||
                 'https://cdn.steemitimages.com/DQmUcM45ZzL8A697W6v4LGph1RPerpDUnutJx73JXtz1nRc/neticon.jpg'
