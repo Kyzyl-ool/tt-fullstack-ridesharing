@@ -19,17 +19,6 @@ export const OrganizationMembersPage: React.FC = ({ ...props }) => {
   const orgId = params.orgId;
   const [members, setMembers] = useState([]);
   const classes = useStyles(props);
-  /*
-  [
-  {
-    "id": 0,
-    "first_name": "string",
-    "last_name": "string",
-    "email": "string",
-    "photo": "string"
-  }
-]
-   */
 
   useEffect(() => {
     const fetchData = async () => {
@@ -45,11 +34,11 @@ export const OrganizationMembersPage: React.FC = ({ ...props }) => {
         <Paper key={index} className={classes.member}>
           <Avatar src={value.photo} />
           <Typography variant={'h5'} display={'inline'}>
-            <b>{value.first_name}</b>
+            <b>{value.firstName}</b>
           </Typography>
           &nbsp;
           <Typography variant={'h5'} display={'inline'}>
-            <b>{value.last_name}</b>
+            <b>{value.lastName}</b>
           </Typography>
         </Paper>
       ))}

@@ -12,7 +12,7 @@ interface IOrganizationPageProps {
   myOrganizations: IOrganization[];
 }
 
-const UnconnectedOrganizationPage: React.FC<IOrganizationPageProps> = ({ organizations, myOrganizations }) => {
+const OrganizationPage: React.FC<IOrganizationPageProps> = ({ organizations, myOrganizations }) => {
   const [addingNew, setAddingNew] = useState(false);
   const data: IOrganizationCardProps[] =
     myOrganizations &&
@@ -37,4 +37,11 @@ const UnconnectedOrganizationPage: React.FC<IOrganizationPageProps> = ({ organiz
   );
 };
 
-export const OrganizationPage = connect(null, null)(UnconnectedOrganizationPage);
+const mapStateToProps = state => {
+  return {
+    organizations: state.org.organizations,
+    myOrganizations: state.usr.organizations
+  };
+};
+
+export default connect(mapStateToProps, null)(OrganizationPage);

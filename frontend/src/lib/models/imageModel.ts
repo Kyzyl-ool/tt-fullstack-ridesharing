@@ -22,7 +22,6 @@ export default class ImageModel {
       const fileParts = file.name.split('.');
       const fileName = fileParts[0];
       const fileType = fileParts[1];
-      console.log(fileName, fileType);
       const resAfterSigning = await axios.post('https://images.sharemyride.ru/api/sign_s3', {
         fileName: md5(fileName),
         fileType: fileType

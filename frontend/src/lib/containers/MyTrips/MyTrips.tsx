@@ -43,7 +43,6 @@ export const MyTrips: React.FC<IMyTripsProps> = props => {
     const camelDriverInfo = snakeObjectToCamel(driverInfo[0]);
     return `${camelDriverInfo.firstName} ${camelDriverInfo.lastName}`;
   };
-  console.log(props);
   return (
     <Box display={'flex'} flexDirection={'column'}>
       {props.data.map((value, index) => (

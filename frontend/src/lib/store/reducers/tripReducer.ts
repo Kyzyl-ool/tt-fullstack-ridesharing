@@ -29,7 +29,6 @@ const initialState = {
 export const tripReducer = (state = initialState, action) => {
   switch (action.type) {
     case actions.SET_START_ORGANIZATION:
-      console.log(action);
       return {
         ...state,
         [action.payload.flag]: { ...state[action.payload.flag], startOrganization: action.payload.startOrganization }

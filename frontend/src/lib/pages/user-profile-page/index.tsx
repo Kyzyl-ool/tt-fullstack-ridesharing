@@ -19,7 +19,6 @@ class UserProfilePage extends PureComponent<IUserProfilePageProps> {
   public uploadImage = async () => {
     const file = this.uploadInput.files[0];
     const url = await ImageModel.uploadImage(file);
-    console.log(url, 'URL');
   };
 
   public render() {

@@ -4,7 +4,6 @@ import * as types from './actionTypes';
 export const NOTIFICATION_DEFAULT_TIMEOUT = 3000;
 
 export default function addNotification(notification) {
-  console.log(notification);
   return dispatch => {
     const notificationId = nanoid();
     dispatch({
