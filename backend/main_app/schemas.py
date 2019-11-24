@@ -1,20 +1,10 @@
 from marshmallow import fields, validates, ValidationError
 from flask import jsonify
-import phonenumbers
 
 from app import ma, db
 from main_app.model import Ride, User, Organization, Driver, Car
+from main_app.controller import check_email, check_phone_number, check_image_url
 from main_app.responses import SwaggerResponses
-
-
-def _check_and_format_phone_number(phone_number):
-    try:
-        number = phonenumbers.parse(phone_number)
-        if not phonenumbers.is_valid_number(number):
-            raise ValidationError('Invalid phone number')
-    except:
-        raise ValidationError('Invalid phone number')
-    return phonenumbers.format_number(number, phonenumbers.PhoneNumberFormat.E164)
 
 
 class FindBestRidesSchema(ma.ModelSchema):
@@ -61,18 +51,42 @@ class RideSchema(ma.ModelSchema):
         include_fk = True
 
 
-class OrganizationSchema(ma.ModelSchema):
+class OrganizationSchemaUserIDs(ma.ModelSchema):
     class Meta:
         model = Organization
         exclude = ['is_start_for']
 
 
-class UserSchema(ma.ModelSchema):
+class UserSchemaOrganizationInfo(ma.ModelSchema):
     class Meta:
         model = User
         include_fk = True
         exclude = ['password_hash', 'all_rides']
-    organizations = fields.Nested(OrganizationSchema, many=True)
+    is_driver = fields.Boolean()
+    organizations = fields.Nested(OrganizationSchemaUserIDs, many=True)
+
+
+class UserSchemaOrganizationIDs(ma.ModelSchema):
+    class Meta:
+        model = User
+        include_fk = True
+        exclude = ['password_hash', 'all_rides']
+    is_driver = fields.Boolean()
+
+
+class OrganizationSchemaUserInfo(ma.ModelSchema):
+    class Meta:
+        model = Organization
+        exclude = ['is_start_for']
+    users = fields.Nested(UserSchemaOrganizationIDs, many=True)
+
+
+class PhotoURLSchema(ma.ModelSchema):
+    photo_url = fields.String(required=True)
+
+    @validates('photo_url')
+    def check_photo_url(self, photo_url):
+        return check_image_url(photo_url)
 
 
 class UserSchemaNoOrganizations(ma.ModelSchema):
@@ -103,23 +117,30 @@ class RegisterDriverSchema(ma.ModelSchema):
             raise ValidationError('Driver is already registered')
         return driver
 
+    @validates('license_1')
+    @validates('license_2')
+    def is_valid_image_url(self, image_url):
+        return check_image_url(image_url)
+
 
 class RegisterUserSchema(ma.ModelSchema):
     class Meta:
         model = User
     email = fields.Email(required=True)
     password = fields.String(required=True)
+    phone_number = fields.String(required=True)
 
     @validates('phone_number')
     def is_phone_like(self, phone_number):
-        return _check_and_format_phone_number(phone_number)
+        return check_phone_number(phone_number)
 
     @validates('email')
-    def email_is_not_in_db(self, email):
-        user = db.session.query(User).filter_by(email=email).first()
-        if user:
-            raise ValidationError('Email is already registered')
-        return email
+    def is_valid_email(self, email):
+        return check_email(email)
+
+    @validates('photo_url')
+    def is_valid_avatar_url(self, avatar_url):
+        return check_image_url(avatar_url)
 
 
 class ChangePhoneSchema(ma.ModelSchema):
@@ -127,7 +148,35 @@ class ChangePhoneSchema(ma.ModelSchema):
 
     @validates('phone_number')
     def is_phone_like(self, phone_number):
-        return _check_and_format_phone_number(phone_number)
+        return check_phone_number(phone_number)
+
+
+class ChangeNameSchema(ma.ModelSchema):
+    first_name = fields.String(required=True)
+
+    @validates('first_name')
+    def is_not_none(self, name):
+        if not name:
+            raise ValidationError('Invalid first name')
+        return name
+
+
+class ChangeLastNameSchema(ma.ModelSchema):
+    last_name = fields.String(required=True)
+
+    @validates('last_name')
+    def is_not_none(self, name):
+        if not name:
+            raise ValidationError('Invalid last name')
+        return name
+
+
+class ChangeEmailSchema(ma.ModelSchema):
+    email = fields.String(required=True)
+
+    @validates('email')
+    def is_valid_email(self, email):
+        return check_email(email)
 
 
 class CarSchema(ma.ModelSchema):

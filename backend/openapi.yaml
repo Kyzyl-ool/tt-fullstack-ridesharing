@@ -23,7 +23,7 @@ paths:
       tags:
       - anonymous
       summary: Зарегать пользователя
-      description: Регает пользователя, без авы.
+      description: Регает пользователя, без авы. **Если передать аватарку, то будет ошибка.**
       requestBody:
         $ref: '#/components/requestBodies/registerUser'
       responses:
@@ -662,6 +662,7 @@ paths:
       - cookieAuth: []
   /am_i_driver:
     get:
+      deprecated: true
       tags:
       - user
       summary: Водитель ли я
@@ -780,6 +781,138 @@ paths:
                   $ref: '#/components/examples/errorAuthorizationRequred'
       security:
         - cookieAuth: []
+
+  /change_email:
+    post:
+      tags:
+        - user
+      summary: Поменять свой email
+      description: Меняет только у текущего залогиненного пользователя
+      requestBody:
+        content:
+          application/json:
+            schema:
+              required:
+                - email
+              properties:
+                email:
+                  type: string
+      responses:
+        200:
+          description: Все ок, email сменился
+          content:
+            application/json:
+              schema:
+                allOf:
+                  - $ref: '#/components/schemas/userID'
+                  - $ref: '#/components/schemas/userBase'
+                  - $ref: '#/components/schemas/userExtra'
+        400:
+          description: Ошибка в запросе
+          content:
+            application/json:
+              schema:
+                allOf:
+                  - $ref: '#/components/schemas/errorBase'
+        401:
+          description: Нужна авторизация
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/errorBase'
+              examples:
+                main:
+                  $ref: '#/components/examples/errorAuthorizationRequred'
+      security:
+        - cookieAuth: []
+
+  /change_last_name:
+    post:
+      tags:
+        - user
+      summary: Поменять свою фамилию
+      description: Меняет только у текущего залогиненного пользователя
+      requestBody:
+        content:
+          application/json:
+            schema:
+              required:
+                - last_name
+              properties:
+                last_name:
+                  type: string
+      responses:
+        200:
+          description: Все ок, фамилия сменилась
+          content:
+            application/json:
+              schema:
+                allOf:
+                  - $ref: '#/components/schemas/userID'
+                  - $ref: '#/components/schemas/userBase'
+                  - $ref: '#/components/schemas/userExtra'
+        400:
+          description: Ошибка в запросе
+          content:
+            application/json:
+              schema:
+                allOf:
+                  - $ref: '#/components/schemas/errorBase'
+        401:
+          description: Нужна авторизация
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/errorBase'
+              examples:
+                main:
+                  $ref: '#/components/examples/errorAuthorizationRequred'
+      security:
+        - cookieAuth: []
+
+  /change_first_name:
+    post:
+      tags:
+        - user
+      summary: Поменять свое имя
+      description: Меняет только у текущего залогиненного пользователя
+      requestBody:
+        content:
+          application/json:
+            schema:
+              required:
+                - first_name
+              properties:
+                first_name:
+                  type: string
+      responses:
+        200:
+          description: Все ок, имя сменилось
+          content:
+            application/json:
+              schema:
+                allOf:
+                  - $ref: '#/components/schemas/userID'
+                  - $ref: '#/components/schemas/userBase'
+                  - $ref: '#/components/schemas/userExtra'
+        400:
+          description: Ошибка в запросе
+          content:
+            application/json:
+              schema:
+                allOf:
+                  - $ref: '#/components/schemas/errorBase'
+        401:
+          description: Нужна авторизация
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/errorBase'
+              examples:
+                main:
+                  $ref: '#/components/examples/errorAuthorizationRequred'
+      security:
+        - cookieAuth: []
   /change_phone_number:
     post:
       tags:
@@ -799,7 +932,9 @@ paths:
             application/json:
               schema:
                 allOf:
-                  - $ref: '#/components/schemas/phoneNumber'
+                  - $ref: '#/components/schemas/userID'
+                  - $ref: '#/components/schemas/userBase'
+                  - $ref: '#/components/schemas/userExtra'
         400:
           description: Телефон не валиден
           content:
@@ -1024,9 +1159,12 @@ components:
     userExtra:
       type: object
       properties:
-        photo:
+        photo_url:
           type: string
           description: URL в хранилище
+        is_driver:
+          type: boolean
+          description: Является ли пользователь водителем
 
     driverBase:
       required:
