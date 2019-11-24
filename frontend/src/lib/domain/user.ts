@@ -2,7 +2,7 @@ export interface IUser {
   email: string;
   id: number;
   isDriver: boolean;
-  oragnizations: any;
+  organizations: any;
   phoneNumber: string;
   photoUrl: string | null;
   firstName: string;

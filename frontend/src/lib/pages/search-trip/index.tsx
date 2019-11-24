@@ -46,7 +46,7 @@ const serializeTrip = (tripData: any) => {
   return {
     id,
     date: startTime,
-    name: hostDriverInfo && `${hostDriverInfo.first_name} ${hostDriverInfo.last_name}`,
+    name: hostDriverInfo && `${hostDriverInfo.firstName} ${hostDriverInfo.lastName}`,
     address: stopAddress,
     avatar: null,
     amountOfTakenPlaces: passengers.length,
@@ -119,6 +119,7 @@ const SearchTripPage: React.FC<ISearchTripPageProps> = ({
   useEffect(() => {
     setSearchButtonState(addressFrom.length > 0 && addressTo.length > 0);
   }, [addressFrom, addressTo]);
+  console.log('PROPS INSIDE', rideTime, arrivalPoint, startOrganization, availableOrganizations);
   return (
     <Box display={'flex'} alignContent={'space-between'} flexDirection={'column'}>
       <Modal open={isModalShown} onClose={() => setIsModalShown(false)}>

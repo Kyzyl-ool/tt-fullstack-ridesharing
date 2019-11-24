@@ -143,8 +143,6 @@ const TripPage: React.FC<ITripPageProps> = props => {
     }
   };
 
-  console.log(passengers, 'PASSENGERS');
-
   return (
     <Box className={classes.mainInfo} display={'flex'} flexDirection={'column'} flexWrap={'nowrap'} height={'95%'}>
       {!_isEmpty(tripInfo) && (

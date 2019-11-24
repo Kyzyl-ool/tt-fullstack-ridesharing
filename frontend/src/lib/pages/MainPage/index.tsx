@@ -2,44 +2,15 @@ import React, { PureComponent } from 'react';
 import { Link, Redirect } from 'react-router-dom';
 import { Button } from '@material-ui/core';
 import { connect } from 'react-redux';
-import { setRoleAction, setUserDataAction, setOrganizationsAction } from '../../store/actions';
-import UserModel from '../../models/userModel';
-import OrganizationsModel from '../../models/organizationsModel';
-import { IUser } from '../../domain/user';
-import { ICar } from '../../domain/car';
-import { IOrganization } from '../../domain/organization';
+import { setRoleAction } from '../../store/actions';
 import './MainPage.scss';
-import { setMyTripsAction } from '../../store/actions/tripActions';
-import { IResponseTrip } from '../../store/reducers/allTripsReducer';
-import tripModel from '../../models/tripModel';
-import { setCarsAction } from '../../store/actions/carActions';
-import { canBeDriverAction } from '../../store/actions/userActions';
 
 interface IMainPageProps {
   setRole: (role: string) => void;
-  setUserData: (userData: IUser) => void;
-  setOrganizations: (organizations: IOrganization) => void;
-  setMyTrips: (trips: IResponseTrip) => void;
-  canBeDriver: (canBe: boolean) => void;
-  setCars: (cars: ICar[]) => void;
   isUserDriver: boolean;
 }
 
 class MainPage extends PureComponent<IMainPageProps> {
-  public async componentDidMount() {
-    const organizations = await OrganizationsModel.getOrganizations();
-    const userData = await UserModel.getUserData();
-    const trips = await tripModel.getMyTrips();
-    const isUserDriver = await UserModel.isUserDriver();
-    this.props.setUserData(userData);
-    this.props.setOrganizations(organizations);
-    this.props.setMyTrips(trips);
-    this.props.canBeDriver(isUserDriver);
-    if (isUserDriver) {
-      const cars = await UserModel.getUserCars();
-      this.props.setCars(cars);
-    }
-  }
   public onDriverButtonClick = () => {
     this.props.setRole('DRIVER');
   };
@@ -80,12 +51,7 @@ const mapStateToProps = state => ({
 
 const mapDispatchToProps = dispatch => {
   return {
-    setRole: role => dispatch(setRoleAction(role)),
-    setCars: cars => dispatch(setCarsAction(cars)),
-    setUserData: userData => dispatch(setUserDataAction(userData)),
-    setOrganizations: organizations => dispatch(setOrganizationsAction(organizations)),
-    setMyTrips: trips => dispatch(setMyTripsAction(trips)),
-    canBeDriver: canBe => dispatch(canBeDriverAction(canBe))
+    setRole: role => dispatch(setRoleAction(role))
   };
 };
 

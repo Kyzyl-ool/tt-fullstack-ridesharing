@@ -1,5 +1,5 @@
-import axios from 'axios'
-import {BACKEND_URL} from "../../config/backend/backend";
+import axios from 'axios';
+import { BACKEND_URL } from '../../config/backend/backend';
 
 interface IAuth {
   login: string;
@@ -8,21 +8,19 @@ interface IAuth {
 
 export async function checkAuth(): Promise<boolean> {
   try {
-    const response = await axios.get(`${BACKEND_URL}/get_user_info`, {withCredentials: true})
-    if (typeof response.data.id === "number")
-      return true
+    const response = await axios.get(`${BACKEND_URL}/get_user_info`, { withCredentials: true });
+    if (typeof response.data.id === 'number') return true;
   } catch (e) {
-    return false
+    return false;
   }
-
 }
 
-export async function logout(): Promise<boolean> {
+export async function logout(): Promise<any> {
   try {
-    const response = await axios.post(`${BACKEND_URL}/logout`, {}, {withCredentials: true})
-    return true
+    const res = await axios.post(`${BACKEND_URL}/logout`, {}, { withCredentials: true });
+    return res.data;
   } catch {
-    return false
+    return false;
   }
 }
 
@@ -36,4 +34,4 @@ export function authHandler(fetcher: Promise<any>, onSuccess: CallableFunction, 
     });
 }
 
-export function authOnServer() { }
+export function authOnServer() {}
