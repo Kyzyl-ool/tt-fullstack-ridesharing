@@ -1,6 +1,16 @@
 import React, { useReducer, useState } from 'react';
 import clsx from 'clsx';
-import { Button, Container, createStyles, Drawer, makeStyles, Paper, TextField, Theme } from '@material-ui/core';
+import {
+  Button,
+  Container,
+  createStyles,
+  Drawer,
+  makeStyles,
+  Paper,
+  TextField,
+  Theme,
+  Typography
+} from '@material-ui/core';
 import { MainColor } from '../../themes/MainColor';
 import Message from '../../components/message';
 import { messagesMockData } from '../../../mocks/messages';
@@ -64,6 +74,16 @@ const useStyles = makeStyles((theme: Theme) =>
     },
     input: {
       color: 'white'
+    },
+    clickToContinue: {
+      position: 'absolute',
+      top: '50%',
+      left: '50%',
+      width: '600px',
+      height: '1rem',
+      marginLeft: '-300px',
+      marginTop: '-0.5rem',
+      color: 'rgba(0, 0, 0, 0.1)'
     }
   })
 );
@@ -89,10 +109,15 @@ const ChatPage = ({ ...props }) => {
 
   const submitHandler = arg => {
     if (text) {
-      plotIndex !== 5 && // special for password
+      plotIndex !== 6 && // special for password
         dispatch({
           type: 'new',
           payload: { time: new Date().toLocaleTimeString(), from: myId, message: text }
+        });
+      plotIndex === 6 &&
+        dispatch({
+          type: 'new',
+          payload: { time: new Date().toLocaleTimeString(), from: myId, message: 'Пароль скрыт' }
         });
       dispatch({
         type: 'next'
@@ -204,6 +229,7 @@ const ChatPage = ({ ...props }) => {
         case 5:
         case 6: {
           !formEnable && setFormEnable(true);
+          document.getElementById(`plot${plotIndex}input`).focus();
           break;
         }
         case 7: {
@@ -264,6 +290,7 @@ const ChatPage = ({ ...props }) => {
               )}
               {plotIndex === 6 && (
                 <TextField
+                  id={'plot6input'}
                   label="Придумайте пароль..."
                   className={clsx(classes.messageForm)}
                   variant="filled"
@@ -272,20 +299,30 @@ const ChatPage = ({ ...props }) => {
                   rows={1}
                   value={text}
                   onChange={e => setText(e.target.value)}
+                  onKeyDown={e => {
+                    e.key === 'Enter' && submitHandler();
+                  }}
                   type={'password'}
+                  autoFocus={plotIndex === 6}
                 />
               )}
               {plotIndex === 5 && (
                 <MuiPhoneNumber
+                  id={'plot5input'}
                   defaultCountry={'ru'}
                   disableDropdown
                   className={clsx(classes.messageForm)}
                   value={text}
                   onChange={e => setText(e)}
+                  onKeyDown={e => {
+                    e.key === 'Enter' && submitHandler();
+                  }}
+                  autoFocus={plotIndex === 5}
                 />
               )}
               {plotIndex === 4 && (
                 <TextField
+                  id={'plot4input'}
                   label="Ваш email..."
                   className={clsx(classes.messageForm)}
                   variant="filled"
@@ -294,10 +331,15 @@ const ChatPage = ({ ...props }) => {
                   rows={1}
                   value={text}
                   onChange={e => setText(e.target.value)}
+                  onKeyDown={e => {
+                    e.key === 'Enter' && submitHandler();
+                  }}
+                  autoFocus={plotIndex === 4}
                 />
               )}
               {plotIndex === 3 && (
                 <TextField
+                  id={'plot3input'}
                   label="Ваша фамилия..."
                   className={clsx(classes.messageForm)}
                   variant="filled"
@@ -306,10 +348,15 @@ const ChatPage = ({ ...props }) => {
                   rows={1}
                   value={text}
                   onChange={e => setText(e.target.value)}
+                  onKeyDown={e => {
+                    e.key === 'Enter' && submitHandler();
+                  }}
+                  autoFocus={plotIndex === 3}
                 />
               )}
               {plotIndex === 2 && (
                 <TextField
+                  id={'plot2input'}
                   label="Введите ваше имя..."
                   className={clsx(classes.messageForm)}
                   variant="filled"
@@ -318,6 +365,10 @@ const ChatPage = ({ ...props }) => {
                   rows={1}
                   value={text}
                   onChange={e => setText(e.target.value)}
+                  onKeyDown={e => {
+                    e.key === 'Enter' && submitHandler();
+                  }}
+                  autoFocus={plotIndex === 2}
                 />
               )}
             </>
@@ -330,6 +381,11 @@ const ChatPage = ({ ...props }) => {
           )}
         </Paper>
       </Drawer>
+      {(![2, 3, 4, 5, 6, 7].includes(plotIndex) || [1].includes(driverPlotIndex)) && (
+        <Typography variant={'h4'} className={classes.clickToContinue}>
+          Нажмите для продолжения...
+        </Typography>
+      )}
     </Container>
   );
 };

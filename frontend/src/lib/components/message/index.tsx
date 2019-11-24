@@ -27,7 +27,7 @@ const Message: React.FC<IMessageProps> = props => {
           props.last ? 'message__last' : 'message__notlast'
         } ${props.mine ? 'message__mine' : 'message__notmine'}`}
       >
-        <Typography className={`'body' ${props.mine ? 'body__mine' : 'body__notmine'}`} variant={'body1'}>
+        <Typography className={`body ${props.mine ? 'body__mine' : 'body__notmine'}`} variant={'body1'}>
           {props.body}
         </Typography>
         <Typography className="time" variant={'caption'}>
