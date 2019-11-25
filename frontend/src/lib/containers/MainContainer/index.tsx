@@ -15,6 +15,7 @@ import { logout } from '../../../net/auth/auth';
 import { useHistory } from 'react-router-dom';
 import MenuIcon from './menu-import-icon.svg';
 import './MainContainer.scss';
+import { logoutSessionAction } from '../../store/actions/userActions';
 
 interface IMainContainerProps {
   show?: boolean;
@@ -27,6 +28,7 @@ interface IMainContainerProps {
   role?: string;
   firstName: string;
   lastName: string;
+  logoutSession: () => void;
   onLogout: () => any;
 }
 
@@ -37,6 +39,7 @@ const useStyles = makeStyles((theme: Theme) =>
       right: theme.spacing(2)
     },
     toolbar: {
+      background: 'linear-gradient(90deg, rgba(251,162,2,1) 0%, rgba(81,45,168,1) 100%)',
       position: 'relative'
     },
     container: {
@@ -45,7 +48,7 @@ const useStyles = makeStyles((theme: Theme) =>
   })
 );
 
-const MainContainer: React.FC<IMainContainerProps> = ({ show = true, onLogout, ...props }) => {
+const MainContainer: React.FC<IMainContainerProps> = ({ show = true, logoutSession, onLogout, ...props }) => {
   const history = useHistory();
   const classes = useStyles(props);
   const logoutHandler = () => {
@@ -57,6 +60,7 @@ const MainContainer: React.FC<IMainContainerProps> = ({ show = true, onLogout, .
       }
     });
     history.push('/auth');
+    logoutSession();
     onLogout();
   };
 
@@ -101,7 +105,11 @@ const mapStateToProps = state => {
   };
 };
 
-export default connect(
-  mapStateToProps,
-  null
-)(MainContainer);
+const mapDispatchToProps = dispatch => {
+  // console.log(state);
+  return {
+    logoutSession: () => dispatch(logoutSessionAction())
+  };
+};
+
+export default connect(mapStateToProps, mapDispatchToProps)(MainContainer);

@@ -7,7 +7,7 @@ from main_app.model import User
 from main_app.schemas import RegisterUserSchema
 from main_app.views import api
 from main_app.responses import SwaggerResponses, build_error
-from main_app.controller import validate_params_with_schema, validate_all
+from main_app.controller import validate_params_with_schema, validate_all, is_valid_phone_number, format_phone_number
 
 
 @api.route('/logout', methods=['POST'])
@@ -30,7 +30,11 @@ def login():
     login = data.get('login')
     password = data.get('password')
     # We login only via email for now
-    user = User.query.filter_by(email=login).first()
+    # If login is phone number
+    if is_valid_phone_number(login):
+        user = User.query.filter_by(phone_number=format_phone_number(login)).first()
+    else:
+        user = User.query.filter_by(email=login).first()
     if user is None or not user.check_password(password):
         error = build_error(SwaggerResponses.INCORRECT_LOGIN)
         return jsonify(error), 400

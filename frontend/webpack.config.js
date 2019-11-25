@@ -18,14 +18,10 @@ module.exports = {
   mode: process.env.NODE_ENV === 'production' ? 'production' : 'development',
   devtool: 'inline-source-map',
   entry: {
-    main: './src/index.tsx',
-    mainPage: './src/lib/pages/MainPage/index.tsx',
-    authPage: './src/lib/pages/auth-page/index.tsx',
-    registrationPage: './src/lib/pages/registration-page/index.tsx',
-    createTripPage: './src/lib/pages/create-trip/index.tsx',
-    searchTrip: './src/lib/pages/search-trip/index.tsx'
+    main: './src/index.tsx'
   },
   output: {
+    publicPath: '/',
     path: __dirname + '/dist',
     filename: '[name].[hash].js'
   },

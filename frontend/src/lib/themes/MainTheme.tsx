@@ -13,6 +13,27 @@ export const MainTheme: Theme = createMuiTheme({
     MuiTypography: {
       h3: {
         color: 'white'
+      },
+      h1: {
+        fontFamily: 'IBM Plex Sans, sans-serif'
+      },
+      h2: {
+        fontFamily: 'IBM Plex Sans, sans-serif'
+      },
+      h4: {
+        fontFamily: 'IBM Plex Sans, sans-serif'
+      },
+      h5: {
+        fontFamily: 'IBM Plex Sans, sans-serif'
+      },
+      h6: {
+        fontFamily: 'IBM Plex Sans, sans-serif'
+      },
+      body1: {
+        fontFamily: 'IBM Plex Sans, sans-serif'
+      },
+      caption: {
+        fontFamily: 'IBM Plex Sans, sans-serif'
       }
     },
     MuiBackdrop: {

@@ -230,7 +230,4 @@ const mapDispatchToProps = {
   addNotification
 };
 
-export default connect(
-  mapStateToProps,
-  mapDispatchToProps
-)(TripPage);
+export default connect(mapStateToProps, mapDispatchToProps)(TripPage);

@@ -101,7 +101,7 @@ export const SearchResultItem: React.FC<ISearchResultItemProps> = props => {
             </Box>
           </Box>
           <Box className={classes.rightTopElement}>
-            <Avatar src={'https://material-ui.com/static/images/avatar/1.jpg'} />
+            <Avatar src={props.avatar} />
           </Box>
         </CardContent>
       </NavLink>

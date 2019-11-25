@@ -17,19 +17,30 @@
     padding-top: 30px;
   }
   &__contact-header {
-    padding-top: 1.5rem;
+    padding-top: 1rem;
   }
   &__contact-content {
     margin: 5px;
     font-size: 16px;
+    padding-bottom: 0.5rem;
+    color: #512DA8;
+  }
+  &__section-header {
+    font-size: 0.8rem;
+    color: #512DA8;
+    border-bottom: 1px solid #512DA8;
+    text-align: end;
   }
   &__container {
     display: flex;
     flex-direction: column;
     padding: 3%;
   }
+  &__no-driver-placeholder {
+    padding-top: 1rem;
+    color: #512DA8;
+  }
   &__name {
-    font-family: "Roboto", "Helvetica", "Arial", sans-serif;
     font-weight: 400;
     line-height: 1.33;
     letter-spacing: 0em;
