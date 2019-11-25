@@ -22,7 +22,7 @@ const Message: React.FC<IMessageProps> = props => {
       display={'flex'}
       flexDirection={`${props.mine ? 'row-reverse' : 'row'}`}
       alignItems={'flex-end'}
-      style={{ height: '40px' }}
+      style={{ height: '45px' }}
     >
       <Box style={{ margin: '0px 8px -20px 8px', opacity: `${props.last ? 1 : 0}` }}>
         <Avatar

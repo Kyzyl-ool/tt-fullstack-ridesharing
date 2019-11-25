@@ -15,6 +15,7 @@ import { PROJECT_NAME } from '../../../config/names';
 import { authHandler } from '../../../net/auth/auth';
 import { connect } from 'react-redux';
 import { setOrganizationsAction, setUserDataAction } from '../../store/actions';
+import KeyboardEventHandler from 'react-keyboard-event-handler';
 
 const useStyles = makeStyles({
   heading: {
@@ -88,6 +89,12 @@ const AuthPage: React.FC<IAuthPageProps> = props => {
           label={'Email'}
           variant={'outlined'}
           placeholder={'Введите ваш email'}
+          onKeyDown={event => {
+            if (event.key === 'Enter') {
+              setLoading(true);
+              authHandler(initializeUser({ login, password }), onSuccess, onFail);
+            }
+          }}
         />
         <TextField
           onChange={event => setPassword(event.target.value)}
@@ -97,7 +104,14 @@ const AuthPage: React.FC<IAuthPageProps> = props => {
           variant={'outlined'}
           placeholder={'Введите пароль'}
           type={'password'}
+          onKeyDown={event => {
+            if (event.key === 'Enter') {
+              setLoading(true);
+              authHandler(initializeUser({ login, password }), onSuccess, onFail);
+            }
+          }}
         />
+
         <Button
           onClick={() => {
             setLoading(true);
@@ -138,4 +152,7 @@ const mapDispatchToProps = dispatch => {
   };
 };
 
-export default connect(mapStateToProps, mapDispatchToProps)(AuthPage);
+export default connect(
+  mapStateToProps,
+  mapDispatchToProps
+)(AuthPage);
