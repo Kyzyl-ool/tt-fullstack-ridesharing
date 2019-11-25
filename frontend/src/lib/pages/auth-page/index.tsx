@@ -18,7 +18,9 @@ import { setOrganizationsAction, setUserDataAction } from '../../store/actions';
 
 const useStyles = makeStyles({
   heading: {
-    paddingBottom: '64px'
+    paddingBottom: '64px',
+    fontFamily: 'Pacifico, cursive',
+    color: '#512DA8'
   },
   form: {
     margin: '4px 0 4px 0',
@@ -27,7 +29,12 @@ const useStyles = makeStyles({
   button: {
     boxShadow: '0px 4px 4px rgba(0, 0, 0, 0.25);',
     margin: '40px 0 4px 0',
-    width: '200px'
+    width: '250px'
+  },
+  registerButton: {
+    boxShadow: '0px 4px 4px rgba(0, 0, 0, 0.25);',
+    width: '250px',
+    background: 'linear-gradient(90deg, rgba(251,162,2,1) 0%, rgba(81,45,168,1) 100%)'
   },
   progress: {
     position: 'absolute',
@@ -100,6 +107,9 @@ const AuthPage: React.FC<IAuthPageProps> = props => {
           className={classes.button}
         >
           Войти
+        </Button>
+        <Button onClick={() => history.push('/registration')} variant={'contained'} className={classes.registerButton}>
+          Присоединиться
         </Button>
         {loading && <CircularProgress className={classes.progress} />}
       </Box>

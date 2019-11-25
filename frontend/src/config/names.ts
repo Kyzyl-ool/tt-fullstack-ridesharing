@@ -1,1 +1,1 @@
-export const PROJECT_NAME = 'Ridesharing';
+export const PROJECT_NAME = 'ShareMyRide';

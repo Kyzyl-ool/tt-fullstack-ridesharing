@@ -21,6 +21,7 @@ module.exports = {
     main: './src/index.tsx'
   },
   output: {
+    publicPath: '/',
     path: __dirname + '/dist',
     filename: '[name].[hash].js'
   },

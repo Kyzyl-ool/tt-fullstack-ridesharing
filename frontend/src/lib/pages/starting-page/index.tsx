@@ -10,10 +10,12 @@ const useStyles = makeStyles({
     backgroundColor: MainColor[400]
   },
   heading: {
+    fontFamily: 'Pacifico, cursive',
     textShadow: '0px 3px 5px rgba(0, 0, 0, 0.2), 0px 1px 18px rgba(0, 0, 0, 0.12), 0px 6px 10px rgba(0, 0, 0, 0.14);',
     paddingBottom: '80px'
   },
   button: {
+    background: 'linear-gradient(90deg, rgba(251,162,2,1) 0%, rgba(81,45,168,1) 100%)',
     boxShadow: '0px 4px 4px rgba(0, 0, 0, 0.25);',
     borderRadius: '24px',
     border: '1px solid white',

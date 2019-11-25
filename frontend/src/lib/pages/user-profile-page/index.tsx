@@ -8,6 +8,7 @@ import { updateAvatarAction } from '../../store/actions/userActions';
 
 interface IUserProfilePageProps {
   avatarUrl: string;
+  isDriver: boolean;
   firstName: string;
   lastName: string;
   phoneNumber: string;
@@ -21,12 +22,11 @@ class UserProfilePage extends PureComponent<IUserProfilePageProps> {
   public uploadImage = async () => {
     const file = this.uploadInput.files[0];
     const url = await ImageModel.uploadImage(file);
-    console.log(url);
     this.props.updateAvatar(url);
   };
 
   public render() {
-    const { avatarUrl, firstName, lastName, phoneNumber, email } = this.props;
+    const { avatarUrl, firstName, lastName, phoneNumber, email, isDriver } = this.props;
     const fullName = `${firstName} ${lastName}`;
     return (
       <div className="user-profile-page__container">
@@ -63,6 +63,11 @@ class UserProfilePage extends PureComponent<IUserProfilePageProps> {
           </div>
           <p className="user-profile-page__contact-content">—</p>
           <div className="user-profile-page__section-header">Сведения об автомобиле</div>
+          {isDriver ? (
+            <div></div>
+          ) : (
+            <div className="user-profile-page__no-driver-placeholder">Пока что Вы не зарегистрированы как водитель</div>
+          )}
         </div>
       </div>
     );
@@ -71,6 +76,7 @@ class UserProfilePage extends PureComponent<IUserProfilePageProps> {
 
 const mapStateToProps = state => {
   return {
+    isDriver: state.usr.isDriver,
     avatarUrl: state.usr.photoUrl,
     email: state.usr.email,
     phoneNumber: state.usr.phoneNumber,
