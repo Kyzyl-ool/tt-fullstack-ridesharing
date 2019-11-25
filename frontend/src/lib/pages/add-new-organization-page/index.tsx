@@ -76,4 +76,7 @@ const mapDispatchToProps = dispatch => {
   };
 };
 
-export default connect(mapStateToProps, mapDispatchToProps)(AddNewOrganizationPage);
+export default connect(
+  mapStateToProps,
+  mapDispatchToProps
+)(AddNewOrganizationPage);

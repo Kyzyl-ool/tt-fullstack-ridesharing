@@ -34,7 +34,7 @@ const useStyles = makeStyles((theme: Theme) =>
     chat: {
       paddingTop: '40px',
       paddingBottom: '24vh',
-      minHeight: '100vh',
+      minHeight: '70vh',
       display: 'flex',
       flexDirection: 'column',
       justifyContent: 'flex-end'
@@ -88,8 +88,14 @@ const useStyles = makeStyles((theme: Theme) =>
       height: '1rem',
       marginLeft: '-300px',
       marginTop: '-0.5rem',
-      color: 'rgba(0, 0, 0, 0.1)',
-      textAlign: 'center'
+      color: 'rgba(0, 0, 0, 0.4)',
+      textAlign: 'center',
+      [theme.breakpoints.down('sm')]: {
+        fontSize: '1rem'
+      },
+      [theme.breakpoints.between('sm', 'lg')]: {
+        fontSize: '1.5rem'
+      }
     }
   })
 );
