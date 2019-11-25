@@ -18,13 +18,8 @@ interface IMessageProps {
 
 const Message: React.FC<IMessageProps> = props => {
   return (
-    <Box
-      display={'flex'}
-      flexDirection={`${props.mine ? 'row-reverse' : 'row'}`}
-      alignItems={'flex-end'}
-      style={{ height: '45px' }}
-    >
-      <Box style={{ margin: '0px 8px -20px 8px', opacity: `${props.last ? 1 : 0}` }}>
+    <Box display={'flex'} flexDirection={`${props.mine ? 'row-reverse' : 'row'}`} alignItems={'flex-end'} mt={0.2}>
+      <Box style={{ margin: '0px 8px 0px 8px', opacity: `${props.last ? 1 : 0}` }}>
         <Avatar
           src={!props.mine ? 'https://ridesharing-bucket1.s3.amazonaws.com/31f86839cecd6ea2f661550da2aaa52a' : null}
         />

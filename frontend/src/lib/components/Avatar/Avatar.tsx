@@ -11,10 +11,10 @@ interface IAvatarProps {
 const useStyles = makeStyles((theme: Theme) =>
   createStyles({
     avatar: {
-      margin: theme.spacing(2),
+      // margin: theme.spacing(2),
       [theme.breakpoints.down('sm')]: {
-        width: '48px',
-        height: '48px'
+        width: '32px',
+        height: '32px'
       },
       [theme.breakpoints.between('sm', 'lg')]: {
         width: '60px',
