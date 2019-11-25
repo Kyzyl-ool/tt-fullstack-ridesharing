@@ -42,4 +42,7 @@ const mapStateToProps = state => ({
   notifications: state.nots
 });
 
-export default connect(mapStateToProps, null)(Notifications);
+export default connect(
+  mapStateToProps,
+  null
+)(Notifications);
