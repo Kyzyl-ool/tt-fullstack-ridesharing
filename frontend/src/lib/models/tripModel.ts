@@ -43,6 +43,14 @@ export default class TripModel {
     }
   };
 
+  public static leaveTrip = async (rideId: number) => {
+    try {
+      return await axios.post(`${BACKEND_URL}/leave_ride`, { ride_id: rideId }, { withCredentials: true });
+    } catch (e) {
+      return null;
+    }
+  };
+
   public static getPassengersInfo = async (passengerIds: number[]) => {
     try {
       const res = await axios.post(
