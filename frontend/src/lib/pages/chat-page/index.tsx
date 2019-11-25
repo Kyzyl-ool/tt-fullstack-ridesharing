@@ -1,4 +1,4 @@
-import React, { useReducer, useState } from 'react';
+import React, { useEffect, useReducer, useState } from 'react';
 import clsx from 'clsx';
 import {
   Button,
@@ -21,6 +21,7 @@ import userModel from '../../models/userModel';
 import UserModel from '../../models/userModel';
 import { checkAuth } from '../../../net/auth/auth';
 import Uploader from '../../components/Uploader/Uploader';
+import KeyboardEventHandler from 'react-keyboard-event-handler';
 
 interface IMessage {
   from: number;
@@ -31,8 +32,12 @@ interface IMessage {
 const useStyles = makeStyles((theme: Theme) =>
   createStyles({
     chat: {
+      paddingTop: '40px',
       paddingBottom: '24vh',
-      minHeight: '100vh'
+      minHeight: '100vh',
+      display: 'flex',
+      flexDirection: 'column',
+      justifyContent: 'flex-end'
     },
     dense: {
       marginTop: theme.spacing(2)
@@ -76,14 +81,15 @@ const useStyles = makeStyles((theme: Theme) =>
       color: 'white'
     },
     clickToContinue: {
-      position: 'absolute',
-      top: '50%',
+      position: 'fixed',
+      top: '10%',
       left: '50%',
       width: '600px',
       height: '1rem',
       marginLeft: '-300px',
       marginTop: '-0.5rem',
-      color: 'rgba(0, 0, 0, 0.1)'
+      color: 'rgba(0, 0, 0, 0.1)',
+      textAlign: 'center'
     }
   })
 );
@@ -160,6 +166,8 @@ const ChatPage = ({ ...props }) => {
         // console.log(plotIndex);
         break;
     }
+
+    // window.scrollBy(0, 1000)
   };
   const onLoaded = url => {
     setLicensePhotoURL(url);
@@ -233,7 +241,7 @@ const ChatPage = ({ ...props }) => {
           document.getElementById(`plot${plotIndex}input`).focus();
           break;
         }
-        case 7: {
+        case 8: {
           finishRegistration();
           break;
         }
@@ -245,7 +253,12 @@ const ChatPage = ({ ...props }) => {
         }
       }
     }
+
+    // window.scrollBy(0, 1000)
   };
+  useEffect(() => {
+    window.scrollTo(0, 9999);
+  });
 
   return (
     <Container>
@@ -382,11 +395,10 @@ const ChatPage = ({ ...props }) => {
           )}
         </Paper>
       </Drawer>
-      {(![2, 3, 4, 5, 6, 7].includes(plotIndex) || [1].includes(driverPlotIndex)) && (
-        <Typography variant={'h4'} className={classes.clickToContinue}>
-          Нажмите для продолжения...
-        </Typography>
-      )}
+      <Typography variant={'h4'} className={classes.clickToContinue} onClick={tapHandler}>
+        Нажмите для продолжения...
+      </Typography>
+      <KeyboardEventHandler handleKeys={['space', 'enter']} onKeyEvent={(key, e) => tapHandler()} />
     </Container>
   );
 };

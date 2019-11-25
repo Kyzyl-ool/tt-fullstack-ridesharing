@@ -3,6 +3,7 @@ import axios from 'axios';
 import {md5} from "../../../utils/hash/hash";
 import {ThemeProvider} from '@material-ui/styles'
 import {MainTheme} from "../../themes/MainTheme";
+import Button from "@material-ui/core/Button";
 
 
 class App extends Component {
@@ -13,11 +14,14 @@ class App extends Component {
             url: ""
         }
         this.onLoaded = props.onLoaded
+        this.loaded = false
     }
 
     handleChange = (ev) => {
         this.setState({success: false, url: ""});
-
+        if (this.uploadInput.files[0]) {
+            this.loaded = true;
+        }
     }
     // Perform the upload
     handleUpload = (ev) => {
@@ -63,11 +67,11 @@ class App extends Component {
     render() {
         return (
             <ThemeProvider theme={MainTheme}>
-                <label htmlFor={'input-elem'} className={'MuiButton-root MuiButton-contained'}>Выбрать фото</label>
+                <Button variant={"outlined"} disabled={this.loaded}> <label htmlFor={'input-elem'}> {this.loaded ? 'Фото выбрано' : 'Выбрать фото'}</label> </Button>
                 <input style={{display: 'none'}} id={'input-elem'} onChange={this.handleChange} ref={(ref) => {
                     this.uploadInput = ref;
                 }} type="file" accept="image/*" multiple/>
-                <button className={'MuiButton-root MuiButton-contained'} onClick={this.handleUpload}>Загрузить</button>
+                <Button disabled={!this.loaded} onClick={this.handleUpload}>Загрузить</Button>
             </ThemeProvider>
         );
     }

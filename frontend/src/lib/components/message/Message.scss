@@ -9,7 +9,12 @@ $r: 16px;
   max-width: calc(90% - 56px);
   position: relative;
   justify-content: flex-end;
+  z-index: 1;
 
+  &__password {
+    color: rgba(0,0,0,0.6);
+    font-style: italic;
+  }
 
   &__first {
     border-top-left-radius: $r;
@@ -53,4 +58,5 @@ $r: 16px;
   justify-self: flex-end;
   align-self: flex-end;
   padding-left: 8px;
+  color: rgba(0,0,0,0.4);
 }
