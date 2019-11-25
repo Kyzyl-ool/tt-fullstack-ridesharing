@@ -22,13 +22,14 @@ export default class UserModel {
       return null;
     }
   };
-  public static registerUser = async ({ firstName, lastName, email, password }: IUserRegistrationData) => {
+  public static registerUser = async ({ firstName, lastName, email, password, phoneNumber }: IUserRegistrationData) => {
     try {
       const res = await axios.post(`${BACKEND_URL}/register_user`, {
         first_name: firstName,
         last_name: lastName,
         email,
-        password
+        password,
+        phone_number: phoneNumber
       });
       return res.data;
     } catch (e) {

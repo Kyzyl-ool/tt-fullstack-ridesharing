@@ -3,6 +3,7 @@ export interface IUserRegistrationData {
   lastName: string;
   email: string;
   password: string;
+  phoneNumber: string;
 }
 
 export interface IDriverRegistrationData {

@@ -173,7 +173,8 @@ const ChatPage = ({ ...props }) => {
         firstName: name,
         lastName: lastName,
         email: email,
-        password: password
+        password: password,
+        phoneNumber: phoneNumer
       })
       .then(value => {
         if (typeof value.user_id === 'number') {
