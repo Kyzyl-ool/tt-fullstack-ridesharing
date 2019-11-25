@@ -164,7 +164,7 @@ const SearchTripPage: React.FC<ISearchTripPageProps> = ({
             </Button>
           </Box>
           <Box display="flex" justifyContent="space-evenly" className={classes.searchButton}>
-            <Button variant="text" onClick={() => history.goBack()}>
+            <Button variant="text" onClick={() => history.push('/main')}>
               Назад
             </Button>
             <Button onClick={onStartSearching}>Найти</Button>
@@ -193,7 +193,4 @@ const mapDispatchToProps = dispatch => {
   };
 };
 
-export default connect(
-  mapStateToProps,
-  mapDispatchToProps
-)(SearchTripPage);
+export default connect(mapStateToProps, mapDispatchToProps)(SearchTripPage);

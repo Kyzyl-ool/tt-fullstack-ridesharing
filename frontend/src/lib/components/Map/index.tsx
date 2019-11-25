@@ -1,9 +1,9 @@
 import React, { PureComponent } from 'react';
-import markerImage from './location_marker.svg';
 import _isEmpty from 'lodash/isEmpty';
 import _get from 'lodash/get';
 import MapGL, { Source, Layer, NavigationControl, GeolocateControl, Marker } from '@urbica/react-map-gl';
 import MapModel from '../../models/mapModel';
+import './Map.scss';
 import 'mapbox-gl/dist/mapbox-gl.css';
 
 const MAPBOX_ACCESS_TOKEN = process.env.REACT_APP_MAPBOX_TOKEN || '';
@@ -103,7 +103,7 @@ class UrbicaMap extends PureComponent<IUrbicaMapProps, IUrbicaMapState> {
           />
           {markered && (
             <Marker latitude={viewport.latitude} longitude={viewport.longitude}>
-              <img src={markerImage} />
+              <div className="map__marker"></div>
             </Marker>
           )}
           <NavigationControl showCompass showZoom position="bottom-right" />

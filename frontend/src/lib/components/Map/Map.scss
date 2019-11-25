@@ -1,0 +1,8 @@
+.map {
+  &__marker {
+    width: 40px;
+    height: 40px;
+    background: url('./location_marker.svg') no-repeat;
+    background-size: cover;
+  }
+}
