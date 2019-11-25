@@ -1,9 +1,10 @@
+/* eslint-disable @typescript-eslint/camelcase */
 import axios from 'axios';
 import { md5 } from '../../utils/hash/hash';
 import { BACKEND_URL } from '../../config/backend/backend';
 
 export default class ImageModel {
-  public static putImage = async (signedRequest: string, file: File, fileType: string) => {
+  private static putImage = async (signedRequest: string, file: File, fileType: string) => {
     try {
       await axios.put(signedRequest, file, {
         headers: {
@@ -14,9 +15,10 @@ export default class ImageModel {
       throw new Error(e);
     }
   };
-  // public static saveImage = async () => {
-  //   const res = await axios.post(`${BACKEND_URL}/get_all_organizations`, {  }, { withCredentials: true })
-  // }
+  private static saveImage = async (photoUrl: string) => {
+    const res = await axios.post(`${BACKEND_URL}/upload_avatar`, { photo_url: photoUrl }, { withCredentials: true });
+    return res.data.photo_url;
+  };
   public static uploadImage = async (file: File) => {
     try {
       const fileParts = file.name.split('.');
@@ -30,7 +32,8 @@ export default class ImageModel {
       const signedRequest = returnData.signedRequest;
       const url = returnData.url;
       await ImageModel.putImage(signedRequest, file, fileType);
-      return url;
+      const savedUrl = await ImageModel.saveImage(url);
+      return savedUrl;
     } catch (e) {
       throw new Error(e);
     }

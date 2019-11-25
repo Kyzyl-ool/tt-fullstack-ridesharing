@@ -1,9 +1,10 @@
 import React, { PureComponent } from 'react';
-import { Container, Button, Typography } from '@material-ui/core';
+import { Button, Typography } from '@material-ui/core';
 import { connect } from 'react-redux';
 import ImageModel from '../../models/imageModel';
 import { Avatar } from '../../components/Avatar/Avatar';
 import './UserProfilePage.scss';
+import { updateAvatarAction } from '../../store/actions/userActions';
 
 interface IUserProfilePageProps {
   avatarUrl: string;
@@ -11,6 +12,7 @@ interface IUserProfilePageProps {
   lastName: string;
   phoneNumber: string;
   email: string;
+  updateAvatar: (newAvatar: string) => void;
 }
 
 class UserProfilePage extends PureComponent<IUserProfilePageProps> {
@@ -19,6 +21,8 @@ class UserProfilePage extends PureComponent<IUserProfilePageProps> {
   public uploadImage = async () => {
     const file = this.uploadInput.files[0];
     const url = await ImageModel.uploadImage(file);
+    console.log(url);
+    this.props.updateAvatar(url);
   };
 
   public render() {
@@ -45,6 +49,7 @@ class UserProfilePage extends PureComponent<IUserProfilePageProps> {
           <p className="user-profile-page__name">{fullName}</p>
         </div>
         <div className="user-profile-page__contact-info">
+          <div className="user-profile-page__section-header">Контактные данные</div>
           <div className="user-profile-page__contact-header">
             <Typography variant="h5">Электронная почта</Typography>
           </div>
@@ -53,6 +58,11 @@ class UserProfilePage extends PureComponent<IUserProfilePageProps> {
             <Typography variant="h5">Номер телефона</Typography>
           </div>
           <p className="user-profile-page__contact-content">{phoneNumber}</p>
+          <div className="user-profile-page__contact-header">
+            <Typography variant="h5">Telegram</Typography>
+          </div>
+          <p className="user-profile-page__contact-content">—</p>
+          <div className="user-profile-page__section-header">Сведения об автомобиле</div>
         </div>
       </div>
     );
@@ -61,7 +71,7 @@ class UserProfilePage extends PureComponent<IUserProfilePageProps> {
 
 const mapStateToProps = state => {
   return {
-    avatarUrl: state.usr.photo,
+    avatarUrl: state.usr.photoUrl,
     email: state.usr.email,
     phoneNumber: state.usr.phoneNumber,
     firstName: state.usr.firstName,
@@ -69,7 +79,10 @@ const mapStateToProps = state => {
   };
 };
 
-export default connect(
-  mapStateToProps,
-  null
-)(UserProfilePage);
+const mapDispatchToProps = dispatch => {
+  return {
+    updateAvatar: newAvatar => dispatch(updateAvatarAction(newAvatar))
+  };
+};
+
+export default connect(mapStateToProps, mapDispatchToProps)(UserProfilePage);

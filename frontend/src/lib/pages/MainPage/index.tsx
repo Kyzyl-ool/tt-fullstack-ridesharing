@@ -1,6 +1,7 @@
 import React, { PureComponent } from 'react';
 import { Link, Redirect } from 'react-router-dom';
 import { Button } from '@material-ui/core';
+import RoleButton from '../../components/RoleButton';
 import { connect } from 'react-redux';
 import { setRoleAction } from '../../store/actions';
 import './MainPage.scss';
@@ -18,26 +19,32 @@ class MainPage extends PureComponent<IMainPageProps> {
     this.props.setRole('PASSENGER');
   };
 
-  public redirectPassenger = () => {
-    this.onPassengerButtonClick();
-    return <Redirect to="/search_trip" />;
-  };
-
   render() {
     return (
       <div className="main-page__container">
         <div className="main-page__button-container">
-          {this.props.isUserDriver && (
-            <Link style={{ textDecoration: 'none' }} to="/new_trip">
-              <Button onClick={this.onDriverButtonClick} size="large">
-                <div className="main-page__button">Водитель</div>
-              </Button>
-            </Link>
-          )}
+          <Link style={{ textDecoration: 'none' }} to={this.props.isUserDriver ? '/new_trip' : '/main'}>
+            <RoleButton
+              role="driver"
+              disable={!this.props.isUserDriver}
+              onClick={this.onDriverButtonClick}
+              label="Водитель"
+              className="main-page__button"
+              comment={
+                this.props.isUserDriver
+                  ? 'Выберите, чтобы создать поездку и найти спутников'
+                  : 'К сожалению, вы не зарегистрированы как водитель'
+              }
+            />
+          </Link>
           <Link style={{ textDecoration: 'none' }} to="/search_trip">
-            <Button onClick={this.onPassengerButtonClick} size="large">
-              <div className="main-page__button">Пассажир</div>
-            </Button>
+            <RoleButton
+              role="passenger"
+              onClick={this.onPassengerButtonClick}
+              label="Пассажир"
+              className="main-page__button"
+              comment="Выберите, чтобы найти коллегу, с которым Вам по пути"
+            />
           </Link>
         </div>
       </div>
@@ -55,7 +62,4 @@ const mapDispatchToProps = dispatch => {
   };
 };
 
-export default connect(
-  mapStateToProps,
-  mapDispatchToProps
-)(MainPage);
+export default connect(mapStateToProps, mapDispatchToProps)(MainPage);

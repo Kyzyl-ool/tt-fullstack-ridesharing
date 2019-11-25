@@ -14,19 +14,23 @@ const useStyles = makeStyles((theme: Theme) =>
       height: '60px'
     },
     root: {
-      padding: theme.spacing(1)
+      padding: theme.spacing(1),
+      width: '260px'
     },
     buttons: {
       display: 'flex',
       flexDirection: 'column',
-      padding: theme.spacing(1),
-      justifyContent: 'space-between'
+      padding: theme.spacing(1)
       // marginTop: theme.spacing(1)
     },
     button: {
+      width: '80%',
       marginTop: theme.spacing(1)
     },
     noTextDecoration: {
+      display: 'flex',
+      alignItems: 'center',
+      justifyContent: 'center',
       textDecoration: 'none'
     }
   })
@@ -36,16 +40,17 @@ interface IAppDrawerProps {
   firstName: string;
   lastName: string;
   email: string;
+  photoUrl: string;
   trips: IResponseTrip[];
   open: boolean;
   onClose: () => any;
 }
-const AppDrawer: React.FC<IAppDrawerProps> = ({ firstName, lastName, email, trips, ...props }) => {
+const AppDrawer: React.FC<IAppDrawerProps> = ({ firstName, lastName, email, photoUrl, trips, ...props }) => {
   const classes = useStyles(props);
   return (
     <Drawer open={props.open} onClose={props.onClose}>
       <Box className={classes.root}>
-        <Avatar />
+        <Avatar src={photoUrl} />
         <Box>
           <Typography variant={'h5'}>{`${firstName} ${lastName}`}</Typography>
           <Typography variant={'body1'}>{email}</Typography>

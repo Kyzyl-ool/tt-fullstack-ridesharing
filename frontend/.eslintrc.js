@@ -19,7 +19,8 @@ module.exports =  {
       "prettier/prettier": ["error", { "singleQuote": true }],
       "@typescript-eslint/explicit-function-return-type": "off",
       "@typescript-eslint/interface-name-prefix": [1, { "prefixWithI": "always", "allowUnderscorePrefix": true }],
-      "react/prop-types": "off"
+      "react/prop-types": "off",
+      "react/no-unescape-entities": "off"
     },
     env: {
       browser: true,
