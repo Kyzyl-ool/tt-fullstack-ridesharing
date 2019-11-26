@@ -1,11 +1,9 @@
-import React, { useEffect, useState } from 'react';
+import React, { useState } from 'react';
 import { IOrganizationCardProps, OrganizationItem } from '../../components/OrganizationItem/OrganizationItem';
-import { Box, Button, Container } from '@material-ui/core';
+import { Box, Button, Typography } from '@material-ui/core';
 import NewOrganizationCard from '../../components/OrganizationCard/NewOrganizationCard';
 import { connect } from 'react-redux';
 import { IOrganization } from '../../domain/organization';
-import OrganizationsModel from '../../models/organizationsModel';
-import * as actions from '../../store/actions';
 
 interface IOrganizationPageProps {
   organizations: IOrganization[];
@@ -19,21 +17,36 @@ const OrganizationPage: React.FC<IOrganizationPageProps> = ({ organizations, myO
     myOrganizations.map(value => {
       return {
         name: value.name,
-        address: `${value.latitude}`, // todo: incorrect
-        id: +value.id
+        id: +value.id,
+        latitude: value.latitude,
+        longitude: value.longitude
       };
     });
 
   return (
-    <div>
+    <Box mt={4} display={'flex'} flexDirection={'column'} justifyContent={'center'}>
+      <Box mb={2}>
+        <Typography variant={'h4'} align={'center'}>
+          {data.length > 0 ? 'Вы состоите в следующих организациях:' : 'Вы ещё не состоите ни в одной организации.'}
+        </Typography>
+      </Box>
       {data && data.map((value, index) => <OrganizationItem key={index} {...value} />)}
       {addingNew && <NewOrganizationCard myOrganizations={myOrganizations} organizations={organizations} />}
-      {!addingNew && (
-        <Button variant={'text'} color={'primary'} onClick={() => setAddingNew(true)}>
-          Присоединиться к новой организации
-        </Button>
+      {addingNew && (
+        <Box mt={2} display={'flex'} justifyContent={'center'}>
+          <Button variant={'text'} color={'primary'} onClick={() => setAddingNew(false)}>
+            Отмена
+          </Button>
+        </Box>
       )}
-    </div>
+      {!addingNew && (
+        <Box mt={2} display={'flex'} justifyContent={'center'}>
+          <Button variant={'text'} color={'primary'} onClick={() => setAddingNew(true)}>
+            Присоединиться к новой организации
+          </Button>
+        </Box>
+      )}
+    </Box>
   );
 };
 
@@ -44,4 +57,7 @@ const mapStateToProps = state => {
   };
 };
 
-export default connect(mapStateToProps, null)(OrganizationPage);
+export default connect(
+  mapStateToProps,
+  null
+)(OrganizationPage);

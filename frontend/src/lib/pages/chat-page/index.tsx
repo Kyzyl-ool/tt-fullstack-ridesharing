@@ -58,23 +58,13 @@ const useStyles = makeStyles((theme: Theme) =>
       [theme.breakpoints.up['lg']]: {
         width: '50%'
       }
-      // margin: theme.spacing(2)
     },
     messageFormContainer: {
       display: 'flex',
       flexDirection: 'row',
       justifyContent: 'space-around',
       alignItems: 'center',
-      // margin: theme.spacing(2),
       padding: theme.spacing(2)
-      // maxHeight: '20vh',
-      // position: 'fixed',
-      // bottom: 0,
-      // left: 0,
-      // width: '100%',
-      // borderWidth: '1px',
-      // borderStyle: 'solid',
-      // borderColor: theme.palette.divider
     },
     sendButton: {
       height: '50%'
@@ -331,7 +321,7 @@ const ChatPage = ({ ...props }) => {
                   value={text}
                   onChange={e => setText(e.target.value)}
                   onKeyDown={e => {
-                    e.key === 'Enter' && submitHandler();
+                    e.key === 'Enter' && submitHandler(0);
                   }}
                   type={'password'}
                   autoFocus={plotIndex === 6}
@@ -346,7 +336,7 @@ const ChatPage = ({ ...props }) => {
                   value={text}
                   onChange={e => setText(e)}
                   onKeyDown={e => {
-                    e.key === 'Enter' && submitHandler();
+                    e.key === 'Enter' && submitHandler(0);
                   }}
                   autoFocus={plotIndex === 5}
                 />
@@ -363,7 +353,7 @@ const ChatPage = ({ ...props }) => {
                   value={text}
                   onChange={e => setText(e.target.value)}
                   onKeyDown={e => {
-                    e.key === 'Enter' && submitHandler();
+                    e.key === 'Enter' && submitHandler(0);
                   }}
                   autoFocus={plotIndex === 4}
                 />
@@ -380,7 +370,7 @@ const ChatPage = ({ ...props }) => {
                   value={text}
                   onChange={e => setText(e.target.value)}
                   onKeyDown={e => {
-                    e.key === 'Enter' && submitHandler();
+                    e.key === 'Enter' && submitHandler(0);
                   }}
                   autoFocus={plotIndex === 3}
                 />
@@ -397,7 +387,7 @@ const ChatPage = ({ ...props }) => {
                   value={text}
                   onChange={e => setText(e.target.value)}
                   onKeyDown={e => {
-                    e.key === 'Enter' && submitHandler();
+                    e.key === 'Enter' && submitHandler(0);
                   }}
                   autoFocus={plotIndex === 2}
                 />

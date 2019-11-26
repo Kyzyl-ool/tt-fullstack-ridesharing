@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { Button, Card, createStyles, makeStyles, Paper, TextField, Theme, Typography } from '@material-ui/core';
+import { Box, Button, Card, createStyles, makeStyles, Paper, TextField, Theme, Typography } from '@material-ui/core';
 import { connect } from 'react-redux';
 import OrganizationsModel from '../../models/organizationsModel';
 import addNotification from '../../store/actions/notificationsActions';
@@ -9,13 +9,17 @@ import { NavLink } from 'react-router-dom';
 const useStyles = makeStyles((theme: Theme) =>
   createStyles({
     card: {
-      height: 200
-    },
-    padding1: {
-      padding: theme.spacing(1)
+      height: 200,
+      marginTop: theme.spacing(4)
     },
     noTextDecoration: {
       textDecoration: 'none'
+    },
+    greyBack: {
+      backgroundColor: 'rgba(0,0,0,0.06)'
+    },
+    form: {
+      height: '20px'
     }
   })
 );
@@ -54,28 +58,42 @@ const NewOrganizationCard: React.FC<INewOrganizationCardProps> = ({ organization
     <Card className={classes.card}>
       <TextField
         variant={'outlined'}
-        placeholder={filteredOrganizations.length ? 'Выберите организацию...' : 'Нет доступных организаций'}
+        placeholder={filteredOrganizations.length ? 'Имя организации...' : 'Нет доступных организаций'}
         value={value}
         onChange={e => setValue(e.target.value)}
         disabled={!filteredOrganizations.length}
+        fullWidth
       />
-      <Paper>
+      <Box className={classes.greyBack} px={1}>
+        <Typography variant={'caption'}>
+          Доступные организации перечислены ниже. Для фильтрации списка воспользуйтесь поиском. Чтобы присоединиться к
+          организации, нажмите на неё.
+        </Typography>
+      </Box>
+      <Box>
         {organizations &&
           filteredOrganizations.map((value1, index) => (
-            <div key={index} onClick={() => onSelect(value1.id)}>
-              <Paper className={classes.padding1}>
-                <Typography variant={'body1'}>{value1.name}</Typography>
+            <Box key={index} mt={1}>
+              <Paper>
+                <Box onClick={() => onSelect(value1.id)} p={1} mx={1}>
+                  <Typography variant={'body1'}>{value1.name}</Typography>
+                </Box>
               </Paper>
-            </div>
+            </Box>
           ))}
         <div>
-          <NavLink to={'/new_organization'} className={classes.noTextDecoration}>
-            <Button variant={'text'} color={'primary'}>
-              Создать новую организацию
-            </Button>
-          </NavLink>
+          <Box className={classes.greyBack} px={1}>
+            <Typography variant={'caption'}>Также вы можете создать свою организацию:</Typography>
+          </Box>
+          <Box p={1}>
+            <NavLink to={'/new_organization'} className={classes.noTextDecoration}>
+              <Button variant={'text'} color={'primary'}>
+                Создать новую организацию
+              </Button>
+            </NavLink>
+          </Box>
         </div>
-      </Paper>
+      </Box>
     </Card>
   );
 };
@@ -84,4 +102,7 @@ const mapDispatchToProps = {
   addNotification
 };
 
-export default connect(null, mapDispatchToProps)(NewOrganizationCard);
+export default connect(
+  null,
+  mapDispatchToProps
+)(NewOrganizationCard);

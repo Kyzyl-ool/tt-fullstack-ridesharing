@@ -13,8 +13,10 @@ import {
 } from '@material-ui/core';
 import { NavLink, useParams, useHistory } from 'react-router-dom';
 import userModel from '../../models/userModel';
-import { IOrganization } from '../../domain/organization';
 import organizationsModel from '../../models/organizationsModel';
+import MapModel from '../../models/mapModel';
+import _get from 'lodash/get';
+import clsx from 'clsx';
 
 const useStyles = makeStyles((theme: Theme) =>
   createStyles({
@@ -26,6 +28,9 @@ const useStyles = makeStyles((theme: Theme) =>
     },
     disabledCard: {
       opacity: 0.5
+    },
+    dense: {
+      marginTop: theme.spacing(4)
     }
   })
 );
@@ -62,8 +67,20 @@ export const OrganizationCard: React.FC = ({ ...props }) => {
     fetchOrgData();
   }, []);
 
+  useEffect(() => {
+    const getAddress = async () => {
+      const response = await userModel.getUserData();
+      const org = response.organizations.find(value => value.id === +orgId);
+      const data = await MapModel.reverseGeocoding({ longitude: org.longitude, latitude: org.latitude });
+      const address = _get(data, 'response.GeoObjectCollection.featureMember[0].GeoObject.name');
+      setAddress(address ? address : 'Не удалось выяснить адрес');
+    };
+
+    getAddress();
+  }, []);
+
   return (
-    <Card className={disabled && classes.disabledCard}>
+    <Card className={clsx(disabled && classes.disabledCard, classes.dense)}>
       <CardMedia
         component={'img'}
         image={
