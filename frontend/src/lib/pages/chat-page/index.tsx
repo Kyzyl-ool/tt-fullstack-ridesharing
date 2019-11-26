@@ -22,6 +22,7 @@ import UserModel from '../../models/userModel';
 import { checkAuth } from '../../../net/auth/auth';
 import Uploader from '../../components/Uploader/Uploader';
 import KeyboardEventHandler from 'react-keyboard-event-handler';
+import { Avatar } from '../../components/Avatar/Avatar';
 
 export const Flag = React.createContext(true);
 
@@ -126,12 +127,14 @@ const ChatPage = ({ ...props }) => {
           payload: { time: new Date().toLocaleTimeString(), from: myId, message: 'Пароль скрыт' }
         });
       setText('');
+      setFormEnable(false);
       setTimeout(async () => {
         setFlag(true);
         dispatch({
           type: 'next'
         });
         setPlotIndex(plotIndex + 1);
+        setFormEnable(true);
       }, 1500);
     }
 
@@ -402,9 +405,24 @@ const ChatPage = ({ ...props }) => {
           )}
         </Paper>
       </Drawer>
-      <Typography variant={'h4'} className={classes.clickToContinue} onClick={tapHandler}>
-        Нажмите для продолжения...
-      </Typography>
+      {plotIndex < 3 && (
+        <Typography variant={'h4'} className={classes.clickToContinue} onClick={tapHandler}>
+          <Typography display={'inline'}>Нажмите по чату или</Typography>
+          <br />
+          <Typography display={'inline'}>нажмите на клавиатуре&nbsp;</Typography>
+          <Avatar
+            src={'https://ridesharing-bucket1.s3.amazonaws.com/05a8b89a9100b7b8b92ef205d6e28d9f'}
+            variant={'squared'}
+          />
+          <Typography display={'inline'}>&nbsp;или&nbsp;</Typography>
+          <Avatar
+            src={'https://ridesharing-bucket1.s3.amazonaws.com/0072510b6921c041a3ef9f2ffb1a1821'}
+            variant={'squared'}
+          />
+          <br />
+          <Typography display={'inline'}>&nbsp;для продолжения...</Typography>
+        </Typography>
+      )}
       <KeyboardEventHandler handleKeys={['space', 'enter']} onKeyEvent={(key, e) => tapHandler()} />
     </Container>
   );
