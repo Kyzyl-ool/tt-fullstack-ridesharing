@@ -6,6 +6,8 @@ import placeholderUrl from './profile-placeholder-icon.svg';
 interface IAvatarProps {
   src?: string;
   variant?: 'rounded' | 'squared';
+  title?: string;
+  noResize?: boolean;
 }
 
 const useStyles = makeStyles((theme: Theme) =>
@@ -24,6 +26,10 @@ const useStyles = makeStyles((theme: Theme) =>
         height: '80px'
       }
     },
+    noResize: {
+      width: '60px',
+      height: '60px'
+    },
     rounded: {
       borderRadius: '50%'
     },
@@ -31,12 +37,17 @@ const useStyles = makeStyles((theme: Theme) =>
   })
 );
 
-export const Avatar: React.FC<IAvatarProps> = ({ src, variant, ...props }) => {
+export const Avatar: React.FC<IAvatarProps> = ({ src, variant, noResize = false, ...props }) => {
   const classes = useStyles(props);
   return (
     <img
-      className={clsx(classes.avatar, variant === 'squared' ? classes.squared : classes.rounded)}
+      className={
+        !noResize
+          ? clsx(classes.avatar, variant === 'squared' ? classes.squared : classes.rounded)
+          : clsx(classes.noResize, variant === 'squared' ? classes.squared : classes.rounded)
+      }
       src={src ? src : placeholderUrl}
+      {...props}
     />
   );
 };

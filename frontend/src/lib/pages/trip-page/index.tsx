@@ -11,6 +11,7 @@ import addNotification from '../../store/actions/notificationsActions';
 import { snakeObjectToCamel } from '../../helpers/snakeToCamelCase';
 import { connect } from 'react-redux';
 import { IOrganization } from '../../domain/organization';
+import { Avatar } from '../../components/Avatar/Avatar';
 
 interface TabPanelProps {
   children?: React.ReactNode;
@@ -42,14 +43,26 @@ const useStyles = makeStyles((theme: Theme) =>
       maxWidth: '270px',
       justifyContent: 'space-between'
     },
+    tabContainer: {
+      paddingTop: '20px'
+    },
     mapContainer: {
       maxHeight: '30vh'
+    },
+    avatars: {
+      padding: 0,
+      marginTop: '15px',
+      display: 'flex',
+      flexWrap: 'wrap'
     },
     tabs: {},
     tabContent: {
       height: '10%',
       width: '100%',
       objectFit: 'contain'
+    },
+    avatarContainer: {
+      marginRight: '5px'
     },
     tabActions: {}
   })
@@ -115,7 +128,7 @@ const TripPage: React.FC<ITripPageProps> = props => {
     if (res) {
       const fetchedPassengers = await TripModel.getPassengersInfo(res.passengers);
       if (fetchedPassengers) {
-        setPassengers(fetchedPassengers);
+        setPassengers(fetchedPassengers.map(pass => snakeObjectToCamel(pass)));
       }
     }
     return res;
@@ -133,7 +146,7 @@ const TripPage: React.FC<ITripPageProps> = props => {
     setTripInfo(snakeObjectToCamel(renewedData));
     const fetchedPassengers = await TripModel.getPassengersInfo(renewedData.passengers);
     if (fetchedPassengers) {
-      setPassengers(fetchedPassengers);
+      setPassengers(fetchedPassengers.map(pass => snakeObjectToCamel(pass)));
     }
   };
 
@@ -158,7 +171,8 @@ const TripPage: React.FC<ITripPageProps> = props => {
   };
 
   const startOrganization = props.availableOrganizations[tripInfo.startOrganizationId - 1];
-
+  const isUserInsideTrip = tripInfo => tripInfo.passengers.includes(props.userId);
+  console.log(passengers);
   return (
     <Box className={classes.mainInfo} display={'flex'} flexDirection={'column'} flexWrap={'nowrap'} height={'95%'}>
       {!_isEmpty(tripInfo) && (
@@ -179,15 +193,12 @@ const TripPage: React.FC<ITripPageProps> = props => {
             <Typography variant={'h4'} display={'inline'}>
               {`  ${tripInfo.startTime.split(' ')[0]} ${translateMonth[tripInfo.startTime.split(' ')[1]]}`}
             </Typography>
-            {/* <Typography display={'inline'}>{`${dateFormat(tripInfo.startTime, `d' 'MMMM`, {
-              locale: ruLocale
-            })}`}</Typography> */}
           </Box>
           <Box className={classes.buttons}>
-            <Button onClick={() => history.goBack()} variant={'text'}>
+            <Button onClick={() => history.push('/search_trip')} variant={'text'}>
               Назад
             </Button>
-            {!tripInfo.passengers.includes(props.userId) ? (
+            {!isUserInsideTrip(tripInfo) ? (
               <Button onClick={onJoinTripButtonClick} variant={'contained'}>
                 Присоединиться
               </Button>
@@ -216,14 +227,14 @@ const TripPage: React.FC<ITripPageProps> = props => {
                   geopositionCentered={false}
                   startPoint={{ latitude: startOrganization.latitude, longitude: startOrganization.longitude }}
                   endPoint={{ latitude: tripInfo.stopLatitude, longitude: tripInfo.stopLongitude }}
-                  viewport={{ latitude: 55.7695979, longitude: 37.6019037, zoom: 10 }}
+                  viewport={{ latitude: startOrganization.latitude, longitude: startOrganization.longitude, zoom: 10 }}
                   style={{ width: '100%', height: '40vh' }}
                   onBuildingClick={() => {}}
                 />
               </Box>
             </TabPanel>
             <TabPanel index={1} value={currentTab}>
-              <Container>
+              <Container className={classes.tabContainer}>
                 <Typography variant={'h5'}>Свободных мест: {tripInfo.seatsAvailable}</Typography>
                 <Typography variant={'h6'}>Mazda RX-7 красный</Typography>
                 <Typography>К 901 АУ</Typography>
@@ -232,16 +243,38 @@ const TripPage: React.FC<ITripPageProps> = props => {
                   <b>{tripInfo.cost ? `${tripInfo.cost} ₽` : 'По усмотрению пассажира'}</b>
                 </Typography>
               </Container>
+              <Container className={classes.tabContainer}>
+                <Typography variant={'h5'}>Попутчики в поездке:</Typography>
+                <>
+                  {isUserInsideTrip(tripInfo) ? (
+                    <Container className={classes.avatars}>
+                      {passengers.map((passenger, index) => (
+                        <Box className={classes.avatarContainer} key={index}>
+                          <Avatar title={`${passenger.firstName} ${passenger.lastName}`} src={passenger.photoUrl} />
+                        </Box>
+                      ))}
+                    </Container>
+                  ) : (
+                    <p>Чтобы увидеть попутчиков, нужно вступить в поездку</p>
+                  )}
+                </>
+              </Container>
             </TabPanel>
             <TabPanel index={2} value={currentTab}>
-              <Typography variant={'caption'}>Контактный телефон</Typography>
-              <Typography variant={'h6'}>{tripInfo.phoneNumber ? tripInfo.phoneNumber : '—'}</Typography>
+              {isUserInsideTrip(tripInfo) ? (
+                <Container className={classes.tabContainer}>
+                  <Typography variant={'caption'}>Контактный телефон</Typography>
+                  <Typography variant={'h6'}>{tripInfo.phoneNumber ? tripInfo.phoneNumber : '—'}</Typography>
 
-              <Typography variant={'caption'}>VK</Typography>
-              <Typography variant={'h6'}>{tripInfo.vk ? tripInfo.vk : '—'}</Typography>
+                  <Typography variant={'caption'}>VK</Typography>
+                  <Typography variant={'h6'}>{tripInfo.vk ? tripInfo.vk : '—'}</Typography>
 
-              <Typography variant={'caption'}>E-mail</Typography>
-              <Typography variant={'h6'}>{tripInfo.hostDriverInfo.email}</Typography>
+                  <Typography variant={'caption'}>E-mail</Typography>
+                  <Typography variant={'h6'}>{tripInfo.hostDriverInfo.email}</Typography>
+                </Container>
+              ) : (
+                <p>Чтобы увидеть контакты водителя, нужно состоять в поездке</p>
+              )}
             </TabPanel>
           </Box>
         </Fragment>

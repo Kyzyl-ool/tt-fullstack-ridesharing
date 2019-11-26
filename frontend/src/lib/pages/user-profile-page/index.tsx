@@ -32,7 +32,7 @@ class UserProfilePage extends PureComponent<IUserProfilePageProps> {
       <div className="user-profile-page__container">
         <div className="user-profile-page__main-info">
           <div className="user-profile-page__avatar">
-            <Avatar src={avatarUrl} />
+            <Avatar noResize src={avatarUrl} />
             <input
               style={{ display: 'none' }}
               ref={ref => {

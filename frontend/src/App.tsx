@@ -77,7 +77,6 @@ const App: React.FC<IApp> = props => {
               path={'/registration'}
               component={() => <RegistrationPage onAuth={() => setAuthorized(true)} />}
             />
-            <Route exact path="/map" component={UrbicaMap} />
             <MainContainer
               onLogout={() => setAuthorized(false)}
               show={authorized}

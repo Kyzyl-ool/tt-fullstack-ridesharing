@@ -50,7 +50,7 @@ const AppDrawer: React.FC<IAppDrawerProps> = ({ firstName, lastName, email, phot
   return (
     <Drawer open={props.open} onClose={props.onClose}>
       <Box className={classes.root}>
-        <Avatar src={photoUrl} />
+        <Avatar noResize src={photoUrl} />
         <Box>
           <Typography variant={'h5'}>{`${firstName} ${lastName}`}</Typography>
           <Typography variant={'body1'}>{email}</Typography>
@@ -77,7 +77,8 @@ const AppDrawer: React.FC<IAppDrawerProps> = ({ firstName, lastName, email, phot
             .map(value => ({
               id: +value.id,
               date: new Date(value.startTime),
-              name: `${value.hostDriverInfo.firstName} ${value.hostDriverInfo.lastName}`
+              name: `${value.hostDriverInfo.firstName} ${value.hostDriverInfo.lastName}`,
+              avatar: value.hostDriverInfo.photoUrl
             }))}
           onClick={props.onClose}
         />

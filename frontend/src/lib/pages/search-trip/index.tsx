@@ -42,13 +42,14 @@ const useStyles = makeStyles((theme: Theme) => ({
 }));
 
 const serializeTrip = (tripData: any) => {
+  console.log(tripData);
   const { id, startTime, hostDriverInfo, stopAddress, totalSeats, passengers } = snakeObjectToCamel(tripData);
   return {
     id,
     date: startTime,
     name: hostDriverInfo && `${hostDriverInfo.firstName} ${hostDriverInfo.lastName}`,
     address: stopAddress,
-    avatar: null,
+    avatar: hostDriverInfo && hostDriverInfo.photoUrl,
     amountOfTakenPlaces: passengers.length,
     amountOfFreePlaces: totalSeats - passengers.length
   };
@@ -119,7 +120,6 @@ const SearchTripPage: React.FC<ISearchTripPageProps> = ({
   useEffect(() => {
     setSearchButtonState(addressFrom.length > 0 && addressTo.length > 0);
   }, [addressFrom, addressTo]);
-  console.log('PROPS INSIDE', rideTime, arrivalPoint, startOrganization, availableOrganizations);
   return (
     <Box display={'flex'} alignContent={'space-between'} flexDirection={'column'}>
       <Modal open={isModalShown} onClose={() => setIsModalShown(false)}>

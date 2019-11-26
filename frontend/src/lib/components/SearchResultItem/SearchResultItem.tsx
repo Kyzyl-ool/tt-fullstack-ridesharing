@@ -31,18 +31,24 @@ const useStyles = makeStyles((theme: Theme) =>
       cursor: 'pointer',
       paddingBottom: theme.spacing(1)
     },
+    content: {
+      display: 'flex',
+      padding: '16px',
+      justifyContent: 'space-between'
+    },
     space: {
       height: theme.spacing(1),
       width: '100%'
     },
     bottom: {
-      position: 'absolute',
+      // position: 'absolute',
       bottom: theme.spacing(1)
     },
     rightTopElement: {
-      position: 'absolute',
-      top: 0,
-      right: 0
+      // position: 'absolute',
+      display: 'flex',
+      alignItems: 'center',
+      justifyContent: 'center'
     },
     noTextDecoration: {
       textDecoration: 'none'
@@ -68,40 +74,40 @@ export const SearchResultItem: React.FC<ISearchResultItemProps> = props => {
   return (
     <Card className={classes.card}>
       <NavLink to={`/trip/${props.id}`} className={classes.noTextDecoration}>
-        <CardContent>
-          <Box textAlign={'left'}>
-            <Typography variant={'body1'} color={'textSecondary'}>
-              {`${props.date
-                .toString()
-                .split(' ')
-                .map((item, index) => (index === 1 ? translateMonth[item] : item))
-                .join(' ')}`}
-            </Typography>
-            <Typography variant={'h5'} color={'textPrimary'}>
-              {`${props.name}`}
-            </Typography>
-          </Box>
-          <Box className={classes.space} />
-          <Box display={'flex'} flexDirection={'row'} alignItems={'center'} className={classes.bottom}>
-            {/* <Typography variant={'h5'} color={'textSecondary'}>
-              {props.amountOfFreePlaces}
-            </Typography> */}
-            <Typography variant={'body2'} color={'textSecondary'}>
-              {`${props.address}`}
-            </Typography>
-            <Box className={classes.seatIcons} display="flex">
-              {props.amountOfFreePlaces &&
-                Array(props.amountOfFreePlaces)
-                  .fill(null)
-                  .map((item, index) => <span key={index} className="search-result-item__seat-icon" />)}
-              {props.amountOfTakenPlaces !== 0 &&
-                Array(props.amountOfTakenPlaces)
-                  .fill(null)
-                  .map((item, index) => <span key={index} className="search-result-item__taken-place-icon" />)}
+        <CardContent className={classes.content}>
+          <div>
+            <Box textAlign={'left'}>
+              <Typography variant={'body1'} color={'textSecondary'}>
+                {`${props.date
+                  .toString()
+                  .split(' ')
+                  .map((item, index) => (index === 1 ? translateMonth[item] : item))
+                  .join(' ')}`}
+              </Typography>
+              <Typography variant={'h5'} color={'textPrimary'}>
+                {`${props.name}`}
+              </Typography>
             </Box>
-          </Box>
+            <Box className={classes.space} />
+            <Box display={'flex'} flexDirection={'row'} alignItems={'center'} className={classes.bottom}>
+              <Typography variant={'body2'} color={'textSecondary'}>
+                {`${props.address}`}
+              </Typography>
+              <Box className={classes.seatIcons} display="flex">
+                {props.amountOfFreePlaces &&
+                  Array(props.amountOfFreePlaces)
+                    .fill(null)
+                    .map((item, index) => <span key={index} className="search-result-item__seat-icon" />)}
+                {props.amountOfTakenPlaces !== 0 &&
+                  Array(props.amountOfTakenPlaces)
+                    .fill(null)
+                    .map((item, index) => <span key={index} className="search-result-item__taken-place-icon" />)}
+              </Box>
+            </Box>
+          </div>
+
           <Box className={classes.rightTopElement}>
-            <Avatar src={props.avatar} />
+            <Avatar noResize src={props.avatar} />
           </Box>
         </CardContent>
       </NavLink>

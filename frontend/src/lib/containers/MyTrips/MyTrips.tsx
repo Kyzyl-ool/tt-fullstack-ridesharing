@@ -52,7 +52,7 @@ export const MyTrips: React.FC<IMyTripsProps> = props => {
       {props.data.map((value, index) => (
         <NavLink onClick={props.onClick} key={index} to={`/trip/${value.id}`} className={classes.noTextDecoration}>
           <Card className={classes.trip} elevation={2}>
-            <Avatar src={value.avatar} />
+            <Avatar noResize src={value.avatar} />
             <Box className={classes.infoContainer} alignSelf={'center'}>
               <Typography>
                 {' '}
