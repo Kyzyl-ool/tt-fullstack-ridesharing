@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import {
+  Box,
   Button,
   Card,
   CardActions,
@@ -80,34 +81,39 @@ export const OrganizationCard: React.FC = ({ ...props }) => {
   }, []);
 
   return (
-    <Card className={clsx(disabled && classes.disabledCard, classes.dense)}>
-      <CardMedia
-        component={'img'}
-        image={
-          (organizationPhotoSrc && organizationPhotoSrc) ||
-          'https://cdn.steemitimages.com/DQmUcM45ZzL8A697W6v4LGph1RPerpDUnutJx73JXtz1nRc/neticon.jpg'
-        }
-        height={'200'}
-        className={classes.media}
-      />
-      <CardContent>
-        <Container>
-          <Typography variant={'h5'}>
-            <b>{name}</b>
-          </Typography>
-          <NavLink to={`/organizations/${orgId}/members`}>
-            <Typography>
-              Участников: {amountOfPeople}, них них водителей {amountOfDrivers}
+    <Box mt={4} display={'flex'} flexDirection={'column'} justifyContent={'center'}>
+      <Card className={disabled && classes.disabledCard}>
+        <CardMedia
+          component={'img'}
+          image={
+            (organizationPhotoSrc && organizationPhotoSrc) ||
+            'https://cdn.steemitimages.com/DQmUcM45ZzL8A697W6v4LGph1RPerpDUnutJx73JXtz1nRc/neticon.jpg'
+          }
+          height={'200'}
+          className={classes.media}
+        />
+        <CardContent>
+          <Container>
+            <Typography variant={'h5'}>
+              <b>{name}</b>
             </Typography>
-          </NavLink>
-          <Typography>Адрес: {address}</Typography>
-        </Container>
-      </CardContent>
-      <CardActions className={classes.actions}>
-        <Button variant={'text'} color={'primary'} disabled={disabled} onClick={handleLeave}>
-          {disabled ? 'Вы вышли из этой организации' : 'Выйти из организации'}
-        </Button>
-      </CardActions>
-    </Card>
+            <NavLink to={`/organizations/${orgId}/members`}>
+              <Typography>
+                Участников: {amountOfPeople}, них них водителей {amountOfDrivers}
+              </Typography>
+            </NavLink>
+            <Typography>Адрес: {address}</Typography>
+          </Container>
+        </CardContent>
+        <CardActions className={classes.actions}>
+          <Button variant={'text'} color={'primary'} disabled={disabled} onClick={handleLeave}>
+            {disabled ? 'Вы вышли из этой организации' : 'Выйти из организации'}
+          </Button>
+        </CardActions>
+      </Card>
+      <Button onClick={() => history.goBack()} variant={'text'} color={'default'}>
+        Назад
+      </Button>
+    </Box>
   );
 };

@@ -1,9 +1,10 @@
 import React, { useEffect, useState } from 'react';
 import { useParams } from 'react-router-dom';
-import { Box, Container, createStyles, makeStyles, Paper, Theme, Typography } from '@material-ui/core';
+import { Box, Button, Container, createStyles, makeStyles, Paper, Theme, Typography } from '@material-ui/core';
 import { Avatar } from '../../components/Avatar/Avatar';
 import organizationsModel from '../../models/organizationsModel';
 import { snakeObjectToCamel } from '../../helpers/snakeToCamelCase';
+import { useHistory } from 'react-router';
 
 const useStyles = makeStyles((theme: Theme) =>
   createStyles({
@@ -20,6 +21,7 @@ export const OrganizationMembersPage: React.FC = ({ ...props }) => {
   const orgId = params.orgId;
   const [members, setMembers] = useState([]);
   const classes = useStyles(props);
+  const history = useHistory();
 
   useEffect(() => {
     const fetchData = async () => {
@@ -30,7 +32,7 @@ export const OrganizationMembersPage: React.FC = ({ ...props }) => {
     fetchData();
   }, []);
   return (
-    <Box mt={4}>
+    <Box mt={4} display={'flex'} flexDirection={'column'} justifyContent={'center'}>
       {members.map((value, index) => (
         <Paper key={index} className={classes.member}>
           <Box m={2}>
@@ -45,6 +47,9 @@ export const OrganizationMembersPage: React.FC = ({ ...props }) => {
           </Typography>
         </Paper>
       ))}
+      <Button onClick={() => history.goBack()} variant={'text'} color={'default'}>
+        Назад
+      </Button>
     </Box>
   );
 };
