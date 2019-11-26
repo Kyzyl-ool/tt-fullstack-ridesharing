@@ -11,7 +11,6 @@ interface IAvatarProps {
 const useStyles = makeStyles((theme: Theme) =>
   createStyles({
     avatar: {
-      // margin: theme.spacing(2),
       [theme.breakpoints.down('sm')]: {
         width: '32px',
         height: '32px'

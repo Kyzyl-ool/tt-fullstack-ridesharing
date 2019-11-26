@@ -23,6 +23,8 @@ import { checkAuth } from '../../../net/auth/auth';
 import Uploader from '../../components/Uploader/Uploader';
 import KeyboardEventHandler from 'react-keyboard-event-handler';
 
+export const Flag = React.createContext(true);
+
 interface IMessage {
   from: number;
   time: string;
@@ -118,9 +120,11 @@ const ChatPage = ({ ...props }) => {
   const [isDriver, setIsDriver] = useState(undefined); // user is driver
   const [email, setEmail] = useState(''); // user email
   const [licensePhotoURL, setLicensePhotoURL] = useState(''); // license url
+  const [flag, setFlag] = useState(true);
 
   const submitHandler = arg => {
     if (text) {
+      setFlag(!flag);
       plotIndex !== 6 && // special for password
         dispatch({
           type: 'new',
@@ -131,12 +135,14 @@ const ChatPage = ({ ...props }) => {
           type: 'new',
           payload: { time: new Date().toLocaleTimeString(), from: myId, message: 'Пароль скрыт' }
         });
-      dispatch({
-        type: 'next'
-      });
-
       setText('');
-      setPlotIndex(plotIndex + 1);
+      setTimeout(async () => {
+        setFlag(true);
+        dispatch({
+          type: 'next'
+        });
+        setPlotIndex(plotIndex + 1);
+      }, 1500);
     }
 
     switch (plotIndex) {
@@ -162,6 +168,7 @@ const ChatPage = ({ ...props }) => {
       }
       case 7: {
         setIsDriver(arg);
+        setFlag(!flag);
         dispatch({
           type: arg ? 'next_driver' : 'next'
         });
@@ -230,6 +237,7 @@ const ChatPage = ({ ...props }) => {
           break;
         }
         default: {
+          setFlag(!flag);
           dispatch({
             type: 'next_driver'
           });
@@ -252,6 +260,7 @@ const ChatPage = ({ ...props }) => {
           break;
         }
         default: {
+          setFlag(true);
           dispatch({
             type: 'next'
           });
@@ -268,35 +277,37 @@ const ChatPage = ({ ...props }) => {
 
   return (
     <Container>
-      <Paper className={classes.chat} onClick={tapHandler}>
-        {messages
-          .reduce((previousValue, currentValue, currentIndex, array) => {
-            const newValue = previousValue;
-            newValue.push({
-              lastSenderId: array[currentIndex].from,
-              component: (
-                <Message
-                  key={currentIndex}
-                  first={
-                    !previousValue.length
-                      ? true
-                      : previousValue[previousValue.length - 1].lastSenderId !== array[currentIndex].from
-                  }
-                  last={
-                    array.length === currentIndex
-                      ? true
-                      : !array[currentIndex + 1] || array[currentIndex].from !== array[currentIndex + 1].from
-                  }
-                  body={array[currentIndex].message}
-                  time={array[currentIndex].time}
-                  mine={array[currentIndex].from === myId}
-                />
-              )
-            });
-            return newValue;
-          }, [])
-          .map(value => value.component)}
-      </Paper>
+      <Flag.Provider value={flag}>
+        <Paper className={classes.chat} onClick={tapHandler}>
+          {messages
+            .reduce((previousValue, currentValue, currentIndex, array) => {
+              const newValue = previousValue;
+              newValue.push({
+                lastSenderId: array[currentIndex].from,
+                component: (
+                  <Message
+                    key={currentIndex}
+                    first={
+                      !previousValue.length
+                        ? true
+                        : previousValue[previousValue.length - 1].lastSenderId !== array[currentIndex].from
+                    }
+                    last={
+                      array.length === currentIndex
+                        ? true
+                        : !array[currentIndex + 1] || array[currentIndex].from !== array[currentIndex + 1].from
+                    }
+                    body={array[currentIndex].message}
+                    time={array[currentIndex].time}
+                    mine={array[currentIndex].from === myId}
+                  />
+                )
+              });
+              return newValue;
+            }, [])
+            .map(value => value.component)}
+        </Paper>
+      </Flag.Provider>
       <Drawer open={formEnable} anchor={'bottom'} variant={'persistent'}>
         <Paper className={classes.messageFormContainer}>
           {isDriver && <>{driverPlotIndex === 1 && <Uploader onLoaded={url => onLoaded(url)} />}</>}
