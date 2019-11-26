@@ -260,7 +260,7 @@ const ChatPage = ({ ...props }) => {
           break;
         }
         default: {
-          setFlag(true);
+          setFlag(!flag);
           dispatch({
             type: 'next'
           });
