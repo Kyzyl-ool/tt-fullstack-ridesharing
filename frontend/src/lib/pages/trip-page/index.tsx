@@ -172,7 +172,6 @@ const TripPage: React.FC<ITripPageProps> = props => {
 
   const startOrganization = props.availableOrganizations[tripInfo.startOrganizationId - 1];
   const isUserInsideTrip = tripInfo => tripInfo.passengers.includes(props.userId);
-  console.log(passengers);
   return (
     <Box className={classes.mainInfo} display={'flex'} flexDirection={'column'} flexWrap={'nowrap'} height={'95%'}>
       {!_isEmpty(tripInfo) && (

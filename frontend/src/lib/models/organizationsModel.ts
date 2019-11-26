@@ -26,7 +26,6 @@ export default class OrganizationsModel {
       );
       return res.data;
     } catch (e) {
-      console.log(e);
       return null;
     }
   };
