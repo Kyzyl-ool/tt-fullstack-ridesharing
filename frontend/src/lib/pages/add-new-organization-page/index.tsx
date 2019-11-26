@@ -1,11 +1,14 @@
 import React, { useState } from 'react';
-import { Box, Button, createStyles, makeStyles, Modal, TextField, Theme } from '@material-ui/core';
+import { Box, Button, createStyles, makeStyles, Modal, TextField, Theme, Typography } from '@material-ui/core';
 import { connect } from 'react-redux';
 import SelectAddressContainer from '../../containers/SelectAddressContainer';
 import { setNewOrganizationAddressAction } from '../../store/actions/organizationActions';
 import organizationsModel from '../../models/organizationsModel';
 import userModel from '../../models/userModel';
 import { useHistory } from 'react-router';
+import clsx from 'clsx';
+import Uploader from '../../components/Uploader/Uploader';
+import { setOrganizationsAction } from '../../store/actions';
 
 const useStyles = makeStyles((theme: Theme) =>
   createStyles({
@@ -52,8 +55,9 @@ const AddNewOrganizationPage: React.FC<IAddNewOrganizationPageProps> = props => 
         props.organizationAddress.name,
         desription
       );
-
       console.log('Create organization result: ', res);
+      const getAllOrganizationsResult = await organizationsModel.getOrganizations();
+      await this.props.setOrganizations(getAllOrganizationsResult);
     };
 
     try {
@@ -68,8 +72,7 @@ const AddNewOrganizationPage: React.FC<IAddNewOrganizationPageProps> = props => 
   return (
     <Box display={'flex'} flexDirection={'column'} alignItems={'center'} mt={4}>
       <TextField
-        fullWidth={true}
-        className={classes.marginTop}
+        className={clsx(classes.marginTop, classes.inputWrapper)}
         variant={'outlined'}
         type={'text'}
         placeholder={'Название новой организации'}
@@ -99,6 +102,10 @@ const AddNewOrganizationPage: React.FC<IAddNewOrganizationPageProps> = props => 
           onChange={event => setDesription(event.target.value)}
         />
       </Box>
+      <Box m={1} display={'flex'} justifyContent={'space-evenly'} width={'100%'} alignItems={'baseline'}>
+        <Typography display={'inline'}>Загрузите фотографию для организации: &nbsp;</Typography>
+        <Uploader />
+      </Box>
       <Modal open={isModalShown} onClose={() => setIsModalShown(false)}>
         <SelectAddressContainer onSetArrivalPoint={onSelectAddress} />
       </Modal>
@@ -117,8 +124,12 @@ const mapStateToProps = state => {
 
 const mapDispatchToProps = dispatch => {
   return {
-    onSetAddress: address => dispatch(setNewOrganizationAddressAction(address))
+    onSetAddress: address => dispatch(setNewOrganizationAddressAction(address)),
+    setOrganizations: organizations => dispatch(setOrganizationsAction(organizations))
   };
 };
 
-export default connect(mapStateToProps, mapDispatchToProps)(AddNewOrganizationPage);
+export default connect(
+  mapStateToProps,
+  mapDispatchToProps
+)(AddNewOrganizationPage);

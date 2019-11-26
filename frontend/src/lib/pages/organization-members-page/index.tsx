@@ -1,10 +1,11 @@
 import React, { useEffect, useState } from 'react';
 import { useParams } from 'react-router-dom';
-import { Box, Button, Container, createStyles, makeStyles, Paper, Theme, Typography } from '@material-ui/core';
+import { Badge, Box, Button, Container, createStyles, makeStyles, Paper, Theme, Typography } from '@material-ui/core';
 import { Avatar } from '../../components/Avatar/Avatar';
 import organizationsModel from '../../models/organizationsModel';
 import { snakeObjectToCamel } from '../../helpers/snakeToCamelCase';
 import { useHistory } from 'react-router';
+import './org-memgers-page.css';
 
 const useStyles = makeStyles((theme: Theme) =>
   createStyles({
@@ -36,14 +37,23 @@ export const OrganizationMembersPage: React.FC = ({ ...props }) => {
       {members.map((value, index) => (
         <Paper key={index} className={classes.member}>
           <Box m={2}>
-            <Avatar src={value.photo} />
+            <Badge
+              overlap={'circle'}
+              anchorOrigin={{
+                vertical: 'bottom',
+                horizontal: 'right'
+              }}
+              badgeContent={value.isDriver ? <span className={'badge'} /> : null}
+            >
+              <Avatar src={value.photoUrl} />
+            </Badge>
           </Box>
           <Typography variant={'h5'} display={'inline'}>
-            <b>{value.firstName}</b>
+            {value.firstName}
           </Typography>
           &nbsp;
           <Typography variant={'h5'} display={'inline'}>
-            <b>{value.lastName}</b>
+            {value.lastName}
           </Typography>
         </Paper>
       ))}

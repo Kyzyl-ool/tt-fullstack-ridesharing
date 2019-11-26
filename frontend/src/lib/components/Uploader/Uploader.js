@@ -4,9 +4,10 @@ import {md5} from "../../../utils/hash/hash";
 import {ThemeProvider} from '@material-ui/styles'
 import {MainTheme} from "../../themes/MainTheme";
 import Button from "@material-ui/core/Button";
+import Box from "@material-ui/core/Box";
 
 
-class App extends Component {
+class Uploader extends Component {
     constructor(props) {
         super(props);
         this.state = {
@@ -67,14 +68,14 @@ class App extends Component {
     render() {
         return (
             <ThemeProvider theme={MainTheme}>
-                <Button variant={"outlined"} disabled={this.loaded}> <label htmlFor={'input-elem'}> {this.loaded ? 'Фото выбрано' : 'Выбрать фото'}</label> </Button>
+                <Box m={1} ><Button variant={"outlined"} disabled={this.loaded}> <label htmlFor={'input-elem'}> {this.loaded ? 'Фото выбрано' : 'Выбрать фото'}</label> </Button> </Box>
                 <input style={{display: 'none'}} id={'input-elem'} onChange={this.handleChange} ref={(ref) => {
                     this.uploadInput = ref;
                 }} type="file" accept="image/*" multiple/>
-                <Button disabled={!this.loaded} onClick={this.handleUpload}>Загрузить</Button>
+                <Box m={1}><Button disabled={!this.loaded} onClick={this.handleUpload}>Загрузить</Button></Box>
             </ThemeProvider>
         );
     }
 }
 
-export default App;
+export default Uploader;
