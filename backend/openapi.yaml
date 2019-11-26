@@ -699,7 +699,12 @@ paths:
               schema:
                 type: array
                 items:
-                  $ref: '#/components/schemas/rideInfo'
+                  allOf:
+                    - $ref: '#/components/schemas/rideInfo'
+                  properties:
+                    is_mine:
+                      type: boolean
+                      description: Являюсь ли я хостом этой поездки
         401:
           description: Нужна авторизация
           content:
@@ -972,6 +977,14 @@ paths:
                 - $ref: '#/components/schemas/userID'
                 - $ref: '#/components/schemas/userBase'
                 - $ref: '#/components/schemas/userExtra'
+                required:
+                  - cars
+                properties:
+                  cars:
+                    type: array
+                    items:
+                      allOf:
+                        - $ref: '#/components/schemas/car'
         400:
           description: Емэйл не найден
           content:
@@ -1096,6 +1109,7 @@ components:
         - model
         - color
         - registry_number
+        - id
       properties:
         model:
           type: string
@@ -1103,6 +1117,8 @@ components:
           type: string
         registry_number:
           type: string
+        id:
+          type: number
 
     rideID:
       required:

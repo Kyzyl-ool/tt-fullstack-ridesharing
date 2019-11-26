@@ -1,4 +1,4 @@
-from flask_login import UserMixin
+from flask_login import UserMixin, current_user
 from werkzeug.security import generate_password_hash, check_password_hash
 from sqlalchemy.ext.hybrid import hybrid_property
 
@@ -57,7 +57,8 @@ class Organization(db.Model):
     longitude = db.Column(db.Float)
     address = db.Column(db.String(600))
     description = db.Column(db.String(600))
-    users = db.relationship('User', secondary=association_user_organization, backref='organizations')
+    users = db.relationship('User', secondary=association_user_organization, backref='organizations',
+                            passive_deletes=True)
 
 
 class Ride(db.Model):
@@ -79,6 +80,10 @@ class Ride(db.Model):
     cost = db.Column(db.Float)
     car_id = db.Column(db.Integer, db.ForeignKey('car.id'), nullable=False, server_default='2')
     description = db.Column(db.String(600))
+
+    @hybrid_property
+    def is_mine(self):
+        return self.host_driver_id == current_user.id
 
 
 class Car(db.Model):
