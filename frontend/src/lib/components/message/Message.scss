@@ -1,4 +1,5 @@
 $r: 16px;
+$time: 0.5s;
 
 .message {
   border: 1px solid #e0e0e0;
@@ -60,4 +61,62 @@ $r: 16px;
   align-self: flex-end;
   padding-left: 8px;
   color: rgba(0,0,0,0.4);
+}
+
+.avatar-box {
+  margin: 0px 8px 0px 8px;
+  z-index: 2;
+  //animation: go-up $time reverse;
+}
+
+.appear-left-animation {
+  animation: appear-left $time;
+}
+
+.appear-right-animation {
+  animation: appear-right $time;
+}
+
+.go-up-animation {
+  animation: go-up $time ease;
+  &_1 {
+    animation: go-up-1 $time ease;
+  }
+}
+
+@keyframes appear-left {
+  0% {
+    transform: translateX(-100%);
+  }
+
+  100% {
+    transform: none;
+  }
+}
+
+@keyframes appear-right {
+  0% {
+    transform: translateX(100%);
+  }
+
+  100% {
+    transform: none;
+  }
+}
+
+@keyframes go-up {
+  0% {
+    transform: translateY(100%);
+  }
+  100% {
+    transform: none;
+  }
+}
+@keyframes go-up-1 {
+  0% {
+    transform: translateY(100%);
+  }
+  100% {
+    transform: none;
+  }
 }
