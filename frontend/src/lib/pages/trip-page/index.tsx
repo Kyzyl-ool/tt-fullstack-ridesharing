@@ -212,6 +212,7 @@ const TripPage: React.FC<ITripPageProps> = props => {
             <TabPanel value={currentTab} index={0}>
               <Box className={classes.mapContainer}>
                 <Map
+                  withRoute
                   geopositionCentered={false}
                   startPoint={{ latitude: startOrganization.latitude, longitude: startOrganization.longitude }}
                   endPoint={{ latitude: tripInfo.stopLatitude, longitude: tripInfo.stopLongitude }}

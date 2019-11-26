@@ -440,7 +440,7 @@ paths:
               schema:
                 $ref: '#/components/schemas/rideID'
         400:
-          description: Любая ошибка во входных данных
+          description: Любая ошибка во входных данных, либо текущий пользователь не состоит в поездке
           content:
             application/json:
               schema:
@@ -448,6 +448,8 @@ paths:
               examples:
                 invalid ride ID:
                   $ref: '#/components/examples/errorInvalidRide'
+                user not in ride:
+                  $ref: '#/components/examples/errorUserNotInRide'
         401:
           description: Пользователь не залогинен. БАГ - пока можно быть не залогиненым как водитель
           content:
@@ -1398,6 +1400,10 @@ components:
       value:
         name: Invalid ride with id
         value: 37
+    errorUserNotInRide:
+      value:
+        name: User is not in ride with ride_id
+        value: 2
     errorOrganizationInvalid:
       value:
         name: Invalid organization with id
@@ -1456,6 +1462,7 @@ components:
             - destination_longitude
             - start_date
             - start_organization_id
+            - max_destination_distance_km
             type: object
             properties:
               start_date:
@@ -1468,6 +1475,9 @@ components:
                 type: number
               destination_longitude:
                 type: number
+              max_destination_distance_km:
+                type: number
+                description: Расстояние до пункта назначения, по которому отсекать
     gpsJSON:
       content:
         application/json:
