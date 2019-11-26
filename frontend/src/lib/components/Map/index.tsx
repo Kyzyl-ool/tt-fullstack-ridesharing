@@ -19,18 +19,25 @@ interface IPoint {
   longitude: number;
 }
 
+interface IRoute {
+  coordinates: Array<number[]>;
+  type: string;
+}
+
 interface IUrbicaMapProps {
   style?: React.CSSProperties;
   onBuildingClick: (selectedBuildingAddress: string) => void;
   viewport?: IViewport;
   geopositionCentered?: boolean;
   markered?: boolean;
+  withRoute?: boolean;
   startPoint?: IPoint;
   endPoint?: IPoint;
 }
 
 interface IUrbicaMapState {
   viewport: IViewport;
+  route?: IRoute;
 }
 
 class UrbicaMap extends PureComponent<IUrbicaMapProps, IUrbicaMapState> {
@@ -43,11 +50,15 @@ class UrbicaMap extends PureComponent<IUrbicaMapProps, IUrbicaMapState> {
   };
 
   public componentDidMount() {
-    if (this.props.geopositionCentered) {
+    const { geopositionCentered, startPoint, endPoint, viewport } = this.props;
+    if (geopositionCentered) {
       this.getInitialLocation();
     }
-    if (!_isEmpty(this.props.viewport)) {
-      this.setState({ viewport: this.props.viewport });
+    if (!_isEmpty(viewport)) {
+      this.setState({ viewport: viewport });
+    }
+    if (!_isEmpty(startPoint) && !_isEmpty(endPoint)) {
+      this.getRoute(startPoint, endPoint);
     }
   }
 
@@ -58,6 +69,12 @@ class UrbicaMap extends PureComponent<IUrbicaMapProps, IUrbicaMapState> {
       }
     }
   }
+
+  public getRoute = async (startPoint: IPoint, endPoint: IPoint) => {
+    const data = await MapModel.getRoute(startPoint, endPoint);
+    const route = _get(data, 'routes[0].geometry');
+    this.setState({ route });
+  };
 
   public getAddress = async ({ lng, lat }: { lng: number; lat: number }): Promise<string> => {
     const data = await MapModel.reverseGeocoding({ longitude: lng, latitude: lat });
@@ -88,12 +105,13 @@ class UrbicaMap extends PureComponent<IUrbicaMapProps, IUrbicaMapState> {
   };
 
   public render() {
-    const { viewport } = this.state;
+    const { viewport, route } = this.state;
     const {
       style = { width: '100%', height: '70vh' },
       markered = false,
       startPoint = {} as IPoint,
-      endPoint = {} as IPoint
+      endPoint = {} as IPoint,
+      withRoute = false
     } = this.props;
     return (
       <>
@@ -118,6 +136,28 @@ class UrbicaMap extends PureComponent<IUrbicaMapProps, IUrbicaMapState> {
             }}
             onClick={this.onBuildingClick}
           />
+          {withRoute && !_isEmpty(route) && (
+            <>
+              {' '}
+              <Source
+                id="route"
+                type="geojson"
+                data={{
+                  type: 'Feature',
+                  geometry: route
+                }}
+              />
+              <Layer
+                id="route"
+                type="line"
+                source="route"
+                paint={{
+                  'line-color': '#512DA8',
+                  'line-width': 3
+                }}
+              />
+            </>
+          )}
           {markered && (
             <Marker latitude={viewport.latitude} longitude={viewport.longitude}>
               <div className="map__center-marker"></div>

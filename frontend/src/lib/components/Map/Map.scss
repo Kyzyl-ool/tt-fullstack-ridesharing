@@ -1,7 +1,6 @@
 %marker {
   width: 40px;
   height: 40px;
-  background-size: cover;
 }
 
 
@@ -9,6 +8,7 @@
   &__center-marker {
     @extend %marker;
     background: url('./location_marker.svg') no-repeat;
+    background-size: cover;
   }
   &__start-point-marker {
     @extend %marker;

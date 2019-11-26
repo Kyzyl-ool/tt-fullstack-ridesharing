@@ -30,6 +30,7 @@ import Uploader from './lib/components/Uploader/Uploader';
 import './App.scss';
 import PrivateRoute from './lib/components/PrivateRoute';
 import WithInitialization from './lib/components/WithInitialization';
+import UrbicaMap from './lib/components/Map';
 
 const useStyles = makeStyles((theme: Theme) =>
   createStyles({
@@ -76,6 +77,7 @@ const App: React.FC<IApp> = props => {
               path={'/registration'}
               component={() => <RegistrationPage onAuth={() => setAuthorized(true)} />}
             />
+            <Route exact path="/map" component={UrbicaMap} />
             <MainContainer
               onLogout={() => setAuthorized(false)}
               show={authorized}
