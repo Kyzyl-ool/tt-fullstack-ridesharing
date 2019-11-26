@@ -1,8 +1,21 @@
+%marker {
+  width: 40px;
+  height: 40px;
+  background-size: cover;
+}
+
+
 .map {
-  &__marker {
-    width: 40px;
-    height: 40px;
+  &__center-marker {
+    @extend %marker;
     background: url('./location_marker.svg') no-repeat;
-    background-size: cover;
+  }
+  &__start-point-marker {
+    @extend %marker;
+    background: url('./start-point-icon.svg') no-repeat;
+  }
+  &__end-point-marker {
+    @extend %marker;
+    background: url('./end-point-icon.svg') no-repeat;
   }
 }
