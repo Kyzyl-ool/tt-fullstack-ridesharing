@@ -22,6 +22,7 @@ import UserModel from '../../models/userModel';
 import { checkAuth } from '../../../net/auth/auth';
 import Uploader from '../../components/Uploader/Uploader';
 import KeyboardEventHandler from 'react-keyboard-event-handler';
+import { Avatar } from '../../components/Avatar/Avatar';
 
 export const Flag = React.createContext(true);
 
@@ -58,23 +59,13 @@ const useStyles = makeStyles((theme: Theme) =>
       [theme.breakpoints.up['lg']]: {
         width: '50%'
       }
-      // margin: theme.spacing(2)
     },
     messageFormContainer: {
       display: 'flex',
       flexDirection: 'row',
       justifyContent: 'space-around',
       alignItems: 'center',
-      // margin: theme.spacing(2),
       padding: theme.spacing(2)
-      // maxHeight: '20vh',
-      // position: 'fixed',
-      // bottom: 0,
-      // left: 0,
-      // width: '100%',
-      // borderWidth: '1px',
-      // borderStyle: 'solid',
-      // borderColor: theme.palette.divider
     },
     sendButton: {
       height: '50%'
@@ -136,12 +127,14 @@ const ChatPage = ({ ...props }) => {
           payload: { time: new Date().toLocaleTimeString(), from: myId, message: 'Пароль скрыт' }
         });
       setText('');
+      setFormEnable(false);
       setTimeout(async () => {
         setFlag(true);
         dispatch({
           type: 'next'
         });
         setPlotIndex(plotIndex + 1);
+        setFormEnable(true);
       }, 1500);
     }
 
@@ -331,7 +324,7 @@ const ChatPage = ({ ...props }) => {
                   value={text}
                   onChange={e => setText(e.target.value)}
                   onKeyDown={e => {
-                    e.key === 'Enter' && submitHandler();
+                    e.key === 'Enter' && submitHandler(0);
                   }}
                   type={'password'}
                   autoFocus={plotIndex === 6}
@@ -346,7 +339,7 @@ const ChatPage = ({ ...props }) => {
                   value={text}
                   onChange={e => setText(e)}
                   onKeyDown={e => {
-                    e.key === 'Enter' && submitHandler();
+                    e.key === 'Enter' && submitHandler(0);
                   }}
                   autoFocus={plotIndex === 5}
                 />
@@ -363,7 +356,7 @@ const ChatPage = ({ ...props }) => {
                   value={text}
                   onChange={e => setText(e.target.value)}
                   onKeyDown={e => {
-                    e.key === 'Enter' && submitHandler();
+                    e.key === 'Enter' && submitHandler(0);
                   }}
                   autoFocus={plotIndex === 4}
                 />
@@ -380,7 +373,7 @@ const ChatPage = ({ ...props }) => {
                   value={text}
                   onChange={e => setText(e.target.value)}
                   onKeyDown={e => {
-                    e.key === 'Enter' && submitHandler();
+                    e.key === 'Enter' && submitHandler(0);
                   }}
                   autoFocus={plotIndex === 3}
                 />
@@ -397,7 +390,7 @@ const ChatPage = ({ ...props }) => {
                   value={text}
                   onChange={e => setText(e.target.value)}
                   onKeyDown={e => {
-                    e.key === 'Enter' && submitHandler();
+                    e.key === 'Enter' && submitHandler(0);
                   }}
                   autoFocus={plotIndex === 2}
                 />
@@ -412,9 +405,24 @@ const ChatPage = ({ ...props }) => {
           )}
         </Paper>
       </Drawer>
-      <Typography variant={'h4'} className={classes.clickToContinue} onClick={tapHandler}>
-        Нажмите для продолжения...
-      </Typography>
+      {plotIndex < 3 && (
+        <Typography variant={'h4'} className={classes.clickToContinue} onClick={tapHandler}>
+          <Typography display={'inline'}>Нажмите по чату или</Typography>
+          <br />
+          <Typography display={'inline'}>нажмите на клавиатуре&nbsp;</Typography>
+          <Avatar
+            src={'https://ridesharing-bucket1.s3.amazonaws.com/05a8b89a9100b7b8b92ef205d6e28d9f'}
+            variant={'squared'}
+          />
+          <Typography display={'inline'}>&nbsp;или&nbsp;</Typography>
+          <Avatar
+            src={'https://ridesharing-bucket1.s3.amazonaws.com/0072510b6921c041a3ef9f2ffb1a1821'}
+            variant={'squared'}
+          />
+          <br />
+          <Typography display={'inline'}>&nbsp;для продолжения...</Typography>
+        </Typography>
+      )}
       <KeyboardEventHandler handleKeys={['space', 'enter']} onKeyEvent={(key, e) => tapHandler()} />
     </Container>
   );

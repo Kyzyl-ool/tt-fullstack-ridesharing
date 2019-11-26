@@ -33,7 +33,17 @@ const useStyles = makeStyles((theme: Theme) =>
     rounded: {
       borderRadius: '50%'
     },
-    squared: {}
+    squared: {
+      [theme.breakpoints.down('sm')]: {
+        height: '1rem'
+      },
+      [theme.breakpoints.between('sm', 'lg')]: {
+        height: '1.5rem'
+      },
+      [theme.breakpoints.up['lg']]: {
+        height: '2rem'
+      }
+    }
   })
 );
 
@@ -43,7 +53,10 @@ export const Avatar: React.FC<IAvatarProps> = ({ src, variant, noResize = false,
     <img
       className={
         !noResize
-          ? clsx(classes.avatar, variant === 'squared' ? classes.squared : classes.rounded)
+          ? clsx(
+              variant === 'squared' ? null : classes.avatar,
+              variant === 'squared' ? classes.squared : classes.rounded
+            )
           : clsx(classes.noResize, variant === 'squared' ? classes.squared : classes.rounded)
       }
       src={src ? src : placeholderUrl}

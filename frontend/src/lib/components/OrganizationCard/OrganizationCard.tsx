@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import {
+  Box,
   Button,
   Card,
   CardActions,
@@ -13,8 +14,10 @@ import {
 } from '@material-ui/core';
 import { NavLink, useParams, useHistory } from 'react-router-dom';
 import userModel from '../../models/userModel';
-import { IOrganization } from '../../domain/organization';
 import organizationsModel from '../../models/organizationsModel';
+import MapModel from '../../models/mapModel';
+import _get from 'lodash/get';
+import clsx from 'clsx';
 
 const useStyles = makeStyles((theme: Theme) =>
   createStyles({
@@ -26,6 +29,9 @@ const useStyles = makeStyles((theme: Theme) =>
     },
     disabledCard: {
       opacity: 0.5
+    },
+    dense: {
+      marginTop: theme.spacing(4)
     }
   })
 );
@@ -62,35 +68,52 @@ export const OrganizationCard: React.FC = ({ ...props }) => {
     fetchOrgData();
   }, []);
 
+  useEffect(() => {
+    const getAddress = async () => {
+      const response = await userModel.getUserData();
+      const org = response.organizations.find(value => value.id === +orgId);
+      const data = await MapModel.reverseGeocoding({ longitude: org.longitude, latitude: org.latitude });
+      const address = _get(data, 'response.GeoObjectCollection.featureMember[0].GeoObject.name');
+      setAddress(address ? address : 'Не удалось выяснить адрес');
+    };
+
+    getAddress();
+  }, []);
+
   return (
-    <Card className={disabled && classes.disabledCard}>
-      <CardMedia
-        component={'img'}
-        image={
-          (organizationPhotoSrc && organizationPhotoSrc) ||
-          'https://cdn.steemitimages.com/DQmUcM45ZzL8A697W6v4LGph1RPerpDUnutJx73JXtz1nRc/neticon.jpg'
-        }
-        height={'200'}
-        className={classes.media}
-      />
-      <CardContent>
-        <Container>
-          <Typography variant={'h5'}>
-            <b>{name}</b>
-          </Typography>
-          <NavLink to={`/organizations/${orgId}/members`}>
-            <Typography>
-              Участников: {amountOfPeople}, них них водителей {amountOfDrivers}
+    <Box mt={4} display={'flex'} flexDirection={'column'} justifyContent={'center'}>
+      <Card className={disabled && classes.disabledCard}>
+        <CardMedia
+          component={'img'}
+          image={
+            (organizationPhotoSrc && organizationPhotoSrc) ||
+            'https://cdn.steemitimages.com/DQmUcM45ZzL8A697W6v4LGph1RPerpDUnutJx73JXtz1nRc/neticon.jpg'
+          }
+          height={'200'}
+          className={classes.media}
+        />
+        <CardContent>
+          <Container>
+            <Typography variant={'h5'}>
+              <b>{name}</b>
             </Typography>
-          </NavLink>
-          <Typography>Адрес: {address}</Typography>
-        </Container>
-      </CardContent>
-      <CardActions className={classes.actions}>
-        <Button variant={'text'} color={'primary'} disabled={disabled} onClick={handleLeave}>
-          {disabled ? 'Вы вышли из этой организации' : 'Выйти из организации'}
-        </Button>
-      </CardActions>
-    </Card>
+            <NavLink to={`/organizations/${orgId}/members`}>
+              <Typography>
+                Участников: {amountOfPeople}, них них водителей {amountOfDrivers}
+              </Typography>
+            </NavLink>
+            <Typography>Адрес: {address}</Typography>
+          </Container>
+        </CardContent>
+        <CardActions className={classes.actions}>
+          <Button variant={'text'} color={'primary'} disabled={disabled} onClick={handleLeave}>
+            {disabled ? 'Вы вышли из этой организации' : 'Выйти из организации'}
+          </Button>
+        </CardActions>
+      </Card>
+      <Button onClick={() => history.goBack()} variant={'text'} color={'default'}>
+        Назад
+      </Button>
+    </Box>
   );
 };

@@ -1,12 +1,14 @@
-import React from 'react';
-import { Box, Card, CardContent, createStyles, makeStyles, Theme, Typography } from '@material-ui/core';
+import React, { useEffect, useState } from 'react';
+import { Box, createStyles, makeStyles, Paper, Theme, Typography } from '@material-ui/core';
 import { Avatar } from '../Avatar/Avatar';
 import { NavLink } from 'react-router-dom';
+import MapModel from '../../models/mapModel';
+import _get from 'lodash/get';
 
 const useStyles = makeStyles((theme: Theme) =>
   createStyles({
     card: {
-      margin: theme.spacing(1),
+      // margin: theme.spacing(1),
       display: 'flex',
       flexDirection: 'row',
       alignItems: 'center'
@@ -20,19 +22,38 @@ const useStyles = makeStyles((theme: Theme) =>
 
 export interface IOrganizationCardProps {
   name: string;
-  address: string;
+  latitude: number;
+  longitude: number;
   avatarSrc?: string;
   id: number;
 }
 
-export const OrganizationItem: React.FC<IOrganizationCardProps> = ({ name, address, avatarSrc, id, ...props }) => {
+export const OrganizationItem: React.FC<IOrganizationCardProps> = ({
+  name,
+  latitude,
+  longitude,
+  avatarSrc,
+  id,
+  ...props
+}) => {
   const classes = useStyles(props);
+  const [address, setAddress] = useState('...');
+
+  useEffect(() => {
+    const getAddress = async () => {
+      const data = await MapModel.reverseGeocoding({ longitude, latitude });
+      const address = _get(data, 'response.GeoObjectCollection.featureMember[0].GeoObject.name');
+      setAddress(address ? address : 'Не удалось выяснить адрес');
+    };
+
+    getAddress();
+  }, []);
 
   return (
-    <Card>
-      <NavLink to={`/organizations/${id}`} className={classes.noTextDecoration}>
-        <CardContent className={classes.card}>
-          <Box>
+    <NavLink to={`/organizations/${id}`} className={classes.noTextDecoration}>
+      <Paper elevation={2}>
+        <Box display={'flex'} alignItems={'center'} p={2}>
+          <Box m={1}>
             <Avatar
               src={
                 (avatarSrc && avatarSrc) ||
@@ -46,8 +67,8 @@ export const OrganizationItem: React.FC<IOrganizationCardProps> = ({ name, addre
             </Typography>
             <Typography variant={'body1'}>{address}</Typography>
           </Box>
-        </CardContent>
-      </NavLink>
-    </Card>
+        </Box>
+      </Paper>
+    </NavLink>
   );
 };
