@@ -91,4 +91,7 @@ const mapDispatchToProps = dispatch => {
   };
 };
 
-export default connect(mapStateToProps, mapDispatchToProps)(UserProfilePage);
+export default connect(
+  mapStateToProps,
+  mapDispatchToProps
+)(UserProfilePage);
