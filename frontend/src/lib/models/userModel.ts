@@ -14,6 +14,16 @@ export default class UserModel {
       throw new Error('Login failure');
     }
   };
+
+  public static validateUser = async () => {
+    try {
+      const res = await axios.get(`${BACKEND_URL}/get_auth`, { withCredentials: true });
+      return res.data;
+    } catch (e) {
+      return null;
+    }
+  };
+
   public static getUserData = async () => {
     try {
       const res = await axios.get(`${BACKEND_URL}/get_user_info`, { withCredentials: true });

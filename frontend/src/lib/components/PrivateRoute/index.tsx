@@ -10,7 +10,7 @@ interface IPrivateRoute {
 const PrivateRoute: React.FC<any> = ({ children, ...rest }) => {
   const [isAuth, setIsAuth] = useState(null);
   const isAuthenticated = async () => {
-    const res = await UserModel.getUserData();
+    const res = await UserModel.validateUser();
     if (res) {
       return true;
     }

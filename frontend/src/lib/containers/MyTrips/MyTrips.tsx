@@ -12,11 +12,15 @@ const useStyles = makeStyles((theme: Theme) =>
     trip: {
       display: 'flex',
       border: '1px solid #f0f0f0',
+      padding: '10px',
       flexDirection: 'row',
       marginTop: theme.spacing(1)
     },
     noTextDecoration: {
       textDecoration: 'none'
+    },
+    infoContainer: {
+      marginLeft: '10px'
     }
   })
 );
@@ -49,7 +53,7 @@ export const MyTrips: React.FC<IMyTripsProps> = props => {
         <NavLink onClick={props.onClick} key={index} to={`/trip/${value.id}`} className={classes.noTextDecoration}>
           <Card className={classes.trip} elevation={2}>
             <Avatar src={value.avatar} />
-            <Box alignSelf={'center'}>
+            <Box className={classes.infoContainer} alignSelf={'center'}>
               <Typography>
                 {' '}
                 <b> {value.name} </b>

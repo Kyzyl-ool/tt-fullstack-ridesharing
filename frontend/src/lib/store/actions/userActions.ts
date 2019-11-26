@@ -42,10 +42,3 @@ export const setMyOrganizationsAction = myOrgs => {
     }
   };
 };
-
-export const canBeDriverAction = canBe => {
-  return {
-    type: actions.CAN_BE_DRIVER,
-    canBe
-  };
-};

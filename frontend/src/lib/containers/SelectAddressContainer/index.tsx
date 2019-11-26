@@ -134,7 +134,7 @@ class SelectAddressContainer extends PureComponent<ISelectedAddressContainerProp
     return (
       <Fragment>
         <Container className={styles.wrapper}>
-          <Map viewport={viewport} onBuildingClick={this.onBuildingClick} markered />
+          <Map geopositionCentered viewport={viewport} onBuildingClick={this.onBuildingClick} markered />
           <Container className={styles.addressContainer}>
             <Typography className={styles.address} color="primary" component="h3" variant="h3">
               {lastSelectedAddress}

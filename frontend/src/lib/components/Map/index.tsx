@@ -1,9 +1,9 @@
 import React, { PureComponent } from 'react';
-import markerImage from './location_marker.svg';
 import _isEmpty from 'lodash/isEmpty';
 import _get from 'lodash/get';
 import MapGL, { Source, Layer, NavigationControl, GeolocateControl, Marker } from '@urbica/react-map-gl';
 import MapModel from '../../models/mapModel';
+import './Map.scss';
 import 'mapbox-gl/dist/mapbox-gl.css';
 
 const MAPBOX_ACCESS_TOKEN = process.env.REACT_APP_MAPBOX_TOKEN || '';
@@ -14,11 +14,19 @@ interface IViewport {
   zoom: number;
 }
 
+interface IPoint {
+  latitude: number;
+  longitude: number;
+}
+
 interface IUrbicaMapProps {
   style?: React.CSSProperties;
   onBuildingClick: (selectedBuildingAddress: string) => void;
   viewport?: IViewport;
+  geopositionCentered?: boolean;
   markered?: boolean;
+  startPoint?: IPoint;
+  endPoint?: IPoint;
 }
 
 interface IUrbicaMapState {
@@ -35,7 +43,12 @@ class UrbicaMap extends PureComponent<IUrbicaMapProps, IUrbicaMapState> {
   };
 
   public componentDidMount() {
-    this.getInitialLocation();
+    if (this.props.geopositionCentered) {
+      this.getInitialLocation();
+    }
+    if (!_isEmpty(this.props.viewport)) {
+      this.setState({ viewport: this.props.viewport });
+    }
   }
 
   public componentDidUpdate(prevProps: IUrbicaMapProps) {
@@ -76,12 +89,16 @@ class UrbicaMap extends PureComponent<IUrbicaMapProps, IUrbicaMapState> {
 
   public render() {
     const { viewport } = this.state;
-    const { style = { width: '100%', height: '70vh' }, markered = false } = this.props;
+    const {
+      style = { width: '100%', height: '70vh' },
+      markered = false,
+      startPoint = {} as IPoint,
+      endPoint = {} as IPoint
+    } = this.props;
     return (
       <>
         <MapGL
           style={style}
-          // mapStyle="mapbox://styles/shinnik/ck18kcqmj04q61cqnjc7o84qs"
           mapStyle="mapbox://styles/shinnik/ck1odtfa809g21dmptqma3hmh/draft"
           accessToken={MAPBOX_ACCESS_TOKEN}
           latitude={viewport.latitude}
@@ -103,8 +120,18 @@ class UrbicaMap extends PureComponent<IUrbicaMapProps, IUrbicaMapState> {
           />
           {markered && (
             <Marker latitude={viewport.latitude} longitude={viewport.longitude}>
-              <img src={markerImage} />
+              <div className="map__center-marker"></div>
             </Marker>
+          )}
+          {!_isEmpty(startPoint) && !_isEmpty(endPoint) && (
+            <>
+              <Marker title="Start point" latitude={startPoint.latitude} longitude={startPoint.longitude}>
+                <div className="map__start-point-marker"></div>
+              </Marker>
+              <Marker title="End point" latitude={endPoint.latitude} longitude={endPoint.longitude}>
+                <div className="map__end-point-marker"></div>
+              </Marker>
+            </>
           )}
           <NavigationControl showCompass showZoom position="bottom-right" />
           <GeolocateControl position="bottom-right" />
