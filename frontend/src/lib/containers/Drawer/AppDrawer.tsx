@@ -58,8 +58,9 @@ const AppDrawer: React.FC<IAppDrawerProps> = ({ firstName, lastName, email, phot
   useEffect(() => {
     const fetchAllTrips = async () => {
       const trips = await TripModel.getAllTrips();
+      const archivedTrips = await TripModel.getArchiveTrips();
       const cameledTrips = trips.map(trip => snakeObjectToCamel(trip));
-      setArchivedData(cameledTrips.filter(trip => trip.isFinished));
+      setArchivedData(archivedTrips.map(trip => snakeObjectToCamel(trip)));
       setDriverData(cameledTrips.filter(trip => trip.isMine && !trip.isFinished));
     };
     fetchAllTrips();

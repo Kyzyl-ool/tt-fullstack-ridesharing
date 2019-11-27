@@ -32,7 +32,6 @@ class WithInitialization extends PureComponent<IWithInitializationProps> {
       await this.props.setUserData(userData);
       await this.props.setOrganizations(organizations);
       await this.props.setMyTrips(trips);
-      console.log(isUserDriver);
       if (isUserDriver) {
         const cars = await UserModel.getUserCars();
         await this.props.setCars(cars);
