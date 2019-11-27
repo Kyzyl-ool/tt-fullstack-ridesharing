@@ -58,6 +58,7 @@ const AddNewOrganizationPage: React.FC<IAddNewOrganizationPageProps> = props => 
       console.log('Create organization result: ', res);
       const getAllOrganizationsResult = await organizationsModel.getOrganizations();
       await this.props.setOrganizations(getAllOrganizationsResult);
+      history.goBack();
     };
 
     try {
@@ -129,4 +130,7 @@ const mapDispatchToProps = dispatch => {
   };
 };
 
-export default connect(mapStateToProps, mapDispatchToProps)(AddNewOrganizationPage);
+export default connect(
+  mapStateToProps,
+  mapDispatchToProps
+)(AddNewOrganizationPage);
