@@ -1,10 +1,13 @@
-import React, { useEffect } from 'react';
+import React, { useEffect, useState } from 'react';
 import { Box, Button, createStyles, Divider, Drawer, makeStyles, Theme, Typography } from '@material-ui/core';
+import _isEmpty from 'lodash/isEmpty';
 import { Avatar } from '../../components/Avatar/Avatar';
 import { MyTrips } from '../MyTrips/MyTrips';
 import { NavLink } from 'react-router-dom';
 import { connect } from 'react-redux';
 import { IResponseTrip } from '../../store/reducers/allTripsReducer';
+import { snakeObjectToCamel } from '../../helpers/snakeToCamelCase';
+import TripModel from '../../models/tripModel';
 
 const useStyles = makeStyles((theme: Theme) =>
   createStyles({
@@ -27,6 +30,9 @@ const useStyles = makeStyles((theme: Theme) =>
       width: '80%',
       marginTop: theme.spacing(1)
     },
+    header: {
+      paddingTop: '0.5rem'
+    },
     noTextDecoration: {
       display: 'flex',
       alignItems: 'center',
@@ -47,6 +53,17 @@ interface IAppDrawerProps {
 }
 const AppDrawer: React.FC<IAppDrawerProps> = ({ firstName, lastName, email, photoUrl, trips, ...props }) => {
   const classes = useStyles(props);
+  const [archivedData, setArchivedData] = useState([{}]);
+  const [driverData, setDriverData] = useState([{}]);
+  useEffect(() => {
+    const fetchAllTrips = async () => {
+      const trips = await TripModel.getAllTrips();
+      const cameledTrips = trips.map(trip => snakeObjectToCamel(trip));
+      setArchivedData(cameledTrips.filter(trip => trip.isFinished));
+      setDriverData(cameledTrips.filter(trip => trip.isMine && !trip.isFinished));
+    };
+    fetchAllTrips();
+  }, [trips]);
   return (
     <Drawer open={props.open} onClose={props.onClose}>
       <Box className={classes.root}>
@@ -68,7 +85,29 @@ const AppDrawer: React.FC<IAppDrawerProps> = ({ firstName, lastName, email, phot
           </NavLink>
         </Box>
         <Divider />
-        <Typography variant={'body1'} align={'center'}>{`Вы участвуете в ${
+        {!_isEmpty(driverData) && (
+          <Typography className={classes.header} variant={'body1'} align={'center'}>
+            Ваши поездки:
+          </Typography>
+        )}
+        <MyTrips
+          data={
+            !_isEmpty(driverData) && !_isEmpty(driverData[0])
+              ? Object.entries(driverData)
+                  .map(value => value[1])
+                  .map(value => {
+                    return {
+                      id: +value.id,
+                      date: new Date(value.startTime),
+                      name: `${value.hostDriverInfo.firstName} ${value.hostDriverInfo.lastName}`,
+                      avatar: value.hostDriverInfo.photoUrl
+                    };
+                  })
+              : {}
+          }
+          variant="driver"
+        />
+        <Typography className={classes.header} variant={'body1'} align={'center'}>{`Вы участвуете в ${
           Object.entries(trips).length
         } поездках:`}</Typography>
         <MyTrips
@@ -80,7 +119,30 @@ const AppDrawer: React.FC<IAppDrawerProps> = ({ firstName, lastName, email, phot
               name: `${value.hostDriverInfo.firstName} ${value.hostDriverInfo.lastName}`,
               avatar: value.hostDriverInfo.photoUrl
             }))}
+          variant="passenger"
           onClick={props.onClose}
+        />
+        {!_isEmpty(archivedData) && (
+          <Typography className={classes.header} variant={'body1'} align={'center'}>
+            Завершенные поездки:
+          </Typography>
+        )}
+        <MyTrips
+          data={
+            !_isEmpty(archivedData) && !_isEmpty(archivedData[0])
+              ? Object.entries(archivedData)
+                  .map(value => value[1])
+                  .map(value => {
+                    return {
+                      id: +value.id,
+                      date: new Date(value.startTime),
+                      name: `${value.hostDriverInfo.firstName} ${value.hostDriverInfo.lastName}`,
+                      avatar: value.hostDriverInfo.photoUrl
+                    };
+                  })
+              : {}
+          }
+          variant="archived"
         />
       </Box>
     </Drawer>

@@ -2,7 +2,7 @@ import * as actions from '../actions/actionTypes';
 import { snakeObjectToCamel } from '../../helpers/snakeToCamelCase';
 
 const initialState = {
-  cars: []
+  cars: [{}]
 };
 
 export const carReducer = (state = initialState, action) => {

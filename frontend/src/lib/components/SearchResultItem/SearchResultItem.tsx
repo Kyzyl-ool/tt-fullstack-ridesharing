@@ -26,14 +26,15 @@ const useStyles = makeStyles((theme: Theme) =>
   createStyles({
     card: {
       margin: theme.spacing(1),
-      border: `1px solid ${theme.palette.primary.light}`,
+      border: `2px solid #e4e7ea`,
       position: 'relative',
       cursor: 'pointer',
-      paddingBottom: theme.spacing(1)
+      paddingBottom: theme.spacing(1),
+      background: 'linear-gradient(90deg, rgba(251,162,2,0.05) 0%, rgba(81,45,168,0.05) 100%)'
     },
     content: {
       display: 'flex',
-      padding: '16px',
+      padding: '24px',
       justifyContent: 'space-between'
     },
     space: {
@@ -54,7 +55,7 @@ const useStyles = makeStyles((theme: Theme) =>
       textDecoration: 'none'
     },
     seatIcons: {
-      marginLeft: '1em'
+      marginTop: '5px'
     }
   })
 );
@@ -89,7 +90,7 @@ export const SearchResultItem: React.FC<ISearchResultItemProps> = props => {
               </Typography>
             </Box>
             <Box className={classes.space} />
-            <Box display={'flex'} flexDirection={'row'} alignItems={'center'} className={classes.bottom}>
+            <Box display={'flex'} flexDirection="column" className={classes.bottom}>
               <Typography variant={'body2'} color={'textSecondary'}>
                 {`${props.address}`}
               </Typography>

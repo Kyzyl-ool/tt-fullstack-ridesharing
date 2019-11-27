@@ -20,7 +20,6 @@ import DateFnsUtils from '@date-io/date-fns';
 import ruLocale from 'date-fns/locale/ru';
 import { SearchResults } from '../../containers/SearchResults';
 import TripModel from '../../models/tripModel';
-
 import { snakeObjectToCamel } from '../../helpers/snakeToCamelCase';
 import { SelectOrganizationInput } from '../../containers/SelectOrganizationInput';
 import { setArrivalPointAction, setRideTimeAction, setStartOrganizationAction } from '../../store/actions/tripActions';
@@ -42,7 +41,6 @@ const useStyles = makeStyles((theme: Theme) => ({
 }));
 
 const serializeTrip = (tripData: any) => {
-  console.log(tripData);
   const { id, startTime, hostDriverInfo, stopAddress, totalSeats, passengers } = snakeObjectToCamel(tripData);
   return {
     id,

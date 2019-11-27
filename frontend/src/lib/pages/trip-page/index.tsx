@@ -3,15 +3,15 @@ import React, { useState, useEffect, Fragment } from 'react';
 import _isEmpty from 'lodash/isEmpty';
 import { Box, Button, Container, createStyles, makeStyles, Tab, Tabs, Theme, Typography } from '@material-ui/core';
 import Map from '../../components/Map';
-import dateFormat from 'date-fns/format';
-import ruLocale from 'date-fns/locale/ru';
 import { useParams, useHistory } from 'react-router-dom';
 import TripModel from '../../models/tripModel';
 import addNotification from '../../store/actions/notificationsActions';
 import { snakeObjectToCamel } from '../../helpers/snakeToCamelCase';
 import { connect } from 'react-redux';
 import { IOrganization } from '../../domain/organization';
+import { setMyTripsAction } from '../../store/actions';
 import { Avatar } from '../../components/Avatar/Avatar';
+import { IResponseTrip } from '../../store/reducers/allTripsReducer';
 
 interface TabPanelProps {
   children?: React.ReactNode;
@@ -42,6 +42,9 @@ const useStyles = makeStyles((theme: Theme) =>
       display: 'flex',
       maxWidth: '270px',
       justifyContent: 'space-between'
+    },
+    finishButton: {
+      background: 'green'
     },
     tabContainer: {
       paddingTop: '20px'
@@ -85,6 +88,7 @@ interface ITripPageProps {
   availableOrganizations: IOrganization[];
   userId: number;
   addNotification: (notification: INotification) => void;
+  setMyTrips: (trips: IResponseTrip) => void;
 }
 
 const initialTripInfo = {
@@ -150,6 +154,11 @@ const TripPage: React.FC<ITripPageProps> = props => {
     }
   };
 
+  const refreshTrips = async () => {
+    const trips = await TripModel.getMyTrips();
+    props.setMyTrips(trips);
+  };
+
   const onLeaveTripButtonClick = async () => {
     const res = await TripModel.leaveTrip(tripInfo.id);
     if (res) {
@@ -158,6 +167,7 @@ const TripPage: React.FC<ITripPageProps> = props => {
     } else {
       props.addNotification({ type: 'failure', text: 'Покинуть поездку не удалось' });
     }
+    await refreshTrips();
   };
 
   const onJoinTripButtonClick = async () => {
@@ -168,10 +178,48 @@ const TripPage: React.FC<ITripPageProps> = props => {
     } else {
       props.addNotification({ type: 'failure', text: 'Присоединится к поездке не удалось' });
     }
+    await refreshTrips();
   };
 
-  const startOrganization = props.availableOrganizations[tripInfo.startOrganizationId - 1];
+  const onFinishTrip = async (tripId: number) => {
+    const res = await TripModel.finishTrip(tripId);
+    if (res) {
+      refreshTripInfo();
+      props.addNotification({ type: 'success', text: 'Поздравляем! Поездка завершена!' });
+    } else {
+      props.addNotification({ type: 'failure', text: 'Поездка не может быть завершена в данный момент' });
+    }
+    await refreshTrips();
+  };
+
   const isUserInsideTrip = tripInfo => tripInfo.passengers.includes(props.userId);
+  const startOrganization = props.availableOrganizations[tripInfo.startOrganizationId - 1];
+
+  const renderActivityButton = tripInfo => {
+    if (tripInfo.isMine && !tripInfo.isFinished) {
+      return (
+        <Button className={classes.finishButton} onClick={onFinishTrip} variant={'contained'}>
+          Завершить поездку
+        </Button>
+      );
+    } else if (tripInfo.isMine && tripInfo.isFinished) {
+      return null;
+    } else if (isUserInsideTrip(tripInfo)) {
+      return (
+        <Button onClick={onLeaveTripButtonClick} variant={'contained'}>
+          Выйти из поездки
+        </Button>
+      );
+    } else if (!isUserInsideTrip(tripInfo)) {
+      return (
+        <Button onClick={onJoinTripButtonClick} variant={'contained'}>
+          Присоединиться
+        </Button>
+      );
+    }
+  };
+
+  // const isUserTripOwner = tripInfo => tripInfo.hostDriverId === props.userId;
   return (
     <Box className={classes.mainInfo} display={'flex'} flexDirection={'column'} flexWrap={'nowrap'} height={'95%'}>
       {!_isEmpty(tripInfo) && (
@@ -197,15 +245,7 @@ const TripPage: React.FC<ITripPageProps> = props => {
             <Button onClick={() => history.push('/search_trip')} variant={'text'}>
               Назад
             </Button>
-            {!isUserInsideTrip(tripInfo) ? (
-              <Button onClick={onJoinTripButtonClick} variant={'contained'}>
-                Присоединиться
-              </Button>
-            ) : (
-              <Button onClick={onLeaveTripButtonClick} variant={'contained'}>
-                Выйти из поездки
-              </Button>
-            )}
+            {renderActivityButton(tripInfo)}
           </Box>
           <Tabs
             className={classes.tabs}
@@ -289,8 +329,9 @@ const mapStateToProps = state => {
   };
 };
 
-const mapDispatchToProps = {
-  addNotification
-};
+const mapDispatchToProps = dispatch => ({
+  addNotification: ({ type, text }) => dispatch(addNotification({ type, text })),
+  setMyTrips: trips => dispatch(setMyTripsAction(trips))
+});
 
 export default connect(mapStateToProps, mapDispatchToProps)(TripPage);
