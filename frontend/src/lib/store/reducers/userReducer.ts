@@ -28,6 +28,10 @@ export const userReducer = (state: State = initialState, action) => {
       return { ...state, ...snakeObjectToCamel(action.userData), isSessionAuthorized: true };
     case actions.UPDATE_AVATAR:
       return { ...state, photoUrl: action.avatar };
+    case actions.UPDATE_PHONE_NUMBER:
+      return { ...state, phoneNumber: action.phoneNumber };
+    case actions.UPDATE_EMAIL:
+      return { ...state, email: action.email };
     case actions.DEAUTHORIZE:
       return initialState;
     default:

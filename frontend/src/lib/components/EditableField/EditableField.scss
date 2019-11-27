@@ -1,0 +1,26 @@
+%button {
+  border: none;
+  outline: none;
+  background: transparent;
+  width: 16px;
+  height: 16px;
+  margin-left: 1rem;
+  cursor: pointer;
+}
+
+.editable-field {
+  &__field-wrapper {
+    display: flex;
+    align-items: center;
+  }
+  &__edit-button {
+    @extend %button;
+    background: url('./edit-icon.svg') no-repeat;
+    background-size: cover;
+  }
+  &__ok-button {
+    @extend %button;
+    background: url('./ok-icon.svg') no-repeat;
+    background-size: cover;
+  }
+}
