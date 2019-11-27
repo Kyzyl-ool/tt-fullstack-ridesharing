@@ -64,6 +64,7 @@ const AppDrawer: React.FC<IAppDrawerProps> = ({ firstName, lastName, email, phot
     };
     fetchAllTrips();
   }, [trips]);
+
   return (
     <Drawer open={props.open} onClose={props.onClose}>
       <Box className={classes.root}>
