@@ -5,8 +5,17 @@ import { connect } from 'react-redux';
 import ImageModel from '../../models/imageModel';
 import { Avatar } from '../../components/Avatar/Avatar';
 import './UserProfilePage.scss';
-import { updateAvatarAction } from '../../store/actions/userActions';
+import { updateAvatarAction, setUserDataAction } from '../../store/actions/userActions';
 import { ICar } from '../../domain/car';
+import { IUser } from '../../domain/user';
+import EditableField from '../../components/EditableField';
+import UserModel from '../../models/userModel';
+import addNotification from '../../store/actions/notificationsActions';
+
+interface INotification {
+  text: string;
+  type: 'success' | 'failure';
+}
 
 interface IUserProfilePageProps {
   avatarUrl: string;
@@ -16,6 +25,8 @@ interface IUserProfilePageProps {
   phoneNumber: string;
   email: string;
   cars: ICar[];
+  setUserData: (userData: IUser) => void;
+  addNotification: (notification: INotification) => void;
   updateAvatar: (newAvatar: string) => void;
 }
 
@@ -26,6 +37,27 @@ class UserProfilePage extends PureComponent<IUserProfilePageProps> {
     const file = this.uploadInput.files[0];
     const url = await ImageModel.uploadImage(file);
     this.props.updateAvatar(url);
+  };
+
+  public refreshUserInfo = async () => {
+    const userData = await UserModel.getUserData();
+    this.props.setUserData(userData);
+  };
+
+  public changeField = async (name: string, value: string) => {
+    let res;
+    if (name === 'phoneNumber') {
+      res = await UserModel.updatePhoneNumber(name, value);
+    }
+    if (name === 'email') {
+      res = await UserModel.updateEmail(name, value);
+    }
+    if (res) {
+      this.refreshUserInfo();
+      this.props.addNotification({ type: 'success', text: 'Информация обновлена' });
+    } else {
+      this.props.addNotification({ type: 'failure', text: 'К сожалению, не получилось обновить информацию' });
+    }
   };
 
   public render() {
@@ -58,11 +90,24 @@ class UserProfilePage extends PureComponent<IUserProfilePageProps> {
           <div className="user-profile-page__contact-header">
             <Typography variant="h5">Электронная почта</Typography>
           </div>
-          <p className="user-profile-page__contact-content">{email}</p>
+          {/* <p className="user-profile-page__contact-content">{email}</p> */}
+          <EditableField
+            id="email"
+            onReady={this.changeField}
+            value={email}
+            label="E-mail"
+            textClassName="user-profile-page__contact-content"
+          />
           <div className="user-profile-page__contact-header">
             <Typography variant="h5">Номер телефона</Typography>
           </div>
-          <p className="user-profile-page__contact-content">{phoneNumber}</p>
+          <EditableField
+            id="phoneNumber"
+            value={phoneNumber}
+            label="Номер телефона"
+            onReady={this.changeField}
+            textClassName="user-profile-page__contact-content"
+          />
           <div className="user-profile-page__contact-header">
             <Typography variant="h5">Telegram</Typography>
           </div>
@@ -114,7 +159,9 @@ const mapStateToProps = state => {
 
 const mapDispatchToProps = dispatch => {
   return {
-    updateAvatar: newAvatar => dispatch(updateAvatarAction(newAvatar))
+    updateAvatar: newAvatar => dispatch(updateAvatarAction(newAvatar)),
+    addNotification: ({ type, text }) => dispatch(addNotification({ type, text })),
+    setUserData: userData => dispatch(setUserDataAction(userData))
   };
 };
 

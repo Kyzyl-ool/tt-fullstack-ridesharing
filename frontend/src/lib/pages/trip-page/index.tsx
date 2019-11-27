@@ -198,7 +198,7 @@ const TripPage: React.FC<ITripPageProps> = props => {
   const renderActivityButton = tripInfo => {
     if (tripInfo.isMine && !tripInfo.isFinished) {
       return (
-        <Button className={classes.finishButton} onClick={onFinishTrip} variant={'contained'}>
+        <Button className={classes.finishButton} onClick={() => onFinishTrip(tripInfo.id)} variant={'contained'}>
           Завершить поездку
         </Button>
       );

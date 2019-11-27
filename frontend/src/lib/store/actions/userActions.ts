@@ -14,6 +14,20 @@ export const updateAvatarAction = avatar => {
   };
 };
 
+export const updateEmailAction = email => {
+  return {
+    type: actions.UPDATE_EMAIL,
+    email
+  };
+};
+
+export const updatePhoneNumberAction = phoneNumber => {
+  return {
+    type: actions.UPDATE_PHONE_NUMBER,
+    phoneNumber
+  };
+};
+
 export const logoutSessionAction = () => {
   return {
     type: actions.DEAUTHORIZE

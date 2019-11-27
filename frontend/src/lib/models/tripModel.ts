@@ -81,6 +81,15 @@ export default class TripModel {
     }
   };
 
+  public static getArchiveTrips = async () => {
+    try {
+      const res = await axios.get(`${BACKEND_URL}/get_my_finished_rides`, { withCredentials: true });
+      return res.data;
+    } catch (e) {
+      return null;
+    }
+  };
+
   public static getAllTrips = async () => {
     try {
       const res = await axios.get(`${BACKEND_URL}/get_all_rides`, { withCredentials: true });

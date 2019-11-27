@@ -56,6 +56,28 @@ export default class UserModel {
     }
   };
 
+  public static updateEmail = async (name: string, value: string) => {
+    try {
+      const res = await axios.post(`${BACKEND_URL}/change_email`, { [name]: value }, { withCredentials: true });
+      return res.data;
+    } catch (e) {
+      return null;
+    }
+  };
+
+  public static updatePhoneNumber = async (name: string, value: string) => {
+    try {
+      const res = await axios.post(
+        `${BACKEND_URL}/change_phone_number`,
+        { phone_number: value },
+        { withCredentials: true }
+      );
+      return res.data;
+    } catch (e) {
+      return null;
+    }
+  };
+
   public static isUserDriver = async () => {
     try {
       const res = await axios.get(`${BACKEND_URL}/am_i_driver`, { withCredentials: true });
