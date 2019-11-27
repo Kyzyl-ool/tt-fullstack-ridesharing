@@ -133,6 +133,7 @@ const SearchTripPage: React.FC<ISearchTripPageProps> = ({
               <DateTimePicker
                 value={rideTime}
                 onChange={onSetTime}
+                label="Время поездки"
                 inputVariant={'outlined'}
                 variant={'dialog'}
                 showTodayButton={true}
@@ -140,6 +141,7 @@ const SearchTripPage: React.FC<ISearchTripPageProps> = ({
                 todayLabel={'Сейчас'}
                 okLabel={'Ок'}
                 ampm={false}
+                disablePast
                 format="dd MMMM HH:mm"
               />
             </MuiPickersUtilsProvider>
@@ -191,7 +193,4 @@ const mapDispatchToProps = dispatch => {
   };
 };
 
-export default connect(
-  mapStateToProps,
-  mapDispatchToProps
-)(SearchTripPage);
+export default connect(mapStateToProps, mapDispatchToProps)(SearchTripPage);

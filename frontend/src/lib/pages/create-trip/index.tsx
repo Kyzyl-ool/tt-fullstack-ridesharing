@@ -74,6 +74,9 @@ const CreateTripPage: React.FC<ICreateTripPageProps> = props => {
 
   const onCreateTripButtonClick = async () => {
     const { startOrganization, arrivalPoint, rideTime, totalSeats, cost, cars } = props;
+    console.log(startOrganization);
+    // TODO REMOVE WHEN CAR ADDING WILL BE READY
+    const carId = cars[0] ? +cars[0].id : 0;
     const response = await TripModel.createTrip({
       startOrganizationId: +startOrganization.id,
       stopLatitude: arrivalPoint.latitude,
@@ -81,7 +84,7 @@ const CreateTripPage: React.FC<ICreateTripPageProps> = props => {
       stopAddress: arrivalPoint.name,
       startTime: rideTime,
       // 0 because now we do not select car
-      carId: +cars[0].id,
+      carId,
       cost: +cost,
       totalSeats: +totalSeats,
       description: ''
@@ -96,9 +99,9 @@ const CreateTripPage: React.FC<ICreateTripPageProps> = props => {
   };
 
   return (
-    <Container className={classes.container} maxWidth={'sm'}>
-      <Box display={'flex'} justifyContent={'space-evenly'} alignItems={'center'}>
-        <Typography noWrap display={'inline'} variant={'h6'}>
+    <Container className={classes.container} maxWidth="sm">
+      <Box display="flex" justifyContent="space-evenly" alignItems="center">
+        <Typography display="inline" variant="h6">
           Время начала:
         </Typography>
         {/* <TextField value={props.rideTime} onChange={onTimeInputChange} variant={'outlined'} type={'time'} /> */}
@@ -106,13 +109,14 @@ const CreateTripPage: React.FC<ICreateTripPageProps> = props => {
           <DateTimePicker
             disablePast
             value={props.rideTime}
+            label="Время поездки"
             onChange={onTimeInputChange}
-            inputVariant={'outlined'}
-            variant={'dialog'}
+            inputVariant="outlined"
+            variant="dialog"
             showTodayButton={true}
-            cancelLabel={'Отмена'}
-            todayLabel={'Сейчас'}
-            okLabel={'Ок'}
+            cancelLabel="Отмена"
+            todayLabel="Сейчас"
+            okLabel="Ок"
             ampm={false}
             format="dd MMMM HH:mm"
           />
@@ -123,13 +127,14 @@ const CreateTripPage: React.FC<ICreateTripPageProps> = props => {
         currentOrganization={props.startOrganization}
         availableOrganizations={props.availableOrganizations}
       />
-      <Box display={'flex'} alignItems={'center'} m={localMargin}>
+      <Box display="flex" alignItems="center" m={localMargin}>
         <TextField
           fullWidth
           value={props.arrivalPoint.name || ''}
           onChange={() => {}}
-          placeholder={'Куда?'}
-          variant={'outlined'}
+          // placeholder="Куда?"
+          label="Место назначения"
+          variant="outlined"
         />
         <Button className={classes.mapButton} onClick={() => setIsModalShown(true)}>
           На карте
@@ -139,10 +144,17 @@ const CreateTripPage: React.FC<ICreateTripPageProps> = props => {
         <SelectAddressContainer onSetArrivalPoint={onSelectAddress} />
       </Modal>
       <Box m={localMargin}>
-        <TextField fullWidth value={props.totalSeats || 'none'} select onChange={onTotalSeatsChange} variant="outlined">
-          <MenuItem value="none" disabled>
+        <TextField
+          fullWidth
+          value={props.totalSeats}
+          label="Количество мест"
+          select
+          onChange={onTotalSeatsChange}
+          variant="outlined"
+        >
+          {/* <MenuItem value="none" disabled>
             Кол-во мест
-          </MenuItem>
+          </MenuItem> */}
           {seatsNumbers.map((num, index) => (
             <MenuItem key={index} value={num}>
               {num}
@@ -150,25 +162,29 @@ const CreateTripPage: React.FC<ICreateTripPageProps> = props => {
           ))}
         </TextField>
       </Box>
-      <Box m={localMargin} textAlign={'justify'}>
+      <Box m={localMargin} textAlign="justify">
         <TextField
           value={props.cost}
           onChange={onCostInputChange}
           fullWidth
-          placeholder={'Стоимость поездки'}
-          variant={'outlined'}
+          // placeholder="Стоимость поездки"
+          variant="outlined"
+          label="Стоимость поездки"
+          // InputLabelProps={{
+          //   shrink: true
+          // }}
         />
         <Checkbox />
-        <Typography display={'inline'} variant={'caption'}>
+        <Typography display="inline" variant="caption">
           На усмотрение пассажира
         </Typography>
       </Box>
       <Box display="flex" justifyContent="center" m={localMargin}>
-        <Typography variant={'caption'}>Запланировать поездку на несколько дней</Typography>
-        <Switch />
+        {/* <Typography variant="caption">Запланировать поездку на несколько дней</Typography> */}
+        {/* <Switch /> */}
       </Box>
-      <Box m={localMargin} display={'flex'} justifyContent={'space-evenly'}>
-        <Button onClick={() => history.goBack()} variant={'text'}>
+      <Box m={localMargin} display="flex" justifyContent="space-evenly">
+        <Button onClick={() => history.goBack()} variant="text">
           Назад
         </Button>
         <Button onClick={onCreateTripButtonClick}>Создать поездку</Button>
@@ -200,7 +216,4 @@ const mapDispatchToProps = dispatch => {
   };
 };
 
-export default connect(
-  mapStateToProps,
-  mapDispatchToProps
-)(CreateTripPage);
+export default connect(mapStateToProps, mapDispatchToProps)(CreateTripPage);

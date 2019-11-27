@@ -32,9 +32,10 @@ export const SelectOrganizationInput: React.FunctionComponent<ISelectAddressInpu
     <Box display={'flex'} alignItems={'center'} m={1}>
       <TextField
         fullWidth
-        value={props.currentOrganization.label || 'none'}
+        value={props.currentOrganization.label}
         onChange={onStartOrganizationChange}
         select
+        label="Место отправления"
         SelectProps={{
           MenuProps: {
             className: classes.menu
@@ -42,9 +43,6 @@ export const SelectOrganizationInput: React.FunctionComponent<ISelectAddressInpu
         }}
         variant="outlined"
       >
-        <MenuItem value="none" disabled>
-          Откуда?
-        </MenuItem>
         {props.availableOrganizations.map((org, index) => (
           <MenuItem key={index} value={org.name}>
             {org.name}

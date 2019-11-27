@@ -283,24 +283,28 @@ const TripPage: React.FC<ITripPageProps> = props => {
                 </Typography>
               </Container>
               <Container className={classes.tabContainer}>
-                <Typography variant={'h5'}>Попутчики в поездке:</Typography>
-                <>
-                  {isUserInsideTrip(tripInfo) ? (
-                    <Container className={classes.avatars}>
-                      {passengers.map((passenger, index) => (
-                        <Box className={classes.avatarContainer} key={index}>
-                          <Avatar title={`${passenger.firstName} ${passenger.lastName}`} src={passenger.photoUrl} />
-                        </Box>
-                      ))}
-                    </Container>
-                  ) : (
-                    <p>Чтобы увидеть попутчиков, нужно вступить в поездку</p>
-                  )}
-                </>
+                <Typography variant={'h5'}>Пользователи в поездке:</Typography>
+                {!_isEmpty(passengers) ? (
+                  <>
+                    {isUserInsideTrip(tripInfo) || tripInfo.isMine ? (
+                      <Container className={classes.avatars}>
+                        {passengers.map((passenger, index) => (
+                          <Box className={classes.avatarContainer} key={index}>
+                            <Avatar title={`${passenger.firstName} ${passenger.lastName}`} src={passenger.photoUrl} />
+                          </Box>
+                        ))}
+                      </Container>
+                    ) : (
+                      <p>Чтобы увидеть попутчиков, нужно вступить в поездку</p>
+                    )}
+                  </>
+                ) : (
+                  <p>Пока попутчиков нет</p>
+                )}
               </Container>
             </TabPanel>
             <TabPanel index={2} value={currentTab}>
-              {isUserInsideTrip(tripInfo) ? (
+              {isUserInsideTrip(tripInfo) || tripInfo.isMine ? (
                 <Container className={classes.tabContainer}>
                   <Typography variant={'caption'}>Контактный телефон</Typography>
                   <Typography variant={'h6'}>{tripInfo.phoneNumber ? tripInfo.phoneNumber : '—'}</Typography>
@@ -334,7 +338,4 @@ const mapDispatchToProps = dispatch => ({
   setMyTrips: trips => dispatch(setMyTripsAction(trips))
 });
 
-export default connect(
-  mapStateToProps,
-  mapDispatchToProps
-)(TripPage);
+export default connect(mapStateToProps, mapDispatchToProps)(TripPage);

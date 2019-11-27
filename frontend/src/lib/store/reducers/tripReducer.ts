@@ -3,7 +3,7 @@ import getTimeFromNow from '../../helpers/getTimeFromNow';
 
 const initialState = {
   search: {
-    rideTime: getTimeFromNow(15),
+    rideTime: null,
     arrivalPoint: {},
     startOrganization: {
       id: '',
@@ -14,7 +14,7 @@ const initialState = {
     isPlanned: false
   },
   create: {
-    rideTime: getTimeFromNow(15),
+    rideTime: null,
     arrivalPoint: {},
     startOrganization: {
       id: '',
