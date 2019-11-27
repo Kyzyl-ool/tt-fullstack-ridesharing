@@ -193,8 +193,8 @@ const TripPage: React.FC<ITripPageProps> = props => {
   };
 
   const isUserInsideTrip = tripInfo => tripInfo.passengers.includes(props.userId);
-  const startOrganization = props.availableOrganizations[tripInfo.startOrganizationId - 1];
-
+  const startOrganization = props.availableOrganizations[tripInfo.startOrganizationId + 1];
+  // console.log(startOrganization)
   const renderActivityButton = tripInfo => {
     if (tripInfo.isMine && !tripInfo.isFinished) {
       return (
