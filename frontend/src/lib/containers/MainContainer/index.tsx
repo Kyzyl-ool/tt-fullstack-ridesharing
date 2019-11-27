@@ -44,6 +44,17 @@ const useStyles = makeStyles((theme: Theme) =>
     },
     container: {
       height: '90vh'
+    },
+    fullName: {
+      [theme.breakpoints.down('sm')]: {
+        fontSize: '24px'
+      },
+      [theme.breakpoints.up('md')]: {
+        fontSize: '36px'
+      },
+      [theme.breakpoints.up('lg')]: {
+        fontSize: '44px'
+      }
     }
   })
 );
@@ -74,7 +85,7 @@ const MainContainer: React.FC<IMainContainerProps> = ({ show = true, logoutSessi
           <IconButton edge={'start'} aria-label={'menu'} onClick={props.onClick}>
             <MenuIcon style={{ fill: 'white' }} />
           </IconButton>
-          <Typography variant={'h5'}>
+          <Typography className={classes.fullName} variant={'h5'}>
             {
               <div className="main-container__info">
                 {fullName}{' '}
@@ -112,7 +123,4 @@ const mapDispatchToProps = dispatch => {
   };
 };
 
-export default connect(
-  mapStateToProps,
-  mapDispatchToProps
-)(MainContainer);
+export default connect(mapStateToProps, mapDispatchToProps)(MainContainer);

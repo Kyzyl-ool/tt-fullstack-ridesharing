@@ -15,22 +15,13 @@ import { RegistrationPage } from './lib/pages/registration-page';
 import OrganizationPage from './lib/pages/organizations-page';
 import UserProfilePage from './lib/pages/user-profile-page';
 import Notifications from './lib/components/Notifications';
-import { IOrganizationCardProps } from './lib/components/OrganizationItem/OrganizationItem';
 import AddNewOrganizationPage from './lib/pages/add-new-organization-page';
 import { OrganizationCard } from './lib/components/OrganizationCard/OrganizationCard';
 import { checkAuth } from './net/auth/auth';
-import { connect } from 'react-redux';
-import { IOrganization } from './lib/domain/organization';
-import organizationsModel from './lib/models/organizationsModel';
-import * as actions from './lib/store/actions';
-import { ITripProps } from './lib/containers/MyTrips/MyTrips';
-import userModel from './lib/models/userModel';
 import { OrganizationMembersPage } from './lib/pages/organization-members-page';
-import Uploader from './lib/components/Uploader/Uploader';
-import './App.scss';
 import PrivateRoute from './lib/components/PrivateRoute';
 import WithInitialization from './lib/components/WithInitialization';
-import UrbicaMap from './lib/components/Map';
+import './App.scss';
 
 const useStyles = makeStyles((theme: Theme) =>
   createStyles({

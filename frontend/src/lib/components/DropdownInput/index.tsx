@@ -31,7 +31,17 @@ export default class DropdownInput extends PureComponent<IDropdownInputProps, {}
   // public onStartTyping = ()
 
   render() {
-    const { suggestions, onChange, placeholder, value, label, id, variant, margin = 8, fullWidth = false } = this.props;
+    const {
+      suggestions,
+      onChange,
+      placeholder,
+      value,
+      label,
+      id,
+      variant = 'outlined',
+      margin = 8,
+      fullWidth = false
+    } = this.props;
     return (
       <div className={fullWidth ? 'dropdown-input__fullwidth-container' : 'dropdown-input__container'}>
         <TextField
@@ -42,9 +52,6 @@ export default class DropdownInput extends PureComponent<IDropdownInputProps, {}
           placeholder={placeholder}
           margin="normal"
           onChange={onChange}
-          InputLabelProps={{
-            shrink: true
-          }}
           variant={variant}
           fullWidth={fullWidth}
         />

@@ -104,7 +104,6 @@ const CreateTripPage: React.FC<ICreateTripPageProps> = props => {
         <Typography display="inline" variant="h6">
           Время начала:
         </Typography>
-        {/* <TextField value={props.rideTime} onChange={onTimeInputChange} variant={'outlined'} type={'time'} /> */}
         <MuiPickersUtilsProvider utils={DateFnsUtils} locale={ruLocale}>
           <DateTimePicker
             disablePast
@@ -132,7 +131,6 @@ const CreateTripPage: React.FC<ICreateTripPageProps> = props => {
           fullWidth
           value={props.arrivalPoint.name || ''}
           onChange={() => {}}
-          // placeholder="Куда?"
           label="Место назначения"
           variant="outlined"
         />
@@ -152,9 +150,6 @@ const CreateTripPage: React.FC<ICreateTripPageProps> = props => {
           onChange={onTotalSeatsChange}
           variant="outlined"
         >
-          {/* <MenuItem value="none" disabled>
-            Кол-во мест
-          </MenuItem> */}
           {seatsNumbers.map((num, index) => (
             <MenuItem key={index} value={num}>
               {num}
@@ -167,22 +162,15 @@ const CreateTripPage: React.FC<ICreateTripPageProps> = props => {
           value={props.cost}
           onChange={onCostInputChange}
           fullWidth
-          // placeholder="Стоимость поездки"
           variant="outlined"
           label="Стоимость поездки"
-          // InputLabelProps={{
-          //   shrink: true
-          // }}
         />
         <Checkbox />
         <Typography display="inline" variant="caption">
           На усмотрение пассажира
         </Typography>
       </Box>
-      <Box display="flex" justifyContent="center" m={localMargin}>
-        {/* <Typography variant="caption">Запланировать поездку на несколько дней</Typography> */}
-        {/* <Switch /> */}
-      </Box>
+      <Box display="flex" justifyContent="center" m={localMargin}></Box>
       <Box m={localMargin} display="flex" justifyContent="space-evenly">
         <Button onClick={() => history.goBack()} variant="text">
           Назад
