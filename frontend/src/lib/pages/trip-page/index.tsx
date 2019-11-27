@@ -338,4 +338,7 @@ const mapDispatchToProps = dispatch => ({
   setMyTrips: trips => dispatch(setMyTripsAction(trips))
 });
 
-export default connect(mapStateToProps, mapDispatchToProps)(TripPage);
+export default connect(
+  mapStateToProps,
+  mapDispatchToProps
+)(TripPage);

@@ -103,4 +103,7 @@ const mapDispatchToProps = {
   addNotification
 };
 
-export default connect(null, mapDispatchToProps)(NewOrganizationCard);
+export default connect(
+  null,
+  mapDispatchToProps
+)(NewOrganizationCard);
