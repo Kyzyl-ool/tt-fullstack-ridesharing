@@ -1,0 +1,8 @@
+.badge {
+    background-size: contain;
+    background: #fa5e5b url('./driver-icon.svg') no-repeat;
+    width: 1rem;
+    height: 1rem;
+    border-radius: 50%;
+    border: 1px solid white;
+}

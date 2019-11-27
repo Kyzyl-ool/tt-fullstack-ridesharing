@@ -191,4 +191,7 @@ const mapDispatchToProps = dispatch => {
   };
 };
 
-export default connect(mapStateToProps, mapDispatchToProps)(SearchTripPage);
+export default connect(
+  mapStateToProps,
+  mapDispatchToProps
+)(SearchTripPage);

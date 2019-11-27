@@ -18,6 +18,7 @@ import organizationsModel from '../../models/organizationsModel';
 import MapModel from '../../models/mapModel';
 import _get from 'lodash/get';
 import clsx from 'clsx';
+import { snakeObjectToCamel } from '../../helpers/snakeToCamelCase';
 
 const useStyles = makeStyles((theme: Theme) =>
   createStyles({
@@ -59,9 +60,12 @@ export const OrganizationCard: React.FC = ({ ...props }) => {
     const fetchOrgData = async () => {
       const response = await userModel.getUserData();
       const data = response.organizations.find(value => value.id === +orgId);
+      const getOrgMembersResult = (await organizationsModel.getOrganizationMembers(orgId)).map(value =>
+        snakeObjectToCamel(value)
+      );
       setAddress(data.address);
       setAmountOfPeople(data.users.length);
-      setAmountOfDrivers(0); // todo must be set correctly
+      setAmountOfDrivers(getOrgMembersResult.reduce((prev, curr) => (curr.isDriver ? prev + 1 : prev), 0));
       setName(data.name);
     };
 

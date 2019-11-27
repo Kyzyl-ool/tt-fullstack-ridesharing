@@ -9,7 +9,6 @@ import { NavLink } from 'react-router-dom';
 const useStyles = makeStyles((theme: Theme) =>
   createStyles({
     card: {
-      height: 200,
       marginTop: theme.spacing(4)
     },
     noTextDecoration: {
@@ -19,7 +18,10 @@ const useStyles = makeStyles((theme: Theme) =>
       backgroundColor: 'rgba(0,0,0,0.06)'
     },
     form: {
-      height: '20px'
+      width: '300px'
+    },
+    organizationCard: {
+      border: '1px solid rgba(0,0,0,0.5)'
     }
   })
 );
@@ -61,8 +63,7 @@ const NewOrganizationCard: React.FC<INewOrganizationCardProps> = ({ organization
         placeholder={filteredOrganizations.length ? 'Имя организации...' : 'Нет доступных организаций'}
         value={value}
         onChange={e => setValue(e.target.value)}
-        disabled={!filteredOrganizations.length}
-        fullWidth
+        className={classes.form}
       />
       <Box className={classes.greyBack} px={1}>
         <Typography variant={'caption'}>
@@ -73,8 +74,8 @@ const NewOrganizationCard: React.FC<INewOrganizationCardProps> = ({ organization
       <Box>
         {organizations &&
           filteredOrganizations.map((value1, index) => (
-            <Box key={index} mt={1}>
-              <Paper>
+            <Box key={index} m={1}>
+              <Paper elevation={3} className={classes.organizationCard}>
                 <Box onClick={() => onSelect(value1.id)} p={1} mx={1}>
                   <Typography variant={'body1'}>{value1.name}</Typography>
                 </Box>
@@ -102,4 +103,7 @@ const mapDispatchToProps = {
   addNotification
 };
 
-export default connect(null, mapDispatchToProps)(NewOrganizationCard);
+export default connect(
+  null,
+  mapDispatchToProps
+)(NewOrganizationCard);

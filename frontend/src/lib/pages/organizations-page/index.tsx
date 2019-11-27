@@ -24,9 +24,9 @@ const OrganizationPage: React.FC<IOrganizationPageProps> = ({ organizations, myO
     });
 
   return (
-    <Box mt={4} display={'flex'} flexDirection={'column'} justifyContent={'center'}>
+    <Box mt={4} display={'flex'} flexDirection={'column'} justifyContent={'center'} overflow={'scroll'}>
       <Box mb={2}>
-        <Typography variant={'h4'} align={'center'}>
+        <Typography variant={'h5'} align={'center'}>
           {data.length > 0 ? 'Вы состоите в следующих организациях:' : 'Вы ещё не состоите ни в одной организации.'}
         </Typography>
       </Box>
@@ -57,4 +57,7 @@ const mapStateToProps = state => {
   };
 };
 
-export default connect(mapStateToProps, null)(OrganizationPage);
+export default connect(
+  mapStateToProps,
+  null
+)(OrganizationPage);
