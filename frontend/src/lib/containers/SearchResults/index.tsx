@@ -1,5 +1,5 @@
 import React from 'react';
-import { Button, Typography } from '@material-ui/core';
+import { Box, Button, Typography } from '@material-ui/core';
 import { ISearchItem } from '../../../net/interfaces/ISearchItem';
 import { SearchResultItem } from '../../components/SearchResultItem/SearchResultItem';
 
@@ -12,11 +12,11 @@ interface ISearchResultsProps {
 export const SearchResults: React.FC<ISearchResultsProps> = props => {
   if (props.data) {
     return (
-      <div>
+      <Box display={'flex'} flexWrap={'wrap'} justifyContent={'center'}>
         {props.data.map((value, index) => (
           <SearchResultItem key={index} {...value} />
         ))}
-      </div>
+      </Box>
     );
   } else {
     return (

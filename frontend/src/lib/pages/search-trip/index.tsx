@@ -1,18 +1,6 @@
 /* eslint-disable no-inner-declarations */
 import React, { useEffect, useState } from 'react';
-import {
-  Box,
-  Button,
-  Container,
-  createStyles,
-  makeStyles,
-  MenuItem,
-  Modal,
-  Paper,
-  TextField,
-  Theme,
-  Typography
-} from '@material-ui/core';
+import { Box, Button, Container, makeStyles, Modal, Paper, TextField, Theme, Typography } from '@material-ui/core';
 import { connect } from 'react-redux';
 import { useHistory } from 'react-router';
 import { DateTimePicker, MuiPickersUtilsProvider } from '@material-ui/pickers';
@@ -124,52 +112,54 @@ const SearchTripPage: React.FC<ISearchTripPageProps> = ({
         <SelectAddressContainer onSetArrivalPoint={onSelectAddress} />
       </Modal>
       <Paper elevation={localPaperElevation}>
-        <Container maxWidth={'sm'}>
-          <Box m={localMargin} display={'flex'} alignItems={'center'} justifyContent={'space-between'}>
-            <Typography gutterBottom={true} display={'inline'} variant={'h6'}>
-              &nbsp;Когда?
-            </Typography>
-            <MuiPickersUtilsProvider utils={DateFnsUtils} locale={ruLocale}>
-              <DateTimePicker
-                value={rideTime}
-                onChange={onSetTime}
-                label="Время поездки"
-                inputVariant={'outlined'}
-                variant={'dialog'}
-                showTodayButton={true}
-                cancelLabel={'Отмена'}
-                todayLabel={'Сейчас'}
-                okLabel={'Ок'}
-                ampm={false}
-                disablePast
-                format="dd MMMM HH:mm"
-              />
-            </MuiPickersUtilsProvider>
-          </Box>
-          <SelectOrganizationInput
-            onChange={onSetStartOrganization}
-            currentOrganization={startOrganization}
-            availableOrganizations={availableOrganizations}
-          />
-          <Box display={'flex'} alignItems={'center'} m={localMargin}>
-            <TextField
-              fullWidth
-              placeholder={'Куда?'}
-              variant={'outlined'}
-              value={arrivalPoint.name}
-              onChange={e => handleAddressTo(e.target.value)}
+        <Box p={4}>
+          <Container maxWidth={'sm'}>
+            <Box m={localMargin} display={'flex'} alignItems={'center'} justifyContent={'space-between'}>
+              <Typography gutterBottom={true} display={'inline'} variant={'h6'}>
+                &nbsp;Когда?
+              </Typography>
+              <MuiPickersUtilsProvider utils={DateFnsUtils} locale={ruLocale}>
+                <DateTimePicker
+                  value={rideTime}
+                  onChange={onSetTime}
+                  label="Время поездки"
+                  inputVariant={'outlined'}
+                  variant={'dialog'}
+                  showTodayButton={true}
+                  cancelLabel={'Отмена'}
+                  todayLabel={'Сейчас'}
+                  okLabel={'Ок'}
+                  ampm={false}
+                  disablePast
+                  format="dd MMMM HH:mm"
+                />
+              </MuiPickersUtilsProvider>
+            </Box>
+            <SelectOrganizationInput
+              onChange={onSetStartOrganization}
+              currentOrganization={startOrganization}
+              availableOrganizations={availableOrganizations}
             />
-            <Button className={classes.mapButton} onClick={() => setIsModalShown(true)}>
-              На карте
-            </Button>
-          </Box>
-          <Box display="flex" justifyContent="space-evenly" className={classes.searchButton}>
-            <Button variant="text" onClick={() => history.push('/main')}>
-              Назад
-            </Button>
-            <Button onClick={onStartSearching}>Найти</Button>
-          </Box>
-        </Container>
+            <Box display={'flex'} alignItems={'center'} m={localMargin}>
+              <TextField
+                fullWidth
+                placeholder={'Куда?'}
+                variant={'outlined'}
+                value={arrivalPoint.name}
+                onChange={e => handleAddressTo(e.target.value)}
+              />
+              <Button className={classes.mapButton} onClick={() => setIsModalShown(true)}>
+                На карте
+              </Button>
+            </Box>
+            <Box display="flex" justifyContent="space-evenly" className={classes.searchButton}>
+              <Button variant="text" onClick={() => history.push('/main')}>
+                Назад
+              </Button>
+              <Button onClick={onStartSearching}>Найти</Button>
+            </Box>
+          </Container>
+        </Box>
       </Paper>
       <SearchResults data={data} buttonState={searchButtonState} onClick={() => setProgress(true)} />
     </Box>

@@ -1,9 +1,9 @@
 /* eslint-disable @typescript-eslint/camelcase */
-import React, { useState, useEffect, Fragment } from 'react';
+import React, { Fragment, useEffect, useState } from 'react';
 import _isEmpty from 'lodash/isEmpty';
 import { Box, Button, Container, createStyles, makeStyles, Tab, Tabs, Theme, Typography } from '@material-ui/core';
 import Map from '../../components/Map';
-import { useParams, useHistory } from 'react-router-dom';
+import { useHistory, useParams } from 'react-router-dom';
 import TripModel from '../../models/tripModel';
 import addNotification from '../../store/actions/notificationsActions';
 import { snakeObjectToCamel } from '../../helpers/snakeToCamelCase';
@@ -31,16 +31,20 @@ const useStyles = makeStyles((theme: Theme) =>
       marginTop: '10px'
     },
     time: {
-      flexWrap: 'wrap',
       display: 'flex',
-      alignItems: 'baseline',
+      alignItems: 'center',
       maxWidth: '330px',
+      flexDirection: 'column',
       justifyContent: 'space-between',
       margin: '10px 0'
     },
     buttons: {
+      position: 'fixed',
+      bottom: theme.spacing(4),
+      left: '50%',
+      transform: 'translateX(-50%)',
+      width: '300px',
       display: 'flex',
-      maxWidth: '270px',
       justifyContent: 'space-between'
     },
     finishButton: {
@@ -58,11 +62,16 @@ const useStyles = makeStyles((theme: Theme) =>
       display: 'flex',
       flexWrap: 'wrap'
     },
-    tabs: {},
+    tabs: {
+      border: '1px solid rgba(0,0,0,0.3)',
+      borderRadius: '4px 4px 0 0'
+    },
     tabContent: {
-      height: '10%',
-      width: '100%',
-      objectFit: 'contain'
+      objectFit: 'contain',
+      border: '1px solid rgba(0,0,0,0.3)',
+      borderTop: 'none',
+      borderRadius: '0 0 4px 4px',
+      paddingBottom: '24px'
     },
     avatarContainer: {
       marginRight: '5px'
@@ -224,28 +233,29 @@ const TripPage: React.FC<ITripPageProps> = props => {
     <Box className={classes.mainInfo} display={'flex'} flexDirection={'column'} flexWrap={'nowrap'} height={'95%'}>
       {!_isEmpty(tripInfo) && (
         <Fragment>
-          <Box>
-            <Typography
-              variant={'h5'}
-            >{`${tripInfo.hostDriverInfo.firstName} ${tripInfo.hostDriverInfo.lastName}`}</Typography>
-            <Typography variant={'body1'}>{`От: ${
-              props.availableOrganizations.find(org => org.id === tripInfo.startOrganizationId).name
-            }`}</Typography>
-            <Typography variant={'body1'}>{`До: ${tripInfo.stopAddress}`}</Typography>
-          </Box>
-          <Box className={classes.time}>
-            <Typography variant={'h2'} display={'inline'}>
-              {`${tripInfo.startTime.split(' ')[2]}`}
-            </Typography>
-            <Typography variant={'h4'} display={'inline'}>
-              {`  ${tripInfo.startTime.split(' ')[0]} ${translateMonth[tripInfo.startTime.split(' ')[1]]}`}
-            </Typography>
-          </Box>
-          <Box className={classes.buttons}>
-            <Button onClick={() => history.push('/search_trip')} variant={'text'}>
-              Назад
-            </Button>
-            {renderActivityButton(tripInfo)}
+          <Box display={'flex'} flexDirection={'column'}>
+            <Box display={'flex'} flexWrap={'wrap'} justifyContent={'space-evenly'} my={3}>
+              <Box display={'flex'} alignItems={'center'}>
+                <Box mx={3}>
+                  <Avatar src={tripInfo.hostDriverInfo.photoUrl} />
+                </Box>
+                <Box display={'flex'} flexDirection={'column'} justifyContent={'center'}>
+                  <Typography
+                    variant={'h5'}
+                  >{`${tripInfo.hostDriverInfo.firstName} ${tripInfo.hostDriverInfo.lastName}`}</Typography>
+                  <Typography variant={'body1'}>{`От: ${
+                    props.availableOrganizations.find(org => org.id === tripInfo.startOrganizationId).name
+                  }`}</Typography>
+                  <Typography variant={'body1'}>{`До: ${tripInfo.stopAddress}`}</Typography>
+                </Box>
+              </Box>
+              <Box className={classes.time}>
+                <Typography variant={'h2'}>{`${tripInfo.startTime.split(' ')[2]}`}</Typography>
+                <Typography variant={'h4'}>
+                  {`  ${tripInfo.startTime.split(' ')[0]} ${translateMonth[tripInfo.startTime.split(' ')[1]]}`}
+                </Typography>
+              </Box>
+            </Box>
           </Box>
           <Tabs
             className={classes.tabs}
@@ -319,6 +329,12 @@ const TripPage: React.FC<ITripPageProps> = props => {
                 <p>Чтобы увидеть контакты водителя, нужно состоять в поездке</p>
               )}
             </TabPanel>
+          </Box>
+          <Box className={classes.buttons}>
+            <Button onClick={() => history.push('/search_trip')} variant={'text'}>
+              Назад
+            </Button>
+            {renderActivityButton(tripInfo)}
           </Box>
         </Fragment>
       )}

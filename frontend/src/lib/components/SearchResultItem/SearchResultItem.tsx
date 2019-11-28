@@ -30,7 +30,8 @@ const useStyles = makeStyles((theme: Theme) =>
       position: 'relative',
       cursor: 'pointer',
       paddingBottom: theme.spacing(1),
-      background: 'linear-gradient(90deg, rgba(251,162,2,0.05) 0%, rgba(81,45,168,0.05) 100%)'
+      background: 'linear-gradient(90deg, rgba(251,162,2,0.05) 0%, rgba(81,45,168,0.05) 100%)',
+      flexGrow: 2
     },
     content: {
       display: 'flex',
