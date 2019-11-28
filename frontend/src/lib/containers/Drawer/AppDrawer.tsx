@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import { Box, Button, createStyles, Divider, Drawer, makeStyles, Theme, Typography } from '@material-ui/core';
+import { Box, Button, createStyles, Divider, Drawer, makeStyles, Paper, Theme, Typography } from '@material-ui/core';
 import _isEmpty from 'lodash/isEmpty';
 import { Avatar } from '../../components/Avatar/Avatar';
 import { MyTrips } from '../MyTrips/MyTrips';
@@ -38,6 +38,14 @@ const useStyles = makeStyles((theme: Theme) =>
       alignItems: 'center',
       justifyContent: 'center',
       textDecoration: 'none'
+    },
+    personalCard: {
+      borderWidth: '1px',
+      borderStyle: 'solid',
+      borderColor: theme.palette.primary.main,
+      '&:hover': {
+        borderColor: theme.palette.secondary.main
+      }
     }
   })
 );
@@ -69,18 +77,28 @@ const AppDrawer: React.FC<IAppDrawerProps> = ({ firstName, lastName, email, phot
   return (
     <Drawer open={props.open} onClose={props.onClose}>
       <Box className={classes.root}>
-        <Avatar noResize src={photoUrl} />
-        <Box>
-          <Typography variant={'h5'}>{`${firstName} ${lastName}`}</Typography>
-          <Typography variant={'body1'}>{email}</Typography>
+        <Box m={2}>
+          <NavLink to={'/profile'} className={classes.noTextDecoration} onClick={props.onClose}>
+            <Paper elevation={2} className={classes.personalCard}>
+              <Box display={'flex'} flexDirection={'column'} p={2}>
+                <Box display={'flex'}>
+                  <Box m={2}>
+                    <Avatar noResize src={photoUrl} />
+                  </Box>
+                  <Box display={'flex'} flexWrap={'wrap'} flexDirection={'column'} justifyContent={'center'}>
+                    <Typography variant={'body1'}>{firstName}</Typography>
+                    <Typography variant={'body1'}>{lastName}</Typography>
+                  </Box>
+                </Box>
+                <Typography variant={'body1'}>{email}</Typography>
+              </Box>
+            </Paper>
+          </NavLink>
         </Box>
         <Divider />
         <Box className={classes.buttons}>
           <NavLink to={'/main'} className={classes.noTextDecoration} onClick={props.onClose}>
             <Button className={classes.button}>На главную</Button>
-          </NavLink>
-          <NavLink to={'/profile'} className={classes.noTextDecoration} onClick={props.onClose}>
-            <Button className={classes.button}>Мой профиль</Button>
           </NavLink>
           <NavLink to={'/organizations'} className={classes.noTextDecoration} onClick={props.onClose}>
             <Button className={classes.button}>Мои организации</Button>
