@@ -39,23 +39,17 @@ const useStyles = makeStyles((theme: Theme) =>
       margin: '10px 0'
     },
     buttons: {
-      position: 'fixed',
-      bottom: theme.spacing(4),
-      left: '50%',
-      transform: 'translateX(-50%)',
       width: '300px',
       display: 'flex',
-      justifyContent: 'space-between'
+      justifyContent: 'space-between',
+      alignSelf: 'center',
+      margin: '24px 0'
     },
     finishButton: {
       background: 'green'
     },
-    tabContainer: {
-      paddingTop: '20px'
-    },
-    mapContainer: {
-      maxHeight: '30vh'
-    },
+    tabContainer: {},
+    mapContainer: {},
     avatars: {
       padding: 0,
       marginTop: '15px',
@@ -76,7 +70,12 @@ const useStyles = makeStyles((theme: Theme) =>
     avatarContainer: {
       marginRight: '5px'
     },
-    tabActions: {}
+    tabActions: {},
+    subheader: {
+      backgroundColor: 'rgba(0,0,0,0.04)',
+      color: 'rgba(0,0,0,0.5)',
+      marginTop: '16px'
+    }
   })
 );
 
@@ -284,46 +283,78 @@ const TripPage: React.FC<ITripPageProps> = props => {
             </TabPanel>
             <TabPanel index={1} value={currentTab}>
               <Container className={classes.tabContainer}>
-                <Typography variant={'h5'}>Свободных мест: {tripInfo.seatsAvailable}</Typography>
-                <Typography variant={'h6'}>Mazda RX-7 красный</Typography>
-                <Typography>К 901 АУ</Typography>
-                <Typography variant={'caption'}>Стоимость</Typography>
-                <Typography variant={'h6'}>
-                  <b>{tripInfo.cost ? `${tripInfo.cost} ₽` : 'По усмотрению пассажира'}</b>
-                </Typography>
+                <Box textAlign={'center'} display={'flex'} flexWrap={'wrap'} justifyContent={'space-evenly'}>
+                  <Box display={'flex'} flexDirection={'column'} flexGrow={2}>
+                    <Typography variant={'caption'} className={classes.subheader}>
+                      ТРАНСПОРТ
+                    </Typography>
+                    <Typography variant={'h6'}>Mazda RX-7 красный</Typography>
+                    <Typography>К 901 АУ</Typography>
+                  </Box>
+                  <Box display={'flex'} flexDirection={'column'} flexGrow={2}>
+                    <Typography variant={'caption'} className={classes.subheader}>
+                      СТОИМОСТЬ
+                    </Typography>
+                    <Typography variant={'h6'}>
+                      <b>{tripInfo.cost ? `${tripInfo.cost} ₽` : 'По усмотрению пассажира'}</b>
+                    </Typography>
+                  </Box>
+                </Box>
               </Container>
               <Container className={classes.tabContainer}>
-                <Typography variant={'h5'}>Пользователи в поездке:</Typography>
-                {!_isEmpty(passengers) ? (
-                  <>
-                    {isUserInsideTrip(tripInfo) || tripInfo.isMine ? (
-                      <Container className={classes.avatars}>
-                        {passengers.map((passenger, index) => (
-                          <Box className={classes.avatarContainer} key={index}>
-                            <Avatar title={`${passenger.firstName} ${passenger.lastName}`} src={passenger.photoUrl} />
+                <Box display={'flex'} flexDirection={'column'} textAlign={'center'}>
+                  <Typography variant={'caption'} className={classes.subheader}>
+                    УЧАСТНИКИ ПОЕЗДКИ
+                  </Typography>
+                  {!_isEmpty(passengers) ? (
+                    <>
+                      {isUserInsideTrip(tripInfo) || tripInfo.isMine ? (
+                        <Container className={classes.avatars}>
+                          <Box display={'flex'} justifyContent={'space-evenly'} width={'100%'}>
+                            {passengers.map((passenger, index) => (
+                              <Box className={classes.avatarContainer} key={index}>
+                                <Avatar
+                                  title={`${passenger.firstName} ${passenger.lastName}`}
+                                  src={passenger.photoUrl}
+                                />
+                                <Typography variant={'body2'}>{passenger.firstName}</Typography>
+                              </Box>
+                            ))}
                           </Box>
-                        ))}
-                      </Container>
-                    ) : (
-                      <p>Чтобы увидеть попутчиков, нужно вступить в поездку</p>
-                    )}
-                  </>
-                ) : (
-                  <p>Пока попутчиков нет</p>
-                )}
+                        </Container>
+                      ) : (
+                        <p>Чтобы увидеть попутчиков, нужно вступить в поездку</p>
+                      )}
+                    </>
+                  ) : (
+                    <p>Пока попутчиков нет</p>
+                  )}
+                </Box>
               </Container>
             </TabPanel>
             <TabPanel index={2} value={currentTab}>
               {isUserInsideTrip(tripInfo) || tripInfo.isMine ? (
                 <Container className={classes.tabContainer}>
-                  <Typography variant={'caption'}>Контактный телефон</Typography>
-                  <Typography variant={'h6'}>{tripInfo.phoneNumber ? tripInfo.phoneNumber : '—'}</Typography>
-
-                  <Typography variant={'caption'}>VK</Typography>
-                  <Typography variant={'h6'}>{tripInfo.vk ? tripInfo.vk : '—'}</Typography>
-
-                  <Typography variant={'caption'}>E-mail</Typography>
-                  <Typography variant={'h6'}>{tripInfo.hostDriverInfo.email}</Typography>
+                  <Box display={'flex'} flexWrap={'wrap'}>
+                    <Box display={'flex'} flexDirection={'column'} flexGrow={2}>
+                      <Typography variant={'caption'} className={classes.subheader}>
+                        КОНТАКТНЫЙ ТЕЛЕФОН
+                      </Typography>
+                      <Typography variant={'h6'}>{tripInfo.phoneNumber ? tripInfo.phoneNumber : '—'}</Typography>
+                    </Box>
+                    <Box display={'flex'} flexDirection={'column'} flexGrow={2}>
+                      <Typography variant={'caption'} className={classes.subheader}>
+                        VK
+                      </Typography>
+                      <Typography variant={'h6'}>{tripInfo.vk ? tripInfo.vk : '—'}</Typography>
+                    </Box>
+                    <Box display={'flex'} flexDirection={'column'} flexGrow={2}>
+                      <Typography variant={'caption'} className={classes.subheader}>
+                        EMAIL
+                      </Typography>
+                      <Typography variant={'h6'}>{tripInfo.hostDriverInfo.email}</Typography>
+                    </Box>
+                  </Box>
                 </Container>
               ) : (
                 <p>Чтобы увидеть контакты водителя, нужно состоять в поездке</p>
