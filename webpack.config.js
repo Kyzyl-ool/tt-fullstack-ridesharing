@@ -18,7 +18,7 @@ module.exports = {
   mode: process.env.NODE_ENV === 'production' ? 'production' : 'development',
   devtool: 'inline-source-map',
   entry: {
-    main: './src/index.tsx'
+    main: './lib/index.tsx'
   },
   output: {
     publicPath: '/',

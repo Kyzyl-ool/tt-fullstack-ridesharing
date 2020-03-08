@@ -41,8 +41,8 @@
     "postinstall": "rm -rf node_modules/.cache",
     "devbuild": "webpack --mode development",
     "build": "webpack --mode production",
-    "lint:ts": "eslint src/lib/** --ext .ts --ext .tsx",
-    "lint:ts:fix": "eslint src/lib/** --ext .ts --ext .tsx --fix",
+    "lint:ts": "eslint lib/** --ext .ts --ext .tsx",
+    "lint:ts:fix": "eslint lib/** --ext .ts --ext .tsx --fix",
     "predeploy": "yarn run build",
     "deploy": "gh-pages -d build"
   },
@@ -110,7 +110,7 @@
     "webpack-dev-server": "^3.9.0"
   },
   "lint-staged": {
-    "src/lib/**/*.{ts,tsx}": [
+    "lib/**/*.{ts,tsx}": [
       "yarn run lint:ts:fix",
       "git add"
     ]
