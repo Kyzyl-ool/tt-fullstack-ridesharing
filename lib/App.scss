@@ -1,0 +1,15 @@
+.notification-group {
+  z-index: 12;
+  position: absolute;
+  transform: translate(-50%, -10vh);
+  display: flex;
+  left: 50%;
+  color: white;
+  flex-flow: column nowrap;
+  justify-content: center;
+  align-items: center;
+}
+
+p, div, span, li {
+  font-family: 'IBM Plex Sans', sans-serif;
+}
