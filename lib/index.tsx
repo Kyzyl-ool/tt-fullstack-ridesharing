@@ -9,6 +9,7 @@ import App from './App';
 
 const composeEnhancers = (window['__REDUX_DEVTOOLS_EXTENSION_COMPOSE__'] as typeof compose) || compose;
 
+// eslint-disable-next-line @typescript-eslint/no-empty-function
 const store = createStore(() => {}, composeEnhancers(applyMiddleware(thunk)));
 
 ReactDOM.render(
