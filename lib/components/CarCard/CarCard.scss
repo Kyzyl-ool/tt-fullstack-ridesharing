@@ -1,0 +1,57 @@
+@import "../../theme/colors";
+@import "../../theme/sizes";
+
+
+.car-card {
+  display: flex;
+  background-color: $color-gray2;
+  border-radius: 10px;
+  border: 1px solid $color-primary;
+  padding: $size-base 2*$size-base $size-base 2*$size-base;
+  justify-content: space-between;
+  align-items: center;
+  height: 9*$size-base;
+  box-shadow: 0px 4px 4px rgba(0, 0, 0, 0.25);
+  margin-top: $size-base;
+
+  &__name {
+    font-weight: 600;
+    font-size: 20px;
+    line-height: 25px;
+  }
+
+  &__number {
+    font-weight: normal;
+    font-size: 12px;
+    line-height: 15px;
+  }
+
+  &__color {
+    font-weight: 600;
+    font-size: 12px;
+    line-height: 15px;
+  }
+
+  &__text {
+    flex-basis: 50%;
+    font-weight: 300;
+    font-size: 10px;
+    line-height: 13px;
+    text-align: center;
+  }
+
+  &__icon {
+    display: block;
+    cursor: pointer;
+  }
+
+
+  p {
+    margin-block-start: 0;
+    margin-block-end: 0;
+  }
+
+  ul {
+    padding-inline-start: 0;
+  }
+}

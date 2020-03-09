@@ -1,3 +1,6 @@
+@import "./theme/modifiers";
+@import "./theme/typography";
+
 .notification-group {
   z-index: 12;
   position: absolute;

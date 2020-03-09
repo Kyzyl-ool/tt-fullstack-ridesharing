@@ -21,10 +21,11 @@
     "jsx": "react"
   },
   "include": [
-    "src"
+    "lib"
   ],
   "exclude": [
     "**/*.svg",
-    "**/node_modules/**"
+    "**/node_modules/**",
+    "**/*.scss"
   ]
 }

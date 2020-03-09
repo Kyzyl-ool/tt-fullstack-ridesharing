@@ -4,7 +4,7 @@ import thunk from 'redux-thunk';
 import { Provider } from 'react-redux';
 import ReactDOM from 'react-dom';
 import './index.css';
-import App from './App';
+import {TripInfo} from './pages/trip-creation/5/TripInfo';
 // import * as serviceWorker from './serviceWorker';
 
 const composeEnhancers = (window['__REDUX_DEVTOOLS_EXTENSION_COMPOSE__'] as typeof compose) || compose;
@@ -13,7 +13,7 @@ const store = createStore(() => {}, composeEnhancers(applyMiddleware(thunk)));
 
 ReactDOM.render(
   <Provider store={store}>
-    <App />
+    <TripInfo />
   </Provider>,
   document.getElementById('root')
 );
