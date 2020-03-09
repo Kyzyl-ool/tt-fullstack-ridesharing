@@ -1,9 +1,8 @@
 import React from 'react';
+import { Button } from './Components/Button';
 
 const App = () => {
-  return (
-      <div>Initial app</div>
-  )
-}
+  return <Button>Initial app</Button>;
+};
 
 export default App;
