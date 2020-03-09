@@ -34,7 +34,7 @@ module.exports = {
     port: 3000
   },
   resolve: {
-    extensions: ['.ts', '.tsx', '.js', '.svg', '.ico', '.png']
+    extensions: ['.ts', '.tsx', '.js', '.svg', '.ico', '.png', '.scss']
   },
   module: {
     rules: [
