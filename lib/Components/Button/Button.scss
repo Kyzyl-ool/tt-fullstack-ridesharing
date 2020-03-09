@@ -1,3 +1,31 @@
 .rsh-button {
+  min-width: 311px;
+  min-height: 56px;
+  border: 1px solid #33A852;
+  box-sizing: border-box;
+  border-radius: 10px;
+  background: #FFFFFF;
+  box-shadow: none;
+  font-family: 'Source Sans Pro', sans-serif;
+  font-size: 20px;
+  line-height: 25px;
+  text-align: center;
+  color: #33A852;
+  padding: 10px;
+  outline: none;
 
+  &__filled {
+    background: #33A852;
+    color: #FFFFFF;
+  }
+
+  &__disabled {
+    color: #C1C1C1;
+    border-color: #C1C1C1;
+  }
+
+  &__disabled.rsh-button__filled {
+    color: #FFFFFF;
+    background: #C1C1C1;
+  }
 }
