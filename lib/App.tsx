@@ -16,8 +16,6 @@ const App = () => {
       <Button filled={true} disabled={true} onClick={() => {}}>
         Отправка запроса...
       </Button>
-
-      <TripInfo />
     </div>
   );
 };
