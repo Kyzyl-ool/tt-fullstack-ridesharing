@@ -1,4 +1,4 @@
-import React, { FunctionComponent, ReactNode } from 'react';
+import React, { ReactNode } from 'react';
 import classNames from 'classnames';
 import './Button.scss';
 
@@ -10,11 +10,12 @@ interface IButtonProps {
   onClick: () => unknown;
 }
 
-export const Button: FunctionComponent<IButtonProps> = ({ children, filled, onClick, className, disabled }) => {
+export const Button = ({ children, filled = false, onClick, className = '', disabled = false }: IButtonProps) => {
   const buttonClasses = classNames({
     'rsh-button': true,
     'rsh-button__disabled': disabled,
-    'rsh-button__filled': filled
+    'rsh-button__filled': filled,
+    [className]: true
   });
 
   return (
@@ -22,10 +23,4 @@ export const Button: FunctionComponent<IButtonProps> = ({ children, filled, onCl
       {children}
     </button>
   );
-};
-
-Button.defaultProps = {
-  className: '',
-  filled: false,
-  disabled: false
 };
