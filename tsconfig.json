@@ -16,6 +16,6 @@
     "noEmit": true,
     "jsx": "react"
   },
-  "include": ["*.tsx"],
-  "exclude": ["**/*.svg", "**/node_modules/**", "**/*.scss", "**/*.js"]
+  "include": ["lib"],
+  "exclude": ["**/*.svg", "**/node_modules/**", "**/*.scss"]
 }
