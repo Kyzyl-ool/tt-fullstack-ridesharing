@@ -1,5 +1,6 @@
 const webpack = require('webpack');
 const HtmlWebPackPlugin = require('html-webpack-plugin');
+const CopyWebpackPlugin = require('copy-webpack-plugin');
 const MiniCssExtractPlugin = require('mini-css-extract-plugin');
 const { CleanWebpackPlugin } = require('clean-webpack-plugin');
 const UglifyJsPlugin = require('uglifyjs-webpack-plugin');
@@ -34,7 +35,14 @@ module.exports = {
     port: 3000
   },
   resolve: {
-    extensions: ['.ts', '.tsx', '.js', '.svg', '.ico', '.png', '.scss']
+    extensions: ['.ts', '.tsx', '.js', '.svg', '.ico', '.png', '.scss'],
+    alias: {
+      components: path.resolve(__dirname, '../lib/components/'),
+      pages: path.resolve(__dirname, '../lib/pages/'),
+      models: path.resolve(__dirname, '../lib/models/'),
+      modules: path.resolve(__dirname, '../lib/modules/'),
+      store: path.resolve(__dirname, '../lib/store/')
+    }
   },
   module: {
     rules: [
@@ -66,6 +74,7 @@ module.exports = {
       filename: 'index.html',
       favicon: './public/favicon.ico'
     }),
+    new CopyWebpackPlugin([{ from: './public/icons', to: 'public' }]),
     new CleanWebpackPlugin(),
     new MiniCssExtractPlugin({ filename: 'app.css' }),
     new webpack.DefinePlugin(envKeys),
