@@ -52,5 +52,10 @@
   input[type='text']::placeholder {
     color: $color-grey;
     margin-left: 24px;
+    font-family: 'Source Sans Pro', sans-serif;
+  }
+
+  caption {
+    font-family: 'Source Sans Pro', sans-serif;
   }
 }
