@@ -1,6 +1,7 @@
 /* eslint-disable @typescript-eslint/no-empty-function */
 import React from 'react';
 import { Button } from './Components/Button';
+import { TripInfo } from './pages/trip-creation/5/TripInfo';
 
 const App = () => {
   return (
@@ -15,6 +16,8 @@ const App = () => {
       <Button filled={true} disabled={true} onClick={() => {}}>
         Отправка запроса...
       </Button>
+
+      <TripInfo />
     </div>
   );
 };
