@@ -1,0 +1,116 @@
+.driver-card {
+  display: flex;
+  border-radius: 10px;
+  background-color: #F2F2F2;
+  padding: 8px 24px 8px 24px;
+  position: relative;
+  min-height: 96px;
+  max-width: 400px;
+  cursor: pointer;
+
+  &__text-container {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    text-align: center;
+    margin-top: 8px;
+  }
+
+  &__avatar {
+    margin: 0 12px 0 0;
+  }
+
+  &__price {
+    position: absolute;
+    top: 16px;
+    right: 10px;
+    font-family: 'Source Sans Pro', sans-serif;
+    font-style: normal;
+    font-weight: 900;
+    font-size: 24px;
+    line-height: 30px;
+    text-align: center;
+    color: #33A852;
+    margin-top: 8px;
+    margin-right: 8px;
+  }
+
+  &__destination {
+    position: absolute;
+    bottom: 8px;
+    left: 16px;
+    border-radius: 5px;
+    min-height: 10px;
+    border: 0.5px solid #C1C1C1;
+    display: flex;
+    flex-direction: row;
+    font-family: 'Source Sans Pro', sans-serif;
+    font-style: normal;
+    font-weight: normal;
+    font-size: 8px;
+    line-height: 10px;
+    min-width: 224px;
+    justify-content: space-around;
+    color: #000000;
+    background-color: #FFFFFF;
+
+    &_waiting {
+      bottom: 32px;
+    }
+  }
+
+  b {
+    font-family: 'Source Sans Pro', sans-serif;
+    font-style: normal;
+    font-weight: bold;
+    font-size: 12px;
+    line-height: 15px;
+    text-align: center;
+
+    color: #000000;
+  }
+
+  i {
+    font-family: 'Source Sans Pro', sans-serif;
+    font-style: italic;
+    font-weight: normal;
+    font-size: 8px;
+    line-height: 10px;
+    /* identical to box height */
+
+    display: flex;
+    align-items: center;
+    text-align: center;
+  }
+
+  &__text {
+    font-family: 'Source Sans Pro', sans-serif;
+    font-style: normal;
+    font-weight: normal;
+    font-size: 10px;
+    line-height: 13px;
+    display: flex;
+    align-items: center;
+    text-align: center;
+  }
+
+  &__waiting {
+    font-family: 'Source Sans Pro', sans-serif;
+    font-style: normal;
+    font-weight: normal;
+    font-size: 8px;
+    line-height: 10px;
+    text-align: center;
+    text-transform: uppercase;
+    color: #989898;
+    position: absolute;
+    bottom: 8px;
+    margin: 0 auto 0 auto;
+    left: 0;
+    right: 0;
+  }
+
+  &_waiting {
+    min-height: 118px;
+  }
+}
