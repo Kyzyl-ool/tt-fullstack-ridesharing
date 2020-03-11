@@ -1,6 +1,7 @@
-@import 'lib/Styles/icons';
+@import 'lib/styles/icons';
 
 .rsh-header {
+  z-index: 10;
   position: relative;
   display: flex;
   align-items: center;
