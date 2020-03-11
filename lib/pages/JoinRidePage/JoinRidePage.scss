@@ -1,0 +1,61 @@
+@import 'lib/styles/icons';
+
+.join-ride-page {
+  &__input {
+    position: fixed;
+    min-width: 312px;
+    bottom: 56px;
+    left: calc(50% - 156px);
+  }
+
+  &__input-icon {
+    min-width: 24px;
+    min-height: 24px;
+    background: $dot-icon no-repeat;
+    background-size: contain;
+  }
+
+  &__organization-label {
+    display: flex;
+    width: 100%;
+    justify-content: center;
+  }
+
+  &__animation {
+    &-enter {
+      opacity: 0;
+      transform: scale(0.9);
+
+      &-active {
+        opacity: 1;
+        transform: translateX(0);
+        transition: opacity 300ms, transform 300ms;
+      }
+    }
+
+    &-exit {
+      opacity: 1;
+
+      &-active {
+        opacity: 0;
+        transform: scale(0.9);
+        transition: opacity 300ms, transform 300ms;
+      }
+    }
+  }
+}
+
+// .join-ride-page__animation-enter {
+//   opacity: 0;
+// }
+// .join-ride-page__animation-enter-active {
+//   opacity: 1;
+//   transition: opacity 200ms;
+// }
+// .join-ride-page__animation-exit {
+//   opacity: 1;
+// }
+// .join-ride-page__animation-exit-active {
+//   opacity: 0;
+//   transition: opacity 200ms;
+// }
