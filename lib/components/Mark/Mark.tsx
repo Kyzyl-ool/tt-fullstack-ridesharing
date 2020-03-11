@@ -3,6 +3,7 @@ import './Mark.scss';
 
 interface IMark {
   mark: number;
+  large: boolean;
 }
 /*
 [8; 10] – зеленый
@@ -20,6 +21,6 @@ export function markToText(mark: number): string {
   throw new Error('unknown error');
 }
 
-export const Mark: React.FC<IMark> = ({ mark }) => {
-  return <span className={`mark mark_background-${markToText(mark)}`}>{mark}/10</span>;
+export const Mark: React.FC<IMark> = ({ mark, large }) => {
+  return <span className={`mark mark_background-${markToText(mark)} ${large ? 'mark_large' : ''}`}>{mark}/10</span>;
 };

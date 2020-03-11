@@ -4,6 +4,8 @@ import { BrowserRouter as Router, Switch, Route, Link, useParams, useRouteMatch,
 import { TripCreation } from './pages/trip-creation';
 import { JoinRidePage } from './pages/JoinRidePage';
 import './App.global.scss';
+import { TripCard } from './components/TripCard/TripCard';
+import { sampleDriver, samplePassengers } from './samples/samples';
 
 const App = () => {
   return (
@@ -17,6 +19,17 @@ const App = () => {
         </Route>
         <Route exact path="/ride/join">
           <JoinRidePage />
+        </Route>
+        <Route path={'/ride/1'}>
+          <TripCard
+            from={'Mail.ru Corp. Ленинградский проспект'}
+            to={'Российская академия наук'}
+            driver={sampleDriver}
+            cost={300}
+            time={'17:00'}
+            passengers={samplePassengers}
+            tripId={1}
+          />
         </Route>
         <Redirect to="/" />
       </Switch>

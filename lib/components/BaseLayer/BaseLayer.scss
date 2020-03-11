@@ -17,6 +17,17 @@
     background-color: #FFFFFF;
   }
 
+  &_headed {
+    &::before {
+      content: '';
+      min-height: 64px;
+      width: 100%;
+      background-color: $color-primary;
+      color: #FFFFFF;
+      border-radius: 40px 40px 0 0;
+    }
+  }
+
   &__header {
     color: #FFFFFF;
     text-align: center;
@@ -24,6 +35,11 @@
     font-weight: normal;
     font-size: 16px;
     line-height: 20px;
+
+    &_headed {
+      margin-top: -64px;
+      padding: 8px 24px 8px 24px;
+    }
   }
 
   > .input {

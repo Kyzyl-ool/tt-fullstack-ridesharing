@@ -22,7 +22,7 @@ export const Avatar: React.FC<IAvatar> = ({ src, mark, size }) => {
     return (
       <span className={'avatar-container'}>
         {img}
-        <Mark mark={mark} />
+        <Mark mark={mark} large={size === 'large'} />
       </span>
     );
   else return img;
