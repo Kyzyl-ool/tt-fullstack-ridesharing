@@ -12,10 +12,11 @@ interface IHeaderProps {
   className?: string;
 }
 
-export const Header = ({ children, iconType, onIconClick }: IHeaderProps) => {
+export const Header = ({ children, iconType, onIconClick, className }: IHeaderProps) => {
   const headerIconClassNames = classNames({
     'rsh-header__icon': true,
-    [iconType === 'back' ? 'rsh-header__icon--back-arrow' : 'rsh-header__icon--menu']: true
+    [iconType === 'back' ? 'rsh-header__icon--back-arrow' : 'rsh-header__icon--menu']: true,
+    [className]: className
   });
 
   return (

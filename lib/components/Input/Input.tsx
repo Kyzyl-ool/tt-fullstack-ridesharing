@@ -9,13 +9,14 @@ interface IInput {
   id: string;
   form: string;
   placeholderText: string;
+  className?: string;
 }
 
-export const Input: React.FC<IInput> = ({ placeholderType, icon, form, id, placeholderText }) => {
+export const Input: React.FC<IInput> = ({ placeholderType, icon, form, id, placeholderText, className }) => {
   const [value, setValue] = useState<string>('');
 
   return (
-    <div className={`input`}>
+    <div className={`input ${className ? className : ''}`}>
       {icon && (
         <div className={'input__icon'}>
           <label form={form}>{icon}</label>
@@ -25,11 +26,11 @@ export const Input: React.FC<IInput> = ({ placeholderType, icon, form, id, place
         id={id}
         value={value}
         onChange={e => setValue(e.target.value)}
-        placeholder={placeholderType === 'default' && placeholderText}
+        placeholder={placeholderType === 'default' ? placeholderText : ''}
         className={`input__form ${icon ? 'input__form_with-icon' : ''}`}
         type={'text'}
       />
-      {placeholderType === 'subscript' && <caption className={'input__caption'}>{placeholderText}</caption>}
+      {placeholderType === 'subscript' && <span className={'input__caption'}>{placeholderText}</span>}
     </div>
   );
 };

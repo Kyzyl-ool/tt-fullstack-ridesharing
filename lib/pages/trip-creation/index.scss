@@ -1,0 +1,44 @@
+@import "lib/styles/icons";
+
+.trip-creation {
+  > .base-layer {
+    position: absolute;
+    bottom: 0;
+    margin: 0 auto 0 auto;
+    left: 0;
+    right: 0;
+  }
+
+  &_bottom {
+    position: fixed;
+    bottom: 56px;
+    margin: 0 auto 0 auto;
+    left: 0;
+    right: 0;
+    max-width: 311px;
+  }
+
+  &_header {
+    position: fixed;
+    top: 0;
+  }
+
+  &__input-icon {
+    background: $input-icon-dot no-repeat;
+    background-size: contain;
+    min-width: 24px;
+    min-height: 24px;
+  }
+
+  &__back-icon {
+    background: $menu-icon-back no-repeat;
+    background-size: contain;
+    min-width: 24px;
+    min-height: 24px;
+    margin: 32px 0 0 32px;
+  }
+
+  &_hide {
+    display: none;
+  }
+}
