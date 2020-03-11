@@ -1,7 +1,8 @@
 /* eslint-disable @typescript-eslint/no-empty-function */
 import React from 'react';
-import { Header } from './components/Header';
-import { Backdrop } from './components/Backdrop';
+import { Header } from 'components/Header';
+import { Backdrop } from 'components/Backdrop';
+import { Input } from 'components/Input';
 import './App.global.scss';
 
 const App = () => {
