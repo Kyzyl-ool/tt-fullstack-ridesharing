@@ -1,6 +1,5 @@
 import React, { useEffect, useState } from 'react';
 import { CarCard, CarDataType } from '../../../components/CarCard/CarCard';
-import '../../../theme/typography.scss';
 import { BaseLayer } from '../../../components/BaseLayer/BaseLayer';
 import { Button } from '../../../components/Button';
 

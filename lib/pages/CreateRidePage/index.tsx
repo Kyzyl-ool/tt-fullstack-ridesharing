@@ -21,24 +21,24 @@ function showIf(statement: boolean, node: React.ReactNode): React.ReactNode {
   return statement ? node : null;
 }
 
-export const TripCreation: React.FC = props => {
+export const CreateRidePage: React.FC = props => {
   const [pageNumber, setPageNumber] = useState<PageType>(PageType.TRIP_INFO);
 
   return (
     <div>
       <Header iconType="back" onIconClick={() => {}}>
-        <div className="trip-creation__organization-label">
+        <div className="create-ride-page__organization-label">
           <NearestOrganizationLabel nearestOrganizationName="Mail.ru Corp" onClick={() => {}} />
         </div>
       </Header>
       <Backdrop>
-        <div className="trip-creation">
+        <div className="create-ride-page">
           {/*todo: make goback func*/}
           {/* eslint-disable-next-line @typescript-eslint/no-empty-function */}
 
           {showIf(
             [PageType.CAR, PageType.TRIP_INFO].some(value => value === pageNumber),
-            <div className="trip-creation__back-icon" onClick={() => setPageNumber(pageNumber - 1)} />
+            <div className="create-ride-page__back-icon" onClick={() => setPageNumber(pageNumber - 1)} />
           )}
           {showIf(
             pageNumber === PageType.FROM,
@@ -47,8 +47,8 @@ export const TripCreation: React.FC = props => {
               id="trip-creation-from"
               placeholderText="Откуда едете?"
               placeholderType="default"
-              icon={<div className="trip-creation__input-icon" />}
-              className="trip-creation_bottom"
+              icon={<div className="create-ride-page__input-icon" />}
+              className="create-ride-page_bottom"
             />
           )}
           {showIf(pageNumber === PageType.CAR, <Cars />)}
