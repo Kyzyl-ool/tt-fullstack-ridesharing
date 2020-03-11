@@ -9,10 +9,23 @@ interface IInput {
   icon?: React.ReactElement;
   id: string;
   placeholderText: string;
+  onChange?: (value: string) => void;
 }
 
-export const Input = ({ placeholderType = 'default', className = '', icon, id, placeholderText }: IInput) => {
+export const Input = ({
+  placeholderType = 'default',
+  className = '',
+  icon,
+  id,
+  placeholderText,
+  onChange = () => {}
+}: IInput) => {
   const [value, setValue] = useState<string>('');
+
+  const onInputChange = e => {
+    setValue(e.target.value);
+    onChange(e.target.value);
+  };
 
   return (
     <div className={`input ${className}`}>
@@ -24,7 +37,7 @@ export const Input = ({ placeholderType = 'default', className = '', icon, id, p
       <input
         id={id}
         value={value}
-        onChange={e => setValue(e.target.value)}
+        onChange={e => onInputChange(e)}
         placeholder={placeholderType === 'default' && placeholderText}
         className={`input__form ${icon ? 'input__form--with-icon' : ''}`}
         type={'text'}

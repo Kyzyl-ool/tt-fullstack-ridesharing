@@ -22,6 +22,7 @@ module.exports = {
     '@typescript-eslint/explicit-function-return-type': 'off',
     '@typescript-eslint/no-var-requires': 'off',
     '@typescript-eslint/interface-name-prefix': [1, { prefixWithI: 'always', allowUnderscorePrefix: true }],
+    '@typescript-eslint/no-empty-function': 1,
     'react/prop-types': 'off',
     'react/no-unescape-entities': 'off'
   },
