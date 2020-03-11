@@ -1,0 +1,39 @@
+@import 'lib/styles/icons';
+@import 'lib/styles/colors';
+
+.organization-item {
+  &__item {
+    width: 336px;
+    height: 60px;
+    display: flex;
+    background-color: $ui-white-color;
+    padding: 27px;
+    background: #ffffff;
+    border-radius: 5px;
+    margin: 4px;
+  }
+
+  &__icon {
+    min-width: 24px;
+    min-height: 24px;
+    background: $grey-location no-repeat;
+    background-size: contain;
+  }
+
+  &__info {
+    display: flex;
+    flex-direction: column;
+  }
+
+  &__name {
+    font-size: 14px;
+    line-height: 18px;
+    color: $ui-black-color;
+  }
+
+  &__address {
+    font-size: 14px;
+    line-height: 18px;
+    color: $ui-gray-color;
+  }
+}

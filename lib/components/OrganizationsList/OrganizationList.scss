@@ -1,0 +1,20 @@
+.organization-list {
+  &__wrapper {
+    padding: 16px 20px;
+    background: #f4f4f4;
+  }
+
+  &__text {
+    font-weight: 300;
+    font-size: 16px;
+    line-height: 20px;
+    color: $ui-black-color;
+    margin-bottom: 15px;
+  }
+
+  &__list {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+  }
+}
