@@ -74,7 +74,7 @@ module.exports = {
       filename: 'index.html',
       favicon: './public/favicon.ico'
     }),
-    new CopyWebpackPlugin([{ from: './public/icons', to: 'public' }]),
+    new CopyWebpackPlugin([{ from: './public/icons', to: 'public/icons' }]),
     new CleanWebpackPlugin(),
     new MiniCssExtractPlugin({ filename: 'app.css' }),
     new webpack.DefinePlugin(envKeys),
