@@ -1,0 +1,8 @@
+@import 'lib/styles/colors';
+
+.rsh-backdrop {
+  height: 100vh;
+  width: 100vw;
+  position: fixed;
+  background: $ui-primary-color;
+}

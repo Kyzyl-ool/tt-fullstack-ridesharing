@@ -1,12 +1,11 @@
-@import "lib/Styles/icons";
-
+@import 'lib/styles/icons';
 
 .dialog {
   min-width: 311px;
   border-radius: 10px;
   position: fixed;
   padding: 32px;
-  background-color: #FFFFFF;
+  background-color: #ffffff;
   text-wrap: normal;
   text-align: center;
   margin: 0 auto 0 auto;
@@ -17,7 +16,6 @@
   transform: translateY(-50%);
   box-sizing: border-box;
   box-shadow: 0px 4px 4px rgba(0, 0, 0, 0.25);
-
 
   &__close-button {
     background: $input-icon-cross no-repeat;

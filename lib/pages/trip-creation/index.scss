@@ -1,4 +1,4 @@
-@import "lib/styles/icons";
+@import 'lib/styles/icons';
 
 .trip-creation {
   > .base-layer {
@@ -24,7 +24,7 @@
   }
 
   &__input-icon {
-    background: $input-icon-dot no-repeat;
+    background: $dot-icon no-repeat;
     background-size: contain;
     min-width: 24px;
     min-height: 24px;
