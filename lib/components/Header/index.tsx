@@ -1,5 +1,4 @@
 import React, { ReactNode } from 'react';
-import ReactDOM from 'react-dom';
 import { Container } from 'semantic-ui-react';
 import classNames from 'classnames';
 import './Header.scss';
@@ -19,13 +18,12 @@ export const Header = ({ children, iconType, onIconClick }: IHeaderProps) => {
     [iconType === 'back' ? 'rsh-header__icon--back-arrow' : 'rsh-header__icon--menu']: true
   });
 
-  return ReactDOM.createPortal(
+  return (
     <Container>
       <header className="rsh-header">
         <div onClick={onIconClick} className={headerIconClassNames} />
         {children}
       </header>
-    </Container>,
-    document.querySelector('#root')
+    </Container>
   );
 };

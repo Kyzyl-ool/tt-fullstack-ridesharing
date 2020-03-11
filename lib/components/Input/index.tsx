@@ -4,21 +4,21 @@ import './Input.scss';
 type InputPlaceholderType = 'default' | 'subscript';
 
 interface IInput {
-  placeholderType: InputPlaceholderType;
+  className?: string;
+  placeholderType?: InputPlaceholderType;
   icon?: React.ReactElement;
   id: string;
-  form: string;
   placeholderText: string;
 }
 
-export const Input: React.FC<IInput> = ({ placeholderType, icon, form, id, placeholderText }) => {
+export const Input = ({ placeholderType = 'default', className = '', icon, id, placeholderText }: IInput) => {
   const [value, setValue] = useState<string>('');
 
   return (
-    <div className={`input`}>
+    <div className={`input ${className}`}>
       {icon && (
         <div className={'input__icon'}>
-          <label form={form}>{icon}</label>
+          <label form={id}>{icon}</label>
         </div>
       )}
       <input
@@ -26,7 +26,7 @@ export const Input: React.FC<IInput> = ({ placeholderType, icon, form, id, place
         value={value}
         onChange={e => setValue(e.target.value)}
         placeholder={placeholderType === 'default' && placeholderText}
-        className={`input__form ${icon ? 'input__form_with-icon' : ''}`}
+        className={`input__form ${icon ? 'input__form--with-icon' : ''}`}
         type={'text'}
       />
       {placeholderType === 'subscript' && <caption className={'input__caption'}>{placeholderText}</caption>}
