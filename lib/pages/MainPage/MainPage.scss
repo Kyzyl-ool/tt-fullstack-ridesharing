@@ -11,6 +11,8 @@
 
   &__buttons-group {
     position: fixed;
+    display: flex;
+    flex-direction: column;
     bottom: 40px;
     left: calc(50% - 155px);
   }
