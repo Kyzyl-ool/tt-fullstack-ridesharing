@@ -2,6 +2,7 @@ import React, { useEffect, useState } from 'react';
 import { CarCard, CarDataType } from '../../../components/CarCard/CarCard';
 import '../../../theme/typography.scss';
 import { BaseLayer } from '../../../components/BaseLayer/BaseLayer';
+import { Button } from '../../../components/Button';
 
 const Cars = () => {
   const [cars, setCars] = useState<CarDataType[]>();
@@ -49,8 +50,11 @@ const Cars = () => {
     setCars(newCars);
   };
 
+  // eslint-disable-next-line @typescript-eslint/no-empty-function
+  const handleClick = () => {};
+
   return (
-    <BaseLayer type={'SECONDARY'} header={'Выберите автомобиль'}>
+    <BaseLayer type={'secondary'} header={'Выберите автомобиль'}>
       {cars &&
         cars.map(value => (
           <CarCard
@@ -64,6 +68,7 @@ const Cars = () => {
             onNewChanges={onNewChanges}
           />
         ))}
+      <Button onClick={handleClick}>Выбрать</Button>
     </BaseLayer>
   );
 };

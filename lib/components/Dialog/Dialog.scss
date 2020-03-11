@@ -1,0 +1,35 @@
+@import "lib/Styles/icons";
+
+
+.dialog {
+  min-width: 311px;
+  border-radius: 10px;
+  position: fixed;
+  padding: 32px;
+  background-color: #FFFFFF;
+  text-wrap: normal;
+  text-align: center;
+  margin: 0 auto 0 auto;
+  left: 0;
+  right: 0;
+  max-width: 100px;
+  top: 50%;
+  transform: translateY(-50%);
+  box-sizing: border-box;
+
+
+  &__close-button {
+    background: $input-icon-cross no-repeat;
+    background-size: contain;
+    position: absolute;
+    top: 8px;
+    right: 8px;
+    min-width: 24px;
+    min-height: 24px;
+  }
+
+  > .rsh-button {
+    min-width: 217px;
+    margin-top: 24px;
+  }
+}
