@@ -8,7 +8,7 @@ import { Backdrop } from '../../components/Backdrop';
 import { Input } from '../../components/Input';
 import { NearestOrganizationLabel } from '../../components/NearestOrganizationLabel';
 import { OrganizationsList } from '../../components/OrganizationsList';
-import { organizationsListStub } from './stubs';
+import { organizationsListStub } from '../__stubs__';
 import './JoinRidePage.scss';
 
 interface IJoinRidePage {}

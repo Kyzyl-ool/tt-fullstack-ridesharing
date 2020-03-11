@@ -3,6 +3,7 @@ import React from 'react';
 import { BrowserRouter as Router, Switch, Route, Link, useParams, useRouteMatch, Redirect } from 'react-router-dom';
 import { TripCreation } from './pages/trip-creation';
 import { JoinRidePage } from './pages/JoinRidePage';
+import { MainPage } from './pages/MainPage';
 import './App.global.scss';
 
 const App = () => {
@@ -10,7 +11,7 @@ const App = () => {
     <Router>
       <Switch>
         <Route exact path="/">
-          <div>Main page is not ready yet</div>
+          <MainPage />
         </Route>
         <Route exact path="/ride/create">
           <TripCreation />

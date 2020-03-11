@@ -15,8 +15,6 @@ const envKeys = Object.keys(env).reduce((prev, next) => {
   return prev;
 }, {});
 
-console.log(path.resolve(__dirname, 'lib/components'));
-
 module.exports = {
   mode: process.env.NODE_ENV === 'production' ? 'production' : 'development',
   devtool: 'inline-source-map',

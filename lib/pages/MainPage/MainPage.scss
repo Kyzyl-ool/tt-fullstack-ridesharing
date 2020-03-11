@@ -1,0 +1,17 @@
+.main-page {
+  &__organization-label {
+    display: flex;
+    width: 100%;
+    justify-content: center;
+  }
+
+  &__button {
+    margin-top: 10px;
+  }
+
+  &__buttons-group {
+    position: fixed;
+    bottom: 40px;
+    left: calc(50% - 155px);
+  }
+}

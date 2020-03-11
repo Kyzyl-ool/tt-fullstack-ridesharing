@@ -41,4 +41,10 @@
   &_hide {
     display: none;
   }
+
+  &__organization-label {
+    display: flex;
+    width: 100%;
+    justify-content: center;
+  }
 }
