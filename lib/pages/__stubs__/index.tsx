@@ -8,3 +8,5 @@ export const organizationsListStub = [
     address: 'Шлюзовая набережная, д.6, стр.4'
   }
 ];
+
+export const currentOrganizationStub = 'Mail.ru Corp';

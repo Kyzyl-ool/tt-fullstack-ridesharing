@@ -1,6 +1,6 @@
 @import 'lib/styles/icons';
 
-.trip-creation {
+.create-ride-page {
   > .base-layer {
     position: absolute;
     bottom: 0;
@@ -40,5 +40,11 @@
 
   &_hide {
     display: none;
+  }
+
+  &__organization-label {
+    display: flex;
+    width: 100%;
+    justify-content: center;
   }
 }

@@ -1,5 +1,5 @@
-@import "./theme/modifiers";
-@import "./theme/typography";
+@import 'lib/styles/modifiers';
+@import 'lib/styles/typography';
 
 .notification-group {
   z-index: 12;
@@ -13,6 +13,9 @@
   align-items: center;
 }
 
-p, div, span, li {
+p,
+div,
+span,
+li {
   font-family: 'IBM Plex Sans', sans-serif;
 }

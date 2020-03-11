@@ -1,8 +1,9 @@
 /* eslint-disable @typescript-eslint/no-empty-function */
 import React from 'react';
 import { BrowserRouter as Router, Switch, Route, Link, useParams, useRouteMatch, Redirect } from 'react-router-dom';
-import { TripCreation } from './pages/trip-creation';
+import { CreateRidePage } from './pages/CreateRidePage';
 import { JoinRidePage } from './pages/JoinRidePage';
+import { MainPage } from './pages/MainPage';
 import './App.global.scss';
 import { TripCard } from './components/TripCard/TripCard';
 import { sampleDriver, samplePassengers } from './samples/samples';
@@ -12,10 +13,10 @@ const App = () => {
     <Router>
       <Switch>
         <Route exact path="/">
-          <div>Main page is not ready yet</div>
+          <MainPage />
         </Route>
         <Route exact path="/ride/create">
-          <TripCreation />
+          <CreateRidePage />
         </Route>
         <Route exact path="/ride/join">
           <JoinRidePage />
