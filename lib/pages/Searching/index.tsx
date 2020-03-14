@@ -1,4 +1,4 @@
-import React, { useEffect } from 'react';
+import React from 'react';
 import './SearchingPage.scss';
 import { FromToMiniHeader } from '../../components/FromToMiniHeader';
 import { BaseLayer } from 'components/BaseLayer/BaseLayer';

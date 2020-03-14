@@ -7,8 +7,8 @@ import { MainPage } from './pages/MainPage';
 import './App.global.scss';
 import { TripCard } from './components/TripCard/TripCard';
 import { sampleDriver, sampleFoundTrips, samplePassengers } from './samples/samples';
-import { FoundTrips } from './pages/FoundTrips';
-import { SearchingPage } from 'pages/searching';
+import { FoundTrips } from './components/FoundTrips';
+import { SearchingPage } from 'pages/Searching';
 import { PaymentPage } from 'pages/PaymentPage';
 
 const App = () => {
@@ -38,7 +38,7 @@ const App = () => {
         <Route path={'/trips'}>
           <FoundTrips trips={sampleFoundTrips} />
         </Route>
-        <Route path={'/searching'}>
+        <Route path={'/Searching'}>
           <SearchingPage from={'Mail.ru Corp'} to={'Российская академия наук'} />
         </Route>
         <Route path={'/payment'}>
