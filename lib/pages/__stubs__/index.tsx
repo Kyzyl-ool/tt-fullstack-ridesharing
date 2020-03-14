@@ -1,7 +1,7 @@
 export const organizationsListStub = [
   {
-    name: 'Российская академия наук',
-    address: 'Ленинский проспект, д.14'
+    name: 'Mail.ru Corp.',
+    address: 'Ленинградский проспект, д.39 стр.79'
   },
   {
     name: 'BostonGene',

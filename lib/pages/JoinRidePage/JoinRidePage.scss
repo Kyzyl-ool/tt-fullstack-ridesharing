@@ -68,4 +68,14 @@
     font-style: normal;
     text-align: center;
   }
+
+  &__searching-window {
+    position: fixed;
+    bottom: 0;
+  }
+
+  &__searching-window-wrapper {
+    position: absolute;
+    bottom: 0;
+  }
 }

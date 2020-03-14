@@ -7,9 +7,12 @@ import { Header, IconType } from 'components/Header';
 import { Backdrop } from 'components/Backdrop';
 import { Input } from 'components/Input';
 import { Slider } from 'components/Slider';
+import { SearchingTrips } from 'components/Searching';
+import { FoundTrips } from 'components/FoundTrips';
 import { NearestOrganizationLabel } from 'components/NearestOrganizationLabel';
 import { LocationsList } from 'components/LocationsList';
 import { organizationsListStub, locationsListStub, currentOrganizationStub } from '../__stubs__';
+import { sampleFoundTrips } from '../../samples/samples';
 import './JoinRidePage.scss';
 
 type PageState =
@@ -78,8 +81,15 @@ export const JoinRidePage = () => {
     }
     if (pageState === 'SEARCHING') {
       return (
-        <Header iconType="menu" onIconClick={onReturnToDestinationChoosing}>
+        <Header iconType="menu" onIconClick={() => {}}>
           <div className="join-ride-page__header-text">Поиск</div>
+        </Header>
+      );
+    }
+    if (pageState === 'SEARCH_COMPLETED') {
+      return (
+        <Header iconType="back" onIconClick={onReturnToDestinationChoosing}>
+          <div className="join-ride-page__header-text">Найденные поездки</div>
         </Header>
       );
     }
@@ -91,20 +101,23 @@ export const JoinRidePage = () => {
 
   const onSelectDestination = () => {
     setPageState('SEARCHING');
+    setTimeout(() => setPageState('SEARCH_COMPLETED'), 3000);
   };
 
   return (
     <div>
       {renderHeader()}
       <Backdrop>
-        <div onClick={onStartOrganizationChoosing}>
-          <Input
-            id="departure"
-            className="join-ride-page__fixed-input"
-            placeholderText="Откуда едете?"
-            icon={<div className="join-ride-page__input-icon--from" />}
-          />
-        </div>
+        {pageState === 'INITIAL' && (
+          <div onClick={onStartOrganizationChoosing}>
+            <Input
+              id="departure"
+              className="join-ride-page__fixed-input"
+              placeholderText="Откуда едете?"
+              icon={<div className="join-ride-page__input-icon--from" />}
+            />
+          </div>
+        )}
         <Slider showCondition={pageState === 'ORGANIZATION_CHOOSING'} from="bottom" timeout={600} unmountOnExit>
           <div className="join-ride-page__organizations-list">
             <LocationsList locations={organizationsListStub} onSelectLocation={onSelectOrganization} />
@@ -132,6 +145,12 @@ export const JoinRidePage = () => {
             </div>
           </div>
         </Slider>
+        <Slider showCondition={pageState === 'SEARCHING'} from="bottom" timeout={400} unmountOnExit>
+          <div className="join-ride-page__searching-window">
+            <SearchingTrips from="Mail.ru Corp" to="" />
+          </div>
+        </Slider>
+        {pageState === 'SEARCH_COMPLETED' && <FoundTrips trips={sampleFoundTrips} />}
       </Backdrop>
     </div>
   );
