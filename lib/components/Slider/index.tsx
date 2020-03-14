@@ -18,7 +18,7 @@ export const Slider = ({ showCondition, timeout, children, unmountOnExit, from }
     [from === 'bottom' ? 'rsh-slider-bottom' : 'rsh-slider-top']: true
   });
   return (
-    <div onBlur={() => console.log('click outside')}>
+    <div className="rsh-slider-container">
       <CSSTransition classNames={sliderClassNames} in={showCondition} timeout={timeout} unmountOnExit={unmountOnExit}>
         {children}
       </CSSTransition>

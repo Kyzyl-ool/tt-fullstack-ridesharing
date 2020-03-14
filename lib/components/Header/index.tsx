@@ -3,12 +3,12 @@ import { Container } from 'semantic-ui-react';
 import classNames from 'classnames';
 import './Header.scss';
 
-type IconType = 'back' | 'menu';
+export type IconType = 'back' | 'menu';
 
-interface IHeaderProps {
+export interface IHeaderProps {
   children: ReactNode;
   iconType: IconType;
-  onIconClick: () => void;
+  onIconClick: (iconType: IconType) => void;
   className?: string;
 }
 
@@ -19,10 +19,14 @@ export const Header = ({ children, iconType, onIconClick, className }: IHeaderPr
     [className]: className
   });
 
+  const onClick = () => {
+    onIconClick(iconType);
+  };
+
   return (
     <Container>
       <header className="rsh-header">
-        <div onClick={onIconClick} className={headerIconClassNames} />
+        <div onClick={onClick} className={headerIconClassNames} />
         {children}
       </header>
     </Container>

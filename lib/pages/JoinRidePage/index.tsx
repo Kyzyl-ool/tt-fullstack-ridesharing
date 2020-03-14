@@ -1,44 +1,135 @@
 /* eslint-disable @typescript-eslint/no-empty-function */
 /* eslint-disable @typescript-eslint/no-empty-interface */
-import React, { useState } from 'react';
+import React, { useState, Fragment } from 'react';
 import { CSSTransition } from 'react-transition-group';
 import { Container } from 'semantic-ui-react';
-import { Header } from 'components/Header';
+import { Header, IconType } from 'components/Header';
 import { Backdrop } from 'components/Backdrop';
 import { Input } from 'components/Input';
-import { Map } from 'components/Map';
 import { Slider } from 'components/Slider';
 import { NearestOrganizationLabel } from 'components/NearestOrganizationLabel';
-import { OrganizationsList } from 'components/OrganizationsList';
-import { organizationsListStub } from '../__stubs__';
+import { LocationsList } from 'components/LocationsList';
+import { organizationsListStub, locationsListStub, currentOrganizationStub } from '../__stubs__';
 import './JoinRidePage.scss';
 
-interface IJoinRidePage {}
+type PageState =
+  | 'INITIAL'
+  | 'ORGANIZATION_CHOOSING'
+  | 'DESTINATION_CHOOSING'
+  | 'SEARCHING'
+  | 'SEARCH_COMPLETED'
+  | 'PAYING';
 
 export const JoinRidePage = () => {
-  const [isOrganizationListShown, setIsOrganizationListShown] = useState(false);
+  const [pageState, setPageState] = useState<PageState>('INITIAL');
+  // const [isOrganizationListShown, setIsOrganizationListShown] = useState(false);
+  // const [isDestinationChoosingInProcess] = useState(false)
 
-  const onLabelClick = () => setIsOrganizationListShown(!isOrganizationListShown);
+  const onStartOrganizationChoosing = () => {
+    // setIsOrganizationListShown(true);
+    setPageState('ORGANIZATION_CHOOSING');
+  };
+
+  const onReturnToOrganizationChoosing = () => {
+    setPageState('ORGANIZATION_CHOOSING');
+  };
+
+  const onReturnToInitial = () => {
+    // setIsOrganizationListShown(false);
+    setPageState('INITIAL');
+  };
+
+  const onReturnToDestinationChoosing = () => {
+    setPageState('DESTINATION_CHOOSING');
+  };
+
+  const renderHeader = () => {
+    if (pageState === 'INITIAL') {
+      return (
+        <Header iconType="menu" onIconClick={() => {}}>
+          <div className="join-ride-page__organization-label">
+            <NearestOrganizationLabel nearestOrganizationName="Mail.ru Corp." onClick={onStartOrganizationChoosing} />
+          </div>
+        </Header>
+      );
+    }
+    if (pageState === 'DESTINATION_CHOOSING') {
+      return (
+        <Header iconType="back" onIconClick={onReturnToOrganizationChoosing}>
+          <div className="join-ride-page__header-text">Укажите пункт назначения</div>
+        </Header>
+      );
+    }
+    if (pageState === 'ORGANIZATION_CHOOSING') {
+      return (
+        <Header iconType="back" onIconClick={onReturnToInitial}>
+          <div className="join-ride-page__organization-label">
+            <NearestOrganizationLabel nearestOrganizationName="Mail.ru Corp." onClick={onStartOrganizationChoosing} />
+          </div>
+        </Header>
+      );
+    }
+    if (pageState === 'PAYING') {
+      return (
+        <Header iconType="back" onIconClick={onReturnToDestinationChoosing}>
+          <div className="join-ride-page__header-text">Выберите способ оплаты</div>;
+        </Header>
+      );
+    }
+    if (pageState === 'SEARCHING') {
+      return (
+        <Header iconType="menu" onIconClick={onReturnToDestinationChoosing}>
+          <div className="join-ride-page__header-text">Поиск</div>
+        </Header>
+      );
+    }
+  };
+
+  const onSelectOrganization = () => {
+    setPageState('DESTINATION_CHOOSING');
+  };
+
+  const onSelectDestination = () => {
+    setPageState('SEARCHING');
+  };
 
   return (
     <div>
-      <Header iconType="menu" onIconClick={() => {}}>
-        <div className="join-ride-page__organization-label">
-          <NearestOrganizationLabel nearestOrganizationName="Mail.ru Corp." onClick={onLabelClick} />
-        </div>
-      </Header>
+      {renderHeader()}
       <Backdrop>
-        <div onClick={onLabelClick}>
+        <div onClick={onStartOrganizationChoosing}>
           <Input
             id="departure"
-            className="join-ride-page__input"
+            className="join-ride-page__fixed-input"
             placeholderText="Откуда едете?"
-            icon={<div className="join-ride-page__input-icon" />}
+            icon={<div className="join-ride-page__input-icon--from" />}
           />
         </div>
-        <Slider showCondition={isOrganizationListShown} from="bottom" timeout={600} unmountOnExit>
+        <Slider showCondition={pageState === 'ORGANIZATION_CHOOSING'} from="bottom" timeout={600} unmountOnExit>
           <div className="join-ride-page__organizations-list">
-            <OrganizationsList organizations={organizationsListStub} onSelectOrganization={() => {}} />
+            <LocationsList locations={organizationsListStub} onSelectLocation={onSelectOrganization} />
+          </div>
+        </Slider>
+        <Slider showCondition={pageState === 'DESTINATION_CHOOSING'} from="top" timeout={400} unmountOnExit>
+          <div>
+            <div className="join-ride-page__input-form">
+              <Input
+                id="departure"
+                defaultValue="Mail.ru Corp."
+                className="join-ride-page__input"
+                placeholderText=""
+                icon={<div className="join-ride-page__input-icon--from" />}
+              />
+              <Input
+                id="arrival"
+                className="join-ride-page__input"
+                placeholderText=""
+                icon={<div className="join-ride-page__input-icon--to" />}
+              />
+            </div>
+            <div className="join-ride-page__destinations-list">
+              <LocationsList text="" locations={locationsListStub} onSelectLocation={onSelectDestination} />
+            </div>
           </div>
         </Slider>
       </Backdrop>

@@ -1,9 +1,9 @@
-import React, { useEffect, useState } from 'react';
+import React, { useState } from 'react';
 import { Header } from '../../components/Header';
 import Cars from './4/Cars';
 import { TripInfo } from './5/TripInfo';
 import { Dialog } from '../../components/Dialog/Dialog';
-import { Input } from '../../components/Input/Input';
+import { Input } from '../../components/Input';
 import { Backdrop } from '../../components/Backdrop';
 import { NearestOrganizationLabel } from '../../components/NearestOrganizationLabel';
 import './index.scss';

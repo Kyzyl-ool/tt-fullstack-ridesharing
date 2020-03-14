@@ -4,6 +4,7 @@ import './Input.scss';
 type InputPlaceholderType = 'default' | 'subscript';
 
 interface IInput {
+  defaultValue?: string;
   className?: string;
   placeholderType?: InputPlaceholderType;
   icon?: React.ReactElement;
@@ -14,13 +15,14 @@ interface IInput {
 
 export const Input = ({
   placeholderType = 'default',
+  defaultValue = '',
   className = '',
   icon,
   id,
   placeholderText,
   onChange = () => {}
 }: IInput) => {
-  const [value, setValue] = useState<string>('');
+  const [value, setValue] = useState<string>(defaultValue);
 
   const onInputChange = e => {
     setValue(e.target.value);

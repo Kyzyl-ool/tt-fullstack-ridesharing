@@ -1,6 +1,11 @@
 $top-animation-direction: -1;
 $bottom-animation-direction: 1;
 
+.rsh-slider-container {
+  // position: absolute;
+  // z-index: 5;
+}
+
 .rsh-slider {
   &-top {
     &-enter {

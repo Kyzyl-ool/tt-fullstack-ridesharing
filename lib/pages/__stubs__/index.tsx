@@ -9,4 +9,15 @@ export const organizationsListStub = [
   }
 ];
 
+export const locationsListStub = [
+  {
+    name: 'МГТУ им. Баумана',
+    address: '2-ая Бауманская, д.5'
+  },
+  {
+    name: 'МФТИ',
+    address: 'улица Сезам, дом Коржика'
+  }
+];
+
 export const currentOrganizationStub = 'Mail.ru Corp';
