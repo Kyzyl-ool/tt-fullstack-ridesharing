@@ -3,11 +3,11 @@
 .base-layer {
   border-radius: 40px;
   font-family: 'Source Sans Pro', sans-serif;
-  max-width: 400px;
   padding: 0 0 24px 0;
   display: flex;
   flex-direction: column;
   align-items: center;
+  min-width: 375px;
 
   &_secondary {
     background-color: $ui-primary-color;
