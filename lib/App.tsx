@@ -1,12 +1,15 @@
 /* eslint-disable @typescript-eslint/no-empty-function */
 import React from 'react';
-import { BrowserRouter as Router, Switch, Route, Link, useParams, useRouteMatch, Redirect } from 'react-router-dom';
+import { BrowserRouter as Router, Switch, Route, Redirect } from 'react-router-dom';
 import { CreateRidePage } from './pages/CreateRidePage';
 import { JoinRidePage } from './pages/JoinRidePage';
 import { MainPage } from './pages/MainPage';
 import './App.global.scss';
 import { TripCard } from './components/TripCard/TripCard';
-import { sampleDriver, samplePassengers } from './samples/samples';
+import { sampleDriver, sampleFoundTrips, samplePassengers } from './samples/samples';
+import { FoundTrips } from './components/FoundTrips';
+import { SearchingPage } from 'pages/Searching';
+import { PaymentPage } from 'pages/PaymentPage';
 
 const App = () => {
   return (
@@ -31,6 +34,15 @@ const App = () => {
             passengers={samplePassengers}
             tripId={1}
           />
+        </Route>
+        <Route path={'/trips'}>
+          <FoundTrips trips={sampleFoundTrips} />
+        </Route>
+        <Route path={'/Searching'}>
+          <SearchingPage from={'Mail.ru Corp'} to={'Российская академия наук'} />
+        </Route>
+        <Route path={'/payment'}>
+          <PaymentPage amountToPay={300} />
         </Route>
         <Redirect to="/" />
       </Switch>

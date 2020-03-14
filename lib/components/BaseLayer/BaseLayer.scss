@@ -1,12 +1,13 @@
 @import 'lib/styles/colors';
 
 .base-layer {
+  border-radius: 40px;
+  font-family: 'Source Sans Pro', sans-serif;
+  padding: 0 0 24px 0;
   display: flex;
   flex-direction: column;
   align-items: center;
-  border-radius: 40px;
-  font-family: 'Source Sans Pro', sans-serif;
-  max-width: 400px;
+  min-width: 375px;
 
   &_secondary {
     background-color: $ui-primary-color;
@@ -33,7 +34,7 @@
     font-style: normal;
     font-weight: normal;
     font-size: 16px;
-    line-height: 20px;
+    padding: 16px 0;
 
     &_headed {
       margin-top: -64px;

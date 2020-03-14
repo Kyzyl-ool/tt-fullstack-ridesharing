@@ -48,6 +48,7 @@
       position: absolute;
       top: 16px;
       left: -40px;
+      cursor: pointer;
     }
   }
 
@@ -149,6 +150,8 @@
   display: flex;
   flex-direction: column;
   align-items: center;
+  background-color: #FFFFFF;
+  height: 206px;
 }
 
 .onopen {
@@ -166,11 +169,12 @@
   }
 
   &-exit {
-    //transform: translateY(100%);
+    transform: translateY(100%);
   }
 
   &-exit-active {
-
+    transform: translateY(0);
+    transition: opacity 300ms, transform 300ms;
   }
 }
 
@@ -178,4 +182,20 @@
   position: absolute;
   z-index: -1;
   top: 64px;
+  overflow-y: scroll;
+  height: 206px;
+
+  &_showed {
+    z-index: 0;
+  }
+
+  > u {
+    position: absolute;
+    bottom: -8px;
+    left: 0;
+    right: 0;
+    margin: 0 auto 0 auto;
+    text-align: center;
+  }
 }
+

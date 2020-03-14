@@ -5,12 +5,14 @@ import { Avatar } from '../Avatar/Avatar';
 import { sampleAvatarSrc } from '../../samples/samples';
 import { Button } from '../Button';
 import { CSSTransition } from 'react-transition-group';
+import { UserCard } from '../UserCard';
 
 export interface IPassengerType {
   firstName: string;
   secondName: string;
   mark: number;
   id: number;
+  avararSrc: string;
 }
 
 export interface IDriverType {
@@ -18,9 +20,11 @@ export interface IDriverType {
   secondName: string;
   car: string;
   vacations: number;
+  avatarSrc: string;
+  mark: number;
 }
 
-interface ITripCard {
+export interface ITripCard {
   from: string;
   to: string;
   driver: IDriverType;
@@ -32,7 +36,6 @@ interface ITripCard {
 
 export const TripCard: React.FC<ITripCard> = props => {
   const [show, setShow] = useState<boolean>(false);
-
   const handleRequest = () => {};
 
   return (
@@ -40,7 +43,7 @@ export const TripCard: React.FC<ITripCard> = props => {
       type={'headed'}
       header={
         <div className={'trip-card-header'}>
-          <span className={'trip-card-header__icon trip-card-header__icon_back'} />
+          <span className={'trip-card-header__icon trip-card-header__icon_back'} onClick={props.onBack} />
           <div className={'trip-card-aligner'}>
             <span className={'trip-card-header__icon trip-card-header__icon_dot'} />
             <span className={'trip-card-header__destinations'}>{props.from}</span>
@@ -52,16 +55,23 @@ export const TripCard: React.FC<ITripCard> = props => {
         </div>
       }
     >
-      <div className={'trip-card-passengers'}>
-        {
-          // props.passengers.map((value, index) => )
-        }
-        <u className={'trip-card-participants-button'} onClick={() => setShow(false)}>
-          Свернуть
-        </u>
+      <div className={`trip-card-passengers ${show ? 'trip-card-passengers_showed' : ''}`}>
+        {props.passengers.map((value, index) => (
+          <UserCard
+            key={index}
+            avatarSrc={value.avararSrc}
+            mark={value.mark}
+            name={`${value.firstName} ${value.secondName}`}
+          />
+        ))}
       </div>
       <CSSTransition in={show} timeout={300} classNames={'onopen'}>
         <div className={'trip-card-main-container'}>
+          {show ? (
+            <u className={'trip-card-participants-button'} onClick={() => setShow(false)}>
+              Свернуть
+            </u>
+          ) : null}
           <div className={'trip-card-content'}>
             <div className={'trip-card-content_horizontal'}>
               <div className={'trip-card-avatar-and-info'}>

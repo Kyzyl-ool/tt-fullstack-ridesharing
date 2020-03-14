@@ -1,0 +1,25 @@
+.waiting-card {
+  text-align: center;
+  position: absolute;
+  bottom: -60px;
+
+
+  &__text-bold {
+    font-family: 'Source Sans Pro', sans-serif;
+    font-style: normal;
+    font-weight: bold;
+    font-size: 20px;
+    line-height: 25px;
+    text-align: center;
+  }
+
+  &__text-smaller {
+    font-family: 'Source Sans Pro', sans-serif;
+    font-style: normal;
+    font-weight: normal;
+    font-size: 16px;
+    line-height: 20px;
+    text-align: center;
+    color: #989898;
+  }
+}
