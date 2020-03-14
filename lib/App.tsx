@@ -8,7 +8,7 @@ import './App.global.scss';
 import { TripCard } from './components/TripCard/TripCard';
 import { sampleDriver, sampleFoundTrips, samplePassengers } from './samples/samples';
 import { FoundTrips } from './components/FoundTrips';
-import { SearchingPage } from 'pages/Searching';
+import { SearchingTrips } from 'components/Searching';
 import { PaymentPage } from 'pages/PaymentPage';
 
 const App = () => {
@@ -38,8 +38,8 @@ const App = () => {
         <Route path={'/trips'}>
           <FoundTrips trips={sampleFoundTrips} />
         </Route>
-        <Route path={'/Searching'}>
-          <SearchingPage from={'Mail.ru Corp'} to={'Российская академия наук'} />
+        <Route path={'/searching'}>
+          <SearchingTrips from={'Mail.ru Corp'} to={'Российская академия наук'} />
         </Route>
         <Route path={'/payment'}>
           <PaymentPage amountToPay={300} />
