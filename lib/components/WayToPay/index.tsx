@@ -8,7 +8,7 @@ export const WayToPay: React.FC = props => {
       <div>
         <b>Оплата наличными водителю</b>
         <br />
-        <span>Способ оплаты по умолчанию</span>
+        <span className={'way-to-pay__caption'}>Способ оплаты по умолчанию</span>
       </div>
     </div>
   );

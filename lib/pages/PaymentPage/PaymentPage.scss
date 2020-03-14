@@ -1,0 +1,30 @@
+.payment-page {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  margin-top: 32px;
+
+  &__button {
+    position: absolute;
+    bottom: 40px;
+  }
+
+  &__caption {
+    font-family: 'Source Sans Pro', sans-serif;
+    font-style: normal;
+    font-weight: normal;
+    font-size: 12px;
+    line-height: 15px;
+    display: flex;
+    align-items: center;
+    align-self: flex-start;
+    margin-left: 32px;
+    margin-bottom: 8px;
+
+
+    /* UI / Gray */
+
+    color: #989898;
+
+  }
+}
