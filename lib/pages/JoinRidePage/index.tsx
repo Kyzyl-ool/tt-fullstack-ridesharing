@@ -11,9 +11,12 @@ import { SearchingTrips } from 'components/Searching';
 import { FoundTrips } from 'components/FoundTrips';
 import { NearestOrganizationLabel } from 'components/NearestOrganizationLabel';
 import { LocationsList } from 'components/LocationsList';
+import { PaymentPage } from 'pages/PaymentPage';
 import { organizationsListStub, locationsListStub, currentOrganizationStub } from '../__stubs__';
 import { sampleFoundTrips } from '../../samples/samples';
 import './JoinRidePage.scss';
+import { Dialog } from 'components/Dialog/Dialog';
+import { Button } from 'components/Button';
 
 type PageState =
   | 'INITIAL'
@@ -21,7 +24,8 @@ type PageState =
   | 'DESTINATION_CHOOSING'
   | 'SEARCHING'
   | 'SEARCH_COMPLETED'
-  | 'PAYING';
+  | 'PAYING'
+  | 'DONE';
 
 export const JoinRidePage = () => {
   const [pageState, setPageState] = useState<PageState>('INITIAL');
@@ -104,6 +108,14 @@ export const JoinRidePage = () => {
     setTimeout(() => setPageState('SEARCH_COMPLETED'), 3000);
   };
 
+  const onSendRequest = () => {
+    setPageState('PAYING');
+  };
+
+  const onPaymentConfirmed = () => {
+    setPageState('DONE');
+  };
+
   return (
     <div>
       {renderHeader()}
@@ -150,7 +162,13 @@ export const JoinRidePage = () => {
             <SearchingTrips from="Mail.ru Corp" to="" />
           </div>
         </Slider>
-        {pageState === 'SEARCH_COMPLETED' && <FoundTrips trips={sampleFoundTrips} />}
+        {pageState === 'SEARCH_COMPLETED' && <FoundTrips onSendRequest={onSendRequest} trips={sampleFoundTrips} />}
+        {pageState === 'PAYING' && <PaymentPage amountToPay={130} onPaymentConfirmed={onPaymentConfirmed} />}
+        {pageState === 'DONE' && (
+          <Dialog hide={false}>
+            Запрос на присоединение к поездке отправлен. Ответ водителя будет направлен вам по push-уведомлению
+          </Dialog>
+        )}
       </Backdrop>
     </div>
   );

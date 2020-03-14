@@ -9,14 +9,13 @@ interface IPaymentPage {
   amountToPay: number;
 }
 
-export const PaymentPage: React.FC<IPaymentPage> = ({ amountToPay }) => {
-  const handleClick = () => {};
+export const PaymentPage: React.FC<IPaymentPage> = ({ amountToPay, onPaymentConfirmed }) => {
+  const handleClick = () => {
+    onPaymentConfirmed();
+  };
 
   return (
     <>
-      <Header iconType={'back'} onIconClick={() => {}}>
-        Выберите способ оплаты
-      </Header>
       <div className={'payment-page'}>
         <AmountToPay amount={amountToPay} />
         <span className={'payment-page__caption'}>Текущий способ оплаты</span>

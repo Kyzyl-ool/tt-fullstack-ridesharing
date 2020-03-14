@@ -1,8 +1,12 @@
+@import 'lib/styles/colors';
+
 .payment-page {
   display: flex;
+  background-color: $ui-white-color;
   flex-direction: column;
   align-items: center;
-  margin-top: 32px;
+  padding-top: 32px;
+  height: 100%;
 
   &__button {
     position: absolute;

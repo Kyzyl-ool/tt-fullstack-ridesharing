@@ -7,9 +7,10 @@ import { Slider } from 'components/Slider';
 
 interface IFoundTrips {
   trips: ITripCard[];
+  onSendRequest: () => void;
 }
 
-export const FoundTrips: React.FC<IFoundTrips> = ({ trips }) => {
+export const FoundTrips: React.FC<IFoundTrips> = ({ trips, onSendRequest }) => {
   const [selectedTripIndex, setSelectedTripIndex] = useState<number>(null);
   const [selected, setSelected] = useState<boolean>(false);
 
@@ -17,7 +18,7 @@ export const FoundTrips: React.FC<IFoundTrips> = ({ trips }) => {
     <div style={{ width: '100%' }}>
       <Slider showCondition={selected} timeout={900} unmountOnExit from={'bottom'}>
         <div className={'absolute-position'}>
-          <TripCard {...trips[selectedTripIndex]} onBack={() => setSelected(false)} />
+          <TripCard onSendRequest={onSendRequest} {...trips[selectedTripIndex]} onBack={() => setSelected(false)} />
         </div>
       </Slider>
       <Slider showCondition={!selected} timeout={900} unmountOnExit from={'bottom'}>

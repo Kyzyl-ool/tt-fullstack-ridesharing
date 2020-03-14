@@ -36,7 +36,9 @@ export interface ITripCard {
 
 export const TripCard: React.FC<ITripCard> = props => {
   const [show, setShow] = useState<boolean>(false);
-  const handleRequest = () => {};
+  const handleRequest = () => {
+    props.onSendRequest();
+  };
 
   return (
     <BaseLayer

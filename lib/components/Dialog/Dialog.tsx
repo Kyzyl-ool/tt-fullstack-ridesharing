@@ -14,7 +14,9 @@ export const Dialog: React.FC<IDialog> = ({ children, onClose, buttonText, hide 
       {hide ? null : (
         <div className={'dialog'}>
           {children}
-          <Button onClick={onClose}>{buttonText ? buttonText : 'OK'}</Button>
+          <Button filled onClick={onClose}>
+            {buttonText ? buttonText : 'OK'}
+          </Button>
           <div className={'dialog__close-button'} onClick={onClose} />
         </div>
       )}
