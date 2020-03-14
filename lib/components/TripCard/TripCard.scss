@@ -48,6 +48,7 @@
       position: absolute;
       top: 16px;
       left: -40px;
+      cursor: pointer;
     }
   }
 
@@ -150,6 +151,7 @@
   flex-direction: column;
   align-items: center;
   background-color: #FFFFFF;
+  height: 206px;
 }
 
 .onopen {
@@ -181,6 +183,11 @@
   z-index: -1;
   top: 64px;
   overflow-y: scroll;
+  height: 206px;
+
+  &_showed {
+    z-index: 0;
+  }
 
   > u {
     position: absolute;

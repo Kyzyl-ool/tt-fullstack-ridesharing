@@ -20,9 +20,11 @@ export interface IDriverType {
   secondName: string;
   car: string;
   vacations: number;
+  avatarSrc: string;
+  mark: number;
 }
 
-interface ITripCard {
+export interface ITripCard {
   from: string;
   to: string;
   driver: IDriverType;
@@ -41,7 +43,7 @@ export const TripCard: React.FC<ITripCard> = props => {
       type={'headed'}
       header={
         <div className={'trip-card-header'}>
-          <span className={'trip-card-header__icon trip-card-header__icon_back'} />
+          <span className={'trip-card-header__icon trip-card-header__icon_back'} onClick={props.onBack} />
           <div className={'trip-card-aligner'}>
             <span className={'trip-card-header__icon trip-card-header__icon_dot'} />
             <span className={'trip-card-header__destinations'}>{props.from}</span>
@@ -53,7 +55,7 @@ export const TripCard: React.FC<ITripCard> = props => {
         </div>
       }
     >
-      <div className={'trip-card-passengers'}>
+      <div className={`trip-card-passengers ${show ? 'trip-card-passengers_showed' : ''}`}>
         {props.passengers.map((value, index) => (
           <UserCard
             key={index}
