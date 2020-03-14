@@ -1,0 +1,43 @@
+$top-animation-direction: -1;
+$bottom-animation-direction: 1;
+
+.rsh-slider {
+  &-top {
+    &-enter {
+      transform: translateY(100vh * $top-animation-direction);
+  
+      &-active {
+        transform: translateY(0);
+        transition: transform 600ms;
+      }
+    }
+  
+    &-exit {
+      transform: translateY(0);
+      transition: transform 600ms;
+  
+      &-active {
+        transform: translateY(-100vh);
+      }
+    }
+  }
+  &-bottom {
+    &-enter {
+      transform: translateY(100vh * $bottom-animation-direction);
+  
+      &-active {
+        transform: translateY(0);
+        transition: transform 600ms;
+      }
+    }
+  
+    &-exit {
+      transform: translateY(0);
+      transition: transform 600ms;
+  
+      &-active {
+        transform: translateY(100vh * $bottom-animation-direction);
+      }
+    }
+  }
+}

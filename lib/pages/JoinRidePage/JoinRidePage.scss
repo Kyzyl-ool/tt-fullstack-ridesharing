@@ -15,47 +15,14 @@
     background-size: contain;
   }
 
+  &__organizations-list {
+    position: fixed;
+    bottom: 0;
+  }
+
   &__organization-label {
     display: flex;
     width: 100%;
     justify-content: center;
   }
-
-  &__animation {
-    &-enter {
-      opacity: 0;
-      transform: scale(0.9);
-
-      &-active {
-        opacity: 1;
-        transform: translateX(0);
-        transition: opacity 300ms, transform 300ms;
-      }
-    }
-
-    &-exit {
-      opacity: 1;
-
-      &-active {
-        opacity: 0;
-        transform: scale(0.9);
-        transition: opacity 300ms, transform 300ms;
-      }
-    }
-  }
 }
-
-// .join-ride-page__animation-enter {
-//   opacity: 0;
-// }
-// .join-ride-page__animation-enter-active {
-//   opacity: 1;
-//   transition: opacity 200ms;
-// }
-// .join-ride-page__animation-exit {
-//   opacity: 1;
-// }
-// .join-ride-page__animation-exit-active {
-//   opacity: 0;
-//   transition: opacity 200ms;
-// }
