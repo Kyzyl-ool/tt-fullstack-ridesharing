@@ -3,11 +3,12 @@
 import React, { useState } from 'react';
 import { CSSTransition } from 'react-transition-group';
 import { Container } from 'semantic-ui-react';
-import { Header } from '../../components/Header';
-import { Backdrop } from '../../components/Backdrop';
-import { Input } from '../../components/Input';
-import { NearestOrganizationLabel } from '../../components/NearestOrganizationLabel';
-import { OrganizationsList } from '../../components/OrganizationsList';
+import { Header } from 'components/Header';
+import { Backdrop } from 'components/Backdrop';
+import { Input } from 'components/Input';
+import { Map } from 'components/Map';
+import { NearestOrganizationLabel } from 'components/NearestOrganizationLabel';
+import { OrganizationsList } from 'components/OrganizationsList';
 import { organizationsListStub } from '../__stubs__';
 import './JoinRidePage.scss';
 
