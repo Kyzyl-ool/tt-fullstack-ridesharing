@@ -5,4 +5,9 @@
   width: 100vw;
   position: fixed;
   background: $ui-secondary-color;
+
+  &__map {
+    position: fixed;
+    z-index: -1;
+  }
 }

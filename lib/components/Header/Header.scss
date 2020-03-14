@@ -1,7 +1,9 @@
 @import 'lib/styles/icons';
+@import 'lib/styles/colors';
 
 .rsh-header {
   z-index: 10;
+  background: $ui-white-color;
   position: relative;
   display: flex;
   align-items: center;
