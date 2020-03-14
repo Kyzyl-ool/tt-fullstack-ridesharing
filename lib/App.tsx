@@ -9,6 +9,7 @@ import { TripCard } from './components/TripCard/TripCard';
 import { sampleDriver, sampleFoundTrips, samplePassengers } from './samples/samples';
 import { FoundTrips } from './pages/FoundTrips';
 import { SearchingPage } from 'pages/searching';
+import { PaymentPage } from 'pages/PaymentPage';
 
 const App = () => {
   return (
@@ -39,6 +40,9 @@ const App = () => {
         </Route>
         <Route path={'/searching'}>
           <SearchingPage from={'Mail.ru Corp'} to={'Российская академия наук'} />
+        </Route>
+        <Route path={'/payment'}>
+          <PaymentPage amountToPay={300} />
         </Route>
         <Redirect to="/" />
       </Switch>
