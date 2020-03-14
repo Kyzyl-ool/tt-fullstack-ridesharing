@@ -5,12 +5,14 @@ import { Avatar } from '../Avatar/Avatar';
 import { sampleAvatarSrc } from '../../samples/samples';
 import { Button } from '../Button';
 import { CSSTransition } from 'react-transition-group';
+import { UserCard } from '../UserCard';
 
 export interface IPassengerType {
   firstName: string;
   secondName: string;
   mark: number;
   id: number;
+  avararSrc: string;
 }
 
 export interface IDriverType {
@@ -32,7 +34,6 @@ interface ITripCard {
 
 export const TripCard: React.FC<ITripCard> = props => {
   const [show, setShow] = useState<boolean>(false);
-
   const handleRequest = () => {};
 
   return (
@@ -53,15 +54,22 @@ export const TripCard: React.FC<ITripCard> = props => {
       }
     >
       <div className={'trip-card-passengers'}>
-        {
-          // props.passengers.map((value, index) => )
-        }
-        <u className={'trip-card-participants-button'} onClick={() => setShow(false)}>
-          Свернуть
-        </u>
+        {props.passengers.map((value, index) => (
+          <UserCard
+            key={index}
+            avatarSrc={value.avararSrc}
+            mark={value.mark}
+            name={`${value.firstName} ${value.secondName}`}
+          />
+        ))}
       </div>
       <CSSTransition in={show} timeout={300} classNames={'onopen'}>
         <div className={'trip-card-main-container'}>
+          {show ? (
+            <u className={'trip-card-participants-button'} onClick={() => setShow(false)}>
+              Свернуть
+            </u>
+          ) : null}
           <div className={'trip-card-content'}>
             <div className={'trip-card-content_horizontal'}>
               <div className={'trip-card-avatar-and-info'}>
