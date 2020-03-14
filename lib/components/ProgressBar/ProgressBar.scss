@@ -1,0 +1,40 @@
+@import "lib/styles/icons";
+@import "lib/styles/colors";
+
+
+.progress-bar {
+  position: relative;
+  width: 312px;
+  height: 32px;
+  margin: 32px 0 64px 0;
+
+  &__line {
+    border-radius: 20px;
+    background-color: $ui-secondary-color;
+    height: 8px;
+    width: 312px;
+    position: absolute;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    margin: auto;
+
+    &_filled {
+      background-color: $ui-primary-color;
+      left: 0;
+      margin: unset;
+      //top: 8px;
+      z-index: 1;
+    }
+  }
+
+  &__car-icon {
+    background: $car-hatchback no-repeat;
+    box-sizing: border-box;
+    min-height: 32px;
+    min-width: 32px;
+    position: absolute;
+    transform: translateX(-85%);
+  }
+
+}
