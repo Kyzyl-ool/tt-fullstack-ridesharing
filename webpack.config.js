@@ -32,7 +32,14 @@ module.exports = {
     hot: true,
     contentBase: path.join(__dirname, 'dist'),
     compress: true,
-    port: 3000
+    port: 3000,
+    proxy: {
+      '/api': {
+        target: 'http://tt-ridesharing-backend-staging.herokuapp.com',
+        pathRewrite: { '^/api': '' },
+        changeOrigin: true
+      }
+    }
   },
   resolve: {
     extensions: ['.ts', '.tsx', '.js', '.svg', '.ico', '.png', '.scss'],
