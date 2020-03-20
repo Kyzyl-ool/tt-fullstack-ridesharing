@@ -37,12 +37,12 @@ module.exports = {
   resolve: {
     extensions: ['.ts', '.tsx', '.js', '.svg', '.ico', '.png', '.scss'],
     alias: {
-      components: path.resolve(__dirname, "lib/components/"),
-      pages: path.resolve(__dirname, "lib/pages/"),
-      styles: path.resolve(__dirname, "lib/styles/"),
-      samples: path.resolve(__dirname, "lib/samples/"),
-      hoc: path.resolve(__dirname, "lib/hoc/"),
-
+      components: path.resolve(__dirname, 'lib/components/'),
+      pages: path.resolve(__dirname, 'lib/pages/'),
+      styles: path.resolve(__dirname, 'lib/styles/'),
+      samples: path.resolve(__dirname, 'lib/samples/'),
+      hoc: path.resolve(__dirname, 'lib/hoc/'),
+      models: path.resolve(__dirname, 'lib/models/')
     }
   },
   module: {

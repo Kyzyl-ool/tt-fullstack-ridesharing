@@ -1,6 +1,6 @@
 @import 'lib/styles/colors';
 
-.payment-page {
+.payment-block {
   display: flex;
   background-color: $ui-white-color;
   flex-direction: column;
@@ -25,10 +25,8 @@
     margin-left: 32px;
     margin-bottom: 8px;
 
-
     /* UI / Gray */
 
     color: #989898;
-
   }
 }

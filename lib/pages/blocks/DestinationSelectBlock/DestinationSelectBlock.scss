@@ -1,0 +1,53 @@
+@import 'lib/styles/colors';
+@import 'lib/styles/icons';
+
+.destination-select-block {
+  &__header-text {
+    width: 100%;
+    font-weight: 300;
+    font-size: 16px;
+    line-height: 20px;
+    color: $ui-black-color;
+    font-style: normal;
+    text-align: center;
+  }
+
+  &__input {
+    margin: 8px 0;
+    box-shadow: 0px 4px 4px rgba(0, 0, 0, 0.25);
+  }
+
+  &__input-icon {
+    &--from {
+      min-width: 24px;
+      min-height: 24px;
+      background: $dot-icon no-repeat;
+      background-size: contain;
+    }
+
+    &--to {
+      min-width: 24px;
+      min-height: 24px;
+      background: $current-point-icon no-repeat;
+      background-size: contain;
+    }
+  }
+
+  &__input-form {
+    position: fixed;
+    z-index: 4;
+    top: 60px;
+    background: $ui-white-color;
+    width: calc(100vw - 48px);
+    height: 145px;
+    padding: 12px 24px;
+    box-shadow: 0px 4px 4px rgba(0, 0, 0, 0.25);
+  }
+
+  &__destinations-list {
+    position: fixed;
+    padding-top: 15px;
+    width: 100vw;
+    top: 205px;
+  }
+}

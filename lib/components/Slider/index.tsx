@@ -7,19 +7,19 @@ type SlideDirection = 'bottom' | 'top';
 
 interface ISliderProps {
   children: ReactNode;
-  showCondition: boolean;
+  visible: boolean;
   timeout: number;
   unmountOnExit: boolean;
   from?: SlideDirection;
 }
 
-export const Slider = ({ showCondition, timeout, children, unmountOnExit, from }: ISliderProps) => {
+export const Slider = ({ visible, timeout, children, unmountOnExit, from }: ISliderProps) => {
   const sliderClassNames = classNames({
     [from === 'bottom' ? 'rsh-slider-bottom' : 'rsh-slider-top']: true
   });
   return (
     <div className="rsh-slider-container">
-      <CSSTransition classNames={sliderClassNames} in={showCondition} timeout={timeout} unmountOnExit={unmountOnExit}>
+      <CSSTransition classNames={sliderClassNames} in={visible} timeout={timeout} unmountOnExit={unmountOnExit}>
         {children}
       </CSSTransition>
     </div>

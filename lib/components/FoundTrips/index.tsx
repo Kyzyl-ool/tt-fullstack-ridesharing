@@ -16,12 +16,12 @@ export const FoundTrips: React.FC<IFoundTrips> = ({ trips, onSendRequest }) => {
 
   return (
     <div style={{ width: '100%' }}>
-      <Slider showCondition={selected} timeout={900} unmountOnExit from={'bottom'}>
+      <Slider visible={selected} timeout={900} unmountOnExit from={'bottom'}>
         <div className={'absolute-position'}>
           <TripCard onSendRequest={onSendRequest} {...trips[selectedTripIndex]} onBack={() => setSelected(false)} />
         </div>
       </Slider>
-      <Slider showCondition={!selected} timeout={900} unmountOnExit from={'bottom'}>
+      <Slider visible={!selected} timeout={900} unmountOnExit from={'bottom'}>
         <div className={'absolute-position'}>
           <BaseLayer type={'secondary'} header={<span>Предложенные поездки</span>} className={'no-flex'}>
             {trips.map((value, index) => (

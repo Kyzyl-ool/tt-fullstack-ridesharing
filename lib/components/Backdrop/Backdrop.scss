@@ -1,8 +1,8 @@
 @import 'lib/styles/colors';
 
 .rsh-backdrop {
-  height: calc(100vh - 60px);
   width: 100vw;
+  height: 100vh;
   position: fixed;
   background: $ui-secondary-color;
 
