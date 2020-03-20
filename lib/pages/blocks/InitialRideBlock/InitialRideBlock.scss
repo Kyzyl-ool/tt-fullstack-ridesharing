@@ -1,0 +1,27 @@
+@import 'lib/styles/colors';
+@import 'lib/styles/icons';
+
+.initial-ride-block {
+  &__fixed-input {
+    position: fixed;
+    min-width: 312px;
+    bottom: 56px;
+    left: calc(50% - 156px);
+  }
+
+  &__input-icon {
+    &--from {
+      min-width: 24px;
+      min-height: 24px;
+      background: $dot-icon no-repeat;
+      background-size: contain;
+    }
+
+    &--to {
+      min-width: 24px;
+      min-height: 24px;
+      background: $current-point-icon no-repeat;
+      background-size: contain;
+    }
+  }
+}

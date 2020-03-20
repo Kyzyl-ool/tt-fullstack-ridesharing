@@ -25,4 +25,20 @@
       background-size: contain;
     }
   }
+
+  &__text {
+    width: 100%;
+    font-weight: 300;
+    font-size: 16px;
+    line-height: 20px;
+    color: #242424;
+    font-style: normal;
+    text-align: center;
+  }
+
+  &__label {
+    display: flex;
+    width: 100%;
+    justify-content: center;
+  }
 }

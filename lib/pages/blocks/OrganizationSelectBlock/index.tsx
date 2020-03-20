@@ -23,9 +23,7 @@ export const OrganizationSelectBlock = ({
     <Fragment>
       {visible && (
         <Header iconType="back" onIconClick={onGoBack}>
-          <div className="organization-select-block__organization-label">
-            <NearestOrganizationLabel nearestOrganizationName={nearestOrganizationName} onClick={() => {}} />
-          </div>
+          <NearestOrganizationLabel nearestOrganizationName={nearestOrganizationName} onClick={() => {}} />
         </Header>
       )}
       <Slider visible={visible} from="bottom" timeout={600} unmountOnExit>

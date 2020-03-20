@@ -17,7 +17,7 @@ export const DestinationSelectBlock = ({ onGoBack, visible, onSelectDestination 
     <Fragment>
       {visible && (
         <Header iconType="back" onIconClick={onGoBack}>
-          <div className="destination-select-block__header-text">Укажите пункт назначения</div>
+          Укажите пункт назначения
         </Header>
       )}
       <Slider visible={visible} from="top" timeout={400} unmountOnExit>

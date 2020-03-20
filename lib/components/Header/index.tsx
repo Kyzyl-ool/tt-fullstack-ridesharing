@@ -1,4 +1,4 @@
-import React, { ReactNode } from 'react';
+import React, { ReactNode, ReactElement } from 'react';
 import { Container } from 'semantic-ui-react';
 import classNames from 'classnames';
 import './Header.scss';
@@ -19,6 +19,11 @@ export const Header = ({ children, iconType, onIconClick, className }: IHeaderPr
     [className]: className
   });
 
+  // Only two types of content available for header (at current moment): text and ReactElement
+  const headerContentClassNames = classNames({
+    [typeof children === 'string' ? 'rsh-header__text' : 'rsh-header__label']: true
+  });
+
   const onClick = () => {
     onIconClick(iconType);
   };
@@ -27,7 +32,7 @@ export const Header = ({ children, iconType, onIconClick, className }: IHeaderPr
     <Container>
       <header className="rsh-header">
         <div onClick={onClick} className={headerIconClassNames} />
-        {children}
+        <div className={headerContentClassNames}>{children}</div>
       </header>
     </Container>
   );

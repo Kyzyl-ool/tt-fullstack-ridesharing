@@ -9,6 +9,7 @@ import { PaymentBlock } from 'pages/blocks/PaymentBlock';
 import { OrganizationSelectBlock } from 'pages/blocks/OrganizationSelectBlock';
 import { DestinationSelectBlock } from 'pages/blocks/DestinationSelectBlock';
 import { SearchRideBlock } from 'pages/blocks/SearchRideBlock';
+import { InitialRideBlock } from 'pages/blocks/InitialRideBlock';
 import MapModel from 'models/MapModel';
 import { sampleFoundTrips } from '../../samples/samples';
 import './JoinRidePage.scss';
@@ -71,23 +72,7 @@ export const JoinRidePage = () => {
   return (
     <div>
       <Backdrop onMapViewportChange={onMapViewportChange}>
-        {pageState === 'INITIAL' && (
-          <Fragment>
-            <Header iconType="menu" onIconClick={() => {}}>
-              <div className="join-ride-page__organization-label">
-                <NearestOrganizationLabel nearestOrganizationName="Mail.ru Corp." onClick={() => {}} />
-              </div>
-            </Header>
-            <div onClick={onStartOrganizationChoosing}>
-              <Input
-                id="departure"
-                className="join-ride-page__fixed-input"
-                placeholderText="Откуда едете?"
-                icon={<div className="join-ride-page__input-icon--from" />}
-              />
-            </div>
-          </Fragment>
-        )}
+        {pageState === 'INITIAL' && <InitialRideBlock onInputClick={onStartOrganizationChoosing} />}
         <OrganizationSelectBlock
           visible={pageState === 'ORGANIZATION_CHOOSING'}
           onGoBack={onReturnToInitial}

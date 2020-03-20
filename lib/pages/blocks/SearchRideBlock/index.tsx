@@ -14,11 +14,6 @@ interface ISearchRideBlock {
 export const SearchRideBlock = ({ onShowMenu, visible, from, to }: ISearchRideBlock) => {
   return (
     <Fragment>
-      {visible && (
-        <Header iconType="menu" onIconClick={onShowMenu}>
-          <div className="search-ride-block__header-text">Поиск</div>
-        </Header>
-      )}
       <Slider visible={visible} from="bottom" timeout={400} unmountOnExit>
         <div className="search-ride-block__searching-window">
           <SearchingWindow from={from} to={to} />

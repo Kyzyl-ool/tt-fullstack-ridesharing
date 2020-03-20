@@ -8,6 +8,7 @@
   flex-direction: column;
   align-items: center;
   min-width: 375px;
+  background: $ui-white-color;
 
   &_secondary {
     background-color: $ui-primary-color;
@@ -23,7 +24,7 @@
       min-height: 64px;
       width: 100%;
       background-color: $ui-primary-color;
-      color: #FFFFFF;
+      color: #ffffff;
       border-radius: 40px 40px 0 0;
     }
   }

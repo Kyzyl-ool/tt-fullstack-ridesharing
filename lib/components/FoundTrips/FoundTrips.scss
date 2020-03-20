@@ -1,4 +1,7 @@
-.absolute-position {
-  position: absolute;
-  bottom: 0;
+.found-trips {
+  &__container {
+    position: fixed;
+    bottom: 0;
+    width: 100vw;
+  }
 }
