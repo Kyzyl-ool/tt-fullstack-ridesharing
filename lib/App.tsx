@@ -10,6 +10,7 @@ import { FoundTrips } from './components/FoundTrips';
 import { SearchingWindow } from 'components/SearchingWindow';
 import UserModel from 'models/UserModel';
 import './App.global.scss';
+import { CreateOrganizationPage } from 'pages/CreateOrganizationPage';
 
 const App = () => {
   //TODO remove when real authorization logic will be implemeneted
@@ -39,6 +40,9 @@ const App = () => {
             passengers={samplePassengers}
             tripId={1}
           />
+        </Route>
+        <Route path={'/organization/create'}>
+          <CreateOrganizationPage />
         </Route>
         <Route path={'/trips'}>
           <FoundTrips trips={sampleFoundTrips} />

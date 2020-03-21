@@ -1,9 +1,6 @@
-import React, { useState, Fragment } from 'react';
-import { Header } from 'components/Header';
+import React, { useState } from 'react';
 import { Backdrop } from 'components/Backdrop';
-import { Input } from 'components/Input';
 import { FoundTrips } from 'components/FoundTrips';
-import { NearestOrganizationLabel } from 'components/NearestOrganizationLabel';
 import { Dialog } from 'components/Dialog/Dialog';
 import { PaymentBlock } from 'pages/blocks/PaymentBlock';
 import { OrganizationSelectBlock } from 'pages/blocks/OrganizationSelectBlock';
