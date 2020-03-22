@@ -2,7 +2,7 @@ import React, { useState } from 'react';
 import { CSSTransition } from 'react-transition-group';
 import './PageStateHook.scss';
 
-type AnimationType = 'appear' | 'none';
+type AnimationType = 'appear' | 'slideTop' | 'slideBottom' | 'none';
 type IUsePageState = [
   string,
   () => void,
@@ -11,7 +11,9 @@ type IUsePageState = [
 ];
 
 const animationTypeToClassnames = {
-  ['appear']: 'page-state-animations'
+  ['appear']: 'page-state-animations',
+  ['slideTop']: 'page-state-animation-slide-top',
+  ['slideBottom']: 'page-state-animation-slide-bottom'
 };
 
 const usePageState = (states: string[]): IUsePageState => {
