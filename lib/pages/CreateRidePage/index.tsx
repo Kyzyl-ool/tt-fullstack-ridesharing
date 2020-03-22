@@ -1,7 +1,11 @@
 import React, { useState } from 'react';
 import { Backdrop } from 'components/Backdrop';
+import { Dialog } from 'components/Dialog';
+import { CarSelectBlock } from 'pages/blocks/CarSelectBlock';
 import { InitialRideBlock } from '../blocks/InitialRideBlock';
 import { OrganizationSelectBlock } from '../blocks/OrganizationSelectBlock';
+import { DestinationSelectBlock } from '../blocks/DestinationSelectBlock';
+import { userCarsStub } from '../__stubs__';
 
 type PageState =
   | 'INITIAL'
@@ -11,7 +15,7 @@ type PageState =
   | 'RIDE_INFORMATION'
   | 'DONE';
 
-const CreateRidePage = () => {
+export const CreateRidePage = () => {
   const [pageState, setPageState] = useState<PageState>('INITIAL');
 
   const onStartOrganizationChoosing = () => {
@@ -43,30 +47,36 @@ const CreateRidePage = () => {
   };
 
   return (
-    // <div>
-    //   <Backdrop>
-    //     {pageState === 'INITIAL' && (
-    //       <InitialRideBlock nearestOrganizationName="Mail.ru Corp." onInputClick={onStartOrganizationChoosing} />
-    //     )}
-    //     <OrganizationSelectBlock
-    //       visible={pageState === 'ORGANIZATION_CHOOSING'}
-    //       nearestOrganizationName={}
-    //       onGoBack={onReturnToInitial}
-    //       onSelectOrganization={onSelectOrganization}
-    //     />
-    //     <DestinationSelectBlock
-    //       visible={pageState === 'DESTINATION_CHOOSING'}
-    //       onGoBack={onReturnToOrganizationChoosing}
-    //       onSelectDestination={onSelectDestination}
-    //     />
-    //     <Car
-    //     {pageState === 'DONE' && (
-    //       <Dialog hide={false}>
-    //         Запрос на присоединение к поездке отправлен. Ответ водителя будет направлен вам по push-уведомлению
-    //       </Dialog>
-    //     )}
-    //   </Backdrop>
-    // </div>
-    null
+    <div>
+      <Backdrop>
+        {pageState === 'INITIAL' && (
+          <InitialRideBlock nearestOrganizationName="Mail.ru Corp." onInputClick={onStartOrganizationChoosing} />
+        )}
+        <OrganizationSelectBlock
+          visible={pageState === 'ORGANIZATION_CHOOSING'}
+          nearestOrganizationName="Mail.ru Corp."
+          onGoBack={onReturnToInitial}
+          onSelectOrganization={onSelectOrganization}
+        />
+        <DestinationSelectBlock
+          visible={pageState === 'DESTINATION_CHOOSING'}
+          onGoBack={onReturnToOrganizationChoosing}
+          onSelectDestination={onSelectDestination}
+        />
+        <CarSelectBlock
+          userCars={userCarsStub}
+          visible={pageState === 'CAR_CHOOSING'}
+          onGoBack={onReturnToDestinationChoosing}
+          onCarInfoChange={() => {}}
+          onCarSelect={() => {}}
+          onDelete={() => {}}
+        />
+        {pageState === 'DONE' && (
+          <Dialog hide={false}>
+            Запрос на присоединение к поездке отправлен. Ответ водителя будет направлен вам по push-уведомлению
+          </Dialog>
+        )}
+      </Backdrop>
+    </div>
   );
 };

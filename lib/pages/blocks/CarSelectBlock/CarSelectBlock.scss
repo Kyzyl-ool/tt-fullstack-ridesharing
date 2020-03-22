@@ -1,0 +1,16 @@
+.car-select-block {
+  &__layer {
+    position: fixed;
+    bottom: 0;
+  }
+
+  &__cards {
+    padding: 0 24px;
+  }
+
+  &__button {
+    display: flex;
+    justify-content: center;
+    margin-top: 32px;
+  }
+}

@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import { Backdrop } from 'components/Backdrop';
 import { FoundTrips } from 'components/FoundTrips';
-import { Dialog } from 'components/Dialog/Dialog';
+import { Dialog } from 'components/Dialog';
 import { PaymentBlock } from 'pages/blocks/PaymentBlock';
 import { OrganizationSelectBlock } from 'pages/blocks/OrganizationSelectBlock';
 import { DestinationSelectBlock } from 'pages/blocks/DestinationSelectBlock';
