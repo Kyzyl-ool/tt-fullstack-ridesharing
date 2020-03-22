@@ -8,7 +8,8 @@
       "styles/*": ["lib/styles/*"],
       "samples/*": ["lib/samples/*"],
       "hoc/*": ["lib/hoc/*"],
-      "models/*": ["lib/models/*"]
+      "models/*": ["lib/models/*"],
+      "hooks/*": ["lib/hooks/*"]
     },
     "lib": ["dom", "dom.iterable", "esnext"],
     "allowJs": true,
