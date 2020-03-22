@@ -5,14 +5,16 @@ type BaseLayerType = 'primary' | 'secondary' | 'headed';
 
 interface IBaseLayer {
   type: BaseLayerType;
-  header: React.ReactNode;
+  header?: React.ReactNode;
   className?: string;
 }
 
 export const BaseLayer: React.FC<IBaseLayer> = ({ header, className, type = 'primary', children }) => {
   return (
     <div className={`base-layer base-layer_${type} ${className ? className : ''}`}>
-      <div className={`base-layer__header ${type === 'headed' ? 'base-layer__header_headed' : ''}`}>{header}</div>
+      {header ? (
+        <div className={`base-layer__header ${type === 'headed' ? 'base-layer__header_headed' : ''}`}>{header}</div>
+      ) : null}
       {children}
     </div>
   );

@@ -1,6 +1,23 @@
 .avatar {
   border-radius: 50%;
 
+  &-subtext-container {
+    display: inline-block;
+    text-align: center;
+  }
+
+  &__subtext {
+    font-family: 'Source Sans Pro', sans-serif;
+    font-style: normal;
+    font-weight: normal;
+    font-size: 8px;
+    line-height: 10px;
+    /* identical to box height */
+    text-transform: uppercase;
+    text-align: center;
+    width: fit-content;
+  }
+
   &-container {
     display: inline-flex;
     flex-direction: column;
@@ -11,29 +28,37 @@
     max-width: 32px;
     max-height: 32px;
   }
+
   &_medium {
     max-width: 56px;
     max-height: 56px;
   }
+
   &_large {
     max-width: 80px;
     max-height: 80px;
   }
+
   &_stroke {
     border-width: 2px;
     border-style: solid;
+
     &-green {
       border-color: #27AE60;
     }
+
     &-yellow {
       border-color: #F2C94C;
     }
+
     &-orange {
       border-color: #F2994A;
     }
+
     &-red {
       border-color: #EB5757;
     }
+
     &-gray {
       border-color: #BDBDBD;
     }

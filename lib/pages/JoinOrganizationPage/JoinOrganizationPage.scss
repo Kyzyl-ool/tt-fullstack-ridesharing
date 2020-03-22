@@ -1,0 +1,12 @@
+@import "lib/styles/colors";
+
+.backgrounded {
+  background-color: $ui-secondary-color;
+  height: 100%;
+  width: 100%;
+  padding: 8px 0 0 0;
+
+  &_grey {
+    background-color: $ui-background-grey-color;
+  }
+}
