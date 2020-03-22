@@ -19,26 +19,17 @@ export const OrganizationPage: React.FC = props => {
   const [organizationData, setOrganizationData] = useState<OrganizationDataType>({
     address: 'asdhflakjshfjasdhf'
   });
-  const pageState = usePageState([
-    {
-      key: 'ORGANIZATION',
-      name: ''
-    },
-    {
-      key: 'MEMBERS',
-      name: ''
-    }
-  ]);
+  const [pageState, setNext, setPrev, renderForState] = usePageState(['ORGANIZATION', 'MEMBERS']);
 
   const handleBack = () => {
-    if (pageState.state.key === 'ORGANIZATION') {
+    if (pageState === 'ORGANIZATION') {
       history.push('/');
     } else {
-      pageState.setPrev();
+      setPrev();
     }
   };
   const handleNext = () => {
-    pageState.setNext();
+    setNext();
   };
 
   return (
@@ -46,7 +37,7 @@ export const OrganizationPage: React.FC = props => {
       <Header iconType={'back'} onIconClick={handleBack}>
         <NearestOrganizationLabel nearestOrganizationName={'Mail.ru Corp'} onClick={() => {}} />
       </Header>
-      {pageState.Foo(
+      {renderForState(
         'ORGANIZATION',
         <Backdrop>
           <BaseLayer type={'primary'} className={'centerize centerize_floor'}>
@@ -87,7 +78,7 @@ export const OrganizationPage: React.FC = props => {
           </BaseLayer>
         </Backdrop>
       )}
-      {pageState.Foo('MEMBERS', <></>)}
+      {renderForState('MEMBERS', <></>)}
     </div>
   );
 };

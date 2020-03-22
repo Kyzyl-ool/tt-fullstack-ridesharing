@@ -28,37 +28,25 @@ export const CreateOrganizationPage: React.FC = props => {
     }
   ]);
   const history = useHistory();
-  const pageState = usePageState([
-    {
-      key: 'ENTER_NAME',
-      name: 'Новая организация'
-    },
-    {
-      key: 'CHOOSE_LOCATION',
-      name: 'Выберите местоположение'
-    },
-    {
-      key: 'ENTER_QUESTIONS',
-      name: 'Контрольные вопросы'
-    },
-    {
-      key: 'ADDED',
-      name: ''
-    }
+  const [pageState, setNext, setPrev, renderForState] = usePageState([
+    'ENTER_NAME',
+    'CHOOSE_LOCATION',
+    'ENTER_QUESTIONS',
+    'ADDED'
   ]);
 
   const handleClickBack = () => {
-    if (pageState.state.key === 'ENTER_NAME') {
+    if (pageState === 'ENTER_NAME') {
       history.goBack();
     } else {
-      pageState.setPrev();
+      setPrev();
     }
   };
   const handleNext = () => {
-    if (pageState.state.key === 'ADDED') {
+    if (pageState === 'ADDED') {
       history.goBack();
     } else {
-      pageState.setNext();
+      setNext();
     }
   };
   const handleAddQuestion = () => {
@@ -77,10 +65,12 @@ export const CreateOrganizationPage: React.FC = props => {
   return (
     <div>
       <Header iconType="back" onIconClick={handleClickBack}>
-        {pageState.state.name}
+        {renderForState('ENTER_NAME', <span>Новая организация</span>)}
+        {renderForState('CHOOSE_LOCATION', <span>Выберите местоположение</span>)}
+        {renderForState('ENTER_QUESTIONS', <span>Контрольные вопросы</span>)}
       </Header>
       <Backdrop>
-        {pageState.Foo(
+        {renderForState(
           'ENTER_NAME',
           <>
             <Input
@@ -91,8 +81,8 @@ export const CreateOrganizationPage: React.FC = props => {
             />
           </>
         )}
-        {pageState.Foo('CHOOSE_LOCATION', <></>)}
-        {pageState.Foo(
+        {renderForState('CHOOSE_LOCATION', <></>)}
+        {renderForState(
           'ENTER_QUESTIONS',
           <div className={'backgrounded'}>
             {questions.map((value, index) => (
@@ -119,7 +109,7 @@ export const CreateOrganizationPage: React.FC = props => {
             </div>
           </div>
         )}
-        {pageState.Foo(
+        {renderForState(
           'ADDED',
           <Dialog onClose={handleNext} hide={false}>
             Организация успешно добавлена

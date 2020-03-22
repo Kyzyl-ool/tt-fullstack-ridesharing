@@ -13,41 +13,29 @@ export const JoinOrganizationPage: React.FC = props => {
   const [questions, setQuestions] = useState<string[]>(['Откуда?', 'skjdkhas?', 'jkhasgdfkhjsgdfjakshdfgakhjsdf?']);
   const [selectedOrganization, setSelectedOrganization] = useState();
   const history = useHistory();
-  const pageState = usePageState([
-    {
-      key: 'CHOOSE',
-      name: 'Вступить в организацию'
-    },
-    {
-      key: 'QUESTIONS',
-      name: 'Контрольные вопросы'
-    },
-    {
-      key: 'FINISH',
-      name: ''
-    }
-  ]);
+  const [pageState, setNext, setPrev, renderForState] = usePageState(['CHOOSE', 'QUESTIONS', 'FINISH']);
   const handleBack = () => {
-    if (pageState.state.key === 'CHOOSE') {
+    if (pageState === 'CHOOSE') {
       history.push('/');
     } else {
-      pageState.setPrev();
+      setPrev();
     }
   };
   const handleNext = () => {
-    if (pageState.state.key === 'FINISH') {
+    if (pageState === 'FINISH') {
       history.push('/');
     } else {
-      pageState.setNext();
+      setNext();
     }
   };
 
   return (
     <div>
       <Header iconType={'back'} onIconClick={handleBack}>
-        {pageState.state.name}
+        {renderForState('CHOOSE', <span>Вступить в организацию</span>)}
+        {renderForState('QUESTIONS', <span>Контрольные вопросы</span>)}
       </Header>
-      {pageState.Foo(
+      {renderForState(
         'CHOOSE',
         <div className={'rsh-backdrop backgrounded backgrounded_grey'}>
           <Input id={'organization-name'} placeholderText={'Поиск организации...'} icon={<SearchIcon />} />
@@ -62,7 +50,7 @@ export const JoinOrganizationPage: React.FC = props => {
           />
         </div>
       )}
-      {pageState.Foo(
+      {renderForState(
         'QUESTIONS',
         <div className={'rsh-backdrop backgrounded'}>
           {questions.map((value, index) => (
@@ -76,7 +64,7 @@ export const JoinOrganizationPage: React.FC = props => {
           </Button>
         </div>
       )}
-      {pageState.Foo(
+      {renderForState(
         'FINISH',
         <>
           <Dialog onClose={handleNext} hide={false}>

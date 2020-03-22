@@ -3,31 +3,15 @@ import usePageState from '../../hooks/usePageState';
 import './Auth.scss';
 
 export const Auth: React.FC = props => {
-  const pageState = usePageState([
-    {
-      key: 'BEGIN'
-    },
-    {
-      key: 'ENTER_PHONE'
-    },
-    {
-      key: 'ENTER_PHONE_WAITING'
-    },
-    {
-      key: 'SMS_CODE'
-    },
-    {
-      key: 'SMS_CODE_WAITING'
-    },
-    {
-      key: 'WELCOME_NAME'
-    },
-    {
-      key: 'WELCOME_TELEGRAM'
-    },
-    {
-      key: 'FINISH'
-    }
+  const [pageState, setNext, setPrev, renderForState] = usePageState([
+    'BEGIN',
+    'ENTER_PHONE',
+    'ENTER_PHONE_WAITING',
+    'SMS_CODE',
+    'SMS_CODE_WAITING',
+    'WELCOME_NAME',
+    'WELCOME_TELEGRAM',
+    'FINISH'
   ]);
 
   return (
