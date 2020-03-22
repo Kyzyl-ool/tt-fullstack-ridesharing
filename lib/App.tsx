@@ -13,6 +13,7 @@ import './App.global.scss';
 import { CreateOrganizationPage } from 'pages/CreateOrganizationPage';
 import { JoinOrganizationPage } from 'pages/JoinOrganizationPage';
 import { OrganizationPage } from 'pages/OrganizationPage';
+import { Auth } from 'pages/Auth';
 
 const App = () => {
   //TODO remove when real authorization logic will be implemeneted
@@ -53,10 +54,13 @@ const App = () => {
           <OrganizationPage />
         </Route>
         <Route path={'/trips'}>
-          <FoundTrips trips={sampleFoundTrips} />
+          <FoundTrips trips={sampleFoundTrips} />w
         </Route>
         <Route path={'/searching'}>
           <SearchingWindow from={'Mail.ru Corp'} to={'Российская академия наук'} />
+        </Route>
+        <Route path={'/auth'}>
+          <Auth />
         </Route>
         <Redirect to="/" />
       </Switch>

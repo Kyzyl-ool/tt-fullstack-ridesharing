@@ -2,7 +2,7 @@ import React, { useState } from 'react';
 
 type PageState = {
   key: string;
-  name: string;
+  name?: string;
 };
 
 type FooArgType = {
@@ -14,6 +14,7 @@ interface IUsePageState {
   setNext: () => void;
   setPrev: () => void;
   state: PageState;
+  goTo: (key: string) => void;
   Foo: (key: string, node: React.ReactNode) => React.ReactNode;
 }
 
@@ -35,11 +36,17 @@ const usePageState = (pageStates: PageState[]): IUsePageState => {
       return null;
     }
   };
+  const goTo = (key: string) => {
+    const searchResult = states.find(value => value.key === key);
+    console.assert(searchResult);
+    setCurrentState(states.indexOf(searchResult));
+  };
 
   return {
     setNext,
     setPrev,
     Foo,
+    goTo,
     state: states[currentState]
   };
 };
