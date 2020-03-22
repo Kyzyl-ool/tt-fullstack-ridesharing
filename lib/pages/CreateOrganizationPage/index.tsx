@@ -79,9 +79,10 @@ export const CreateOrganizationPage: React.FC = props => {
               className={'centerize centerize_center'}
               onChange={value => setName(value)}
             />
-          </>
+          </>,
+          'appear'
         )}
-        {renderForState('CHOOSE_LOCATION', <></>)}
+        {renderForState('CHOOSE_LOCATION', <></>, 'appear')}
         {renderForState(
           'ENTER_QUESTIONS',
           <div className={'backgrounded'}>
@@ -107,7 +108,8 @@ export const CreateOrganizationPage: React.FC = props => {
                 Удалить последний
               </Button>
             </div>
-          </div>
+          </div>,
+          'appear'
         )}
         {renderForState(
           'ADDED',
