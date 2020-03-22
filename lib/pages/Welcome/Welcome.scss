@@ -1,0 +1,17 @@
+.welcome {
+
+  &__text {
+    font-family: 'Source Sans Pro', sans-serif;
+    font-style: normal;
+    font-weight: normal;
+    font-size: 12px;
+    line-height: 15px;
+    display: flex;
+    align-items: center;
+    text-align: center;
+  }
+
+  .input {
+    margin-bottom: 8px;
+  }
+}

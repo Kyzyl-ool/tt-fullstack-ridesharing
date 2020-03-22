@@ -1,6 +1,7 @@
 import React from 'react';
 import { Avatar } from '../Avatar/Avatar';
 import './DriverCard.scss';
+import { DriverAnswerType } from 'pages/ActiveRidesPage';
 
 interface ITripCard {
   avatarSrc: string;
@@ -13,7 +14,7 @@ interface ITripCard {
   destination: string;
   cost: number;
   tripId: number;
-  waiting?: boolean;
+  driverAnswer?: DriverAnswerType;
 }
 
 export const DriverCard: React.FC<ITripCard> = ({
@@ -27,10 +28,10 @@ export const DriverCard: React.FC<ITripCard> = ({
   cost,
   destination,
   tripId,
-  waiting
+  driverAnswer
 }) => {
   return (
-    <div className={`driver-card ${waiting ? 'driver-card_waiting' : ''}`}>
+    <div className={`driver-card ${driverAnswer ? 'driver-card_waiting' : ''}`}>
       <div className={'driver-card__avatar'}>
         <Avatar src={avatarSrc} size={'medium'} mark={mark} />
       </div>
@@ -48,12 +49,21 @@ export const DriverCard: React.FC<ITripCard> = ({
       </div>
 
       <span className={'driver-card__price'}>{cost.toFixed(0)}&nbsp;₽</span>
-      <div className={`driver-card__destination ${waiting ? 'driver-card__destination_waiting' : null}`}>
+      <div className={`driver-card__destination ${driverAnswer ? 'driver-card__destination_waiting' : null}`}>
         <span>{firstName} едет до:</span>
         <span>{destination}</span>
       </div>
 
-      {waiting ? <span className={'driver-card__waiting'}>Ожидание ответа водителя</span> : null}
+      {driverAnswer === 'WAITING' ? <span className={'driver-card__waiting'}>Ожидание ответа водителя</span> : null}
+      {driverAnswer === 'CANCELLED' ? (
+        <span className={'driver-card__waiting driver-card__waiting_red'}>Поездка отменена</span>
+      ) : null}
+      {driverAnswer === 'DECLINE' ? (
+        <span className={'driver-card__waiting driver-card__waiting_red'}>Запрос отклонен</span>
+      ) : null}
+      {driverAnswer === 'ACCEPT' ? (
+        <span className={'driver-card__waiting driver-card__waiting_green'}>Запрос принят</span>
+      ) : null}
     </div>
   );
 };

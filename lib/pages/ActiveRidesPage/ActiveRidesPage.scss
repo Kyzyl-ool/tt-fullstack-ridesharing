@@ -1,0 +1,17 @@
+@import "lib/styles/colors";
+
+.nav-tab {
+  padding: 0 16px 0 16px;
+  .rsh-button {
+    width: 100%;
+    min-width: unset;
+    min-height: unset;
+    border: unset;
+    background-color: #f2f2f2;
+    color: $ui-gray-color;
+    &__filled {
+      background-color: $ui-primary-color;
+      color: $ui-white-color;
+    }
+  }
+}

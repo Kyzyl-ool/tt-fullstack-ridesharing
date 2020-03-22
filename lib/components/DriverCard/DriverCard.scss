@@ -1,3 +1,5 @@
+@import "lib/styles/colors";
+
 .driver-card {
   display: flex;
   border-radius: 10px;
@@ -15,6 +17,7 @@
     align-items: center;
     text-align: center;
     margin-top: 8px;
+    width: 50%;
   }
 
   &__avatar {
@@ -109,10 +112,19 @@
     margin: 0 auto 0 auto;
     left: 0;
     right: 0;
+
+    &_red {
+      color: $ui-error-color;
+    }
+    &_green {
+      color: $ui-primary-color;
+    }
   }
 
   &_waiting {
     min-height: 118px;
     border: 1px solid #33A852;
+
+
   }
 }

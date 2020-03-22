@@ -14,6 +14,8 @@ import { CreateOrganizationPage } from 'pages/CreateOrganizationPage';
 import { JoinOrganizationPage } from 'pages/JoinOrganizationPage';
 import { OrganizationPage } from 'pages/OrganizationPage';
 import { Auth } from 'pages/Auth';
+import { ActiveRidesPage } from 'pages/ActiveRidesPage';
+import { Welcome } from 'pages/Welcome';
 
 const App = () => {
   //TODO remove when real authorization logic will be implemeneted
@@ -61,6 +63,12 @@ const App = () => {
         </Route>
         <Route path={'/auth'}>
           <Auth />
+        </Route>
+        <Route path={'/rides'}>
+          <ActiveRidesPage />
+        </Route>
+        <Route path={'/welcome'}>
+          <Welcome />
         </Route>
         <Redirect to="/" />
       </Switch>

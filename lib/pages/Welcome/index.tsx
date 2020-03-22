@@ -1,0 +1,64 @@
+import React, { useEffect, useState } from 'react';
+import { Header } from 'components/Header';
+import { NearestOrganizationLabel } from 'components/NearestOrganizationLabel';
+import { Dialog } from 'components/Dialog/Dialog';
+import { Input } from 'components/Input';
+import { Backdrop } from 'components/Backdrop';
+import usePageState from '../../hooks/usePageState';
+import { useHistory } from 'react-router-dom';
+import './Welcome.scss';
+
+export const Welcome: React.FC = props => {
+  const [pageState, setNext, setPrev, renderForState] = usePageState(['NAMES', 'TELEGRAM', 'FINISH']);
+  const history = useHistory();
+  const [authorized, setAuthorized] = useState<boolean>(false);
+
+  useEffect(() => {
+    //fetch....
+  }, []);
+  useEffect(() => {
+    if (authorized) {
+      history.push('/');
+    }
+  }, []);
+
+  const handleNext = () => {
+    if (pageState === 'FINISH') {
+      history.push('/');
+    } else {
+      setNext();
+    }
+  };
+
+  return (
+    <div className={'welcome'}>
+      <Backdrop>
+        <Header iconType={'menu'} onIconClick={() => {}}>
+          <NearestOrganizationLabel nearestOrganizationName={'Mail.ru Corp.'} onClick={() => {}} />
+        </Header>
+
+        <Dialog onClose={handleNext} hide={false} buttonText={'Подтвердить'} cross={pageState === 'FINISH'}>
+          {renderForState(
+            'NAMES',
+            <>
+              <p className={'welcome__text'}>Добро пожаловать! Введите, пожалуйста, регистрационные данные:</p>
+              <Input id={'last-name'} placeholderText={'Фамилия'} placeholderType={'subscript'} />
+              <Input id={'first-name'} placeholderText={'Имя'} placeholderType={'subscript'} />
+            </>
+          )}
+          {renderForState(
+            'TELEGRAM',
+            <>
+              <p className={'welcome__text'}>Введите ваш Telegram для связи:</p>
+              <Input id={'telegram'} placeholderText={'Telegram'} placeholderType={'subscript'} />
+            </>
+          )}
+          {renderForState(
+            'FINISH',
+            <p className={'welcome__text'}>Поздравляем! Вы успешно зарегистрировались в приложении RideSharing!</p>
+          )}
+        </Dialog>
+      </Backdrop>
+    </div>
+  );
+};

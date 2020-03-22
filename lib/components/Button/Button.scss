@@ -13,6 +13,10 @@
   color: #33A852;
   padding: 10px;
   outline: none;
+  cursor: pointer;
+  font-style: normal;
+  font-weight: normal;
+
 
   &__filled {
     background: #33A852;
@@ -22,6 +26,7 @@
   &__disabled {
     color: #C1C1C1;
     border-color: #C1C1C1;
+    cursor: none;
   }
 
   &__disabled.rsh-button__filled {
