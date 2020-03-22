@@ -11,6 +11,7 @@ interface IInput {
   id: string;
   placeholderText: string;
   onChange?: (value: string) => void;
+  validate?: (string) => string;
 }
 
 export const Input = ({
@@ -20,13 +21,15 @@ export const Input = ({
   icon,
   id,
   placeholderText,
-  onChange = () => {}
+  onChange = () => {},
+  validate
 }: IInput) => {
   const [value, setValue] = useState<string>(defaultValue);
 
   const onInputChange = e => {
     setValue(e.target.value);
     onChange(e.target.value);
+    validate(e.target.value);
   };
 
   return (

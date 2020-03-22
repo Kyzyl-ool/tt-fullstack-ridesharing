@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import React, { useState } from 'react';
 import { CSSTransition } from 'react-transition-group';
 import './PageStateHook.scss';
 
@@ -17,7 +17,6 @@ const animationTypeToClassnames = {
 const usePageState = (states: string[]): IUsePageState => {
   console.assert(states.length > 0);
   const [currentState, setCurrentState] = useState(0);
-  const [flag, setFlag] = useState<boolean>(false);
 
   const setNext = () => {
     setCurrentState((currentState + 1) % states.length);
@@ -33,8 +32,6 @@ const usePageState = (states: string[]): IUsePageState => {
           timeout={300}
           classNames={animationTypeToClassnames[animate]}
           unmountOnExit
-          onEnter={() => setFlag(true)}
-          onExited={() => setFlag(false)}
           exit
         >
           {node}

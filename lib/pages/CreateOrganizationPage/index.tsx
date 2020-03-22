@@ -37,14 +37,14 @@ export const CreateOrganizationPage: React.FC = props => {
 
   const handleClickBack = () => {
     if (pageState === 'ENTER_NAME') {
-      history.goBack();
+      history.push('/');
     } else {
       setPrev();
     }
   };
   const handleNext = () => {
     if (pageState === 'ADDED') {
-      history.goBack();
+      history.push('/');
     } else {
       setNext();
     }
@@ -101,7 +101,7 @@ export const CreateOrganizationPage: React.FC = props => {
               </div>
             ))}
             <div className={'centerize-flex'}>
-              <Button className={'margins'} onClick={handleAddQuestion}>
+              <Button className={'margins'} onClick={handleAddQuestion} disabled>
                 Добавить
               </Button>
               <Button className={'margins'} onClick={handleRemoveQuestion} disabled={questions.length < 2}>
