@@ -38,7 +38,12 @@ export const JoinOrganizationPage: React.FC = props => {
       {renderForState(
         'CHOOSE',
         <div className={'rsh-backdrop backgrounded backgrounded_grey'}>
-          <Input id={'organization-name'} placeholderText={'Поиск организации...'} icon={<SearchIcon />} />
+          <Input
+            id={'organization-name'}
+            placeholderText={'Поиск организации...'}
+            icon={<SearchIcon />}
+            className={'join-organization-page__input'}
+          />
           <LocationsList
             locations={[
               {
@@ -48,7 +53,8 @@ export const JoinOrganizationPage: React.FC = props => {
             ]}
             onSelectLocation={handleNext}
           />
-        </div>
+        </div>,
+        'appear'
       )}
       {renderForState(
         'QUESTIONS',
@@ -62,16 +68,16 @@ export const JoinOrganizationPage: React.FC = props => {
           <Button className={'centerize centerize_bottom'} onClick={handleNext} filled>
             Отправить
           </Button>
-        </div>
+        </div>,
+        'appear'
       )}
       {renderForState(
         'FINISH',
-        <>
-          <Dialog onClose={handleNext} hide={false}>
-            Поздравляем, Вы успешно присоединились к организации “Mail.ru Corp.”! Просмотреть его вы можете в своем
-            профиле
-          </Dialog>
-        </>
+        <Dialog onClose={handleNext} hide={false}>
+          Поздравляем, Вы успешно присоединились к организации “Mail.ru Corp.”! Просмотреть его вы можете в своем
+          профиле
+        </Dialog>,
+        'appear'
       )}
     </div>
   );

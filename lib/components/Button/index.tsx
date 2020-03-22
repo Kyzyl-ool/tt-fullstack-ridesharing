@@ -8,14 +8,23 @@ interface IButtonProps {
   filled?: boolean;
   disabled?: boolean;
   onClick: () => unknown;
+  shadowed?: boolean;
 }
 
-export const Button = ({ children, filled = false, onClick, className = '', disabled = false }: IButtonProps) => {
+export const Button = ({
+  children,
+  filled = false,
+  onClick,
+  className = '',
+  disabled = false,
+  shadowed = false
+}: IButtonProps) => {
   const buttonClasses = classNames({
     'rsh-button': true,
     'rsh-button__disabled': disabled,
     'rsh-button__filled': filled,
-    [className]: true
+    [className]: true,
+    'rsh-button_shadowed': shadowed
   });
 
   return (

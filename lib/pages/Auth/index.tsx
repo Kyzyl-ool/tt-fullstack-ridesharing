@@ -49,7 +49,8 @@ export const Auth: React.FC = props => {
           <Button onClick={handleNext} filled>
             По номеру телефона
           </Button>
-        </BaseLayer>
+        </BaseLayer>,
+        'appear'
       )}
       {renderForState(
         'ENTER_PHONE',
@@ -58,7 +59,8 @@ export const Auth: React.FC = props => {
           <Button onClick={handleNext} filled disabled={waiting}>
             {waiting ? 'Ожидание...' : 'Подтвердить'}
           </Button>
-        </BaseLayer>
+        </BaseLayer>,
+        'appear'
       )}
       {renderForState(
         'SMS_CODE',
@@ -67,7 +69,8 @@ export const Auth: React.FC = props => {
           <Button onClick={handleNext} filled disabled={waiting}>
             {waiting ? 'Ожидание...' : 'Подтвердить'}
           </Button>
-        </BaseLayer>
+        </BaseLayer>,
+        'appear'
       )}
       <span className={'auth-page__authors'}>
         Кежик Кызыл-оол, Никита Израилев, Алексей Кожарин
