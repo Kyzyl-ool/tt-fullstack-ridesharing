@@ -1,20 +1,30 @@
-import React from 'react';
-import { BaseLayer } from 'components/BaseLayer/BaseLayer';
-import { Input } from 'components/Input';
-import { Button } from 'components/Button';
+import React, { Fragment } from 'react';
 import { TripInfo } from 'components/TripInfo/TripInfo';
+import { Slider } from 'components/Slider';
+import { GoBackArrow } from 'components/GoBackArrow';
+import './RideInformationBlock.scss';
 
 interface IRideInformationBlock {
+  visible: boolean;
   onCreateRide: () => void;
   onCostChange: () => void;
   onPlaceChange: () => void;
+  onGoBack: () => void;
 }
 
-const RideInformationBlock = ({ onCreateRide, onCostChange, onPlaceChange }: IRideInformationBlock) => {
+export const RideInformationBlock = ({
+  visible,
+  onCreateRide,
+  onCostChange,
+  onPlaceChange,
+  onGoBack
+}: IRideInformationBlock) => {
   return (
-    // <Slider>
-    //   <TripInfo onButtonClick={onCreateRide} onCostChange={onCostChange} onPlaceChange={onPlaceChange} />
-    // </Slider>
-    null
+    <Fragment>
+      {visible && <GoBackArrow className="ride-information-block__back-arrow" onGoBack={onGoBack} />}
+      <Slider visible={visible} from="bottom" timeout={600} unmountOnExit>
+        <TripInfo onButtonClick={onCreateRide} onCostChange={onCostChange} onPlaceChange={onPlaceChange} />
+      </Slider>
+    </Fragment>
   );
 };

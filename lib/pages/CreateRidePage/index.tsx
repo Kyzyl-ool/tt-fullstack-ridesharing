@@ -6,6 +6,7 @@ import { InitialRideBlock } from '../blocks/InitialRideBlock';
 import { OrganizationSelectBlock } from '../blocks/OrganizationSelectBlock';
 import { DestinationSelectBlock } from '../blocks/DestinationSelectBlock';
 import { userCarsStub } from '../__stubs__';
+import { RideInformationBlock } from 'pages/blocks/RideInformationBlock';
 
 type PageState =
   | 'INITIAL'
@@ -42,7 +43,15 @@ export const CreateRidePage = () => {
     setPageState('CAR_CHOOSING');
   };
 
-  const onPaymentConfirmed = () => {
+  const onReturnToCarChoosing = () => {
+    setPageState('CAR_CHOOSING');
+  };
+
+  const onCarSelect = () => {
+    setPageState('RIDE_INFORMATION');
+  };
+
+  const onCreateRide = () => {
     setPageState('DONE');
   };
 
@@ -68,12 +77,17 @@ export const CreateRidePage = () => {
           visible={pageState === 'CAR_CHOOSING'}
           onGoBack={onReturnToDestinationChoosing}
           onCarInfoChange={() => {}}
-          onCarSelect={() => {}}
+          onCarSelect={onCarSelect}
           onDelete={() => {}}
+        />
+        <RideInformationBlock
+          visible={pageState === 'RIDE_INFORMATION'}
+          onCreateRide={onCreateRide}
+          onGoBack={onReturnToCarChoosing}
         />
         {pageState === 'DONE' && (
           <Dialog hide={false}>
-            Запрос на присоединение к поездке отправлен. Ответ водителя будет направлен вам по push-уведомлению
+            Новая поездка успешно создана. Запросы от пассажиров будут направлены вам push-уведомлением.
           </Dialog>
         )}
       </Backdrop>
