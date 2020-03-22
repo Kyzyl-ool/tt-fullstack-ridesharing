@@ -13,4 +13,10 @@
     justify-content: center;
     margin-top: 32px;
   }
+
+  &__back-arrow {
+    position: fixed;
+    top: 32px;
+    left: 38px;
+  }
 }

@@ -3,6 +3,7 @@ import { BaseLayer } from 'components/BaseLayer/BaseLayer';
 import { CarCard } from 'components/CarCard';
 import { Slider } from 'components/Slider';
 import { Button } from 'components/Button';
+import { GoBackArrow } from 'components/GoBackArrow';
 import { ICar } from 'domain/car';
 import './CarSelectBlock.scss';
 
@@ -17,9 +18,17 @@ interface ICarSelectBlock {
   onDelete: (carId: string) => void;
 }
 
-export const CarSelectBlock = ({ visible, userCars, onDelete, onCarInfoChange, onCarSelect }: ICarSelectBlock) => {
+export const CarSelectBlock = ({
+  visible,
+  userCars,
+  onGoBack,
+  onDelete,
+  onCarInfoChange,
+  onCarSelect
+}: ICarSelectBlock) => {
   return (
     <Fragment>
+      {visible && <GoBackArrow onGoBack={onGoBack} className="car-select-block__back-arrow" />}
       <Slider visible={visible} timeout={600} from="bottom" unmountOnExit>
         <BaseLayer type="secondary" header="Выберите автомобиль" className="car-select-block__layer">
           <div className="car-select-block__cards">
