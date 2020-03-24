@@ -1,7 +1,7 @@
 /* eslint-disable @typescript-eslint/no-empty-function */
 import React, { useEffect } from 'react';
 import { BrowserRouter as Router, Switch, Route, Redirect } from 'react-router-dom';
-import { CreateRidePage } from './pages/_CreateRidePage';
+import { CreateRidePage } from './pages/CreateRidePage';
 import { JoinRidePage } from './pages/JoinRidePage';
 import { MainPage } from './pages/MainPage';
 import { TripCard } from './components/TripCard/TripCard';
@@ -57,9 +57,6 @@ const App = () => {
         </Route>
         <Route path={'/trips'}>
           <FoundTrips trips={sampleFoundTrips} />w
-        </Route>
-        <Route path={'/searching'}>
-          <SearchingWindow from={'Mail.ru Corp'} to={'Российская академия наук'} />
         </Route>
         <Route path={'/auth'}>
           <Auth />

@@ -33,9 +33,9 @@ export const Input = ({
   };
 
   return (
-    <div className={`input ${className}`}>
+    <div className={`rsh-input ${className}`}>
       {icon && (
-        <div className={'input__icon'}>
+        <div className={'rsh-input__icon'}>
           <label form={id}>{icon}</label>
         </div>
       )}
@@ -44,10 +44,10 @@ export const Input = ({
         value={value}
         onChange={e => onInputChange(e)}
         placeholder={placeholderType === 'default' && placeholderText}
-        className={`input__form ${icon ? 'input__form--with-icon' : ''}`}
+        className={`rsh-input__form ${icon ? 'rsh-input__form--with-icon' : ''}`}
         type={'text'}
       />
-      {placeholderType === 'subscript' && <caption className={'input__caption'}>{placeholderText}</caption>}
+      {placeholderType === 'subscript' && <caption className={'rsh-input__caption'}>{placeholderText}</caption>}
     </div>
   );
 };

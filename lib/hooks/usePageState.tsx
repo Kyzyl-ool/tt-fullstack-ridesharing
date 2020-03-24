@@ -10,7 +10,7 @@ type IUsePageState = [
   (key: string, node: React.ReactNode, animate?: AnimationType) => React.ReactNode
 ];
 
-const animationTypeToClassnames = {
+const animationClasses = {
   ['appear']: 'page-state-animations',
   ['slideTop']: 'page-state-animation-slide-top',
   ['slideBottom']: 'page-state-animation-slide-bottom'
@@ -26,13 +26,13 @@ const usePageState = (states: string[]): IUsePageState => {
   const setPrev = () => {
     setCurrentState((currentState - 1) % states.length);
   };
-  const renderForState = (key, node, animate = 'none'): React.ReactNode => {
-    if (animate !== 'none') {
+  const renderForState = (key, node, animationType = 'none'): React.ReactNode => {
+    if (animationType !== 'none') {
       return (
         <CSSTransition
           in={key === states[currentState]}
           timeout={300}
-          classNames={animationTypeToClassnames[animate]}
+          classNames={animationClasses[animationType]}
           unmountOnExit
           exit
         >

@@ -17,13 +17,13 @@
     margin-left: 4px;
     display: flex;
     flex-direction: column;
+    max-width: 130px;
   }
 
   &__text {
     color: $ui-gray-color;
     font-size: 8px;
     line-height: 10px;
-    text-align: center;
     text-transform: uppercase;
   }
 
@@ -32,5 +32,8 @@
     font-weight: bold;
     font-size: 12px;
     line-height: 15px;
+    overflow: hidden;
+    white-space: nowrap;
+    text-overflow: ellipsis;
   }
 }

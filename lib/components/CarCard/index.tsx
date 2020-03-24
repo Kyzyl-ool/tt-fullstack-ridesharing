@@ -1,9 +1,10 @@
 import React, { useState } from 'react';
-import './CarCard.scss';
 import penSrc from '../../icons/Pen.svg';
 import trashSrc from '../../icons/Trash.svg';
 import okSrc from '../../icons/Ok.svg';
 import { UnstyledInput } from '../UnstyledInput/UnstyledInput';
+import { ICar } from 'domain/car';
+import './CarCard.scss';
 
 export type CarDataType = {
   id: number;
@@ -14,16 +15,12 @@ export type CarDataType = {
 };
 
 interface ICarCard {
-  name: string;
-  number: string;
-  color: string;
-  text: string;
-  id: any;
+  car: ICar;
   onDelete: (any) => any;
-  onNewChanges: (any, NewDataType) => any;
+  onChange: (any, NewDataType) => any;
 }
 
-export const CarCard: React.FC<ICarCard> = ({ name, number, color, text, id, onDelete, onNewChanges, ...rest }) => {
+export const CarCard: React.FC<ICarCard> = ({ car: { name, number, color, text, id }, onDelete, onChange }) => {
   const [editing, setEditing] = useState<boolean>(false);
 
   const handleEdit = () => {
@@ -32,7 +29,7 @@ export const CarCard: React.FC<ICarCard> = ({ name, number, color, text, id, onD
   const handleSubmit: (any) => any = e => {
     e.preventDefault();
     setEditing(false);
-    onNewChanges(id, {
+    onChange(id, {
       name: e.target.name.value,
       number: e.target.number.value,
       color: e.target.color.value

@@ -21,3 +21,27 @@ export const locationsListStub = [
 ];
 
 export const currentOrganizationStub = 'Mail.ru Corp';
+
+export const userCarsStub = [
+  {
+    name: 'Audi Q8',
+    color: 'черный',
+    number: '(TY901O)',
+    id: 8,
+    text: 'пассажиры в среднем оценивают чистоту салона на 9.1/10'
+  },
+  {
+    name: 'Audi Q8',
+    color: 'черный',
+    number: '(TY901O)',
+    id: 89,
+    text: 'пассажиры в среднем оценивают чистоту салона на 9.1/10'
+  },
+  {
+    name: 'Audi Q8',
+    color: 'черный',
+    number: '(TY901O)',
+    id: 80,
+    text: 'пассажиры в среднем оценивают чистоту салона на 9.1/10'
+  }
+];

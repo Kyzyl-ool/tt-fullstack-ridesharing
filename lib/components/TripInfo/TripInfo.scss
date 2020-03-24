@@ -1,0 +1,26 @@
+.trip-info {
+  &__layer {
+    position: fixed;
+    bottom: 0;
+    width: 100%;
+  }
+
+  &__input {
+    margin: 9px 0;
+  }
+
+  &__form {
+    width: 311px;
+    padding: 0 24px;
+  }
+
+  &__button {
+    min-width: 233px;
+  }
+
+  &__button-wrapper {
+    margin-top: 24px;
+    display: flex;
+    justify-content: center;
+  }
+}
