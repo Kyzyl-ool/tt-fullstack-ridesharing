@@ -10,7 +10,8 @@
       "hoc/*": ["lib/hoc/*"],
       "models/*": ["lib/models/*"],
       "hooks/*": ["lib/hooks/*"],
-      "domain/*": ["lib/domain/*"]
+      "domain/*": ["lib/domain/*"],
+      "store/*": ["lib/store/*"]
     },
     "lib": ["dom", "dom.iterable", "esnext"],
     "allowJs": true,
