@@ -1,7 +1,9 @@
 // Template from https://uber.github.io/react-map-gl/docs/get-started/get-started
 import React, { useState, ReactNode } from 'react';
+import { useDispatch } from 'react-redux';
 import classNames from 'classnames';
-import ReactMapGL, { ViewportProps, PointerEvent } from 'react-map-gl';
+import ReactMapGL, { PointerEvent } from 'react-map-gl';
+import { updateGeopositionAction } from 'store/actions/mapActions';
 import './Map.scss';
 
 interface IMapProps {
@@ -16,6 +18,8 @@ export const Map = ({ className = '', onViewportChange }: IMapProps) => {
     [className]: true
   });
 
+  const dispatch = useDispatch();
+
   const [viewport, setViewport] = useState({
     // type assertion is here 'cause library does not
     // know width and height could be strings
@@ -29,6 +33,7 @@ export const Map = ({ className = '', onViewportChange }: IMapProps) => {
   const onMapPositionChanged = ({ lngLat: [longitude, latitude] }: PointerEvent) => {
     if (onViewportChange) {
       onViewportChange({ longitude, latitude });
+      dispatch(updateGeopositionAction({ longitude, latitude }));
     }
   };
 

@@ -31,6 +31,6 @@ export default class UserModel implements User {
 
   static login = async () => {
     // TODO implement real authorization logic when authorization will be ready
-    await axios.post(`/api/login`, { login: 'admin@gmail.com', password: '12345' }, { withCredentials: true });
+    await axios.post(`/api/login`, { login: 'user_23@gmail.com', password: '12345' }, { withCredentials: true });
   };
 }

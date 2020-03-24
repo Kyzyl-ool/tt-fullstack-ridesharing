@@ -49,7 +49,10 @@ module.exports = {
       styles: path.resolve(__dirname, 'lib/styles/'),
       samples: path.resolve(__dirname, 'lib/samples/'),
       hoc: path.resolve(__dirname, 'lib/hoc/'),
-      models: path.resolve(__dirname, 'lib/models/')
+      hooks: path.resolve(__dirname, 'lib/hooks/'),
+      models: path.resolve(__dirname, 'lib/models/'),
+      domain: path.resolve(__dirname, 'lib/domain/'),
+      store: path.resolve(__dirname, 'lib/store/')
     }
   },
   module: {
