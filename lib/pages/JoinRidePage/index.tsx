@@ -56,19 +56,9 @@ export const JoinRidePage = () => {
     setPageState('DONE');
   };
 
-  const onMapViewportChange = async ({ latitude, longitude }) => {
-    try {
-      console.log({ latitude, longitude });
-      const data = await MapModel.getNearestOrganization({ latitude, longitude });
-      console.log(data);
-    } catch (e) {
-      console.log(e);
-    }
-  };
-
   return (
     <div>
-      <Backdrop onMapViewportChange={onMapViewportChange}>
+      <Backdrop>
         {pageState === 'INITIAL' && <InitialRideBlock onInputClick={onStartOrganizationChoosing} />}
         <OrganizationSelectBlock
           visible={pageState === 'ORGANIZATION_CHOOSING'}

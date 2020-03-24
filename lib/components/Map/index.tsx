@@ -10,9 +10,10 @@ interface IMapProps {
   className?: string;
   children?: ReactNode;
   onViewportChange?: (newPosition: { longitude: number; latitude: number }) => void;
+  onMapClicked?: (newPosition: { longitude: number; latitude: number }) => void;
 }
 
-export const Map = ({ className = '', onViewportChange }: IMapProps) => {
+export const Map = ({ className = '', onViewportChange, onMapClicked }: IMapProps) => {
   const mapClassNames = classNames({
     'rsh-map': true,
     [className]: true
@@ -33,7 +34,14 @@ export const Map = ({ className = '', onViewportChange }: IMapProps) => {
   const onMapPositionChanged = ({ lngLat: [longitude, latitude] }: PointerEvent) => {
     if (onViewportChange) {
       onViewportChange({ longitude, latitude });
-      dispatch(updateGeopositionAction({ longitude, latitude }));
+    }
+    dispatch(updateGeopositionAction({ longitude, latitude }));
+  };
+
+  const onClick = ({ lngLat: [longitude, latitude] }: PointerEvent) => {
+    setViewport({ ...viewport, longitude, latitude });
+    if (onMapClicked) {
+      onMapClicked({ longitude, latitude });
     }
   };
 
@@ -43,6 +51,7 @@ export const Map = ({ className = '', onViewportChange }: IMapProps) => {
         {...viewport}
         onMouseUp={onMapPositionChanged}
         onTouchEnd={onMapPositionChanged}
+        onClick={onClick}
         onViewportChange={setViewport}
         mapboxApiAccessToken={process.env.MAPBOX_TOKEN}
         mapStyle="mapbox://styles/shinnik/ck18kcqmj04q61cqnjc7o84qs"
