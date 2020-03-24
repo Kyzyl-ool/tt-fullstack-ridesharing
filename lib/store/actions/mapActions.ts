@@ -16,5 +16,5 @@ export const updateGeopositionAction = ({ latitude, longitude }) => async dispat
     }
   });
   const nearestOrganizationsList = await MapModel.getNearestOrganization({ latitude, longitude });
-  dispatch(updateNearestOrganizationAction(nearestOrganizationsList[0].address));
+  dispatch(updateNearestOrganizationAction(nearestOrganizationsList[0].name));
 };
