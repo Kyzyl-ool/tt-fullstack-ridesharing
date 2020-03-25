@@ -7,7 +7,7 @@ import { OrganizationSelectBlock } from 'pages/blocks/OrganizationSelectBlock';
 import { DestinationSelectBlock } from 'pages/blocks/DestinationSelectBlock';
 import { SearchRideBlock } from 'pages/blocks/SearchRideBlock';
 import { InitialRideBlock } from 'pages/blocks/InitialRideBlock';
-import MapModel from 'models/MapModel';
+import { IDestination, ILocation } from 'domain/map';
 import { sampleFoundTrips } from '../../samples/samples';
 import './JoinRidePage.scss';
 
@@ -22,6 +22,12 @@ type PageState =
 
 export const JoinRidePage = () => {
   const [pageState, setPageState] = useState<PageState>('INITIAL');
+  const [rideSearchingInformation, setRideSearchingInformation] = useState({
+    startOrganizationId: null,
+    latitude: null,
+    longitude: null
+  });
+  const [selectedOrganizationName, setSelectedOrganizationName] = useState('');
 
   const onStartOrganizationChoosing = () => {
     setPageState('ORGANIZATION_CHOOSING');
@@ -39,11 +45,16 @@ export const JoinRidePage = () => {
     setPageState('DESTINATION_CHOOSING');
   };
 
-  const onSelectOrganization = () => {
+  const onSelectOrganization = (organization: ILocation) => {
+    console.log(organization);
+    setRideSearchingInformation({ ...rideSearchingInformation, startOrganizationId: organization.id });
+    setSelectedOrganizationName(organization.name);
     setPageState('DESTINATION_CHOOSING');
   };
 
-  const onSelectDestination = () => {
+  const onSelectDestination = ({ latitude, longitude }: IDestination['gps']) => {
+    setRideSearchingInformation({ ...rideSearchingInformation, latitude, longitude });
+    // TODO implement async request /ride/match
     setPageState('SEARCHING');
     setTimeout(() => setPageState('SEARCH_COMPLETED'), 3000);
   };
@@ -69,6 +80,7 @@ export const JoinRidePage = () => {
           visible={pageState === 'DESTINATION_CHOOSING'}
           onGoBack={onReturnToOrganizationChoosing}
           onSelectDestination={onSelectDestination}
+          startOrganizationName={selectedOrganizationName}
         />
         <SearchRideBlock onShowMenu={() => {}} visible={pageState === 'SEARCHING'} from="" to="" />
         {pageState === 'SEARCH_COMPLETED' && <FoundTrips onSendRequest={onSendRequest} trips={sampleFoundTrips} />}

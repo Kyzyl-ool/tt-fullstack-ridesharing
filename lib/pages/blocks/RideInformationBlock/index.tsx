@@ -7,8 +7,8 @@ import './RideInformationBlock.scss';
 interface IRideInformationBlock {
   visible: boolean;
   onCreateRide: () => void;
-  onCostChange: () => void;
-  onPlaceChange: () => void;
+  onPlaceChange: (placeNumber: string) => void;
+  onCostChange: (cost: string) => void;
   onGoBack: () => void;
 }
 

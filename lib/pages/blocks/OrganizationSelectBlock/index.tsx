@@ -4,26 +4,21 @@ import { Slider } from 'components/Slider';
 import { LocationsList } from 'components/LocationsList';
 import { NearestOrganizationLabel } from 'components/NearestOrganizationLabel';
 import { organizationsListStub } from 'pages/__stubs__';
+import { ILocation } from 'domain/map';
 import './OrganizationSelectBlock.scss';
 
 interface IOrganizationSelectBlock {
   onGoBack: () => void;
-  nearestOrganizationName: string;
-  onSelectOrganization: () => void;
+  onSelectOrganization: (location: ILocation) => void;
   visible: boolean;
 }
 
-export const OrganizationSelectBlock = ({
-  onGoBack,
-  visible,
-  onSelectOrganization,
-  nearestOrganizationName
-}: IOrganizationSelectBlock) => {
+export const OrganizationSelectBlock = ({ onGoBack, visible, onSelectOrganization }: IOrganizationSelectBlock) => {
   return (
     <Fragment>
       {visible && (
         <Header iconType="back" onIconClick={onGoBack}>
-          <NearestOrganizationLabel nearestOrganizationName={nearestOrganizationName} onClick={() => {}} />
+          <NearestOrganizationLabel onClick={() => {}} />
         </Header>
       )}
       <Slider visible={visible} from="bottom" timeout={600} unmountOnExit>

@@ -1,18 +1,32 @@
-import React, { Fragment } from 'react';
+import React, { Fragment, useState } from 'react';
 import { Header } from 'components/Header';
 import { Slider } from 'components/Slider';
-import { LocationsList } from 'components/LocationsList';
 import { Input } from 'components/Input';
-import { locationsListStub } from 'pages/__stubs__';
+import { DestinationsList } from 'components/DestinationsList';
+import { IDestination } from 'domain/map';
 import './DestinationSelectBlock.scss';
+import MapModel from 'models/MapModel';
 
 interface IDestinationSelectBlock {
   onGoBack: () => void;
-  onSelectDestination: () => void;
+  onSelectDestination: (gps: IDestination['gps']) => void;
+  startOrganizationName: string;
   visible: boolean;
 }
 
-export const DestinationSelectBlock = ({ onGoBack, visible, onSelectDestination }: IDestinationSelectBlock) => {
+export const DestinationSelectBlock = ({
+  onGoBack,
+  visible,
+  onSelectDestination,
+  startOrganizationName
+}: IDestinationSelectBlock) => {
+  const [matchedDestinations, setMatchedDestinations] = useState([]);
+
+  const onDestinationSearch = async (value: string) => {
+    const destinations = await MapModel.forwardGeocoding(value);
+    setMatchedDestinations(destinations);
+  };
+
   return (
     <Fragment>
       {visible && (
@@ -25,7 +39,7 @@ export const DestinationSelectBlock = ({ onGoBack, visible, onSelectDestination 
           <div className="destination-select-block__input-form">
             <Input
               id="departure"
-              defaultValue="Mail.ru Corp."
+              defaultValue={startOrganizationName}
               className="destination-select-block__input"
               placeholderText=""
               icon={<div className="destination-select-block__input-icon--from" />}
@@ -35,10 +49,11 @@ export const DestinationSelectBlock = ({ onGoBack, visible, onSelectDestination 
               className="destination-select-block__input"
               placeholderText=""
               icon={<div className="destination-select-block__input-icon--to" />}
+              onChange={onDestinationSearch}
             />
           </div>
           <div className="destination-select-block__destinations-list">
-            <LocationsList text="" locations={locationsListStub} onSelectLocation={onSelectDestination} />
+            <DestinationsList text="" destinations={matchedDestinations} onSelectDestination={onSelectDestination} />
           </div>
         </div>
       </Slider>
