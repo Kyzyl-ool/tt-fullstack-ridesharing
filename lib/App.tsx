@@ -16,6 +16,7 @@ import { OrganizationPage } from 'pages/OrganizationPage';
 import { Auth } from 'pages/Auth';
 import { ActiveRidesPage } from 'pages/ActiveRidesPage';
 import { Welcome } from 'pages/Welcome';
+import { RidesHistoryPage } from 'pages/RidesHistory';
 
 const App = () => {
   //TODO remove when real authorization logic will be implemeneted
@@ -66,6 +67,9 @@ const App = () => {
         </Route>
         <Route path={'/welcome'}>
           <Welcome />
+        </Route>
+        <Route path={'/ride/history'}>
+          <RidesHistoryPage />
         </Route>
         <Redirect to="/" />
       </Switch>

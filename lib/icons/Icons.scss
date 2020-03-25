@@ -8,4 +8,20 @@
   &_search {
     background: $search-icon no-repeat;
   }
+
+  &_dot {
+    background: $dot-icon no-repeat;
+  }
+
+  &_map-point {
+    background: $current-point-icon no-repeat;
+  }
+
+  &_medium {
+    transform: scale(1);
+  }
+
+  &_small {
+    transform: scale(0.5);
+  }
 }

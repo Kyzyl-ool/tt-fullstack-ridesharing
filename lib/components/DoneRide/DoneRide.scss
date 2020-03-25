@@ -1,0 +1,75 @@
+@import "lib/styles/colors";
+
+.done-ride-card {
+  margin: 8px 0 0 0;
+  border-radius: 10px;
+  background-color: $ui-white-color;
+  display: flex;
+  padding: 16px 24px 16px 24px;
+
+  &__left-side {
+    width: 66%;
+  }
+
+  &__divider {
+    width: 1px;
+    background-color: $ui-primary-color;
+    margin: 0 17px 0 17px;
+  }
+
+  &__right-side {
+    width: 33%;
+    display: flex;
+    flex-direction: column;
+  }
+}
+
+.u-button {
+  color: $ui-primary-color;
+  cursor: pointer;
+}
+
+.caption {
+  font-family: 'Source Sans Pro', sans-serif;
+  font-style: normal;
+  font-weight: normal;
+  font-size: 6px;
+  line-height: 8px;
+  /* identical to box height */
+
+  display: flex;
+  align-items: center;
+  text-transform: uppercase;
+
+  /* UI / Gray */
+
+  color: #989898;
+
+}
+
+
+.shadowed {
+  box-shadow: 0px 4px 4px rgba(0, 0, 0, 0.25);
+}
+
+.ride-cost-label {
+  font-family: 'Source Sans Pro', sans-serif;
+  font-style: normal;
+  font-weight: normal;
+  font-size: 8px;
+  line-height: 10px;
+  display: flex;
+  align-items: center;
+  text-align: center;
+
+  color: #000000;
+
+  &-numbers {
+    font-family: 'Source Sans Pro', sans-serif;
+    font-style: normal;
+    font-weight: bold;
+    font-size: 12px;
+    line-height: 15px;
+    color: #000000;
+  }
+}

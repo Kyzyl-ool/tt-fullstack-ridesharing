@@ -54,11 +54,23 @@
 .flex-row {
   display: flex;
   align-items: center;
+
+  &_center {
+    justify-content: center;
+  }
 }
 
 .flex-column {
   display: flex;
   flex-direction: column;
+
+  &_center {
+    align-items: center;
+  }
+
+  &_space-evenly {
+    justify-content: space-evenly;
+  }
 }
 
 .margin {
@@ -68,4 +80,51 @@
 .underlined-clickable {
   cursor: pointer;
   color: $ui-primary-color;
+}
+
+.driver-name {
+  font-family: 'Source Sans Pro', sans-serif;
+  font-style: normal;
+  font-weight: bold;
+  font-size: 10px;
+  line-height: 13px;
+  /* identical to box height */
+
+  display: flex;
+  align-items: center;
+
+  color: #000000;
+
+}
+
+.from-to-string {
+  font-family: 'Source Sans Pro', sans-serif;
+  font-style: normal;
+  font-weight: normal;
+  font-size: 8px;
+  line-height: 10px;
+  /* identical to box height */
+
+  display: flex;
+  align-items: center;
+  text-align: center;
+
+  color: #000000;
+}
+
+.date-label {
+  font-family: 'Source Sans Pro', sans-serif;
+  font-style: normal;
+  font-weight: bold;
+  font-size: 10px;
+  line-height: 13px;
+  /* identical to box height */
+
+  display: flex;
+  align-items: center;
+  text-align: center;
+
+  /* UI / Gray */
+
+  color: #989898;
 }
