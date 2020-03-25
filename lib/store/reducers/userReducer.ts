@@ -5,7 +5,7 @@
 const defaultState = {
   latitude: null,
   longitude: null,
-  nearestOrganization: 'Нет организаций'
+  nearestOrganization: 'N/A'
 };
 
 export const userReducer = (state = defaultState, action) => {

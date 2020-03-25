@@ -1,5 +1,5 @@
 // Template from https://uber.github.io/react-map-gl/docs/get-started/get-started
-import React, { useState, ReactNode } from 'react';
+import React, { useState, ReactNode, useEffect } from 'react';
 import { useDispatch } from 'react-redux';
 import classNames from 'classnames';
 import ReactMapGL, { PointerEvent } from 'react-map-gl';
@@ -30,6 +30,20 @@ export const Map = ({ className = '', onViewportChange, onMapClicked }: IMapProp
     longitude: 37.5377682,
     zoom: 17
   });
+
+  // const [currentPosition, setCurrentPosition] = useState(null);
+
+  const getInitialUserGeoposition = () => {
+    navigator.geolocation.getCurrentPosition(({ coords: { latitude, longitude } }: Position) => {
+      // setCurrentPosition({ latitude, longitude });
+      setViewport({ ...viewport, latitude, longitude });
+      dispatch(updateGeopositionAction({ longitude, latitude }));
+    });
+  };
+
+  useEffect(() => {
+    getInitialUserGeoposition();
+  }, []);
 
   const onMapPositionChanged = ({ lngLat: [longitude, latitude] }: PointerEvent) => {
     if (onViewportChange) {
