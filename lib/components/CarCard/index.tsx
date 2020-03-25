@@ -1,4 +1,5 @@
 import React, { useState } from 'react';
+import classNames from 'classnames';
 import penSrc from '../../icons/Pen.svg';
 import trashSrc from '../../icons/Trash.svg';
 import okSrc from '../../icons/Ok.svg';
@@ -7,7 +8,7 @@ import { ICar } from 'domain/car';
 import './CarCard.scss';
 
 export type CarDataType = {
-  id: number;
+  id: string;
   text: string;
   name: string;
   number: string;
@@ -15,12 +16,25 @@ export type CarDataType = {
 };
 
 interface ICarCard {
+  isCardSelected: boolean;
   car: ICar;
   onDelete: (any) => any;
   onChange: (any, NewDataType) => any;
+  onClick: (carId: string) => void;
 }
 
-export const CarCard: React.FC<ICarCard> = ({ car: { name, number, color, text, id }, onDelete, onChange }) => {
+export const CarCard: React.FC<ICarCard> = ({
+  isCardSelected,
+  car: { name, number, color, text, id },
+  onDelete,
+  onChange,
+  onClick
+}) => {
+  const carCardClassNames = classNames({
+    'car-card': true,
+    'car-card--selected': isCardSelected
+  });
+
   const [editing, setEditing] = useState<boolean>(false);
 
   const handleEdit = () => {
@@ -36,8 +50,12 @@ export const CarCard: React.FC<ICarCard> = ({ car: { name, number, color, text, 
     });
   };
 
+  const onCardClick = () => {
+    onClick(id);
+  };
+
   return (
-    <li className={`car-card`}>
+    <li className={carCardClassNames} onClick={onCardClick}>
       <form style={{ textAlign: 'center', display: editing ? '' : 'none' }} onSubmit={handleSubmit} id={'car-form'}>
         <UnstyledInput value={name} className={'car-card__name'} name={'name'} />
         <UnstyledInput value={number} className={'car-card__number'} name={'number'} />

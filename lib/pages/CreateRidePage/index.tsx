@@ -7,6 +7,7 @@ import { OrganizationSelectBlock } from '../blocks/OrganizationSelectBlock';
 import { DestinationSelectBlock } from '../blocks/DestinationSelectBlock';
 import { userCarsStub } from '../__stubs__';
 import { RideInformationBlock } from 'pages/blocks/RideInformationBlock';
+import { ILocation, IDestination } from 'domain/map';
 
 type PageState =
   | 'INITIAL'
@@ -18,6 +19,16 @@ type PageState =
 
 export const CreateRidePage = () => {
   const [pageState, setPageState] = useState<PageState>('INITIAL');
+  const [rideCreationInfo, setRideCreationInfo] = useState({
+    carId: null,
+    organizationId: null,
+    latitude: null,
+    longitude: null,
+    amountOfSeats: null,
+    cost: null,
+    paymentMethod: 'BY_CASH'
+  });
+  const [selectedOrganizationName, setSelectedOrganizationName] = useState('');
 
   const onStartOrganizationChoosing = () => {
     setPageState('ORGANIZATION_CHOOSING');
@@ -35,11 +46,14 @@ export const CreateRidePage = () => {
     setPageState('DESTINATION_CHOOSING');
   };
 
-  const onSelectOrganization = () => {
+  const onSelectOrganization = (organization: ILocation) => {
+    setRideCreationInfo({ ...rideCreationInfo, organizationId: organization.id });
+    setSelectedOrganizationName(organization.name);
     setPageState('DESTINATION_CHOOSING');
   };
 
-  const onSelectDestination = () => {
+  const onSelectDestination = ({ latitude, longitude }: IDestination['gps']) => {
+    setRideCreationInfo({ ...rideCreationInfo, latitude, longitude });
     setPageState('CAR_CHOOSING');
   };
 
@@ -47,23 +61,30 @@ export const CreateRidePage = () => {
     setPageState('CAR_CHOOSING');
   };
 
-  const onCarSelect = () => {
+  const onCarSelect = (carId: string) => {
+    setRideCreationInfo({ ...rideCreationInfo, carId });
     setPageState('RIDE_INFORMATION');
   };
 
   const onCreateRide = () => {
+    // TODO implement async request PUT /ride
     setPageState('DONE');
+  };
+
+  const onPlaceChange = (amountOfSeats: string) => {
+    setRideCreationInfo({ ...rideCreationInfo, amountOfSeats });
+  };
+
+  const onCostChange = (cost: string) => {
+    setRideCreationInfo({ ...rideCreationInfo, cost });
   };
 
   return (
     <div>
       <Backdrop>
-        {pageState === 'INITIAL' && (
-          <InitialRideBlock nearestOrganizationName="Mail.ru Corp." onInputClick={onStartOrganizationChoosing} />
-        )}
+        {pageState === 'INITIAL' && <InitialRideBlock onInputClick={onStartOrganizationChoosing} />}
         <OrganizationSelectBlock
           visible={pageState === 'ORGANIZATION_CHOOSING'}
-          nearestOrganizationName="Mail.ru Corp."
           onGoBack={onReturnToInitial}
           onSelectOrganization={onSelectOrganization}
         />
@@ -71,6 +92,7 @@ export const CreateRidePage = () => {
           visible={pageState === 'DESTINATION_CHOOSING'}
           onGoBack={onReturnToOrganizationChoosing}
           onSelectDestination={onSelectDestination}
+          startOrganizationName={selectedOrganizationName}
         />
         <CarSelectBlock
           userCars={userCarsStub}
@@ -84,6 +106,8 @@ export const CreateRidePage = () => {
           visible={pageState === 'RIDE_INFORMATION'}
           onCreateRide={onCreateRide}
           onGoBack={onReturnToCarChoosing}
+          onCostChange={onCostChange}
+          onPlaceChange={onPlaceChange}
         />
         {pageState === 'DONE' && (
           <Dialog hide={false}>

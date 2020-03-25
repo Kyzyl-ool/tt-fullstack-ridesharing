@@ -1,9 +1,9 @@
 import React from 'react';
-import './SearchingPage.scss';
 import { BaseLayer } from 'components/BaseLayer/BaseLayer';
 import { ProgressBar } from 'components/ProgressBar';
 import { Button } from 'components/Button';
 import { useCountUp } from 'react-countup';
+import './SearchingPage.scss';
 
 interface ISearchingWindow {
   from: string;

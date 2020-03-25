@@ -1,5 +1,5 @@
 // Template from https://uber.github.io/react-map-gl/docs/get-started/get-started
-import React, { useState, ReactNode } from 'react';
+import React, { useState, ReactNode, useEffect } from 'react';
 import { useDispatch } from 'react-redux';
 import classNames from 'classnames';
 import ReactMapGL, { PointerEvent } from 'react-map-gl';
@@ -10,9 +10,10 @@ interface IMapProps {
   className?: string;
   children?: ReactNode;
   onViewportChange?: (newPosition: { longitude: number; latitude: number }) => void;
+  onMapClicked?: (newPosition: { longitude: number; latitude: number }) => void;
 }
 
-export const Map = ({ className = '', onViewportChange }: IMapProps) => {
+export const Map = ({ className = '', onViewportChange, onMapClicked }: IMapProps) => {
   const mapClassNames = classNames({
     'rsh-map': true,
     [className]: true
@@ -30,10 +31,31 @@ export const Map = ({ className = '', onViewportChange }: IMapProps) => {
     zoom: 17
   });
 
+  // const [currentPosition, setCurrentPosition] = useState(null);
+
+  const getInitialUserGeoposition = () => {
+    navigator.geolocation.getCurrentPosition(({ coords: { latitude, longitude } }: Position) => {
+      // setCurrentPosition({ latitude, longitude });
+      setViewport({ ...viewport, latitude, longitude });
+      dispatch(updateGeopositionAction({ longitude, latitude }));
+    });
+  };
+
+  useEffect(() => {
+    getInitialUserGeoposition();
+  }, []);
+
   const onMapPositionChanged = ({ lngLat: [longitude, latitude] }: PointerEvent) => {
     if (onViewportChange) {
       onViewportChange({ longitude, latitude });
-      dispatch(updateGeopositionAction({ longitude, latitude }));
+    }
+    dispatch(updateGeopositionAction({ longitude, latitude }));
+  };
+
+  const onClick = ({ lngLat: [longitude, latitude] }: PointerEvent) => {
+    setViewport({ ...viewport, longitude, latitude });
+    if (onMapClicked) {
+      onMapClicked({ longitude, latitude });
     }
   };
 
@@ -43,6 +65,7 @@ export const Map = ({ className = '', onViewportChange }: IMapProps) => {
         {...viewport}
         onMouseUp={onMapPositionChanged}
         onTouchEnd={onMapPositionChanged}
+        onClick={onClick}
         onViewportChange={setViewport}
         mapboxApiAccessToken={process.env.MAPBOX_TOKEN}
         mapStyle="mapbox://styles/shinnik/ck18kcqmj04q61cqnjc7o84qs"

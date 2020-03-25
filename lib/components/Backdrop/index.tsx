@@ -7,12 +7,13 @@ interface IBackdropProps {
   children: ReactNode;
   mapClassName?: string;
   onMapViewportChange?: (viewport: ViewportProps) => Promise<void>;
+  onMapClicked?: (newPosition: { longitude: number; latitude: number }) => void;
 }
 
-export const Backdrop = ({ children, mapClassName = '', onMapViewportChange }: IBackdropProps) => {
+export const Backdrop = ({ children, mapClassName = '', onMapViewportChange, onMapClicked }: IBackdropProps) => {
   return (
     <div className="rsh-backdrop">
-      <Map onViewportChange={onMapViewportChange} className="rsh-backdrop__map" />
+      <Map onMapClicked={onMapClicked} onViewportChange={onMapViewportChange} className="rsh-backdrop__map" />
       {children}
     </div>
   );

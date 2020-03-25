@@ -1,22 +1,30 @@
 export const organizationsListStub = [
   {
+    id: 'mail',
     name: 'Mail.ru Corp.',
     address: 'Ленинградский проспект, д.39 стр.79'
   },
   {
+    id: 'bg',
     name: 'BostonGene',
     address: 'Шлюзовая набережная, д.6, стр.4'
   }
 ];
 
-export const locationsListStub = [
+export const destinationsListStub = [
   {
-    name: 'МГТУ им. Баумана',
-    address: '2-ая Бауманская, д.5'
+    address: '2-ая Бауманская, д.5',
+    gps: {
+      latitude: 0.0,
+      longitude: 0.0
+    }
   },
   {
-    name: 'МФТИ',
-    address: 'улица Сезам, дом Коржика'
+    address: 'улица Сезам, дом Коржика',
+    gps: {
+      latitude: 0.0,
+      longitude: 0.0
+    }
   }
 ];
 
@@ -27,21 +35,21 @@ export const userCarsStub = [
     name: 'Audi Q8',
     color: 'черный',
     number: '(TY901O)',
-    id: 8,
+    id: '8',
     text: 'пассажиры в среднем оценивают чистоту салона на 9.1/10'
   },
   {
     name: 'Audi Q8',
-    color: 'черный',
-    number: '(TY901O)',
-    id: 89,
-    text: 'пассажиры в среднем оценивают чистоту салона на 9.1/10'
+    color: 'белый',
+    number: '(к543ен)',
+    id: '89',
+    text: 'пассажиры в среднем оценивают чистоту салона на 7.1/10'
   },
   {
     name: 'Audi Q8',
-    color: 'черный',
-    number: '(TY901O)',
-    id: 80,
-    text: 'пассажиры в среднем оценивают чистоту салона на 9.1/10'
+    color: 'синий',
+    number: '(к543ен)',
+    id: '80',
+    text: 'пассажиры в среднем оценивают чистоту салона на 9.3/10'
   }
 ];

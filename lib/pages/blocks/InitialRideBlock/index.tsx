@@ -6,14 +6,13 @@ import './InitialRideBlock.scss';
 
 interface IInitialRideBlock {
   onInputClick: () => void;
-  nearestOrganizationName: string;
 }
 
-export const InitialRideBlock = ({ onInputClick, nearestOrganizationName }: IInitialRideBlock) => {
+export const InitialRideBlock = ({ onInputClick }: IInitialRideBlock) => {
   return (
     <Fragment>
       <Header iconType="menu" onIconClick={() => {}}>
-        <NearestOrganizationLabel nearestOrganizationName={nearestOrganizationName} onClick={() => {}} />
+        <NearestOrganizationLabel onClick={() => {}} />
       </Header>
       <div onClick={onInputClick}>
         <Input

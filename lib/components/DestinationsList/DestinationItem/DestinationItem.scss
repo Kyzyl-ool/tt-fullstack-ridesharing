@@ -1,0 +1,43 @@
+@import 'lib/styles/icons';
+@import 'lib/styles/colors';
+
+.destination-item {
+  &__item {
+    display: flex;
+    align-items: center;
+    height: 60px;
+    display: flex;
+    background-color: $ui-white-color;
+    background: #ffffff;
+    border-radius: 5px;
+    margin: 8px;
+  }
+
+  &__icon {
+    min-width: 24px;
+    min-height: 24px;
+    background: $gray-location-icon no-repeat;
+    background-size: contain;
+    margin-left: 19px;
+  }
+
+  &__info {
+    display: flex;
+    flex-direction: column;
+    margin-left: 17px;
+  }
+
+  &__name {
+    font-size: 14px;
+    line-height: 18px;
+    color: $ui-black-color;
+    margin: 0;
+  }
+
+  &__address {
+    font-size: 14px;
+    line-height: 18px;
+    color: $ui-gray-color;
+    margin: 0;
+  }
+}

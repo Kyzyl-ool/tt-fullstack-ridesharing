@@ -1,4 +1,4 @@
-import React, { Fragment } from 'react';
+import React, { Fragment, useState } from 'react';
 import { BaseLayer } from 'components/BaseLayer/BaseLayer';
 import { CarCard } from 'components/CarCard';
 import { Slider } from 'components/Slider';
@@ -14,8 +14,9 @@ interface ICarSelectBlock {
   userCars: ICar[];
   onGoBack: () => void;
   onCarInfoChange: (carId: string, carInformation: CarInfo) => void;
-  onCarSelect: () => void;
+  onCarSelect: (carId: string) => void;
   onDelete: (carId: string) => void;
+  onClick?: (carId: string) => void;
 }
 
 export const CarSelectBlock = ({
@@ -24,8 +25,23 @@ export const CarSelectBlock = ({
   onGoBack,
   onDelete,
   onCarInfoChange,
-  onCarSelect
+  onCarSelect,
+  onClick
 }: ICarSelectBlock) => {
+  const [selectedCarId, setSelectedCarId] = useState('');
+
+  const onCardClicked = (carId: string) => {
+    console.log(carId);
+    setSelectedCarId(carId);
+    if (onClick) {
+      onClick(carId);
+    }
+  };
+
+  const onSelectButtonClick = () => {
+    onCarSelect(selectedCarId);
+  };
+
   return (
     <Fragment>
       {visible && <GoBackArrow onGoBack={onGoBack} className="car-select-block__back-arrow" />}
@@ -33,10 +49,17 @@ export const CarSelectBlock = ({
         <BaseLayer type="secondary" header="Выберите автомобиль" className="car-select-block__layer">
           <div className="car-select-block__cards">
             {userCars.map(car => (
-              <CarCard key={car.id} car={car} onDelete={onDelete} onChange={onCarInfoChange} />
+              <CarCard
+                isCardSelected={selectedCarId === car.id}
+                key={car.id}
+                car={car}
+                onClick={onCardClicked}
+                onDelete={onDelete}
+                onChange={onCarInfoChange}
+              />
             ))}
             <div className="car-select-block__button">
-              <Button onClick={onCarSelect}>Выбрать</Button>
+              <Button onClick={onSelectButtonClick}>Выбрать</Button>
             </div>
           </div>
         </BaseLayer>

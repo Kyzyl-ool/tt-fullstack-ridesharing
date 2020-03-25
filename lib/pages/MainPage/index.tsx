@@ -11,7 +11,7 @@ export const MainPage = () => {
     <div>
       <Header iconType="menu" onIconClick={() => {}}>
         <div className="main-page__organization-label">
-          <NearestOrganizationLabel nearestOrganizationName="Mail.ru Corp" onClick={() => {}} />
+          <NearestOrganizationLabel onClick={() => {}} />
         </div>
       </Header>
       <Backdrop>
