@@ -7,15 +7,14 @@ import { MainPage } from './pages/MainPage';
 import { TripCard } from './components/TripCard/TripCard';
 import { sampleDriver, sampleFoundTrips, samplePassengers } from './samples/samples';
 import { FoundTrips } from './components/FoundTrips';
-import { SearchingWindow } from 'components/SearchingWindow';
 import UserModel from 'models/UserModel';
-import './App.global.scss';
 import { CreateOrganizationPage } from 'pages/CreateOrganizationPage';
 import { JoinOrganizationPage } from 'pages/JoinOrganizationPage';
 import { OrganizationPage } from 'pages/OrganizationPage';
 import { Auth } from 'pages/Auth';
 import { ActiveRidesPage } from 'pages/ActiveRidesPage';
 import { Welcome } from 'pages/Welcome';
+import './App.global.scss';
 
 const App = () => {
   //TODO remove when real authorization logic will be implemeneted
