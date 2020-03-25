@@ -7,10 +7,10 @@ import { SearchIcon } from '../../icons';
 import './JoinOrganizationPage.scss';
 import { LocationsList } from 'components/LocationsList';
 import { Button } from 'components/Button';
-import { Dialog } from 'components/Dialog/Dialog';
+import { Dialog } from 'components/Dialog';
 
 export const JoinOrganizationPage: React.FC = props => {
-  const [questions, setQuestions] = useState<string[]>(['Откуда?', 'skjdkhas?', 'jkhasgdfkhjsgdfjakshdfgakhjsdf?']);
+  const [questions, setQuestions] = useState<string[]>(['How are you?']);
   const [selectedOrganization, setSelectedOrganization] = useState();
   const history = useHistory();
   const [pageState, setNext, setPrev, renderForState] = usePageState(['CHOOSE', 'QUESTIONS', 'FINISH']);
@@ -47,8 +47,9 @@ export const JoinOrganizationPage: React.FC = props => {
           <LocationsList
             locations={[
               {
-                address: 'asdasdas',
-                name: '2131231'
+                id: '0',
+                address: 'Mail.ru Corp',
+                name: 'Ленинградский п-кт, 47'
               }
             ]}
             onSelectLocation={handleNext}

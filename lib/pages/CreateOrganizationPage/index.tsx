@@ -6,7 +6,7 @@ import { Input } from 'components/Input';
 import { useHistory } from 'react-router-dom';
 import usePageState from '../../hooks/usePageState';
 import { Button } from 'components/Button';
-import { Dialog } from 'components/Dialog/Dialog';
+import { Dialog } from 'components/Dialog';
 
 type Coordinates = {
   latitude: number;

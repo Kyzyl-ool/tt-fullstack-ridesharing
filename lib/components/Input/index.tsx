@@ -29,7 +29,7 @@ export const Input = ({
   const onInputChange = e => {
     setValue(e.target.value);
     onChange(e.target.value);
-    validate(e.target.value);
+    validate && validate(e.target.value);
   };
 
   return (
