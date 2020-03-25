@@ -7,7 +7,7 @@ import { Input } from 'components/Input';
 import { Backdrop } from 'components/Backdrop';
 import { Header } from 'components/Header';
 import { NearestOrganizationLabel } from 'components/NearestOrganizationLabel';
-import { Dialog } from 'components/Dialog/Dialog';
+import { Dialog } from 'components/Dialog';
 import { useHistory } from 'react-router-dom';
 
 export const Auth: React.FC = props => {

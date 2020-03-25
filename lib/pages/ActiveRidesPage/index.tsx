@@ -47,13 +47,13 @@ export const ActiveRidesPage: React.FC = props => {
       driver: {
         avatarSrc: sampleAvatarSrc,
         rating: 10,
-        lastName: 'asd',
-        firstName: '1123123',
+        lastName: 'Izrailev',
+        firstName: 'Nikita',
         driverId: 123
       },
       amountOfFreePlaces: 1,
       time: '17:00',
-      destinationAddress: 'aljsdfgkhjadgfhjasdf',
+      destinationAddress: 'Mail.ru Corp.',
       declineReason: null,
       cost: '300',
       car: {

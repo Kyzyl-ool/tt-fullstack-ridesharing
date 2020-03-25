@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import { Header } from 'components/Header';
 import { NearestOrganizationLabel } from 'components/NearestOrganizationLabel';
-import { Dialog } from 'components/Dialog/Dialog';
+import { Dialog } from 'components/Dialog';
 import { Input } from 'components/Input';
 import { Backdrop } from 'components/Backdrop';
 import usePageState from '../../hooks/usePageState';
