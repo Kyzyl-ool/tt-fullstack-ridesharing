@@ -1,12 +1,12 @@
 /* eslint-disable @typescript-eslint/no-empty-function */
 import React, { useEffect } from 'react';
 import { BrowserRouter as Router, Switch, Route, Redirect } from 'react-router-dom';
-import { CreateRidePage } from './pages/CreateRidePage';
-import { JoinRidePage } from './pages/JoinRidePage';
-import { MainPage } from './pages/MainPage';
-import { TripCard } from './components/TripCard/TripCard';
-import { sampleDriver, sampleFoundTrips, samplePassengers } from './samples/samples';
-import { FoundTrips } from './components/FoundTrips';
+import { CreateRidePage } from 'pages/CreateRidePage';
+import { JoinRidePage } from 'pages/JoinRidePage';
+import { MainPage } from 'pages/MainPage';
+import { TripCard } from 'components/TripCard/TripCard';
+import { sampleDriver, sampleFoundTrips, samplePassengers } from 'samples/samples';
+import { FoundTrips } from 'components/FoundTrips';
 import UserModel from 'models/UserModel';
 import { CreateOrganizationPage } from 'pages/CreateOrganizationPage';
 import { JoinOrganizationPage } from 'pages/JoinOrganizationPage';
@@ -16,11 +16,13 @@ import { ActiveRidesPage } from 'pages/ActiveRidesPage';
 import { Welcome } from 'pages/Welcome';
 import { RidesHistoryPage } from 'pages/RidesHistory';
 import './App.global.scss';
+import { OrganizationModel } from 'models/OrganizationModel';
 
 const App = () => {
   //TODO remove when real authorization logic will be implemeneted
   useEffect(() => {
     UserModel.login();
+    console.log(OrganizationModel.participants('2'));
   }, []);
 
   return (
@@ -56,7 +58,7 @@ const App = () => {
           <OrganizationPage />
         </Route>
         <Route path={'/trips'}>
-          <FoundTrips trips={sampleFoundTrips} />w
+          <FoundTrips trips={sampleFoundTrips} onSendRequest={() => {}} />
         </Route>
         <Route path={'/auth'}>
           <Auth />

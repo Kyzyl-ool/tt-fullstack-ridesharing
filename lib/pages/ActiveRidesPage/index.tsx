@@ -1,12 +1,9 @@
 import React, { useState } from 'react';
 import './ActiveRidesPage.scss';
-import { Backdrop } from 'components/Backdrop';
 import { Header } from 'components/Header';
 import { useHistory } from 'react-router-dom';
 import usePageState from '../../hooks/usePageState';
 import { Button } from 'components/Button';
-import { TripInfo } from 'pages/_CreateRidePage/5/TripInfo';
-import { FoundTrips } from 'components/FoundTrips';
 import { DriverCard } from 'components/DriverCard/DriverCard';
 import { sampleAvatarSrc } from 'samples/samples';
 

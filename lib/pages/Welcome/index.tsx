@@ -34,7 +34,7 @@ export const Welcome: React.FC = props => {
     <div className={'welcome'}>
       <Backdrop>
         <Header iconType={'menu'} onIconClick={() => {}}>
-          <NearestOrganizationLabel nearestOrganizationName={'Mail.ru Corp.'} onClick={() => {}} />
+          <NearestOrganizationLabel onClick={() => {}} />
         </Header>
 
         {renderForState(
