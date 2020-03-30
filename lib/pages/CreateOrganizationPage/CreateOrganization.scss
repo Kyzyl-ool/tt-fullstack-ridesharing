@@ -1,7 +1,7 @@
-@import "lib/styles/colors";
+@import 'lib/styles/colors';
 
 .centerize {
-  position: absolute;
+  position: fixed;
   left: 0;
   right: 0;
   margin: auto;
@@ -16,14 +16,15 @@
   }
 
   &-flex {
+    margin-top: 16px;
     display: flex;
     flex-direction: column;
     justify-content: center;
   }
 }
 
-
 .backgrounded {
+  padding: 14px 0;
   background-color: $ui-secondary-color;
 }
 

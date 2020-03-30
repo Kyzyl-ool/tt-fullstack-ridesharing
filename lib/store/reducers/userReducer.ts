@@ -1,7 +1,3 @@
-// const getInitialUserGeoposition = () => {
-//   navigator.geolocation.getCurrentPosition((position: Position) => )
-// }
-
 const defaultState = {
   latitude: null,
   longitude: null,

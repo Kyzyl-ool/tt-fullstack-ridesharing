@@ -25,7 +25,7 @@ interface ICarCard {
 
 export const CarCard: React.FC<ICarCard> = ({
   isCardSelected,
-  car: { name, number, color, text, id },
+  car: { model, registryNumber, color, text, id },
   onDelete,
   onChange,
   onClick
@@ -57,16 +57,16 @@ export const CarCard: React.FC<ICarCard> = ({
   return (
     <li className={carCardClassNames} onClick={onCardClick}>
       <form style={{ textAlign: 'center', display: editing ? '' : 'none' }} onSubmit={handleSubmit} id={'car-form'}>
-        <UnstyledInput value={name} className={'car-card__name'} name={'name'} />
-        <UnstyledInput value={number} className={'car-card__number'} name={'number'} />
+        <UnstyledInput value={model} className={'car-card__name'} name={'name'} />
+        <UnstyledInput value={registryNumber} className={'car-card__number'} name={'number'} />
         <UnstyledInput value={color} className={'car-card__color'} name={'color'} />
       </form>
       <div style={{ textAlign: 'center', display: editing ? 'none' : '' }}>
-        <p className={'car-card__name'}>{name}</p>
-        <p className={'car-card__number'}>{number}</p>
+        <p className={'car-card__name'}>{model}</p>
+        <p className={'car-card__number'}>{registryNumber}</p>
         <p className={'car-card__color'}>{color}</p>
       </div>
-      {!editing ? <p className={'car-card__text'}>{text}</p> : null}
+      {!editing ? <p className={'car-card__text'}>Пользователи пока не оценивали этот автомобиль</p> : null}
       <ul>
         <li className={'car-card__icon'}>
           {editing ? (

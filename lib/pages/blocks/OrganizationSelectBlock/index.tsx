@@ -1,10 +1,10 @@
-import React, { Fragment } from 'react';
+import React, { Fragment, useEffect, useState } from 'react';
 import { Header } from 'components/Header';
 import { Slider } from 'components/Slider';
 import { LocationsList } from 'components/LocationsList';
 import { NearestOrganizationLabel } from 'components/NearestOrganizationLabel';
-import { organizationsListStub } from 'pages/__stubs__';
 import { ILocation } from 'domain/map';
+import UserModel from 'models/UserModel';
 import './OrganizationSelectBlock.scss';
 
 interface IOrganizationSelectBlock {
@@ -14,6 +14,17 @@ interface IOrganizationSelectBlock {
 }
 
 export const OrganizationSelectBlock = ({ onGoBack, visible, onSelectOrganization }: IOrganizationSelectBlock) => {
+  const [organizations, setOrganizations] = useState([]);
+
+  const fetchOrganizations = async () => {
+    const fetchedOrganizations = await UserModel.getOrganizations();
+    setOrganizations(fetchedOrganizations);
+  };
+
+  useEffect(() => {
+    fetchOrganizations();
+  }, []);
+
   return (
     <Fragment>
       {visible && (
@@ -23,7 +34,7 @@ export const OrganizationSelectBlock = ({ onGoBack, visible, onSelectOrganizatio
       )}
       <Slider visible={visible} from="bottom" timeout={600} unmountOnExit>
         <div className="organization-select-block__organizations-list">
-          <LocationsList locations={organizationsListStub} onSelectLocation={onSelectOrganization} />
+          <LocationsList locations={organizations} onSelectLocation={onSelectOrganization} />
         </div>
       </Slider>
     </Fragment>

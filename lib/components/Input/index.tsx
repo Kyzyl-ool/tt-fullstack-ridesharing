@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, ReactNode, useEffect } from 'react';
 import './Input.scss';
 
 type InputPlaceholderType = 'default' | 'subscript';
@@ -12,6 +12,8 @@ interface IInput {
   placeholderText: string;
   onChange?: (value: string) => void;
   validate?: (string) => string;
+  renderRightAdornment?: () => ReactNode;
+  disabled?: boolean;
 }
 
 export const Input = ({
@@ -22,9 +24,15 @@ export const Input = ({
   id,
   placeholderText,
   onChange = () => {},
-  validate
+  validate = () => {},
+  renderRightAdornment = null,
+  disabled = false
 }: IInput) => {
   const [value, setValue] = useState<string>(defaultValue);
+
+  useEffect(() => {
+    setValue(defaultValue);
+  }, [defaultValue]);
 
   const onInputChange = e => {
     setValue(e.target.value);
@@ -35,19 +43,21 @@ export const Input = ({
   return (
     <div className={`rsh-input ${className}`}>
       {icon && (
-        <div className={'rsh-input__icon'}>
+        <div className="rsh-input__icon">
           <label form={id}>{icon}</label>
         </div>
       )}
       <input
+        disabled={disabled}
         id={id}
         value={value}
         onChange={e => onInputChange(e)}
-        placeholder={placeholderType === 'default' && placeholderText}
+        placeholder={placeholderType === 'default' ? placeholderText : ''}
         className={`rsh-input__form ${icon ? 'rsh-input__form--with-icon' : ''}`}
-        type={'text'}
+        type="text"
       />
-      {placeholderType === 'subscript' && <caption className={'rsh-input__caption'}>{placeholderText}</caption>}
+      {renderRightAdornment && <div className="rsh-input__adornment">{renderRightAdornment()}</div>}
+      {placeholderType === 'subscript' && <div className="rsh-input__caption">{placeholderText}</div>}
     </div>
   );
 };

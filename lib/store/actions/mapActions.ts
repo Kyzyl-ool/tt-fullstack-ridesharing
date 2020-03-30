@@ -18,3 +18,25 @@ export const updateGeopositionAction = ({ latitude, longitude }) => async dispat
   const nearestOrganizationsList = await MapModel.getNearestOrganization({ latitude, longitude });
   dispatch(updateNearestOrganizationAction(nearestOrganizationsList[0].name));
 };
+
+export const setActivePointAction = ({ latitude, longitude }) => {
+  return {
+    type: 'SET_CUSTOM_GEOPOSITION',
+    payload: {
+      latitude,
+      longitude
+    }
+  };
+};
+
+export const allowCustomPointsAction = () => {
+  return {
+    type: 'ALLOW_CUSTOM_POINTS'
+  };
+};
+
+export const forbidCustomPointsAction = () => {
+  return {
+    type: 'FORBID_CUSTOM_POINTS'
+  };
+};

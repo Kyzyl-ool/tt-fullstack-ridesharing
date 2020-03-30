@@ -31,7 +31,7 @@ export interface ITripCard {
   cost: number;
   time: string;
   passengers: IPassengerType[];
-  tripId: number;
+  tripId: string;
 }
 
 export const TripCard: React.FC<ITripCard> = props => {

@@ -8,9 +8,10 @@ import './FoundTrips.scss';
 interface IFoundTrips {
   trips: ITripCard[];
   onSendRequest: () => void;
+  onSelectRide: (rideId: string) => void;
 }
 
-export const FoundTrips: React.FC<IFoundTrips> = ({ trips, onSendRequest }) => {
+export const FoundTrips: React.FC<IFoundTrips> = ({ trips, onSendRequest, onSelectRide }) => {
   const [selectedTripIndex, setSelectedTripIndex] = useState<number>(null);
   const [selected, setSelected] = useState<boolean>(false);
 
@@ -24,7 +25,7 @@ export const FoundTrips: React.FC<IFoundTrips> = ({ trips, onSendRequest }) => {
       <Slider visible={!selected} timeout={900} unmountOnExit from={'bottom'}>
         <div className="found-trips__container">
           <BaseLayer type={'secondary'} header={<span>Предложенные поездки</span>} className={'no-flex'}>
-            {trips.map((value, index) => (
+            {trips.map((trip, index) => (
               <div
                 key={index}
                 onClick={() => {
@@ -35,16 +36,17 @@ export const FoundTrips: React.FC<IFoundTrips> = ({ trips, onSendRequest }) => {
               >
                 <DriverCard
                   key={index}
-                  avatarSrc={value.driver.avatarSrc}
-                  mark={value.driver.mark}
-                  vacations={value.driver.vacations}
-                  time={value.time}
-                  secondName={value.driver.secondName}
-                  firstName={value.driver.firstName}
-                  destination={value.to}
-                  cost={value.cost}
-                  car={value.driver.car}
-                  tripId={value.tripId}
+                  avatarSrc={trip.driver.avatarSrc}
+                  mark={trip.driver.mark}
+                  vacations={trip.driver.vacations}
+                  time={trip.time}
+                  secondName={trip.driver.secondName}
+                  firstName={trip.driver.firstName}
+                  destination={trip.to}
+                  cost={trip.cost}
+                  car={trip.driver.car}
+                  tripId={trip.tripId}
+                  onSelectRide={onSelectRide}
                   waiting={false}
                 />
               </div>

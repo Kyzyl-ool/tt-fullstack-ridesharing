@@ -50,4 +50,17 @@
     width: 100vw;
     top: 205px;
   }
+
+  &__map-button {
+    width: 20px;
+    height: 20px;
+    background: $map no-repeat;
+    background-size: contain;
+  }
+
+  &__map-form {
+    position: fixed;
+    bottom: 31px;
+    left: calc(50% - 155px);
+  }
 }

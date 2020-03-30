@@ -7,23 +7,27 @@ import './RideInformationBlock.scss';
 interface IRideInformationBlock {
   visible: boolean;
   onCreateRide: () => void;
-  onPlaceChange: (placeNumber: string) => void;
-  onCostChange: (cost: string) => void;
+  onSeatsNumberChange: (placeNumber: string) => void;
+  onPriceChange: (cost: string) => void;
   onGoBack: () => void;
 }
 
 export const RideInformationBlock = ({
   visible,
   onCreateRide,
-  onCostChange,
-  onPlaceChange,
+  onPriceChange,
+  onSeatsNumberChange,
   onGoBack
 }: IRideInformationBlock) => {
   return (
     <Fragment>
       {visible && <GoBackArrow className="ride-information-block__back-arrow" onGoBack={onGoBack} />}
       <Slider visible={visible} from="bottom" timeout={600} unmountOnExit>
-        <TripInfo onButtonClick={onCreateRide} onCostChange={onCostChange} onPlaceChange={onPlaceChange} />
+        <TripInfo
+          onButtonClick={onCreateRide}
+          onPriceChange={onPriceChange}
+          onSeatsNumberChange={onSeatsNumberChange}
+        />
       </Slider>
     </Fragment>
   );

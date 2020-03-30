@@ -7,11 +7,11 @@ import './TripInfo.scss';
 
 interface ITripInfo {
   onButtonClick: () => void;
-  onPlaceChange: (placeNumber: string) => void;
-  onCostChange: (cost: string) => void;
+  onSeatsNumberChange: (placeNumber: string) => void;
+  onPriceChange: (cost: string) => void;
 }
 
-export const TripInfo = ({ onButtonClick, onCostChange, onPlaceChange }: ITripInfo) => {
+export const TripInfo = ({ onButtonClick, onPriceChange, onSeatsNumberChange }: ITripInfo) => {
   const [text, setText] = useState<string>('Создать поездку');
   const [btnDisabled, setBtnDisabled] = useState<boolean>(false);
   const handleClick = () => {
@@ -21,11 +21,11 @@ export const TripInfo = ({ onButtonClick, onCostChange, onPlaceChange }: ITripIn
   };
 
   const onCostInputChange = (cost: string) => {
-    onCostChange(cost);
+    onPriceChange(cost);
   };
 
   const onPlaceNumberInputChange = (placeNumber: string) => {
-    onPlaceChange(placeNumber);
+    onSeatsNumberChange(placeNumber);
   };
 
   return (

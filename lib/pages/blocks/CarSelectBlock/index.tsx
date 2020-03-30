@@ -1,17 +1,18 @@
-import React, { Fragment, useState } from 'react';
+import React, { Fragment, useState, useEffect } from 'react';
+import _isEmpty from 'lodash/isEmpty';
 import { BaseLayer } from 'components/BaseLayer/BaseLayer';
 import { CarCard } from 'components/CarCard';
 import { Slider } from 'components/Slider';
 import { Button } from 'components/Button';
 import { GoBackArrow } from 'components/GoBackArrow';
 import { ICar } from 'domain/car';
+import UserModel from 'models/UserModel';
 import './CarSelectBlock.scss';
 
 type CarInfo = Omit<ICar, 'id'>;
 
 interface ICarSelectBlock {
   visible: boolean;
-  userCars: ICar[];
   onGoBack: () => void;
   onCarInfoChange: (carId: string, carInformation: CarInfo) => void;
   onCarSelect: (carId: string) => void;
@@ -21,7 +22,6 @@ interface ICarSelectBlock {
 
 export const CarSelectBlock = ({
   visible,
-  userCars,
   onGoBack,
   onDelete,
   onCarInfoChange,
@@ -29,9 +29,9 @@ export const CarSelectBlock = ({
   onClick
 }: ICarSelectBlock) => {
   const [selectedCarId, setSelectedCarId] = useState('');
+  const [fetchedCars, setFetchedCars] = useState<ICar[]>(null);
 
   const onCardClicked = (carId: string) => {
-    console.log(carId);
     setSelectedCarId(carId);
     if (onClick) {
       onClick(carId);
@@ -42,22 +42,33 @@ export const CarSelectBlock = ({
     onCarSelect(selectedCarId);
   };
 
+  const fetchCars = async () => {
+    const cars = await UserModel.getCars();
+    console.log(cars);
+    setFetchedCars(cars);
+  };
+
+  useEffect(() => {
+    fetchCars();
+  }, []);
+
   return (
     <Fragment>
       {visible && <GoBackArrow onGoBack={onGoBack} className="car-select-block__back-arrow" />}
       <Slider visible={visible} timeout={600} from="bottom" unmountOnExit>
         <BaseLayer type="secondary" header="Выберите автомобиль" className="car-select-block__layer">
           <div className="car-select-block__cards">
-            {userCars.map(car => (
-              <CarCard
-                isCardSelected={selectedCarId === car.id}
-                key={car.id}
-                car={car}
-                onClick={onCardClicked}
-                onDelete={onDelete}
-                onChange={onCarInfoChange}
-              />
-            ))}
+            {!_isEmpty(fetchedCars) &&
+              fetchedCars.map(car => (
+                <CarCard
+                  isCardSelected={selectedCarId === car.id}
+                  key={car.id}
+                  car={car}
+                  onClick={onCardClicked}
+                  onDelete={onDelete}
+                  onChange={onCarInfoChange}
+                />
+              ))}
             <div className="car-select-block__button">
               <Button onClick={onSelectButtonClick}>Выбрать</Button>
             </div>

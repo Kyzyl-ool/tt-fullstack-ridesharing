@@ -24,7 +24,6 @@ export default class MapModel {
 
   static forwardGeocoding = async (address: string) => {
     const res = await axios.post<IForwardGeocodingResponse>('/api/encode_address', { address });
-    console.log(res.data);
     return res.data;
   };
 
