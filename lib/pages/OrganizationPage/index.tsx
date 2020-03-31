@@ -131,9 +131,9 @@ export const OrganizationPage: React.FC = props => {
               </div>
             </div>
           </BaseLayer>,
-          'appear'
+          'slideBottom'
         )}
-        {renderForState('MEMBERS', <div className={'backgrounded'}></div>, 'appear')}
+        {renderForState('MEMBERS', <div className={'backgrounded'}></div>, 'slideBottom')}
       </Backdrop>
     </div>
   );

@@ -58,24 +58,28 @@ $bottom-animation-direction: 1;
 /*----------------------------*/
 
 
-.page-state-animation-slide-bottom-enter {
-  transform: translateY(100vh * $top-animation-direction);
-}
+.page-state-animation-slide {
+  &-bottom {
+    &-enter {
+      transform: translateY(100vh * $bottom-animation-direction);
 
-.page-state-animation-slide-bottom-enter-active {
-  transform: translateY(0);
-  transition: transform 600ms;
-}
+      &-active {
+        transform: translateY(0);
+        transition: transform 600ms;
+      }
+    }
 
-.page-state-animation-slide-bottom-exit {
-  transform: translateY(0);
-  transition: transform 600ms;
+    &-exit {
+      transform: translateY(0);
+      transition: transform 600ms;
 
-  &-done {
-    display: none;
+      &-active {
+        transform: translateY(100vh * $bottom-animation-direction);
+      }
+
+      &-done {
+        display: none;
+      }
+    }
   }
-}
-
-.page-state-animation-slide-bottom-exit-active {
-  transform: translateY(-100vh);
 }
