@@ -8,7 +8,6 @@ import usePageState from '../../hooks/usePageState';
 import { Button } from 'components/Button';
 import { Dialog } from 'components/Dialog';
 import { OrganizationModel } from 'models/OrganizationModel';
-import UserModel from 'models/UserModel';
 
 type Coordinates = {
   latitude: number;

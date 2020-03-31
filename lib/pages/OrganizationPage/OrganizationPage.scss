@@ -3,7 +3,7 @@
 .centerize {
 
   &_floor {
-    bottom: 60px;
+    bottom: 0px;
     top: unset;
   }
 }
@@ -80,6 +80,10 @@
 .underlined-clickable {
   cursor: pointer;
   color: $ui-primary-color;
+  font-style: normal;
+  font-weight: bold;
+  font-size: 12px;
+  line-height: 15px;
 }
 
 .driver-name {

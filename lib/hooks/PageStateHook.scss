@@ -1,9 +1,14 @@
 $top-animation-direction: -1;
 $bottom-animation-direction: 1;
 
+
 .page-state-animations-enter {
   opacity: 0;
   transform: scale(0.9);
+}
+
+.page-state-animations-enter-done {
+  //opacity: 0;
 }
 
 .page-state-animations-enter-active {
@@ -22,6 +27,10 @@ $bottom-animation-direction: 1;
   transition: opacity 300ms, transform 300ms;
 }
 
+.page-state-animations-exit-done {
+  display: none;
+}
+
 /*----------------------------*/
 
 .page-state-animation-slide-top-enter {
@@ -36,6 +45,10 @@ $bottom-animation-direction: 1;
 .page-state-animation-slide-top-exit {
   transform: translateY(0);
   transition: transform 600ms;
+
+  &-done {
+    display: none;
+  }
 }
 
 .page-state-animation-slide-top-exit-active {
@@ -57,6 +70,10 @@ $bottom-animation-direction: 1;
 .page-state-animation-slide-bottom-exit {
   transform: translateY(0);
   transition: transform 600ms;
+
+  &-done {
+    display: none;
+  }
 }
 
 .page-state-animation-slide-bottom-exit-active {

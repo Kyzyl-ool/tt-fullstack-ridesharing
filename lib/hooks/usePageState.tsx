@@ -33,7 +33,7 @@ const usePageState = (states: string[]): IUsePageState => {
           in={key === states[currentState]}
           timeout={300}
           classNames={animationClasses[animationType]}
-          unmountOnExit
+          // unmountOnExit
           exit
         >
           {node}

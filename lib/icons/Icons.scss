@@ -17,6 +17,14 @@
     background: $current-point-icon no-repeat;
   }
 
+  &_back-white {
+    background: $back-icon-white no-repeat;
+  }
+
+  &_pen-icon {
+    background: $pen-icon no-repeat;
+  }
+
   &_medium {
     transform: scale(1);
   }

@@ -16,13 +16,12 @@ import { ActiveRidesPage } from 'pages/ActiveRidesPage';
 import { Welcome } from 'pages/Welcome';
 import { RidesHistoryPage } from 'pages/RidesHistory';
 import './App.global.scss';
-import { OrganizationModel } from 'models/OrganizationModel';
+import { ProfilePage } from 'pages/ProfilePage';
 
 const App = () => {
   //TODO remove when real authorization logic will be implemeneted
   useEffect(() => {
     UserModel.login();
-    console.log(OrganizationModel.participants('2'));
   }, []);
 
   return (
@@ -71,6 +70,9 @@ const App = () => {
         </Route>
         <Route path={'/ride/history'}>
           <RidesHistoryPage />
+        </Route>
+        <Route path={'/profile'}>
+          <ProfilePage />
         </Route>
         <Redirect to="/" />
       </Switch>

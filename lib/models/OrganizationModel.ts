@@ -18,13 +18,16 @@ export class OrganizationModel {
   }
 
   static async participants(organizationId: string) {
-    return await axios.get(`/api/organization/participants?organizationId=${organizationId}`, {
-      withCredentials: true
+    return await axios.get(`/api/organization/participants`, {
+      withCredentials: true,
+      params: {
+        organizationId
+      }
     });
   }
 
   static async get(organizationId: string) {
-    return await axios.get(`/api/organization?organizationId=${organizationId}`, {
+    return await axios.get(`/api/organization?id=${organizationId}`, {
       withCredentials: true
     });
   }
