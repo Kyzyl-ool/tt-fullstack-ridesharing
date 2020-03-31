@@ -12,11 +12,22 @@ export const DestinationItem = ({ destination: { gps, address }, onSelectDestina
     onSelectDestination(gps);
   };
 
+  const getDestinationName = () => {
+    const destinationArray = address.split(', ');
+    return destinationArray.slice(-2).join(', ');
+  };
+
+  const getDestinationAddress = () => {
+    const destinationArray = address.split(', ');
+    return destinationArray.slice(0, destinationArray.length - 3).join(', ');
+  };
+
   return (
     <div className="destination-item__item" onClick={onClick}>
       <div className="destination-item__icon"></div>
       <div className="destination-item__info">
-        <p className="destination-item__address">{address}</p>
+        <p className="destination-item__name">{getDestinationName()}</p>
+        <p className="destination-item__address">{getDestinationAddress()}</p>
       </div>
     </div>
   );

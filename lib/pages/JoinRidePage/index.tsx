@@ -8,6 +8,7 @@ import { DestinationSelectBlock } from 'pages/blocks/DestinationSelectBlock';
 import { SearchRideBlock } from 'pages/blocks/SearchRideBlock';
 import { InitialRideBlock } from 'pages/blocks/InitialRideBlock';
 import { IDestination, ILocation } from 'domain/map';
+import RideModel from 'models/RideModel';
 import { sampleFoundTrips } from '../../samples/samples';
 import './JoinRidePage.scss';
 
@@ -15,6 +16,7 @@ type PageState =
   | 'INITIAL'
   | 'ORGANIZATION_CHOOSING'
   | 'DESTINATION_CHOOSING'
+  // | 'MAP_DESTINATION_CHOOSING'
   | 'SEARCHING'
   | 'SEARCH_COMPLETED'
   | 'PAYING'
@@ -27,7 +29,10 @@ export const JoinRidePage = () => {
     latitude: null,
     longitude: null
   });
+  const [selectedRideId, setSelectedRideId] = useState<string>(null);
   const [selectedOrganizationName, setSelectedOrganizationName] = useState('');
+  // use when /ride/match will be ready
+  // const [fetchedRides, setFetchedRides] = useState([]);
 
   const onStartOrganizationChoosing = () => {
     setPageState('ORGANIZATION_CHOOSING');
@@ -46,7 +51,6 @@ export const JoinRidePage = () => {
   };
 
   const onSelectOrganization = (organization: ILocation) => {
-    console.log(organization);
     setRideSearchingInformation({ ...rideSearchingInformation, startOrganizationId: organization.id });
     setSelectedOrganizationName(organization.name);
     setPageState('DESTINATION_CHOOSING');
@@ -60,11 +64,27 @@ export const JoinRidePage = () => {
   };
 
   const onSendRequest = () => {
+    // we must pay before sending request
+    // when paying is done --> send request
     setPageState('PAYING');
   };
 
-  const onPaymentConfirmed = () => {
-    setPageState('DONE');
+  // const onMapButtonClick = () => {
+  //   setPageState('MAP_DESTINATION_CHOOSING');
+  // };
+
+  const onSelectRide = (rideId: string) => {
+    console.log(rideId);
+    setSelectedRideId(rideId);
+  };
+
+  const onPaymentConfirmed = async () => {
+    try {
+      await RideModel.joinRide(selectedRideId);
+      setPageState('DONE');
+    } catch (e) {
+      throw new Error(e);
+    }
   };
 
   return (
@@ -77,13 +97,16 @@ export const JoinRidePage = () => {
           onSelectOrganization={onSelectOrganization}
         />
         <DestinationSelectBlock
+          // onMapButtonClick={onMapButtonClick}
           visible={pageState === 'DESTINATION_CHOOSING'}
           onGoBack={onReturnToOrganizationChoosing}
           onSelectDestination={onSelectDestination}
           startOrganizationName={selectedOrganizationName}
         />
         <SearchRideBlock onShowMenu={() => {}} visible={pageState === 'SEARCHING'} from="" to="" />
-        {pageState === 'SEARCH_COMPLETED' && <FoundTrips onSendRequest={onSendRequest} trips={sampleFoundTrips} />}
+        {pageState === 'SEARCH_COMPLETED' && (
+          <FoundTrips onSelectRide={onSelectRide} onSendRequest={onSendRequest} trips={sampleFoundTrips} />
+        )}
         {pageState === 'PAYING' && <PaymentBlock amountToPay={130} onPaymentConfirmed={onPaymentConfirmed} />}
         {pageState === 'DONE' && (
           <Dialog hide={false}>

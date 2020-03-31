@@ -1,7 +1,7 @@
 export interface ICar {
   id: string;
-  text: string;
-  name: string;
-  number: string;
+  owner: string;
+  model: string;
+  registryNumber: string;
   color: string;
 }

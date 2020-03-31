@@ -9,8 +9,14 @@
     background-size: contain;
     width: 48px;
     height: 48px;
-    position: fixed;
-    left: calc(50% - 24px);
-    top: calc(50% - 24px);
+    transform: translate(-24px, -48px);
+  }
+
+  &__active-pin {
+    background: $active-map-pin no-repeat;
+    background-size: contain;
+    width: 48px;
+    height: 48px;
+    transform: translate(-24px, -48px);
   }
 }

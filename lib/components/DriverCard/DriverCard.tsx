@@ -13,8 +13,9 @@ interface ITripCard {
   time: string;
   destination: string;
   cost: number;
-  tripId: number;
+  tripId: string;
   driverAnswer?: DriverAnswerType;
+  onSelectRide: (rideId: string) => void;
 }
 
 export const DriverCard: React.FC<ITripCard> = ({
@@ -28,10 +29,15 @@ export const DriverCard: React.FC<ITripCard> = ({
   cost,
   destination,
   tripId,
-  driverAnswer
+  driverAnswer,
+  onSelectRide
 }) => {
+  const onCardClick = () => {
+    onSelectRide(tripId);
+  };
+
   return (
-    <div className={`driver-card ${driverAnswer ? 'driver-card_waiting' : ''}`}>
+    <div onClick={onCardClick} className={`driver-card ${driverAnswer ? 'driver-card_waiting' : ''}`}>
       <div className={'driver-card__avatar'}>
         <Avatar src={avatarSrc} size={'medium'} mark={mark} />
       </div>

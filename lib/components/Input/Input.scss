@@ -11,7 +11,7 @@
   &__form {
     border-radius: 10px;
     width: calc(100% - 24px);
-    padding: 0 0 0 24px;
+    padding: 0 12px 0 24px;
     border: none;
     height: $size-base * 6;
     font-size: 14px;
@@ -28,6 +28,18 @@
     align-items: center;
     border-right: 1px solid $ui-gray-color;
     border-radius: 10px 0 0 10px;
+    background-color: #ffffff;
+    min-width: 48px;
+    height: 48px;
+  }
+
+  &__adornment {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    border-radius: 0 10px 10px 0;
+    margin-left: -10px;
+    padding-left: 10px;
     background-color: #ffffff;
     width: 64px;
     height: 48px;

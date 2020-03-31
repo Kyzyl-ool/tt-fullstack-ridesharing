@@ -1,9 +1,9 @@
 // Template from https://uber.github.io/react-map-gl/docs/get-started/get-started
 import React, { useState, ReactNode, useEffect } from 'react';
-import { useDispatch } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import classNames from 'classnames';
-import ReactMapGL, { PointerEvent } from 'react-map-gl';
-import { updateGeopositionAction } from 'store/actions/mapActions';
+import ReactMapGL, { PointerEvent, FlyToInterpolator, Marker } from 'react-map-gl';
+import { updateGeopositionAction, setActivePointAction } from 'store/actions/mapActions';
 import './Map.scss';
 
 interface IMapProps {
@@ -19,6 +19,8 @@ export const Map = ({ className = '', onViewportChange, onMapClicked }: IMapProp
     [className]: true
   });
 
+  const { activePointGps, isCustomPointsAllowed } = useSelector(state => state.map);
+  const { latitude: userLatitude, longitude: userLongitude } = useSelector(state => state.user);
   const dispatch = useDispatch();
 
   const [viewport, setViewport] = useState({
@@ -28,14 +30,15 @@ export const Map = ({ className = '', onViewportChange, onMapClicked }: IMapProp
     height: ('100vh' as unknown) as number,
     latitude: 55.7972075,
     longitude: 37.5377682,
-    zoom: 17
+    zoom: 17,
+    bearing: 0,
+    pitch: 0,
+    transitionInterpolator: new FlyToInterpolator({ speed: 1.2 }),
+    transitionDuration: 'auto'
   });
-
-  // const [currentPosition, setCurrentPosition] = useState(null);
 
   const getInitialUserGeoposition = () => {
     navigator.geolocation.getCurrentPosition(({ coords: { latitude, longitude } }: Position) => {
-      // setCurrentPosition({ latitude, longitude });
       setViewport({ ...viewport, latitude, longitude });
       dispatch(updateGeopositionAction({ longitude, latitude }));
     });
@@ -45,32 +48,63 @@ export const Map = ({ className = '', onViewportChange, onMapClicked }: IMapProp
     getInitialUserGeoposition();
   }, []);
 
-  const onMapPositionChanged = ({ lngLat: [longitude, latitude] }: PointerEvent) => {
-    if (onViewportChange) {
-      onViewportChange({ longitude, latitude });
-    }
-    dispatch(updateGeopositionAction({ longitude, latitude }));
-  };
+  // const onMapPositionChanged = ({ lngLat: [longitude, latitude] }: PointerEvent) => {
+  //   console.log('s');
+  //   if (onViewportChange) {
+  //     onViewportChange({ longitude, latitude });
+  //   }
+  //   dispatch(updateGeopositionAction({ longitude, latitude }));
+  // };
 
   const onClick = ({ lngLat: [longitude, latitude] }: PointerEvent) => {
-    setViewport({ ...viewport, longitude, latitude });
+    if (isCustomPointsAllowed) {
+      dispatch(setActivePointAction({ longitude, latitude }));
+    }
     if (onMapClicked) {
       onMapClicked({ longitude, latitude });
     }
+  };
+
+  const onViewportPositionChange = newViewport => {
+    setViewport({ ...viewport, ...newViewport });
+  };
+
+  const renderCustomPin = () => {
+    return (
+      isCustomPointsAllowed &&
+      activePointGps.longitude && (
+        <Marker longitude={activePointGps.longitude} latitude={activePointGps.latitude}>
+          <div className="rsh-map__active-pin" />
+        </Marker>
+      )
+    );
+  };
+
+  const renderUserLocationPin = () => {
+    return (
+      userLatitude &&
+      userLongitude && (
+        <Marker latitude={userLatitude} longitude={userLongitude}>
+          <div className="rsh-map__pin" />
+        </Marker>
+      )
+    );
   };
 
   return (
     <div className={mapClassNames}>
       <ReactMapGL
         {...viewport}
-        onMouseUp={onMapPositionChanged}
-        onTouchEnd={onMapPositionChanged}
+        // dragRotate={false}
+        // onMouseUp={onMapPositionChanged}
+        // onTouchEnd={onMapPositionChanged}
         onClick={onClick}
-        onViewportChange={setViewport}
+        onViewportChange={onViewportPositionChange}
         mapboxApiAccessToken={process.env.MAPBOX_TOKEN}
         mapStyle="mapbox://styles/shinnik/ck18kcqmj04q61cqnjc7o84qs"
       >
-        <div className="rsh-map__pin" />
+        {renderCustomPin()}
+        {renderUserLocationPin()}
       </ReactMapGL>
     </div>
   );

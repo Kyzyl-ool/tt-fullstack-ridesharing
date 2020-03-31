@@ -33,7 +33,7 @@ export const sampleFoundTrips: ITripCard[] = [
     cost: 130,
     from: 'Mail.ru Corp',
     to: 'Дикси продуктовый магазин',
-    tripId: 1,
+    tripId: '1',
     passengers: [
       {
         avararSrc: sampleAvatarSrc,
@@ -71,7 +71,7 @@ export const sampleFoundTrips: ITripCard[] = [
     cost: 130,
     from: 'Mail.ru Corp',
     to: 'Дикси продуктовый магазин',
-    tripId: 1,
+    tripId: '2',
     passengers: [
       {
         avararSrc: sampleAvatarSrc,
@@ -109,7 +109,7 @@ export const sampleFoundTrips: ITripCard[] = [
     cost: 130,
     from: 'Mail.ru Corp',
     to: 'Дикси продуктовый магазин',
-    tripId: 1,
+    tripId: '3',
     passengers: [
       {
         avararSrc: sampleAvatarSrc,
