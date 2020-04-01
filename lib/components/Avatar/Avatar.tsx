@@ -14,7 +14,7 @@ interface IAvatar {
 
 export const Avatar: React.FC<IAvatar> = ({ src, mark, className, size, subtext }) => {
   const img = (
-    <div className={`avatar-subtext-container ${className}`}>
+    <div className={`avatar-subtext-container ${className ? className : ''}`}>
       <img
         src={src}
         alt={'Avatar'}
@@ -25,7 +25,7 @@ export const Avatar: React.FC<IAvatar> = ({ src, mark, className, size, subtext 
   );
   if (mark)
     return (
-      <span className={`avatar-container ${className}`}>
+      <span className={`avatar-container ${className ? className : ''}`}>
         {img}
         <Mark mark={mark} large={size === 'large'} />
       </span>

@@ -12,7 +12,7 @@
   }
 
   &_bottom {
-    bottom: 5%;
+    bottom: 40px;
   }
 
   &-flex {
@@ -21,11 +21,6 @@
     flex-direction: column;
     justify-content: center;
   }
-}
-
-.backgrounded {
-  padding: 14px 0;
-  background-color: $ui-secondary-color;
 }
 
 .margins {

@@ -2,9 +2,9 @@
 import React, { useEffect } from 'react';
 import { useDispatch } from 'react-redux';
 import { BrowserRouter as Router, Switch, Route, Redirect } from 'react-router-dom';
-import { CreateRidePage } from './pages/CreateRidePage';
-import { JoinRidePage } from './pages/JoinRidePage';
-import { MainPage } from './pages/MainPage';
+import { CreateRidePage } from 'pages/CreateRidePage';
+import { JoinRidePage } from 'pages/JoinRidePage';
+import { MainPage } from 'pages/MainPage';
 import UserModel from 'models/UserModel';
 import { CreateOrganizationPage } from 'pages/CreateOrganizationPage';
 import { JoinOrganizationPage } from 'pages/JoinOrganizationPage';
@@ -12,6 +12,8 @@ import { OrganizationPage } from 'pages/OrganizationPage';
 import { Auth } from 'pages/Auth';
 import { ActiveRidesPage } from 'pages/ActiveRidesPage';
 import { Welcome } from 'pages/Welcome';
+import { RidesHistoryPage } from 'pages/RidesHistory';
+import { ProfilePage } from 'pages/ProfilePage';
 import { Backdrop } from 'components/Backdrop';
 import { setUserAction } from 'store/actions/userActions';
 import './App.global.scss';
@@ -20,9 +22,13 @@ const App = () => {
   const dispatch = useDispatch();
 
   const login = async () => {
-    await UserModel.login();
-    const userInfo = await UserModel.getMyself();
-    dispatch(setUserAction(userInfo));
+    try {
+      await UserModel.login();
+      const userInfo = await UserModel.getMyself();
+      dispatch(setUserAction(userInfo));
+    } catch (e) {
+      console.log(e);
+    }
   };
 
   //TODO remove when real authorization logic will be implemeneted
@@ -62,6 +68,11 @@ const App = () => {
           <Route path={'/welcome'}>
             <Welcome />
           </Route>
+          <Route path={'/profile'}>
+            <ProfilePage />
+          </Route>
+          <Route path={'/ride/history'}></Route>
+          <RidesHistoryPage />
           <Redirect to="/" />
         </Switch>
       </Router>

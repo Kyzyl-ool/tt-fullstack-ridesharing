@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import './CreateOrganization.scss';
 import { Backdrop } from 'components/Backdrop';
 import { Header } from 'components/Header';
@@ -7,6 +7,7 @@ import { useHistory } from 'react-router-dom';
 import usePageState from '../../hooks/usePageState';
 import { Button } from 'components/Button';
 import { Dialog } from 'components/Dialog';
+import { OrganizationModel } from 'models/OrganizationModel';
 
 type Coordinates = {
   latitude: number;
@@ -19,14 +20,12 @@ type QuestionAndAnswer = {
 };
 
 export const CreateOrganizationPage: React.FC = props => {
-  const [name, setName] = useState<string>();
-  const [coordinates, setCoordinates] = useState<Coordinates>();
-  const [questions, setQuestions] = useState<QuestionAndAnswer[]>([
-    {
-      question: '',
-      answer: ''
-    }
-  ]);
+  const [name, setName] = useState<string>('');
+  const [coordinates, setCoordinates] = useState<Coordinates>({ latitude: -1, longitude: -1 });
+  const [question, setQuestion] = useState<QuestionAndAnswer>({
+    question: '',
+    answer: ''
+  });
   const history = useHistory();
   const [pageState, setNext, setPrev, renderForState] = usePageState([
     'ENTER_NAME',
@@ -34,6 +33,16 @@ export const CreateOrganizationPage: React.FC = props => {
     'ENTER_QUESTIONS',
     'ADDED'
   ]);
+  const [confirmButtonDisabled, setConfirmButtonDisabled] = useState<boolean>(true);
+  useEffect(() => {
+    setConfirmButtonDisabled(name.length === 0);
+  }, [name]);
+  useEffect(() => {
+    setConfirmButtonDisabled(coordinates.longitude === -1 && coordinates.latitude === -1);
+  }, [coordinates]);
+  useEffect(() => {
+    setConfirmButtonDisabled(question.question.length === 0 || question.answer.length === 0);
+  }, [question]);
 
   const handleClickBack = () => {
     if (pageState === 'ENTER_NAME') {
@@ -42,24 +51,25 @@ export const CreateOrganizationPage: React.FC = props => {
       setPrev();
     }
   };
-  const handleNext = () => {
-    if (pageState === 'ADDED') {
-      history.push('/');
+  const handleNext = async () => {
+    if (pageState === 'ENTER_QUESTIONS') {
+      setConfirmButtonDisabled(true);
+      await OrganizationModel.put({
+        name,
+        controlQuestion: question.question,
+        controlAnswer: question.answer,
+        ...coordinates
+      }).then(r => {
+        setNext();
+      });
     } else {
-      setNext();
-    }
-  };
-  const handleAddQuestion = () => {
-    setQuestions([
-      ...questions,
-      {
-        question: '',
-        answer: ''
+      if (pageState === 'ADDED') {
+        history.push('/');
+      } else {
+        setNext();
+        setConfirmButtonDisabled(true);
       }
-    ]);
-  };
-  const handleRemoveQuestion = () => {
-    setQuestions(questions.splice(0, questions.length - 1));
+    }
   };
 
   return (
@@ -67,54 +77,52 @@ export const CreateOrganizationPage: React.FC = props => {
       <Header iconType="back" onIconClick={handleClickBack}>
         {renderForState('ENTER_NAME', <span>Новая организация</span>)}
         {renderForState('CHOOSE_LOCATION', <span>Выберите местоположение</span>)}
-        {renderForState('ENTER_QUESTIONS', <span>Контрольные вопросы</span>)}
+        {renderForState('ENTER_QUESTIONS', <span>Контрольный вопрос</span>)}
       </Header>
-      {renderForState(
-        'ENTER_NAME',
-        <>
-          <Input
-            id={'organization-name'}
-            placeholderText={'Введите название новой организации'}
-            className={'centerize centerize_center'}
-            onChange={value => setName(value)}
-          />
-        </>,
-        'appear'
-      )}
-      {renderForState('CHOOSE_LOCATION', <></>, 'appear')}
-      {renderForState(
-        'ENTER_QUESTIONS',
-        <div className={'backgrounded'}>
-          {questions.map((value, index) => (
-            <div key={index}>
+      <Backdrop onMapClicked={newPosition => setCoordinates(newPosition)}>
+        {renderForState(
+          'ENTER_NAME',
+          <>
+            <Input
+              id={'organization-name'}
+              placeholderText={'Введите название новой организации'}
+              className={'centerize centerize_center'}
+              onChange={value => setName(value)}
+            />
+          </>,
+          'appear'
+        )}
+        {renderForState('CHOOSE_LOCATION', <></>, 'appear')}
+        {renderForState(
+          'ENTER_QUESTIONS',
+          <div className={'backgrounded'}>
+            <div>
               <Input
                 className={'centered margins'}
-                id={`question${index + 1}`}
-                placeholderText={`Контрольный вопрос ${index + 1}`}
+                id={`question`}
+                placeholderText={`Контрольный вопрос`}
+                onChange={value => setQuestion({ ...question, question: value })}
               />
-              <Input className={'centered margins'} id={`answer${index + 1}`} placeholderText={`Ответ ${index + 1}`} />
+              <Input
+                className={'centered margins'}
+                id={`answer`}
+                placeholderText={`Ответ`}
+                onChange={value => setQuestion({ ...question, answer: value })}
+              />
             </div>
-          ))}
-          <div className={'centerize-flex'}>
-            <Button className={'margins'} onClick={handleAddQuestion} disabled>
-              Добавить
-            </Button>
-            <Button className={'margins'} onClick={handleRemoveQuestion} disabled={questions.length < 2}>
-              Удалить последний
-            </Button>
-          </div>
-        </div>,
-        'appear'
-      )}
-      {renderForState(
-        'ADDED',
-        <Dialog onClose={handleNext} hide={false}>
-          Организация успешно добавлена
-        </Dialog>
-      )}
-      <Button onClick={handleNext} className={'centerize centerize_bottom'}>
-        Подтвердить
-      </Button>
+          </div>,
+          'appear'
+        )}
+        {renderForState(
+          'ADDED',
+          <Dialog onClose={handleNext} hide={false}>
+            Организация успешно добавлена
+          </Dialog>
+        )}
+        <Button disabled={confirmButtonDisabled} onClick={handleNext} className={'centerize centerize_bottom'}>
+          Подтвердить
+        </Button>
+      </Backdrop>
     </div>
   );
 };

@@ -9,6 +9,7 @@ interface IButtonProps {
   disabled?: boolean;
   onClick: () => unknown;
   shadowed?: boolean;
+  outlined?: boolean;
 }
 
 export const Button = ({
@@ -17,14 +18,16 @@ export const Button = ({
   onClick,
   className = '',
   disabled = false,
-  shadowed = false
+  shadowed = false,
+  outlined = false
 }: IButtonProps) => {
   const buttonClasses = classNames({
     'rsh-button': true,
     'rsh-button__disabled': disabled,
     'rsh-button__filled': filled,
     [className]: true,
-    'rsh-button_shadowed': shadowed
+    'rsh-button_shadowed': shadowed,
+    'rsh-button_outlined': outlined
   });
 
   return (
