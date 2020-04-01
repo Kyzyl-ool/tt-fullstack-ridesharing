@@ -6,7 +6,7 @@ import { Input } from 'components/Input';
 import { useHistory } from 'react-router-dom';
 import usePageState from '../../hooks/usePageState';
 import { Button } from 'components/Button';
-import { Dialog } from 'components/Dialog/Dialog';
+import { Dialog } from 'components/Dialog';
 
 type Coordinates = {
   latitude: number;
@@ -69,58 +69,52 @@ export const CreateOrganizationPage: React.FC = props => {
         {renderForState('CHOOSE_LOCATION', <span>Выберите местоположение</span>)}
         {renderForState('ENTER_QUESTIONS', <span>Контрольные вопросы</span>)}
       </Header>
-      <Backdrop>
-        {renderForState(
-          'ENTER_NAME',
-          <>
-            <Input
-              id={'organization-name'}
-              placeholderText={'Введите название новой организации'}
-              className={'centerize centerize_center'}
-              onChange={value => setName(value)}
-            />
-          </>,
-          'appear'
-        )}
-        {renderForState('CHOOSE_LOCATION', <></>, 'appear')}
-        {renderForState(
-          'ENTER_QUESTIONS',
-          <div className={'backgrounded'}>
-            {questions.map((value, index) => (
-              <div key={index}>
-                <Input
-                  className={'centered margins'}
-                  id={`question${index + 1}`}
-                  placeholderText={`Контрольный вопрос ${index + 1}`}
-                />
-                <Input
-                  className={'centered margins'}
-                  id={`answer${index + 1}`}
-                  placeholderText={`Ответ ${index + 1}`}
-                />
-              </div>
-            ))}
-            <div className={'centerize-flex'}>
-              <Button className={'margins'} onClick={handleAddQuestion} disabled>
-                Добавить
-              </Button>
-              <Button className={'margins'} onClick={handleRemoveQuestion} disabled={questions.length < 2}>
-                Удалить последний
-              </Button>
+      {renderForState(
+        'ENTER_NAME',
+        <>
+          <Input
+            id={'organization-name'}
+            placeholderText={'Введите название новой организации'}
+            className={'centerize centerize_center'}
+            onChange={value => setName(value)}
+          />
+        </>,
+        'appear'
+      )}
+      {renderForState('CHOOSE_LOCATION', <></>, 'appear')}
+      {renderForState(
+        'ENTER_QUESTIONS',
+        <div className={'backgrounded'}>
+          {questions.map((value, index) => (
+            <div key={index}>
+              <Input
+                className={'centered margins'}
+                id={`question${index + 1}`}
+                placeholderText={`Контрольный вопрос ${index + 1}`}
+              />
+              <Input className={'centered margins'} id={`answer${index + 1}`} placeholderText={`Ответ ${index + 1}`} />
             </div>
-          </div>,
-          'appear'
-        )}
-        {renderForState(
-          'ADDED',
-          <Dialog onClose={handleNext} hide={false}>
-            Организация успешно добавлена
-          </Dialog>
-        )}
-        <Button onClick={handleNext} className={'centerize centerize_bottom'}>
-          Подтвердить
-        </Button>
-      </Backdrop>
+          ))}
+          <div className={'centerize-flex'}>
+            <Button className={'margins'} onClick={handleAddQuestion} disabled>
+              Добавить
+            </Button>
+            <Button className={'margins'} onClick={handleRemoveQuestion} disabled={questions.length < 2}>
+              Удалить последний
+            </Button>
+          </div>
+        </div>,
+        'appear'
+      )}
+      {renderForState(
+        'ADDED',
+        <Dialog onClose={handleNext} hide={false}>
+          Организация успешно добавлена
+        </Dialog>
+      )}
+      <Button onClick={handleNext} className={'centerize centerize_bottom'}>
+        Подтвердить
+      </Button>
     </div>
   );
 };

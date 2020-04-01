@@ -52,7 +52,8 @@ module.exports = {
       hooks: path.resolve(__dirname, 'lib/hooks/'),
       models: path.resolve(__dirname, 'lib/models/'),
       domain: path.resolve(__dirname, 'lib/domain/'),
-      store: path.resolve(__dirname, 'lib/store/')
+      store: path.resolve(__dirname, 'lib/store/'),
+      helpers: path.resolve(__dirname, 'lib/helpers/')
     }
   },
   module: {
@@ -86,6 +87,7 @@ module.exports = {
       favicon: './public/favicon.ico'
     }),
     new CopyWebpackPlugin([{ from: './public/icons', to: 'public/icons' }]),
+    new CopyWebpackPlugin([{ from: './public/manifest.json', to: 'public/manifest.json' }]),
     new CleanWebpackPlugin(),
     new MiniCssExtractPlugin({ filename: 'app.css' }),
     new webpack.DefinePlugin(envKeys),

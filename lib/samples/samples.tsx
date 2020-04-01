@@ -1,135 +1,160 @@
-import { IDriverType, IPassengerType, ITripCard } from '../components/TripCard/TripCard';
+import { IDriver, IPassenger } from 'domain/driver';
+import { IRide } from 'domain/ride';
 
 export const sampleAvatarSrc = 'https://pickaface.net/gallery/avatar/unr_sample_161118_2054_ynlrg.png';
 
-export const sampleDriver: IDriverType = {
+export const sampleDriver: IDriver = {
   car: 'Audi Q8',
   firstName: 'Кежик',
-  secondName: 'Кызыл-оол',
+  lastName: 'Кызыл-оол',
   vacations: 3
 };
 
-export const samplePassengers: IPassengerType[] = [
+export const samplePassengers: IPassenger[] = [
   {
     firstName: 'Кежик',
-    secondName: 'Кызыл-оол',
+    lastName: 'Кызыл-оол',
     id: 1,
-    mark: 2.7,
-    avararSrc: sampleAvatarSrc
+    rating: 2.7,
+    photoUrl: sampleAvatarSrc
   }
 ];
 
-export const sampleFoundTrips: ITripCard[] = [
+export const sampleFoundTrips: IRide[] = [
   {
-    driver: {
+    host: {
+      id: 14,
       firstName: 'Алексей',
-      secondName: 'Кожарин',
-      vacations: 2,
-      car: 'Mazda RX-7',
-      avatarSrc: sampleAvatarSrc,
-      mark: 7
+      lastName: 'Кожарин',
+      phoneNumber: '+79665557788',
+      photoUrl: sampleAvatarSrc,
+      rating: 7
     },
-    time: '17:00',
-    cost: 130,
-    from: 'Mail.ru Corp',
-    to: 'Дикси продуктовый магазин',
-    tripId: '1',
+    submitDatetime: '17:00',
+    freeSeats: 3,
+    car: {
+      id: 22,
+      owner: 14,
+      model: 'Toyota Camry',
+      registryNumber: 'у564ук',
+      color: 'Красный'
+    },
+    price: 130,
+    startOrganizationAddress: 'Mail.ru Corp',
+    stopAddress: 'Дикси продуктовый магазин',
+    id: 1,
     passengers: [
       {
-        avararSrc: sampleAvatarSrc,
+        photoUrl: sampleAvatarSrc,
         firstName: 'Иван',
-        secondName: 'Ивванов',
-        mark: 8,
+        lastName: 'Ивванов',
+        rating: 8,
         id: 2
       },
       {
-        avararSrc: sampleAvatarSrc,
+        photoUrl: sampleAvatarSrc,
         firstName: 'Иван',
-        secondName: 'Ивванов',
-        mark: 7,
+        lastName: 'Ивванов',
+        rating: 7,
         id: 4
       },
       {
-        avararSrc: sampleAvatarSrc,
+        photoUrl: sampleAvatarSrc,
         firstName: 'Иван',
-        secondName: 'Ивванов',
-        mark: 3,
+        lastName: 'Ивванов',
+        rating: 3,
         id: 3
       }
     ]
   },
   {
-    driver: {
+    host: {
+      id: 14,
       firstName: 'Алексей',
-      secondName: 'Кожарин',
-      vacations: 2,
-      car: 'Mazda RX-7',
-      avatarSrc: sampleAvatarSrc,
-      mark: 7
+      lastName: 'Кожарин',
+      phoneNumber: '+79665557788',
+      photoUrl: sampleAvatarSrc,
+      rating: 7
     },
-    time: '17:00',
-    cost: 130,
-    from: 'Mail.ru Corp',
-    to: 'Дикси продуктовый магазин',
-    tripId: '2',
+    submitDatetime: '17:00',
+    freeSeats: 3,
+    car: {
+      id: 22,
+      owner: 14,
+      model: 'Toyota Camry',
+      registryNumber: 'у564ук',
+      color: 'Красный'
+    },
+    price: 130,
+    startOrganizationAddress: 'Mail.ru Corp',
+    stopAddress: 'Дикси продуктовый магазин',
+    id: 1,
     passengers: [
       {
-        avararSrc: sampleAvatarSrc,
+        photoUrl: sampleAvatarSrc,
         firstName: 'Иван',
-        secondName: 'Ивванов',
-        mark: 8,
+        lastName: 'Ивванов',
+        rating: 8,
         id: 2
       },
       {
-        avararSrc: sampleAvatarSrc,
+        photoUrl: sampleAvatarSrc,
         firstName: 'Иван',
-        secondName: 'Ивванов',
-        mark: 7,
+        lastName: 'Ивванов',
+        rating: 7,
         id: 4
       },
       {
-        avararSrc: sampleAvatarSrc,
+        photoUrl: sampleAvatarSrc,
         firstName: 'Иван',
-        secondName: 'Ивванов',
-        mark: 3,
+        lastName: 'Ивванов',
+        rating: 3,
         id: 3
       }
     ]
   },
   {
-    driver: {
+    host: {
+      id: 14,
       firstName: 'Алексей',
-      secondName: 'Кожарин',
-      vacations: 2,
-      car: 'Mazda RX-7',
-      avatarSrc: sampleAvatarSrc,
-      mark: 7
+      lastName: 'Кожарин',
+      phoneNumber: '+79665557788',
+      photoUrl: sampleAvatarSrc,
+      rating: 7
     },
-    time: '17:00',
-    cost: 130,
-    from: 'Mail.ru Corp',
-    to: 'Дикси продуктовый магазин',
-    tripId: '3',
+    submitDatetime: '17:00',
+    freeSeats: 3,
+    car: {
+      id: 22,
+      owner: 14,
+      model: 'Toyota Camry',
+      registryNumber: 'у564ук',
+      color: 'Красный'
+    },
+    price: 130,
+    startOrganizationAddress: 'Mail.ru Corp',
+    stopAddress: 'Дикси продуктовый магазин',
+    id: 1,
     passengers: [
       {
-        avararSrc: sampleAvatarSrc,
+        photoUrl: sampleAvatarSrc,
         firstName: 'Иван',
-        secondName: 'Ивванов',
-        mark: 8,
+        lastName: 'Ивванов',
+        rating: 8,
         id: 2
       },
       {
-        avararSrc: sampleAvatarSrc,
+        photoUrl: sampleAvatarSrc,
         firstName: 'Иван',
-        secondName: 'Ивванов',
-        mark: 7,
+        lastName: 'Ивванов',
+        rating: 7,
         id: 4
       },
       {
-        avararSrc: sampleAvatarSrc,
+        photoUrl: sampleAvatarSrc,
         firstName: 'Иван',
-        secondName: 'Ивванов',
-        mark: 3,
+        lastName: 'Ивванов',
+        rating: 3,
         id: 3
       }
     ]

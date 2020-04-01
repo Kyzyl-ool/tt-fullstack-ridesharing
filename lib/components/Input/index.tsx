@@ -48,12 +48,13 @@ export const Input = ({
         </div>
       )}
       <input
-        disabled={disabled}
         id={id}
         value={value}
         onChange={e => onInputChange(e)}
         placeholder={placeholderType === 'default' ? placeholderText : ''}
-        className={`rsh-input__form ${icon ? 'rsh-input__form--with-icon' : ''}`}
+        className={`rsh-input__form ${icon ? 'rsh-input__form--with-icon' : ''} ${
+          disabled ? 'rsh-input__form--disabled' : ''
+        }`}
         type="text"
       />
       {renderRightAdornment && <div className="rsh-input__adornment">{renderRightAdornment()}</div>}

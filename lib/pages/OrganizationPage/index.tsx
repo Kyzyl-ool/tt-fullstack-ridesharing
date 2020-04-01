@@ -39,44 +39,42 @@ export const OrganizationPage: React.FC = props => {
       </Header>
       {renderForState(
         'ORGANIZATION',
-        <Backdrop>
-          <BaseLayer type={'primary'} className={'centerize centerize_floor'}>
-            <div className={'flex-row organization-page-card__head'}>
-              <Avatar src={sampleAvatarSrc} size={'small'} subtext={'Создатель'} className={'margin'} />
-              <div className={'flex-column'}>
-                <span>Эта организация находится по адресу:</span>
-                <span className={'organization-page-card__head_address'}>
-                  <b>{organizationData.address}</b>
-                </span>
-              </div>
+        <BaseLayer type={'primary'} className={'centerize centerize_floor'}>
+          <div className={'flex-row organization-page-card__head'}>
+            <Avatar src={sampleAvatarSrc} size={'small'} subtext={'Создатель'} className={'margin'} />
+            <div className={'flex-column'}>
+              <span>Эта организация находится по адресу:</span>
+              <span className={'organization-page-card__head_address'}>
+                <b>{organizationData.address}</b>
+              </span>
             </div>
-            <div className={'organization-page-card__info'}>
-              <div>
-                <div className={'flex-row'}>
-                  <div style={{ width: '60%' }}>
-                    <span>Последняя поездка с водителем из этой организации была создана</span>
-                    <b> 5&nbsp;марта&nbsp;2020</b>
-                  </div>
-                  <div>
-                    Кол-во участников:&nbsp;<b>10</b>
-                    <br />
-                    Из них водителей:&nbsp;<b>4</b>
-                    <br />
-                    Пассажиров:&nbsp;<b>6</b>
-                    <br />
-                    <u onClick={handleNext} className={'underlined-clickable'}>
-                      Просмотреть участников
-                    </u>
-                  </div>
+          </div>
+          <div className={'organization-page-card__info'}>
+            <div>
+              <div className={'flex-row'}>
+                <div style={{ width: '60%' }}>
+                  <span>Последняя поездка с водителем из этой организации была создана</span>
+                  <b> 5&nbsp;марта&nbsp;2020</b>
+                </div>
+                <div>
+                  Кол-во участников:&nbsp;<b>10</b>
+                  <br />
+                  Из них водителей:&nbsp;<b>4</b>
+                  <br />
+                  Пассажиров:&nbsp;<b>6</b>
+                  <br />
+                  <u onClick={handleNext} className={'underlined-clickable'}>
+                    Просмотреть участников
+                  </u>
                 </div>
               </div>
-              <br />
-              <div>
-                Стоимость поездки: <b>от 50 до 300 ₽</b>
-              </div>
             </div>
-          </BaseLayer>
-        </Backdrop>
+            <br />
+            <div>
+              Стоимость поездки: <b>от 50 до 300 ₽</b>
+            </div>
+          </div>
+        </BaseLayer>
       )}
       {renderForState('MEMBERS', <></>)}
     </div>

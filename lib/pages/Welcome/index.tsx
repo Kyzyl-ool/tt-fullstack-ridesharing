@@ -32,36 +32,34 @@ export const Welcome: React.FC = props => {
 
   return (
     <div className={'welcome'}>
-      <Backdrop>
-        <Header iconType={'menu'} onIconClick={() => {}}>
-          <NearestOrganizationLabel nearestOrganizationName={'Mail.ru Corp.'} onClick={() => {}} />
-        </Header>
+      <Header iconType={'menu'} onIconClick={() => {}}>
+        <NearestOrganizationLabel nearestOrganizationName={'Mail.ru Corp.'} onClick={() => {}} />
+      </Header>
 
-        {renderForState(
-          'NAMES',
-          <Dialog onClose={handleNext} hide={false} buttonText={'Подтвердить'} cross={false}>
-            <p className={'welcome__text'}>Добро пожаловать! Введите, пожалуйста, регистрационные данные:</p>
-            <Input id={'last-name'} placeholderText={'Фамилия'} placeholderType={'subscript'} />
-            <Input id={'first-name'} placeholderText={'Имя'} placeholderType={'subscript'} />
-          </Dialog>,
-          'appear'
-        )}
-        {renderForState(
-          'TELEGRAM',
-          <Dialog onClose={handleNext} hide={false} buttonText={'Подтвердить'} cross={false}>
-            <p className={'welcome__text'}>Введите ваш Telegram для связи:</p>
-            <Input id={'telegram'} placeholderText={'Telegram'} placeholderType={'subscript'} />
-          </Dialog>,
-          'appear'
-        )}
-        {renderForState(
-          'FINISH',
-          <Dialog onClose={handleNext} hide={false} buttonText={'Подтвердить'}>
-            <p className={'welcome__text'}>Поздравляем! Вы успешно зарегистрировались в приложении RideSharing!</p>
-          </Dialog>,
-          'appear'
-        )}
-      </Backdrop>
+      {renderForState(
+        'NAMES',
+        <Dialog onClose={handleNext} hide={false} buttonText={'Подтвердить'} cross={false}>
+          <p className={'welcome__text'}>Добро пожаловать! Введите, пожалуйста, регистрационные данные:</p>
+          <Input id={'last-name'} placeholderText={'Фамилия'} placeholderType={'subscript'} />
+          <Input id={'first-name'} placeholderText={'Имя'} placeholderType={'subscript'} />
+        </Dialog>,
+        'appear'
+      )}
+      {renderForState(
+        'TELEGRAM',
+        <Dialog onClose={handleNext} hide={false} buttonText={'Подтвердить'} cross={false}>
+          <p className={'welcome__text'}>Введите ваш Telegram для связи:</p>
+          <Input id={'telegram'} placeholderText={'Telegram'} placeholderType={'subscript'} />
+        </Dialog>,
+        'appear'
+      )}
+      {renderForState(
+        'FINISH',
+        <Dialog onClose={handleNext} hide={false} buttonText={'Подтвердить'}>
+          <p className={'welcome__text'}>Поздравляем! Вы успешно зарегистрировались в приложении RideSharing!</p>
+        </Dialog>,
+        'appear'
+      )}
     </div>
   );
 };

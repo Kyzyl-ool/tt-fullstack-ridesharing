@@ -11,7 +11,8 @@
       "models/*": ["lib/models/*"],
       "hooks/*": ["lib/hooks/*"],
       "domain/*": ["lib/domain/*"],
-      "store/*": ["lib/store/*"]
+      "store/*": ["lib/store/*"],
+      "helpers/*": ["lib/helpers/*"]
     },
     "lib": ["dom", "dom.iterable", "esnext"],
     "allowJs": true,

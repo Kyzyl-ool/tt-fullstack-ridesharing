@@ -20,6 +20,11 @@
     &--with-icon {
       border-radius: 0 10px 10px 0;
     }
+
+    &--disabled {
+      cursor: pointer;
+      pointer-events: none;
+    }
   }
 
   &__icon {

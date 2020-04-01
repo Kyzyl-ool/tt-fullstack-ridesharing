@@ -1,5 +1,6 @@
 import React, { Fragment, useState, useEffect } from 'react';
 import _isEmpty from 'lodash/isEmpty';
+import _isEqual from 'lodash/isEqual';
 import { BaseLayer } from 'components/BaseLayer/BaseLayer';
 import { CarCard } from 'components/CarCard';
 import { Slider } from 'components/Slider';
@@ -61,7 +62,7 @@ export const CarSelectBlock = ({
             {!_isEmpty(fetchedCars) &&
               fetchedCars.map(car => (
                 <CarCard
-                  isCardSelected={selectedCarId === car.id}
+                  isCardSelected={_isEqual(selectedCarId, car.id)}
                   key={car.id}
                   car={car}
                   onClick={onCardClicked}
@@ -70,7 +71,9 @@ export const CarSelectBlock = ({
                 />
               ))}
             <div className="car-select-block__button">
-              <Button onClick={onSelectButtonClick}>Выбрать</Button>
+              <Button disabled={!selectedCarId} onClick={onSelectButtonClick}>
+                Выбрать
+              </Button>
             </div>
           </div>
         </BaseLayer>

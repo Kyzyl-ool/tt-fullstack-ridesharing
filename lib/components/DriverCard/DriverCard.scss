@@ -1,9 +1,9 @@
-@import "lib/styles/colors";
+@import 'lib/styles/colors';
 
 .driver-card {
   display: flex;
   border-radius: 10px;
-  background-color: #F2F2F2;
+  background-color: #f2f2f2;
   padding: 8px 24px 8px 24px;
   margin: 8px 24px 0 24px;
   position: relative;
@@ -16,12 +16,12 @@
     flex-direction: column;
     align-items: center;
     text-align: center;
-    margin-top: 8px;
+    margin-top: 12px;
     width: 50%;
   }
 
   &__avatar {
-    margin: 0 12px 0 0;
+    margin: 6px 12px 0 0;
   }
 
   &__price {
@@ -34,29 +34,47 @@
     font-size: 24px;
     line-height: 30px;
     text-align: center;
-    color: #33A852;
+    color: #33a852;
     margin-top: 8px;
     margin-right: 8px;
   }
 
+  &__host-name {
+    flex: 2;
+    word-wrap: nowrap;
+    text-overflow: ellipsis;
+    text-align: center;
+    overflow: hidden;
+  }
+
+  &__stop-address {
+    flex: 3;
+    white-space: nowrap;
+    text-overflow: ellipsis;
+    text-align: center;
+    overflow: hidden;
+    margin-left: 1rem;
+  }
+
   &__destination {
     position: absolute;
+    padding: 0 8px;
     bottom: 8px;
     left: 16px;
     border-radius: 5px;
     min-height: 10px;
-    border: 0.5px solid #C1C1C1;
+    border: 0.5px solid #c1c1c1;
     display: flex;
     flex-direction: row;
     font-family: 'Source Sans Pro', sans-serif;
     font-style: normal;
     font-weight: normal;
-    font-size: 8px;
-    line-height: 10px;
-    min-width: 224px;
+    font-size: 10px;
+    line-height: 14px;
+    width: 280px;
     justify-content: space-around;
     color: #000000;
-    background-color: #FFFFFF;
+    background-color: #ffffff;
 
     &_waiting {
       bottom: 32px;
@@ -67,7 +85,7 @@
     font-family: 'Source Sans Pro', sans-serif;
     font-style: normal;
     font-weight: bold;
-    font-size: 12px;
+    font-size: 14px;
     line-height: 15px;
     text-align: center;
 
@@ -78,8 +96,8 @@
     font-family: 'Source Sans Pro', sans-serif;
     font-style: italic;
     font-weight: normal;
-    font-size: 8px;
-    line-height: 10px;
+    font-size: 12px;
+    line-height: 14px;
     /* identical to box height */
 
     display: flex;
@@ -123,8 +141,6 @@
 
   &_waiting {
     min-height: 118px;
-    border: 1px solid #33A852;
-
-
+    border: 1px solid #33a852;
   }
 }
