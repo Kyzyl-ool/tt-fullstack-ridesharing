@@ -45,7 +45,6 @@ export const CarSelectBlock = ({
 
   const fetchCars = async () => {
     const cars = await UserModel.getCars();
-    console.log(cars);
     setFetchedCars(cars);
   };
 

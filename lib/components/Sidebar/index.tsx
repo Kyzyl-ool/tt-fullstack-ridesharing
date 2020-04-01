@@ -1,4 +1,5 @@
 import React, { Fragment } from 'react';
+import { useSelector } from 'react-redux';
 import ReactDOM from 'react-dom';
 import { Link, useLocation } from 'react-router-dom';
 import { Slider } from 'components/Slider';
@@ -14,6 +15,7 @@ interface ISidebar {
 
 export const Sidebar = ({ visible, onClose }: ISidebar) => {
   const location = useLocation();
+  const userInfo = useSelector(state => state.user.user);
 
   const renderReturnToMainLink = () =>
     location.pathname !== '/' && (
@@ -29,7 +31,9 @@ export const Sidebar = ({ visible, onClose }: ISidebar) => {
           <div className="rsh-sidebar__container">
             <div className="rsh-sidebar__personal-info">
               <Avatar src={sampleAvatarSrc} size="small" />
-              <h3 className="rsh-sidebar__username">Имя Фамилия</h3>
+              <h3 className="rsh-sidebar__username">
+                {userInfo.firstName} {userInfo.lastName}
+              </h3>
             </div>
             {renderReturnToMainLink()}
             <Menu />

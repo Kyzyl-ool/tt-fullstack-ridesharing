@@ -19,7 +19,6 @@ export default class RideModel {
   };
 
   static findRides = async ({ organizationId, latitude, longitude }: IFindRidesRequest) => {
-    console.log(latitude, longitude);
     const res = await axios.get('/api/ride/match', {
       params: {
         organizationId,
