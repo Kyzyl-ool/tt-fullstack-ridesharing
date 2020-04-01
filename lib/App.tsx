@@ -1,5 +1,6 @@
 /* eslint-disable @typescript-eslint/no-empty-function */
 import React, { useEffect } from 'react';
+import { useDispatch } from 'react-redux';
 import { BrowserRouter as Router, Switch, Route, Redirect } from 'react-router-dom';
 import { CreateRidePage } from 'pages/CreateRidePage';
 import { JoinRidePage } from 'pages/JoinRidePage';
@@ -12,23 +13,33 @@ import { Auth } from 'pages/Auth';
 import { ActiveRidesPage } from 'pages/ActiveRidesPage';
 import { Welcome } from 'pages/Welcome';
 import { RidesHistoryPage } from 'pages/RidesHistory';
-import './App.global.scss';
 import { ProfilePage } from 'pages/ProfilePage';
 import { Backdrop } from 'components/Backdrop';
+import { setUserAction } from 'store/actions/userActions';
+import './App.global.scss';
 
 const App = () => {
-  //TODO remove when real authorization logic will be implemeneted
-  useEffect(() => {
+  const dispatch = useDispatch();
+
+  const login = async () => {
     try {
-      UserModel.login();
+      await UserModel.login();
+      const userInfo = await UserModel.getMyself();
+      dispatch(setUserAction(userInfo));
     } catch (e) {
       console.log(e);
     }
+  };
+
+  //TODO remove when real authorization logic will be implemeneted
+  useEffect(() => {
+    login();
   }, []);
 
   return (
     <Backdrop>
       <Router>
+        <div id="sidebar" />
         <Switch>
           <Route exact path="/">
             <MainPage />

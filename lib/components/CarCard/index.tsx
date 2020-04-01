@@ -1,5 +1,4 @@
 import React, { useState } from 'react';
-import _isEqual from 'lodash/isEqual';
 import classNames from 'classnames';
 import penSrc from '../../icons/Pen.svg';
 import trashSrc from '../../icons/Trash.svg';
@@ -8,26 +7,25 @@ import { UnstyledInput } from '../UnstyledInput/UnstyledInput';
 import { ICar } from 'domain/car';
 import './CarCard.scss';
 
+export type CarDataType = {
+  id: string;
+  text: string;
+  name: string;
+  number: string;
+  color: string;
+};
+
 interface ICarCard {
   isCardSelected: boolean;
-  car?: ICar;
+  car: ICar;
   onDelete: (any) => any;
   onChange: (any, NewDataType) => any;
   onClick: (carId: string) => void;
 }
 
-const emptyCar: ICar = {
-  model: '',
-  registryNumber: '',
-  color: '',
-  owner: null,
-  id: null
-};
-
 export const CarCard: React.FC<ICarCard> = ({
   isCardSelected,
-  car = emptyCar,
-  car: { model, registryNumber, color, id } = emptyCar,
+  car: { model, registryNumber, color, text, id },
   onDelete,
   onChange,
   onClick

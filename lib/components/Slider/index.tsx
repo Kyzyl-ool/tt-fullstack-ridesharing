@@ -3,7 +3,7 @@ import classNames from 'classnames';
 import { CSSTransition } from 'react-transition-group';
 import './Slider.scss';
 
-type SlideDirection = 'bottom' | 'top';
+type SlideDirection = 'bottom' | 'top' | 'left' | 'right';
 
 interface ISliderProps {
   children: ReactNode;
@@ -15,7 +15,10 @@ interface ISliderProps {
 
 export const Slider = ({ visible, timeout, children, unmountOnExit, from }: ISliderProps) => {
   const sliderClassNames = classNames({
-    [from === 'bottom' ? 'rsh-slider-bottom' : 'rsh-slider-top']: true
+    'rsh-slider-bottom': from === 'bottom',
+    'rsh-slider-top': from === 'top',
+    'rsh-slider-left': from === 'left',
+    'rsh-slider-right': from === 'right'
   });
   return (
     <div className="rsh-slider-container">

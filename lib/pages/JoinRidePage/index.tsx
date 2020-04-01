@@ -83,7 +83,6 @@ export const JoinRidePage = () => {
   };
 
   const onSelectRide = (rideId: number) => {
-    console.log(rideId);
     setSelectedRideId(rideId);
   };
 
