@@ -3,10 +3,13 @@
 .backgrounded {
   background-color: $ui-secondary-color;
   height: 100%;
-  padding-top: 24px;
 
   &_grey {
     background-color: $ui-background-grey-color;
+  }
+
+  &--with-padding {
+    padding-top: 24px;
   }
 }
 

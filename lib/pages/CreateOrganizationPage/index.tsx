@@ -104,7 +104,7 @@ export const CreateOrganizationPage: React.FC = props => {
         {renderForState('CHOOSE_LOCATION', <></>, 'appear')}
         {renderForState(
           'ENTER_QUESTIONS',
-          <div className={'backgrounded'}>
+          <div className={'backgrounded backgrounded--with-padding'}>
             <div>
               <Input
                 className={'centered margins'}

@@ -89,7 +89,7 @@ export const JoinOrganizationPage: React.FC = props => {
       )}
       {renderForState(
         'QUESTIONS',
-        <div className={'rsh-backdrop backgrounded'}>
+        <div className={'rsh-backdrop backgrounded backgrounded--with-padding'}>
           {questions.map((value, index) => (
             <div className={'margins'} key={index}>
               <span>{value.controlQuestion}</span>
