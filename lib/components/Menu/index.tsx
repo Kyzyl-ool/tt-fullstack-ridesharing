@@ -1,6 +1,7 @@
 import React, { ReactNode, Fragment } from 'react';
 import { Link } from 'react-router-dom';
 import './Menu.scss';
+import UserModel from 'models/UserModel';
 
 // type RouteIconType = "PROFILE" | "STAR" |
 
@@ -9,6 +10,7 @@ interface IRoute {
   label: string;
   routeIconClassModifier: string;
   disabled: boolean;
+  backendRequestCallback?: () => void;
 }
 
 const APPLICATION_ROUTES: IRoute[] = [
@@ -43,20 +45,26 @@ const APPLICATION_ROUTES: IRoute[] = [
     disabled: true
   },
   {
-    path: '/logout',
+    path: '/auth',
     label: 'Выход',
     routeIconClassModifier: 'logout',
-    disabled: true
+    disabled: false,
+    backendRequestCallback: async () => {
+      await UserModel.logout();
+    }
   }
 ];
 
 export const Menu = () => {
   return (
     <ul className="rsh-menu">
-      {APPLICATION_ROUTES.map(({ path, label, routeIconClassModifier, disabled }) => {
+      {APPLICATION_ROUTES.map(({ path, label, routeIconClassModifier, disabled, backendRequestCallback }) => {
         return (
           <li key={path} className="rsh-menu__item">
-            <div className={`rsh-menu__item-content ${disabled ? 'rsh-menu__item-content--disabled' : ''}`}>
+            <div
+              onClick={backendRequestCallback}
+              className={`rsh-menu__item-content ${disabled ? 'rsh-menu__item-content--disabled' : ''}`}
+            >
               <div className={`rsh-menu__icon rsh-menu__icon--${routeIconClassModifier}`} />
               <Link to={path}>
                 <h4 className="rsh-menu__label">{label}</h4>
