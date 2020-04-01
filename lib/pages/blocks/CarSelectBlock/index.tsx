@@ -93,12 +93,14 @@ export const CarSelectBlock = ({
         color: carInfo.color,
         model: carInfo.model
       });
+      setIsCreatingNewCar(false);
       fetchCars();
     },
     300
   );
 
   useEffect(() => {
+    setIsCreatingNewCar(false);
     fetchCars();
   }, []);
 
