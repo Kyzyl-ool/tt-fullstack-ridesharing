@@ -22,7 +22,7 @@ const APPLICATION_ROUTES: IRoute[] = [
     path: '/rating',
     label: 'Мой рейтинг',
     routeIconClassModifier: 'rating',
-    disabled: false
+    disabled: true
   },
   {
     path: '/rides',
