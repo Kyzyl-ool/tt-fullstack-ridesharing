@@ -8,6 +8,8 @@ import usePageState from '../../hooks/usePageState';
 import { Button } from 'components/Button';
 import { Dialog } from 'components/Dialog';
 import { OrganizationModel } from 'models/OrganizationModel';
+import { useDispatch } from 'react-redux';
+import { allowCustomPointsAction, forbidCustomPointsAction } from 'store/actions/mapActions';
 
 type Coordinates = {
   latitude: number;
@@ -26,6 +28,7 @@ export const CreateOrganizationPage: React.FC = props => {
     question: '',
     answer: ''
   });
+  const dispatch = useDispatch();
   const history = useHistory();
   const [pageState, setNext, setPrev, renderForState] = usePageState([
     'ENTER_NAME',
@@ -71,6 +74,12 @@ export const CreateOrganizationPage: React.FC = props => {
       }
     }
   };
+
+  useEffect(() => {
+    // effect allowing custom pins on the map
+    dispatch(allowCustomPointsAction());
+    return () => dispatch(forbidCustomPointsAction());
+  });
 
   return (
     <div>
@@ -119,7 +128,7 @@ export const CreateOrganizationPage: React.FC = props => {
             Организация успешно добавлена
           </Dialog>
         )}
-        <Button disabled={confirmButtonDisabled} onClick={handleNext} className={'centerize centerize_bottom'}>
+        <Button filled disabled={confirmButtonDisabled} onClick={handleNext} className={'centerize centerize_bottom'}>
           Подтвердить
         </Button>
       </Backdrop>

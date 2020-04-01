@@ -39,7 +39,6 @@ const App = () => {
   return (
     <Backdrop>
       <Router>
-        <div id="sidebar" />
         <Switch>
           <Route exact path="/">
             <MainPage />
