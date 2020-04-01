@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
+import _isEmpty from 'lodash/isEmpty';
 import { Backdrop } from 'components/Backdrop';
-import { FoundTrips } from 'components/FoundTrips';
+import { FoundRides } from 'components/FoundRides';
 import { Dialog } from 'components/Dialog';
 import { PaymentBlock } from 'pages/blocks/PaymentBlock';
 import { OrganizationSelectBlock } from 'pages/blocks/OrganizationSelectBlock';
@@ -9,14 +10,13 @@ import { SearchRideBlock } from 'pages/blocks/SearchRideBlock';
 import { InitialRideBlock } from 'pages/blocks/InitialRideBlock';
 import { IDestination, ILocation } from 'domain/map';
 import RideModel from 'models/RideModel';
-import { sampleFoundTrips } from '../../samples/samples';
+import { IRide } from 'domain/ride';
 import './JoinRidePage.scss';
 
 type PageState =
   | 'INITIAL'
   | 'ORGANIZATION_CHOOSING'
   | 'DESTINATION_CHOOSING'
-  // | 'MAP_DESTINATION_CHOOSING'
   | 'SEARCHING'
   | 'SEARCH_COMPLETED'
   | 'PAYING'
@@ -29,10 +29,9 @@ export const JoinRidePage = () => {
     latitude: null,
     longitude: null
   });
-  const [selectedRideId, setSelectedRideId] = useState<string>(null);
+  const [selectedRideId, setSelectedRideId] = useState<number>(null);
   const [selectedOrganizationName, setSelectedOrganizationName] = useState('');
-  // use when /ride/match will be ready
-  // const [fetchedRides, setFetchedRides] = useState([]);
+  const [fetchedRides, setFetchedRides] = useState<IRide[]>([]);
 
   const onStartOrganizationChoosing = () => {
     setPageState('ORGANIZATION_CHOOSING');
@@ -56,11 +55,25 @@ export const JoinRidePage = () => {
     setPageState('DESTINATION_CHOOSING');
   };
 
-  const onSelectDestination = ({ latitude, longitude }: IDestination['gps']) => {
+  const onSelectDestination = async ({ latitude, longitude }: IDestination['gps']) => {
     setRideSearchingInformation({ ...rideSearchingInformation, latitude, longitude });
-    // TODO implement async request /ride/match
     setPageState('SEARCHING');
-    setTimeout(() => setPageState('SEARCH_COMPLETED'), 3000);
+    try {
+      const rides = await RideModel.findRides({
+        organizationId: rideSearchingInformation.startOrganizationId,
+        latitude,
+        longitude
+      });
+      setFetchedRides(rides);
+      setPageState('SEARCH_COMPLETED');
+    } catch (e) {
+      setPageState('DESTINATION_CHOOSING');
+      throw new Error(e);
+    }
+  };
+
+  const onConfirmAddress = ({ gps: { latitude, longitude } }: IDestination) => {
+    setRideSearchingInformation({ ...rideSearchingInformation, latitude, longitude });
   };
 
   const onSendRequest = () => {
@@ -69,11 +82,7 @@ export const JoinRidePage = () => {
     setPageState('PAYING');
   };
 
-  // const onMapButtonClick = () => {
-  //   setPageState('MAP_DESTINATION_CHOOSING');
-  // };
-
-  const onSelectRide = (rideId: string) => {
+  const onSelectRide = (rideId: number) => {
     console.log(rideId);
     setSelectedRideId(rideId);
   };
@@ -87,33 +96,34 @@ export const JoinRidePage = () => {
     }
   };
 
+  const getPriceToPay = () =>
+    !_isEmpty(fetchedRides) ? fetchedRides.find(ride => ride.id === selectedRideId).price : 0;
+
   return (
     <div>
-      <Backdrop>
-        {pageState === 'INITIAL' && <InitialRideBlock onInputClick={onStartOrganizationChoosing} />}
-        <OrganizationSelectBlock
-          visible={pageState === 'ORGANIZATION_CHOOSING'}
-          onGoBack={onReturnToInitial}
-          onSelectOrganization={onSelectOrganization}
-        />
-        <DestinationSelectBlock
-          // onMapButtonClick={onMapButtonClick}
-          visible={pageState === 'DESTINATION_CHOOSING'}
-          onGoBack={onReturnToOrganizationChoosing}
-          onSelectDestination={onSelectDestination}
-          startOrganizationName={selectedOrganizationName}
-        />
-        <SearchRideBlock onShowMenu={() => {}} visible={pageState === 'SEARCHING'} from="" to="" />
-        {pageState === 'SEARCH_COMPLETED' && (
-          <FoundTrips onSelectRide={onSelectRide} onSendRequest={onSendRequest} trips={sampleFoundTrips} />
-        )}
-        {pageState === 'PAYING' && <PaymentBlock amountToPay={130} onPaymentConfirmed={onPaymentConfirmed} />}
-        {pageState === 'DONE' && (
-          <Dialog hide={false}>
-            Запрос на присоединение к поездке отправлен. Ответ водителя будет направлен вам по push-уведомлению
-          </Dialog>
-        )}
-      </Backdrop>
+      {pageState === 'INITIAL' && <InitialRideBlock onInputClick={onStartOrganizationChoosing} />}
+      <OrganizationSelectBlock
+        visible={pageState === 'ORGANIZATION_CHOOSING'}
+        onGoBack={onReturnToInitial}
+        onSelectOrganization={onSelectOrganization}
+      />
+      <DestinationSelectBlock
+        onConfirmAddress={onConfirmAddress}
+        visible={pageState === 'DESTINATION_CHOOSING'}
+        onGoBack={onReturnToOrganizationChoosing}
+        onSelectDestination={onSelectDestination}
+        startOrganizationName={selectedOrganizationName}
+      />
+      <SearchRideBlock onShowMenu={() => {}} visible={pageState === 'SEARCHING'} from="" to="" />
+      {pageState === 'SEARCH_COMPLETED' && (
+        <FoundRides onSelectRide={onSelectRide} onSendRequest={onSendRequest} rides={fetchedRides} />
+      )}
+      {pageState === 'PAYING' && <PaymentBlock amountToPay={getPriceToPay()} onPaymentConfirmed={onPaymentConfirmed} />}
+      {pageState === 'DONE' && (
+        <Dialog hide={false}>
+          Запрос на присоединение к поездке отправлен. Ответ водителя будет направлен вам по push-уведомлению
+        </Dialog>
+      )}
     </div>
   );
 };

@@ -2,62 +2,49 @@ import React from 'react';
 import { Avatar } from '../Avatar/Avatar';
 import './DriverCard.scss';
 import { DriverAnswerType } from 'pages/ActiveRidesPage';
+import { IRide } from 'domain/ride';
+import { parseLocationAddress } from 'helpers/parseLocationAddress';
+import { sampleAvatarSrc } from 'samples/samples';
 
-interface ITripCard {
-  avatarSrc: string;
-  mark: number;
-  firstName: string;
-  secondName: string;
-  vacations: number;
-  car: string;
-  time: string;
-  destination: string;
-  cost: number;
-  tripId: string;
+interface IDriverCard {
+  ride: IRide;
+  onSelectRide: (rideId: number) => void;
   driverAnswer?: DriverAnswerType;
-  onSelectRide: (rideId: string) => void;
+  waiting: boolean;
 }
 
-export const DriverCard: React.FC<ITripCard> = ({
-  avatarSrc,
-  mark,
-  firstName,
-  secondName,
-  vacations,
-  car,
-  time,
-  cost,
-  destination,
-  tripId,
+export const DriverCard = ({
+  ride: { id, host, price, freeSeats, startOrganizationAddress, stopAddress, car, submitDatetime },
   driverAnswer,
   onSelectRide
-}) => {
+}: IDriverCard) => {
   const onCardClick = () => {
-    onSelectRide(tripId);
+    onSelectRide(id);
   };
 
   return (
     <div onClick={onCardClick} className={`driver-card ${driverAnswer ? 'driver-card_waiting' : ''}`}>
       <div className={'driver-card__avatar'}>
-        <Avatar src={avatarSrc} size={'medium'} mark={mark} />
+        <Avatar src={sampleAvatarSrc} size={'medium'} mark={host.rating} />
       </div>
       <div className={'driver-card__text-container'}>
         <b>
-          {firstName}&nbsp;{secondName}
+          {host.firstName}&nbsp;{host.lastName}
         </b>
-        <i>Могу взять еще {vacations} человек</i>
+        <i>Могу взять еще {freeSeats} человек</i>
         <span className={'driver-card__text'}>
-          Автомобиль:&nbsp;<b>{car}</b>
+          <b>{car.model}</b>
         </span>
-        <span className={'driver-card__text'}>
-          Время отправления:&nbsp;<b>{time}</b>
-        </span>
+        {/* Нужно будет прояснить что делать со временем */}
+        {/* <span className={'driver-card__text'}>
+          Время отправления:&nbsp;<b>{submitDatetime}</b>
+        </span> */}
       </div>
 
-      <span className={'driver-card__price'}>{cost.toFixed(0)}&nbsp;₽</span>
+      <span className={'driver-card__price'}>{price.toFixed(0)}&nbsp;₽</span>
       <div className={`driver-card__destination ${driverAnswer ? 'driver-card__destination_waiting' : null}`}>
-        <span>{firstName} едет до:</span>
-        <span>{destination}</span>
+        <span className="driver-card__host-name">{host.firstName} едет до:</span>
+        <span className="driver-card__stop-address">{parseLocationAddress(stopAddress).name}</span>
       </div>
 
       {driverAnswer === 'WAITING' ? <span className={'driver-card__waiting'}>Ожидание ответа водителя</span> : null}

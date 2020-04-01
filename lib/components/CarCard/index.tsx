@@ -1,4 +1,5 @@
 import React, { useState } from 'react';
+import _isEqual from 'lodash/isEqual';
 import classNames from 'classnames';
 import penSrc from '../../icons/Pen.svg';
 import trashSrc from '../../icons/Trash.svg';
@@ -7,25 +8,26 @@ import { UnstyledInput } from '../UnstyledInput/UnstyledInput';
 import { ICar } from 'domain/car';
 import './CarCard.scss';
 
-export type CarDataType = {
-  id: string;
-  text: string;
-  name: string;
-  number: string;
-  color: string;
-};
-
 interface ICarCard {
   isCardSelected: boolean;
-  car: ICar;
+  car?: ICar;
   onDelete: (any) => any;
   onChange: (any, NewDataType) => any;
   onClick: (carId: string) => void;
 }
 
+const emptyCar: ICar = {
+  model: '',
+  registryNumber: '',
+  color: '',
+  owner: null,
+  id: null
+};
+
 export const CarCard: React.FC<ICarCard> = ({
   isCardSelected,
-  car: { model, registryNumber, color, text, id },
+  car = emptyCar,
+  car: { model, registryNumber, color, id } = emptyCar,
   onDelete,
   onChange,
   onClick
@@ -54,7 +56,7 @@ export const CarCard: React.FC<ICarCard> = ({
     onClick(id);
   };
 
-  return (
+  return _isEqual(car, emptyCar) ? (
     <li className={carCardClassNames} onClick={onCardClick}>
       <form style={{ textAlign: 'center', display: editing ? '' : 'none' }} onSubmit={handleSubmit} id={'car-form'}>
         <UnstyledInput value={model} className={'car-card__name'} name={'name'} />
@@ -85,5 +87,7 @@ export const CarCard: React.FC<ICarCard> = ({
         </li>
       </ul>
     </li>
+  ) : (
+    <div>no car</div>
   );
 };

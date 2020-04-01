@@ -27,7 +27,11 @@ interface IDeleteCarRequestBody {
 export default class UserModel {
   static login = async () => {
     // TODO implement real authorization logic when authorization will be ready
-    await axios.post(`/api/login`, { login: 'user_23@gmail.com', password: '12345' }, { withCredentials: true });
+    try {
+      await axios.post(`/api/login`, { login: 'user_23@gmail.com', password: '12345' }, { withCredentials: true });
+    } catch (e) {
+      console.log(e);
+    }
   };
 
   static getOrganizations = async () => {
@@ -51,7 +55,9 @@ export default class UserModel {
   };
 
   static deleteCar = async (requestBody: IDeleteCarRequestBody) => {
-    const res = await axios.delete('/api/car', requestBody);
+    const res = await axios.delete('/api/car', {
+      data: requestBody
+    });
     return res.data;
   };
 }

@@ -6,10 +6,15 @@ import usePageState from '../../hooks/usePageState';
 import { Button } from 'components/Button';
 import { DriverCard } from 'components/DriverCard/DriverCard';
 import { sampleAvatarSrc } from 'samples/samples';
+import { IRide } from 'domain/ride';
 
 type Tabs = 'I_AM_DRIVER' | 'I_AM_PASSENGER';
 
 export type DriverAnswerType = 'ACCEPT' | 'DECLINE' | 'WAITING' | 'CANCELLED';
+
+interface IActiveRidesPage {
+  driverAnswer: DriverAnswerType;
+}
 
 type Ride = {
   rideId: number;
@@ -34,32 +39,56 @@ type Ride = {
   driverPhoneNumber?: string;
 };
 
-export const ActiveRidesPage: React.FC = props => {
+export const ActiveRidesPage: React.FC<IActiveRidesPage> = props => {
   const history = useHistory();
   const [pageState, setNext, setPrev, renderWithState] = usePageState(['MY_RIDES', 'RIDE_CARD']);
   const [currentTab, setCurrentTab] = useState<Tabs>('I_AM_PASSENGER');
-  const [activeRides, setActiveRides] = useState<Ride[]>([
+  const [activeRides, setActiveRides] = useState<IRide[]>([
     {
-      driverAnswer: 'ACCEPT',
-      driver: {
-        avatarSrc: sampleAvatarSrc,
-        rating: 10,
-        lastName: 'Izrailev',
-        firstName: 'Nikita',
-        driverId: 123
+      host: {
+        id: 14,
+        firstName: 'Алексей',
+        lastName: 'Кожарин',
+        phoneNumber: '+79665557788',
+        photoUrl: sampleAvatarSrc,
+        rating: 7
       },
-      amountOfFreePlaces: 1,
-      time: '17:00',
-      destinationAddress: 'Mail.ru Corp.',
-      declineReason: null,
-      cost: '300',
+      submitDatetime: '17:00',
+      freeSeats: 3,
       car: {
-        color: 'black',
-        licensePlateNumber: 'TY777T',
-        model: 'Mazda'
+        id: 22,
+        owner: 14,
+        model: 'Toyota Camry',
+        registryNumber: 'у564ук',
+        color: 'Красный'
       },
-      rideId: 1,
-      driverPhoneNumber: '89299329297'
+      price: 130,
+      startOrganizationAddress: 'Mail.ru Corp',
+      stopAddress: 'Дикси продуктовый магазин',
+      id: 1,
+      passengers: [
+        {
+          photoUrl: sampleAvatarSrc,
+          firstName: 'Иван',
+          lastName: 'Ивванов',
+          rating: 8,
+          id: 2
+        },
+        {
+          photoUrl: sampleAvatarSrc,
+          firstName: 'Иван',
+          lastName: 'Ивванов',
+          rating: 7,
+          id: 4
+        },
+        {
+          photoUrl: sampleAvatarSrc,
+          firstName: 'Иван',
+          lastName: 'Ивванов',
+          rating: 3,
+          id: 3
+        }
+      ]
     }
   ]);
 
@@ -92,20 +121,12 @@ export const ActiveRidesPage: React.FC = props => {
             </Button>
           </div>
           <div>
-            {activeRides.map((value, index) => (
+            {activeRides.map((ride, index) => (
               <DriverCard
-                tripId={value.rideId}
-                car={`${value.car.model}, ${value.car.licensePlateNumber} (${value.car.color})`}
-                cost={+value.cost}
-                destination={value.destinationAddress}
-                firstName={value.driver.firstName}
-                secondName={value.driver.lastName}
-                time={value.time}
-                vacations={+value.amountOfFreePlaces}
-                mark={value.driver.rating}
-                avatarSrc={value.driver.avatarSrc}
-                driverAnswer={value.driverAnswer}
-                key={index}
+                onSelectRide={() => {}}
+                ride={ride}
+                driverAnswer={props.driverAnswer || 'WAITING'}
+                key={ride.id}
               />
             ))}
           </div>

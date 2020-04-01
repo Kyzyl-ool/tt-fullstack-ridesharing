@@ -1,5 +1,6 @@
 import React from 'react';
 import { IDestination } from 'domain/map';
+import { parseLocationAddress } from 'helpers/parseLocationAddress';
 import './DestinationItem.scss';
 
 interface IDestinationItemProps {
@@ -12,22 +13,14 @@ export const DestinationItem = ({ destination: { gps, address }, onSelectDestina
     onSelectDestination(gps);
   };
 
-  const getDestinationName = () => {
-    const destinationArray = address.split(', ');
-    return destinationArray.slice(-2).join(', ');
-  };
-
-  const getDestinationAddress = () => {
-    const destinationArray = address.split(', ');
-    return destinationArray.slice(0, destinationArray.length - 3).join(', ');
-  };
+  const parsedAddress = parseLocationAddress(address);
 
   return (
     <div className="destination-item__item" onClick={onClick}>
       <div className="destination-item__icon"></div>
       <div className="destination-item__info">
-        <p className="destination-item__name">{getDestinationName()}</p>
-        <p className="destination-item__address">{getDestinationAddress()}</p>
+        <p className="destination-item__name">{parsedAddress.name}</p>
+        <p className="destination-item__address">{parsedAddress.address}</p>
       </div>
     </div>
   );

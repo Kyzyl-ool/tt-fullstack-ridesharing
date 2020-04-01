@@ -1,7 +1,7 @@
-@import '../../styles/icons';
-@import '../../styles/colors';
+@import 'lib/styles/icons';
+@import 'lib/styles/colors';
 
-.trip-card-header {
+.ride-card-header {
   display: flex;
   flex-direction: column;
   justify-content: center;
@@ -53,15 +53,14 @@
   }
 }
 
-.trip-card-aligner {
+.ride-card-aligner {
   display: flex;
   align-items: center;
   //justify-content: ;
 }
 
-.trip-card-content {
+.ride-card-content {
   display: flex;
-  padding: 0 32px 16px 32px;
   font-family: 'Source Sans Pro', sans-serif;
   font-style: normal;
   font-weight: normal;
@@ -90,7 +89,7 @@
   }
 }
 
-.trip-cost {
+.ride-cost {
   display: flex;
   flex-direction: column;
   align-items: center;
@@ -117,7 +116,7 @@
   }
 }
 
-.trip-promocode-button {
+.ride-promocode-button {
   min-width: 161px;
   min-height: 40px;
   font-family: 'Source Sans Pro', sans-serif;
@@ -127,29 +126,28 @@
   line-height: 12px;
 }
 
-.trip-card-participants-button {
+.ride-card-participants-button {
   color: $ui-primary-color;
   cursor: pointer;
 }
 
-.trip-card-send-button {
+.ride-card-send-button {
   min-width: 311px;
   min-height: 56px;
   margin: 8px 0 16px 0;
 }
 
-.trip-card-avatar-and-info {
+.ride-card-avatar-and-info {
   display: flex;
   justify-content: center;
   align-items: center;
 }
 
-.trip-card-main-container {
+.ride-card-main-container {
   display: flex;
   flex-direction: column;
   align-items: center;
   background-color: #ffffff;
-  height: 206px;
   width: 100vw;
 }
 
@@ -176,7 +174,7 @@
   }
 }
 
-.trip-card-passengers {
+.ride-card-passengers {
   position: absolute;
   z-index: -1;
   top: 64px;

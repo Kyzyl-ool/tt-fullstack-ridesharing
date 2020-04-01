@@ -66,7 +66,7 @@ export const Map = ({ className = '', onViewportChange, onMapClicked }: IMapProp
   };
 
   const onViewportPositionChange = newViewport => {
-    setViewport({ ...viewport, ...newViewport });
+    setViewport(newViewport);
   };
 
   const renderCustomPin = () => {

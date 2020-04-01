@@ -126,6 +126,7 @@ export const DestinationSelectBlock = ({
         {isMapShown && (
           <div className="destination-select-block__map-form">
             <Input
+              disabled
               defaultValue={addressName}
               id="address"
               className="destination-select-block__input"

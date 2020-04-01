@@ -87,39 +87,37 @@ export const CreateRidePage = () => {
 
   return (
     <div>
-      <Backdrop>
-        {pageState === 'INITIAL' && <InitialRideBlock onInputClick={onStartOrganizationChoosing} />}
-        <OrganizationSelectBlock
-          visible={pageState === 'ORGANIZATION_CHOOSING'}
-          onGoBack={onReturnToInitial}
-          onSelectOrganization={onSelectOrganization}
-        />
-        <DestinationSelectBlock
-          visible={pageState === 'DESTINATION_CHOOSING'}
-          onGoBack={onReturnToOrganizationChoosing}
-          onSelectDestination={onSelectDestination}
-          startOrganizationName={selectedOrganizationName}
-        />
-        <CarSelectBlock
-          visible={pageState === 'CAR_CHOOSING'}
-          onGoBack={onReturnToDestinationChoosing}
-          onCarInfoChange={() => {}}
-          onCarSelect={onCarSelect}
-          onDelete={() => {}}
-        />
-        <RideInformationBlock
-          visible={pageState === 'RIDE_INFORMATION'}
-          onCreateRide={onCreateRide}
-          onGoBack={onReturnToCarChoosing}
-          onPriceChange={onPriceChange}
-          onSeatsNumberChange={onSeatsNumberChange}
-        />
-        {pageState === 'DONE' && (
-          <Dialog hide={false}>
-            Новая поездка успешно создана. Запросы от пассажиров будут направлены вам push-уведомлением.
-          </Dialog>
-        )}
-      </Backdrop>
+      {pageState === 'INITIAL' && <InitialRideBlock onInputClick={onStartOrganizationChoosing} />}
+      <OrganizationSelectBlock
+        visible={pageState === 'ORGANIZATION_CHOOSING'}
+        onGoBack={onReturnToInitial}
+        onSelectOrganization={onSelectOrganization}
+      />
+      <DestinationSelectBlock
+        visible={pageState === 'DESTINATION_CHOOSING'}
+        onGoBack={onReturnToOrganizationChoosing}
+        onSelectDestination={onSelectDestination}
+        startOrganizationName={selectedOrganizationName}
+      />
+      <CarSelectBlock
+        visible={pageState === 'CAR_CHOOSING'}
+        onGoBack={onReturnToDestinationChoosing}
+        onCarInfoChange={() => {}}
+        onCarSelect={onCarSelect}
+        onDelete={() => {}}
+      />
+      <RideInformationBlock
+        visible={pageState === 'RIDE_INFORMATION'}
+        onCreateRide={onCreateRide}
+        onGoBack={onReturnToCarChoosing}
+        onPriceChange={onPriceChange}
+        onSeatsNumberChange={onSeatsNumberChange}
+      />
+      {pageState === 'DONE' && (
+        <Dialog hide={false}>
+          Новая поездка успешно создана. Запросы от пассажиров будут направлены вам push-уведомлением.
+        </Dialog>
+      )}
     </div>
   );
 };
