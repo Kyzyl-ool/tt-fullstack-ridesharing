@@ -169,7 +169,7 @@ export const CarSelectBlock = ({
                 <PlusIcon /> Добавить автомобиль
               </li>
             )}
-            {withBottomButton && fetchedCars.length < 4 && (
+            {withBottomButton && fetchedCars && fetchedCars.length < 4 && (
               <div className="car-select-block__button">
                 <Button disabled={!selectedCarId} onClick={onSelectButtonClick}>
                   Выбрать
