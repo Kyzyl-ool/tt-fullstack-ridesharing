@@ -8,6 +8,7 @@ import { GoBackArrow } from 'components/GoBackArrow';
 import { ICar } from 'domain/car';
 import UserModel from 'models/UserModel';
 import './CarSelectBlock.scss';
+import { PlusIcon } from '../../../icons';
 
 type CarInfo = Omit<ICar, 'id'>;
 
@@ -15,9 +16,11 @@ interface ICarSelectBlock {
   visible: boolean;
   onGoBack: () => void;
   onCarInfoChange: (carId: string, carInformation: CarInfo) => void;
+  onAddCar?: () => void;
   onCarSelect: (carId: string) => void;
   onDelete: (carId: string) => void;
   onClick?: (carId: string) => void;
+  hideBackButton?: boolean;
 }
 
 export const CarSelectBlock = ({
@@ -25,11 +28,19 @@ export const CarSelectBlock = ({
   onGoBack,
   onDelete,
   onCarInfoChange,
+  onAddCar,
   onCarSelect,
-  onClick
+  onClick,
+  hideBackButton = false
 }: ICarSelectBlock) => {
   const [selectedCarId, setSelectedCarId] = useState('');
   const [fetchedCars, setFetchedCars] = useState<ICar[]>(null);
+  const [isCreatingNewCar, setIsCreatingNewCar] = useState<boolean>(false);
+  const [newCarFilelds, setNewCarFields] = useState<{ model: string; registryNumber: string; color: string }>({
+    color: 'Введите цвет',
+    model: 'Введите модель',
+    registryNumber: 'Введите номер'
+  });
 
   const onCardClicked = (carId: string) => {
     setSelectedCarId(carId);
@@ -44,7 +55,6 @@ export const CarSelectBlock = ({
 
   const fetchCars = async () => {
     const cars = await UserModel.getCars();
-    console.log(cars);
     setFetchedCars(cars);
   };
 
@@ -54,7 +64,7 @@ export const CarSelectBlock = ({
 
   return (
     <Fragment>
-      {visible && <GoBackArrow onGoBack={onGoBack} className="car-select-block__back-arrow" />}
+      {visible && !hideBackButton && <GoBackArrow onGoBack={onGoBack} className="car-select-block__back-arrow" />}
       <Slider visible={visible} timeout={600} from="bottom" unmountOnExit>
         <BaseLayer type="secondary" header="Выберите автомобиль" className="car-select-block__layer">
           <div className="car-select-block__cards">
@@ -69,6 +79,24 @@ export const CarSelectBlock = ({
                   onChange={onCarInfoChange}
                 />
               ))}
+            {isCreatingNewCar && (
+              <CarCard
+                isCardSelected={true}
+                car={{
+                  ...newCarFilelds,
+                  owner: '',
+                  id: '0'
+                }}
+                onDelete={() => setIsCreatingNewCar(false)}
+                onChange={(id, data) => setNewCarFields(data)}
+                onClick={() => {}}
+              />
+            )}
+            {onAddCar && (
+              <li className={'car-card car-card-add-button'} onClick={() => onAddCar()}>
+                <PlusIcon /> Добавить автомобиль
+              </li>
+            )}
             <div className="car-select-block__button">
               <Button onClick={onSelectButtonClick}>Выбрать</Button>
             </div>

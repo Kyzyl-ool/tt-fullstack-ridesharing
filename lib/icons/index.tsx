@@ -29,3 +29,7 @@ export const BackButton: AbstractIcon = ({ size = 'medium', className }) => {
 export const PenIcon: AbstractIcon = ({ size = 'medium', className }) => {
   return <div className={`icon icon_pen-icon icon_${size} ${className ? className : ''}`} />;
 };
+
+export const PlusIcon: AbstractIcon = ({ size = 'medium', className }) => {
+  return <div className={`icon icon_plus-icon icon_${size} ${className ? className : ''}`} />;
+};

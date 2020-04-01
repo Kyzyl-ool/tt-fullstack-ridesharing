@@ -7,7 +7,8 @@ type IUsePageState = [
   string,
   () => void,
   () => void,
-  (key: string, node: React.ReactNode, animate?: AnimationType) => React.ReactNode
+  (key: string, node: React.ReactNode, animate?: AnimationType) => React.ReactNode,
+  (string) => void
 ];
 
 const animationClasses = {
@@ -33,7 +34,7 @@ const usePageState = (states: string[]): IUsePageState => {
           in={key === states[currentState]}
           timeout={300}
           classNames={animationClasses[animationType]}
-          // unmountOnExit
+          mountOnEnter={true}
           exit
         >
           {node}
@@ -43,7 +44,10 @@ const usePageState = (states: string[]): IUsePageState => {
       return key === states[currentState] ? node : null;
     }
   };
-  return [states[currentState], setNext, setPrev, renderForState];
+  const goTo = (state: string) => {
+    setCurrentState(states.indexOf(state));
+  };
+  return [states[currentState], setNext, setPrev, renderForState, goTo];
 };
 
 export default usePageState;

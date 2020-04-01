@@ -10,6 +10,7 @@ import { BaseLayer } from 'components/BaseLayer/BaseLayer';
 import { OrganizationModel } from 'models/OrganizationModel';
 import dateFormat from 'date-fns/format';
 import ruLocale from 'date-fns/locale/ru';
+import { UserCard } from 'components/UserCard';
 
 type OrganizationDataType = {
   address: string;
@@ -26,6 +27,19 @@ type OrganizationDataType = {
   photoUrl: string;
   totalDrivers: string;
   totalMembers: string;
+};
+
+type OrganizationMemberType = {
+  firstName: string;
+  id: number;
+  lastName: string;
+  photoUrl: string;
+  rating: number;
+};
+
+type OrganizationMembersType = {
+  id: number;
+  members: OrganizationMemberType[];
 };
 
 export const OrganizationPage: React.FC = props => {
@@ -47,7 +61,10 @@ export const OrganizationPage: React.FC = props => {
     totalDrivers: '',
     totalMembers: ''
   });
-  const [organizationMembers, setOrganizationMembers] = useState();
+  const [organizationMembers, setOrganizationMembers] = useState<OrganizationMembersType>({
+    id: 0,
+    members: []
+  });
   const [pageState, setNext, setPrev, renderForState] = usePageState(['ORGANIZATION', 'MEMBERS']);
 
   useEffect(() => {
@@ -56,8 +73,8 @@ export const OrganizationPage: React.FC = props => {
       setOrganizationData({
         ...getOrganizationResponse.data
       });
-      const getOrganizationParticipants = await OrganizationModel.participants(organizationId);
-      console.log(getOrganizationParticipants.data);
+      const getOrganizationParticipants = await OrganizationModel.members(organizationId);
+      setOrganizationMembers(getOrganizationParticipants.data);
     };
     getData();
   }, []);
@@ -77,7 +94,7 @@ export const OrganizationPage: React.FC = props => {
     <div>
       <Backdrop>
         <Header iconType={'back'} onIconClick={handleBack}>
-          <NearestOrganizationLabel nearestOrganizationName={'Mail.ru Corp'} onClick={() => {}} />
+          <NearestOrganizationLabel onClick={() => {}} />
         </Header>
         {renderForState(
           'ORGANIZATION',
@@ -133,7 +150,20 @@ export const OrganizationPage: React.FC = props => {
           </BaseLayer>,
           'slideBottom'
         )}
-        {renderForState('MEMBERS', <div className={'backgrounded'}></div>, 'slideBottom')}
+        {renderForState(
+          'MEMBERS',
+          <div className={`backgrounded`}>
+            {organizationMembers.members.map(value => (
+              <UserCard
+                key={value.id}
+                avatarSrc={value.photoUrl}
+                mark={value.rating}
+                name={`${value.firstName} ${value.lastName}`}
+              />
+            ))}
+          </div>,
+          'slideBottom'
+        )}
       </Backdrop>
     </div>
   );

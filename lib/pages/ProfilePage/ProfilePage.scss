@@ -10,16 +10,17 @@
     background-color: #6fcf97;
     height: 24vh;
 
-    .icon {
-      position: absolute;
-      top: 0;
-      margin: 24px;
-    }
+  }
+
+  .icon_back-white {
+    position: absolute;
+    top: 0;
+    margin: 24px;
   }
 
   &__content {
     background-color: $ui-secondary-color;
-    height: 76vh;
+    height: calc(76vh - 40px);
     position: relative;
     display: flex;
     flex-direction: column;
