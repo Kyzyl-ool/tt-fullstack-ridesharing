@@ -44,7 +44,9 @@ export default class UserModel {
         { withCredentials: true }
       );
       return res.data;
-    } catch (e) {}
+    } catch (e) {
+      console.log(e);
+    }
   };
 
   static logout = async () => {

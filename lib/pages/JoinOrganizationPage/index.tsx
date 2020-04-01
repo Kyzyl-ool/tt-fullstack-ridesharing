@@ -42,11 +42,15 @@ export const JoinOrganizationPage: React.FC = props => {
         break;
       }
       case 'QUESTIONS': {
-        const res = await OrganizationModel.join({
-          id: questions[0].id,
-          controlAnswer: controlAnswer
-        });
-        console.log(res);
+        try {
+          const res = await OrganizationModel.join({
+            id: questions[0].id,
+            controlAnswer: controlAnswer
+          });
+          setNext();
+        } catch (e) {
+          console.log(e);
+        }
         break;
       }
       default: {
@@ -101,8 +105,8 @@ export const JoinOrganizationPage: React.FC = props => {
       {renderForState(
         'FINISH',
         <Dialog onClose={() => handleNext(null)} hide={false}>
-          Поздравляем, Вы успешно присоединились к организации “Mail.ru Corp.”! Просмотреть его вы можете в своем
-          профиле
+          Поздравляем, Вы успешно присоединились к организации “{selectedOrganization && selectedOrganization.name}”!
+          Просмотреть его вы можете в своем профиле
         </Dialog>,
         'appear'
       )}

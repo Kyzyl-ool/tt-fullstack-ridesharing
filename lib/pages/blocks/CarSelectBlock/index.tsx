@@ -93,12 +93,14 @@ export const CarSelectBlock = ({
         color: carInfo.color,
         model: carInfo.model
       });
+      setIsCreatingNewCar(false);
       fetchCars();
     },
     300
   );
 
   useEffect(() => {
+    setIsCreatingNewCar(false);
     fetchCars();
   }, []);
 
@@ -167,7 +169,7 @@ export const CarSelectBlock = ({
                 <PlusIcon /> Добавить автомобиль
               </li>
             )}
-            {withBottomButton && fetchedCars.length < 4 && (
+            {withBottomButton && fetchedCars && fetchedCars.length < 4 && (
               <div className="car-select-block__button">
                 <Button disabled={!selectedCarId} onClick={onSelectButtonClick}>
                   Выбрать
