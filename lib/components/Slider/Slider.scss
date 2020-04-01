@@ -10,17 +10,17 @@ $bottom-animation-direction: 1;
   &-top {
     &-enter {
       transform: translateY(100vh * $top-animation-direction);
-  
+
       &-active {
         transform: translateY(0);
         transition: transform 600ms;
       }
     }
-  
+
     &-exit {
       transform: translateY(0);
       transition: transform 600ms;
-  
+
       &-active {
         transform: translateY(-100vh);
       }
@@ -29,19 +29,57 @@ $bottom-animation-direction: 1;
   &-bottom {
     &-enter {
       transform: translateY(100vh * $bottom-animation-direction);
-  
+
       &-active {
         transform: translateY(0);
         transition: transform 600ms;
       }
     }
-  
+
     &-exit {
       transform: translateY(0);
       transition: transform 600ms;
-  
+
       &-active {
         transform: translateY(100vh * $bottom-animation-direction);
+      }
+    }
+  }
+  &-left {
+    &-enter {
+      transform: translateX(-100vw);
+
+      &-active {
+        transform: translateX(0);
+        transition: transform 600ms;
+      }
+    }
+
+    &-exit {
+      transform: translateX(0);
+      transition: transform 600ms;
+
+      &-active {
+        transform: translateX(-100vw);
+      }
+    }
+  }
+  &-right {
+    &-enter {
+      transform: translateX(100vw);
+
+      &-active {
+        transform: translateX(0);
+        transition: transform 600ms;
+      }
+    }
+
+    &-exit {
+      transform: translateX(0);
+      transition: transform 600ms;
+
+      &-active {
+        transform: translateX(100vw);
       }
     }
   }

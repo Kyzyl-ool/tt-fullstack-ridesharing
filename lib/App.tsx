@@ -11,8 +11,8 @@ import { OrganizationPage } from 'pages/OrganizationPage';
 import { Auth } from 'pages/Auth';
 import { ActiveRidesPage } from 'pages/ActiveRidesPage';
 import { Welcome } from 'pages/Welcome';
-import './App.global.scss';
 import { Backdrop } from 'components/Backdrop';
+import './App.global.scss';
 
 const App = () => {
   //TODO remove when real authorization logic will be implemeneted
@@ -23,6 +23,7 @@ const App = () => {
   return (
     <Backdrop>
       <Router>
+        <div id="sidebar" />
         <Switch>
           <Route exact path="/">
             <MainPage />
