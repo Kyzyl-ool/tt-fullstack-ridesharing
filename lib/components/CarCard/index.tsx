@@ -56,7 +56,7 @@ export const CarCard: React.FC<ICarCard> = ({
     onClick(id);
   };
 
-  return _isEqual(car, emptyCar) ? (
+  return (
     <li className={carCardClassNames} onClick={onCardClick}>
       <form style={{ textAlign: 'center', display: editing ? '' : 'none' }} onSubmit={handleSubmit} id={'car-form'}>
         <UnstyledInput value={model} className={'car-card__name'} name={'name'} />
@@ -87,7 +87,5 @@ export const CarCard: React.FC<ICarCard> = ({
         </li>
       </ul>
     </li>
-  ) : (
-    <div>no car</div>
   );
 };

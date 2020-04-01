@@ -10,8 +10,9 @@ import { ICar } from 'domain/car';
 import UserModel from 'models/UserModel';
 import './CarSelectBlock.scss';
 import { PlusIcon } from '../../../icons';
+import _debounce from 'lodash/debounce';
 
-type CarInfo = Omit<ICar, 'id'>;
+export type CarInfo = Omit<ICar, 'id'>;
 
 interface ICarSelectBlock {
   visible: boolean;
@@ -22,6 +23,7 @@ interface ICarSelectBlock {
   onDelete: (carId: string) => void;
   onClick?: (carId: string) => void;
   hideBackButton?: boolean;
+  withBottomButton?: boolean;
 }
 
 export const CarSelectBlock = ({
@@ -32,15 +34,22 @@ export const CarSelectBlock = ({
   onAddCar,
   onCarSelect,
   onClick,
-  hideBackButton = false
+  hideBackButton = false,
+  withBottomButton = true
 }: ICarSelectBlock) => {
   const [selectedCarId, setSelectedCarId] = useState('');
   const [fetchedCars, setFetchedCars] = useState<ICar[]>(null);
   const [isCreatingNewCar, setIsCreatingNewCar] = useState<boolean>(false);
-  const [newCarFilelds, setNewCarFields] = useState<{ model: string; registryNumber: string; color: string }>({
+  const [newCarFields, setNewCarFields] = useState<{
+    model: string;
+    registryNumber: string;
+    color: string;
+    id: number;
+  }>({
     color: 'Введите цвет',
     model: 'Введите модель',
-    registryNumber: 'Введите номер'
+    registryNumber: 'Введите номер',
+    id: 0
   });
 
   const onCardClicked = (carId: string) => {
@@ -58,6 +67,36 @@ export const CarSelectBlock = ({
     const cars = await UserModel.getCars();
     setFetchedCars(cars);
   };
+
+  const createCar = async () => {
+    const res = await UserModel.putCar({
+      model: newCarFields.model,
+      color: newCarFields.color,
+      registryNumber: newCarFields.registryNumber
+    });
+    setNewCarFields({
+      ...newCarFields,
+      id: res.id
+    });
+  };
+
+  const deleteCar = async (id: number) => {
+    // await UserModel.deleteCar({ id });
+    // fetchCars();
+  };
+
+  const updateCarInfo = _debounce(
+    async (id: number, carInfo: { model: string; registryNumber: string; color: string }) => {
+      await UserModel.postCar({
+        id,
+        registryNumber: carInfo.registryNumber,
+        color: carInfo.color,
+        model: carInfo.model
+      });
+      fetchCars();
+    },
+    300
+  );
 
   useEffect(() => {
     fetchCars();
@@ -77,32 +116,64 @@ export const CarSelectBlock = ({
                   car={car}
                   onClick={onCardClicked}
                   onDelete={onDelete}
-                  onChange={onCarInfoChange}
+                  onChange={(id, data) => {
+                    setNewCarFields({
+                      registryNumber: data.number,
+                      model: data.name,
+                      color: data.color,
+                      id
+                    });
+                    updateCarInfo(id, {
+                      registryNumber: data.number,
+                      model: data.name,
+                      color: data.color
+                    });
+                  }}
                 />
               ))}
             {isCreatingNewCar && (
               <CarCard
-                isCardSelected={true}
                 car={{
-                  ...newCarFilelds,
-                  owner: '',
-                  id: '0'
+                  owner: null,
+                  ...newCarFields
                 }}
+                isCardSelected={true}
                 onDelete={() => setIsCreatingNewCar(false)}
-                onChange={(id, data) => setNewCarFields(data)}
+                onChange={(id, data) => {
+                  setNewCarFields({
+                    registryNumber: data.number,
+                    model: data.name,
+                    color: data.color,
+                    id
+                  });
+                  updateCarInfo(id, {
+                    registryNumber: data.number,
+                    model: data.name,
+                    color: data.color
+                  });
+                }}
                 onClick={() => {}}
               />
             )}
             {onAddCar && (
-              <li className={'car-card car-card-add-button'} onClick={() => onAddCar()}>
+              <li
+                className={'car-card car-card-add-button'}
+                onClick={async () => {
+                  setIsCreatingNewCar(true);
+                  onAddCar();
+                  await createCar();
+                }}
+              >
                 <PlusIcon /> Добавить автомобиль
               </li>
             )}
-            <div className="car-select-block__button">
-              <Button disabled={!selectedCarId} onClick={onSelectButtonClick}>
-                Выбрать
-              </Button>
-            </div>
+            {withBottomButton && fetchedCars.length < 4 && (
+              <div className="car-select-block__button">
+                <Button disabled={!selectedCarId} onClick={onSelectButtonClick}>
+                  Выбрать
+                </Button>
+              </div>
+            )}
           </div>
         </BaseLayer>
       </Slider>

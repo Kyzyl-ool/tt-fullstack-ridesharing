@@ -19,7 +19,11 @@ import { Backdrop } from 'components/Backdrop';
 const App = () => {
   //TODO remove when real authorization logic will be implemeneted
   useEffect(() => {
-    UserModel.login();
+    try {
+      UserModel.login();
+    } catch (e) {
+      console.log(e);
+    }
   }, []);
 
   return (

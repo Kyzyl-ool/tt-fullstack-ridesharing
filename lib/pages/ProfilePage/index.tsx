@@ -3,7 +3,6 @@ import usePageState from 'hooks/usePageState';
 import { HeaderBackground } from 'components/HeaderBackground';
 import './ProfilePage.scss';
 import { Avatar } from 'components/Avatar/Avatar';
-import { sampleAvatarSrc } from 'samples/samples';
 import { BackButton, PenIcon } from '../../icons';
 import { Button } from 'components/Button';
 import { CarInfo, CarSelectBlock } from 'pages/blocks/CarSelectBlock';
@@ -30,15 +29,15 @@ export const ProfilePage: React.FC = props => {
       setMyOrganizations(getOrganizationsResponse);
       const getUserProfileResponse = await UserModel.getMyProfileInfo();
       setUserData(getUserProfileResponse);
+      console.log(getUserProfileResponse);
       const getMyCars = await UserModel.getCars();
-      console.log(getMyCars);
     };
 
     getUserData();
   }, []);
 
   const onDeleteCar = async id => {
-    await UserModel.deleteCar(id);
+    await UserModel.deleteCar({ id });
   };
 
   const onCarInfoChange = (carId: string, carInformation: CarInfo) => {
@@ -46,16 +45,15 @@ export const ProfilePage: React.FC = props => {
     console.log(carInformation);
   };
 
-  const handleAddCar = async () => {
-    await UserModel.putCar({
-      color: 'введите цвет',
-      model: 'введите модель',
-      registryNumber: 'введите госномер'
-    });
-    // await fetchCars();
+  const onSave = () => {};
+
+  const onAddNewOrganization = () => {
+    history.push('/organization/join');
   };
 
-  const onSave = () => {};
+  const onOrganizationsSave = async () => {
+    goTo('PROFILE');
+  };
 
   const onBack = () => {
     if (pageState === 'PROFILE') {
@@ -63,6 +61,10 @@ export const ProfilePage: React.FC = props => {
     } else {
       goTo('PROFILE');
     }
+  };
+
+  const onCreateNewOrganization = () => {
+    history.push('/organization/create');
   };
 
   return (
@@ -75,21 +77,21 @@ export const ProfilePage: React.FC = props => {
       </div>
 
       <div className={'profile-page__content'}>
-        <Avatar src={sampleAvatarSrc} size={'large'} />
+        <Avatar src={userData && userData.photoUrl} size={'large'} />
         <span className={'user-name'}>
-          Кызыл-оол Кежик <PenIcon className={'user-name__pen'} />
+          {userData && userData.firstName}&nbsp;{userData && userData.lastName} <PenIcon className={'user-name__pen'} />
         </span>
-        <span className={'user-id'}>ID 12321</span>
+        <span className={'user-id'}>ID&nbsp;{userData && userData.id}</span>
 
         <div className={'user-info-item'}>
           <span className={'profile-caption'}>e-mail адрес</span>
-          <span className={'user-info'}>kyzyloolk@mail.ru</span>
+          <span className={'user-info'}>example@email.com</span>
           <PenIcon className={'user-info-item__pen'} />
         </div>
 
         <div className={'user-info-item'}>
           <span className={'profile-caption'}>Мобильный телефон</span>
-          <span className={'user-info'}>kyzyloolk@mail.ru</span>
+          <span className={'user-info'}>+79876543210</span>
           <PenIcon className={'user-info-item__pen'} />
         </div>
 
@@ -128,11 +130,22 @@ export const ProfilePage: React.FC = props => {
         onGoBack={() => goTo('PROFILE')}
         visible={pageState === 'PROFILE_CARS'}
         onClick={() => {}}
-        onAddCar={() => {}}
+        onAddCar={() => setIsChanged(true)}
         hideBackButton
-        withAddCarButton
+        withBottomButton={false}
       />
-      <LocationsList locations={myOrganizations} onSelectLocation={() => {}} />
+      {renderForState(
+        'PROFILE_ORGANIZATIONS',
+        <LocationsList
+          text={'Ваши организации:'}
+          locations={myOrganizations}
+          onSelectLocation={() => {}}
+          onReadyButtonClick={onOrganizationsSave}
+          onAddNewOrganization={onAddNewOrganization}
+          onCreateNewOrganization={onCreateNewOrganization}
+        />,
+        'slideBottom'
+      )}
     </div>
   );
 };

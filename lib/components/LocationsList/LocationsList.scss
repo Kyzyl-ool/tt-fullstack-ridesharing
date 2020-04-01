@@ -29,3 +29,16 @@
     width: 100%;
   }
 }
+
+.ready-button {
+  position: absolute;
+  top: 16px;
+  right: 20px;
+  border-radius: 10px;
+  border: 1px solid $ui-primary-color;
+  padding: 0 8px 0 8px;
+  background-color: $ui-white-color;
+  cursor: pointer;
+}
+
+

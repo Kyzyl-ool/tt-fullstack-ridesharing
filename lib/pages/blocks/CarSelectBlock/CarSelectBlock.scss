@@ -2,16 +2,20 @@
   &__layer {
     position: fixed;
     bottom: 0;
+    width: 100%;
+    max-width: 400px;
   }
 
   &__cards {
     padding: 0 24px;
+    margin: 0 24px 0 24px;
+    box-sizing: border-box;
+    width: 100%;
   }
 
   &__button {
     display: flex;
     justify-content: center;
-    margin-top: 32px;
   }
 
   &__back-arrow {

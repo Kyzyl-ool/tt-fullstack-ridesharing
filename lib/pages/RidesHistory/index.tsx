@@ -9,7 +9,7 @@ export const RidesHistoryPage: React.FC = props => {
   const history = useHistory();
 
   const handleBack = () => {
-    history.push('/');
+    history.goBack();
   };
 
   return (

@@ -11,6 +11,15 @@
     background: #ffffff;
     border-radius: 5px;
     margin: 8px;
+
+    &_add {
+      display: flex;
+      padding-left: 20px;
+      .icon {
+        margin-right: 16px;
+      }
+      
+    }
   }
 
   &__icon {

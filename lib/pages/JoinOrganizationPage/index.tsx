@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import usePageState from '../../hooks/usePageState';
 import { Header } from 'components/Header';
 import { useHistory } from 'react-router-dom';
@@ -8,24 +8,58 @@ import './JoinOrganizationPage.scss';
 import { LocationsList } from 'components/LocationsList';
 import { Button } from 'components/Button';
 import { Dialog } from 'components/Dialog';
+import _debounce from 'lodash/debounce';
+import { IGetQuestionsResponseBody, OrganizationModel } from 'models/OrganizationModel';
+import { ILocation } from 'domain/map';
 
 export const JoinOrganizationPage: React.FC = props => {
-  const [questions, setQuestions] = useState<string[]>(['How are you?']);
-  const [selectedOrganization, setSelectedOrganization] = useState();
+  const [questions, setQuestions] = useState<IGetQuestionsResponseBody[]>([]);
+  const [selectedOrganization, setSelectedOrganization] = useState<ILocation>();
   const history = useHistory();
   const [pageState, setNext, setPrev, renderForState] = usePageState(['CHOOSE', 'QUESTIONS', 'FINISH']);
+  const [foundOrganizations, setFoundOrganizations] = useState<ILocation[]>([]);
+  const [controlAnswer, setControlAnswer] = useState<string>('');
+
   const handleBack = () => {
     if (pageState === 'CHOOSE') {
-      history.push('/');
+      history.goBack();
     } else {
       setPrev();
     }
   };
-  const handleNext = () => {
-    if (pageState === 'FINISH') {
-      history.push('/');
-    } else {
-      setNext();
+
+  const makeSearch = _debounce(async (findString: string) => {
+    if (findString.length > 0) {
+      const result = await OrganizationModel.search(findString);
+      setFoundOrganizations(result.map(value => ({ ...value, id: `${value.id}` })));
+    }
+  }, 300);
+
+  const handleNext = async (location: ILocation) => {
+    switch (pageState) {
+      case 'FINISH': {
+        history.push('/');
+        break;
+      }
+      case 'QUESTIONS': {
+        const res = await OrganizationModel.join({
+          id: questions[0].id,
+          controlAnswer: controlAnswer
+        });
+        console.log(res);
+        break;
+      }
+      default: {
+        setSelectedOrganization(location);
+        const res = await OrganizationModel.getQuestions(+location.id);
+        setQuestions([
+          {
+            ...res
+          }
+        ]);
+        setNext();
+        break;
+      }
     }
   };
 
@@ -43,17 +77,9 @@ export const JoinOrganizationPage: React.FC = props => {
             placeholderText={'Поиск организации...'}
             icon={<SearchIcon />}
             className={'join-organization-page__input'}
+            onChange={v => makeSearch(v)}
           />
-          <LocationsList
-            locations={[
-              {
-                id: '0',
-                address: 'Mail.ru Corp',
-                name: 'Ленинградский п-кт, 47'
-              }
-            ]}
-            onSelectLocation={handleNext}
-          />
+          <LocationsList locations={foundOrganizations} text={'Найденные организации:'} onSelectLocation={handleNext} />
         </div>,
         'appear'
       )}
@@ -62,11 +88,11 @@ export const JoinOrganizationPage: React.FC = props => {
         <div className={'rsh-backdrop backgrounded'}>
           {questions.map((value, index) => (
             <div className={'margins'} key={index}>
-              <span>{value}</span>
-              <Input id={`question${index + 1}`} placeholderText={'Ответ'} />
+              <span>{value.controlQuestion}</span>
+              <Input id={`question${index + 1}`} placeholderText={'Ответ'} onChange={v => setControlAnswer(v)} />
             </div>
           ))}
-          <Button className={'centerize centerize_bottom'} onClick={handleNext} filled>
+          <Button className={'centerize centerize_bottom'} onClick={() => handleNext(null)} filled>
             Отправить
           </Button>
         </div>,
@@ -74,7 +100,7 @@ export const JoinOrganizationPage: React.FC = props => {
       )}
       {renderForState(
         'FINISH',
-        <Dialog onClose={handleNext} hide={false}>
+        <Dialog onClose={() => handleNext(null)} hide={false}>
           Поздравляем, Вы успешно присоединились к организации “Mail.ru Corp.”! Просмотреть его вы можете в своем
           профиле
         </Dialog>,

@@ -23,6 +23,16 @@ interface IPutCarResponseBody {
 interface IDeleteCarRequestBody {
   id: number;
 }
+interface IPostCarRequestBody {
+  id: number;
+  model: string;
+  registryNumber: string;
+  color: string;
+}
+
+interface IPostCarResponseBody {
+  id: number;
+}
 
 export default class UserModel {
   static login = async () => {
@@ -58,6 +68,11 @@ export default class UserModel {
     const res = await axios.delete('/api/car', {
       data: requestBody
     });
+    return res.data;
+  };
+
+  static postCar = async (requestBody: IPostCarRequestBody): Promise<IPostCarResponseBody> => {
+    const res = await axios.post('/api/car', requestBody);
     return res.data;
   };
 }
