@@ -10,6 +10,7 @@ import { useHistory } from 'react-router-dom';
 import { LocationsList } from 'components/LocationsList';
 import UserModel, { IUserData } from 'models/UserModel';
 import { ILocation } from 'domain/map';
+import { sampleAvatarSrc } from 'samples/samples';
 
 export const ProfilePage: React.FC = props => {
   const [pageState, setNext, setPrev, renderForState, goTo] = usePageState([
@@ -76,7 +77,8 @@ export const ProfilePage: React.FC = props => {
       </div>
 
       <div className={'profile-page__content'}>
-        <Avatar src={userData && userData.photoUrl} size={'large'} />
+        {/* <Avatar src={userData && userData.photoUrl} size={'large'} /> */}
+        <Avatar src={userData && sampleAvatarSrc} size="large" />
         <span className={'user-name'}>
           {userData && userData.firstName}&nbsp;{userData && userData.lastName} <PenIcon className={'user-name__pen'} />
         </span>
