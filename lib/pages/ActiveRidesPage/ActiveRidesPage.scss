@@ -2,6 +2,7 @@
 
 .nav-tab {
   padding: 0 16px 0 16px;
+  background-color: $ui-secondary-color;
   .rsh-button {
     width: 100%;
     min-width: unset;
@@ -14,4 +15,10 @@
       color: $ui-white-color;
     }
   }
+}
+
+.active-rides-page {
+  background-color: $ui-secondary-color;
+  height: calc(100vh - 60px);
+  padding-top: 8px;
 }

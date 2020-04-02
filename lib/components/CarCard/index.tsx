@@ -21,6 +21,8 @@ interface ICarCard {
   onDelete: (any) => any;
   onChange: (any, NewDataType) => any;
   onClick: (carId: string) => void;
+  editing?: boolean;
+  withClickableCars?: boolean;
 }
 
 export const CarCard: React.FC<ICarCard> = ({
@@ -28,21 +30,24 @@ export const CarCard: React.FC<ICarCard> = ({
   car: { model, registryNumber, color, text, id },
   onDelete,
   onChange,
-  onClick
+  onClick,
+  editing: iediting = false,
+  withClickableCars = true
 }) => {
   const carCardClassNames = classNames({
     'car-card': true,
     'car-card--selected': isCardSelected
   });
 
-  const [editing, setEditing] = useState<boolean>(false);
+  const [editing, setEditing] = useState<boolean>(iediting);
 
   const handleEdit = () => {
     setEditing(true);
   };
-  const handleSubmit: (any) => any = e => {
+  const handleSubmit = e => {
     e.preventDefault();
     setEditing(false);
+    console.log(e.target);
     onChange(id, {
       name: e.target.name.value,
       number: e.target.number.value,
@@ -51,15 +56,24 @@ export const CarCard: React.FC<ICarCard> = ({
   };
 
   const onCardClick = () => {
-    onClick(id);
+    withClickableCars && onClick(id);
   };
 
   return (
     <li className={carCardClassNames} onClick={onCardClick}>
-      <form style={{ textAlign: 'center', display: editing ? '' : 'none' }} onSubmit={handleSubmit} id={'car-form'}>
-        <UnstyledInput value={model} className={'car-card__name'} name={'name'} />
-        <UnstyledInput value={registryNumber} className={'car-card__number'} name={'number'} />
-        <UnstyledInput value={color} className={'car-card__color'} name={'color'} />
+      <form
+        style={{ textAlign: 'center', display: editing ? '' : 'none' }}
+        onSubmit={handleSubmit}
+        id={`car-form${id}`}
+      >
+        <UnstyledInput value={model} className={'car-card__name'} name={'name'} placeholder={'Введите имя'} />
+        <UnstyledInput
+          value={registryNumber}
+          className={'car-card__number'}
+          name={'number'}
+          placeholder={'Введите номер'}
+        />
+        <UnstyledInput value={color} className={'car-card__color'} name={'color'} placeholder={'Введите цвет'} />
       </form>
       <div style={{ textAlign: 'center', display: editing ? 'none' : '' }}>
         <p className={'car-card__name'}>{model}</p>
@@ -74,7 +88,7 @@ export const CarCard: React.FC<ICarCard> = ({
               <label htmlFor={'car-form-submit'}>
                 <img src={`${okSrc}`} />
               </label>
-              <input type={'submit'} form={'car-form'} id={'car-form-submit'} hidden={true} />
+              <input type={'submit'} form={`car-form${id}`} id={'car-form-submit'} hidden={true} />
             </>
           ) : (
             <img src={`${penSrc}`} onClick={handleEdit} />

@@ -40,9 +40,13 @@ export const ProfilePage: React.FC = props => {
     await UserModel.deleteCar({ id });
   };
 
-  const onCarInfoChange = (carId: string, carInformation: CarInfo) => {
-    console.log(carId);
-    console.log(carInformation);
+  const onCarInfoChange = async (carId: string, carInformation) => {
+    await UserModel.postCar({
+      id: +carId,
+      model: carInformation.name,
+      color: carInformation.color,
+      registryNumber: carInformation.number
+    });
   };
 
   const onSave = () => {};
@@ -131,9 +135,11 @@ export const ProfilePage: React.FC = props => {
         onGoBack={() => goTo('PROFILE')}
         visible={pageState === 'PROFILE_CARS'}
         onClick={() => {}}
-        onAddCar={() => setIsChanged(true)}
         hideBackButton
         withBottomButton={false}
+        withAddNewCarButton
+        headerText={'Ваши автомобили'}
+        withClickableCars={false}
       />
       {renderForState(
         'PROFILE_ORGANIZATIONS',

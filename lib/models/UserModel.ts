@@ -53,7 +53,9 @@ export default class UserModel {
     try {
       const res = await axios.post('/api/logout');
       return res.data;
-    } catch (e) {}
+    } catch (e) {
+      console.log(e);
+    }
   };
 
   static getMyself = async () => {

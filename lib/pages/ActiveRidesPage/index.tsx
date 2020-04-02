@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import './ActiveRidesPage.scss';
 import { Header } from 'components/Header';
 import { useHistory } from 'react-router-dom';
@@ -7,6 +7,8 @@ import { Button } from 'components/Button';
 import { DriverCard } from 'components/DriverCard/DriverCard';
 import { sampleAvatarSrc } from 'samples/samples';
 import { IRide } from 'domain/ride';
+import RideModel from 'models/RideModel';
+import { useSelector } from 'react-redux';
 
 type Tabs = 'I_AM_DRIVER' | 'I_AM_PASSENGER';
 
@@ -91,6 +93,7 @@ export const ActiveRidesPage: React.FC<IActiveRidesPage> = props => {
       ]
     }
   ]);
+  const userInfo = useSelector(state => state.user.user);
 
   const handleBack = () => {
     if (pageState === 'MY_RIDES') {
@@ -103,6 +106,15 @@ export const ActiveRidesPage: React.FC<IActiveRidesPage> = props => {
   const handleNext = () => {
     setNext();
   };
+
+  const getActiveRides = async () => {
+    const res = await RideModel.activeRides();
+    console.log(res);
+  };
+
+  useEffect(() => {
+    getActiveRides();
+  }, []);
 
   return (
     <div>
@@ -120,13 +132,14 @@ export const ActiveRidesPage: React.FC<IActiveRidesPage> = props => {
               Вы пассажир
             </Button>
           </div>
-          <div>
+          <div className={'active-rides-page'}>
             {activeRides.map((ride, index) => (
               <DriverCard
                 onSelectRide={() => {}}
                 ride={ride}
                 driverAnswer={props.driverAnswer || 'WAITING'}
                 key={ride.id}
+                waiting
               />
             ))}
           </div>

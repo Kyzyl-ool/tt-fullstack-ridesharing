@@ -7,6 +7,31 @@ interface IFindRidesRequest {
   longitude: number;
 }
 
+interface IGetActiveRidesResponseBodyEntry {
+  car: {
+    color: string;
+    id: number;
+    model: string;
+    owner: number;
+    registryNumber: string;
+  };
+  declineReason: string;
+  freeSeats: number;
+  host: {
+    firstName: string;
+    id: number;
+    lastName: string;
+    phoneNumber: string;
+    photoUrl: string;
+    rating: number;
+  };
+  hostAnswer: 'ACCEPTED' | 'NO_ANSWER' | 'DECLINED';
+  id: number;
+  price: number;
+  stopAddress: string;
+  submitDatetime: string;
+}
+
 export default class RideModel {
   static joinRide = async (rideId: number) => {
     const res = await axios.post('/api/ride/join', { id: rideId });
@@ -26,6 +51,11 @@ export default class RideModel {
         longitude
       }
     });
+    return res.data;
+  };
+
+  static activeRides = async (): Promise<IGetActiveRidesResponseBodyEntry[]> => {
+    const res = await axios.get('/api/ride/active');
     return res.data;
   };
 }
