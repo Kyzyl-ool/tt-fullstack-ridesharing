@@ -1,6 +1,5 @@
+/* eslint-disable no-empty */
 import axios from 'axios';
-
-const BACKEND_STAGING_URL = 'http://tt-ridesharing-backend-staging.herokuapp.com';
 
 export interface IUserData {
   firstName: string;

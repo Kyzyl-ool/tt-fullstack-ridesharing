@@ -1,5 +1,6 @@
 import React from 'react';
 import { ILocation } from 'domain/map';
+import { parseLocationAddress } from 'helpers/parseLocationAddress';
 import './LocationItem.scss';
 
 interface ILocationItemProps {
@@ -17,7 +18,7 @@ export const LocationItem = ({ location, onSelectLocation }: ILocationItemProps)
       <div className="location-item__icon"></div>
       <div className="location-item__info">
         <p className="location-item__name">{location.name}</p>
-        <p className="location-item__address">{location.address}</p>
+        <p className="location-item__address">{parseLocationAddress(location.address).name}</p>
       </div>
     </div>
   );
