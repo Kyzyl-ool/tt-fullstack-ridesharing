@@ -17,6 +17,7 @@ import { ProfilePage } from 'pages/ProfilePage';
 import { Backdrop } from 'components/Backdrop';
 import { setUserAction } from 'store/actions/userActions';
 import './App.global.scss';
+import { UserPage } from 'pages/UserPage';
 
 const App = () => {
   const dispatch = useDispatch();
@@ -70,7 +71,12 @@ const App = () => {
           <Route path={'/profile'}>
             <ProfilePage />
           </Route>
-          <Route path={'/ride/history'}></Route>
+          <Route path={'/ride/history'}>
+            <RidesHistoryPage />
+          </Route>
+          <Route path={'/user/:userId'}>
+            <UserPage />
+          </Route>
           <RidesHistoryPage />
           <Redirect to="/" />
         </Switch>

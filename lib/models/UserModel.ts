@@ -33,6 +33,14 @@ interface IPostCarResponseBody {
   id: number;
 }
 
+export interface IGetUserInfoResponseBody {
+  firstName: string;
+  id: number;
+  lastName: string;
+  photoUrl: string;
+  rating: number;
+}
+
 export default class UserModel {
   static login = async () => {
     // TODO implement real authorization logic when authorization will be ready
@@ -91,6 +99,15 @@ export default class UserModel {
 
   static postCar = async (requestBody: IPostCarRequestBody): Promise<IPostCarResponseBody> => {
     const res = await axios.post('/api/car', requestBody);
+    return res.data;
+  };
+
+  static getUserInfo = async (userId: number): Promise<IGetUserInfoResponseBody> => {
+    const res = await axios.get('/api/user', {
+      params: {
+        id: userId
+      }
+    });
     return res.data;
   };
 }
