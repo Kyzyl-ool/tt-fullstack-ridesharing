@@ -7,7 +7,7 @@ interface IFindRidesRequest {
   longitude: number;
 }
 
-interface IGetActiveRidesResponseBodyEntry {
+export interface IGetActiveRidesResponseBodyEntry {
   car: {
     color: string;
     id: number;

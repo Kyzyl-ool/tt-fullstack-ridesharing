@@ -7,7 +7,7 @@ import { Button } from 'components/Button';
 import { DriverCard } from 'components/DriverCard/DriverCard';
 import { sampleAvatarSrc } from 'samples/samples';
 import { IRide } from 'domain/ride';
-import RideModel from 'models/RideModel';
+import RideModel, { IGetActiveRidesResponseBodyEntry } from 'models/RideModel';
 import { useSelector } from 'react-redux';
 
 type Tabs = 'I_AM_DRIVER' | 'I_AM_PASSENGER';
@@ -45,54 +45,7 @@ export const ActiveRidesPage: React.FC<IActiveRidesPage> = props => {
   const history = useHistory();
   const [pageState, setNext, setPrev, renderWithState] = usePageState(['MY_RIDES', 'RIDE_CARD']);
   const [currentTab, setCurrentTab] = useState<Tabs>('I_AM_PASSENGER');
-  const [activeRides, setActiveRides] = useState<IRide[]>([
-    {
-      host: {
-        id: 14,
-        firstName: 'Алексей',
-        lastName: 'Кожарин',
-        phoneNumber: '+79665557788',
-        photoUrl: sampleAvatarSrc,
-        rating: 7
-      },
-      submitDatetime: '17:00',
-      freeSeats: 3,
-      car: {
-        id: 22,
-        owner: 14,
-        model: 'Toyota Camry',
-        registryNumber: 'у564ук',
-        color: 'Красный'
-      },
-      price: 130,
-      startOrganizationAddress: 'Mail.ru Corp',
-      stopAddress: 'Дикси продуктовый магазин',
-      id: 1,
-      passengers: [
-        {
-          photoUrl: sampleAvatarSrc,
-          firstName: 'Иван',
-          lastName: 'Ивванов',
-          rating: 8,
-          id: 2
-        },
-        {
-          photoUrl: sampleAvatarSrc,
-          firstName: 'Иван',
-          lastName: 'Ивванов',
-          rating: 7,
-          id: 4
-        },
-        {
-          photoUrl: sampleAvatarSrc,
-          firstName: 'Иван',
-          lastName: 'Ивванов',
-          rating: 3,
-          id: 3
-        }
-      ]
-    }
-  ]);
+  const [activeRides, setActiveRides] = useState<IGetActiveRidesResponseBodyEntry[]>([]);
   const userInfo = useSelector(state => state.user.user);
 
   const handleBack = () => {
@@ -109,7 +62,7 @@ export const ActiveRidesPage: React.FC<IActiveRidesPage> = props => {
 
   const getActiveRides = async () => {
     const res = await RideModel.activeRides();
-    console.log(res);
+    setActiveRides(res);
   };
 
   useEffect(() => {
@@ -133,12 +86,22 @@ export const ActiveRidesPage: React.FC<IActiveRidesPage> = props => {
             </Button>
           </div>
           <div className={'active-rides-page'}>
-            {activeRides.map((ride, index) => (
+            {activeRides.map(value => (
               <DriverCard
                 onSelectRide={() => {}}
-                ride={ride}
+                ride={{
+                  car: value.car,
+                  freeSeats: value.freeSeats,
+                  host: value.host,
+                  id: value.id,
+                  passengers: [], //@todo
+                  price: value.price,
+                  startOrganizationAddress: 'tbd', //@todo
+                  stopAddress: value.stopAddress,
+                  submitDatetime: value.submitDatetime
+                }}
                 driverAnswer={props.driverAnswer || 'WAITING'}
-                key={ride.id}
+                key={value.id}
                 waiting
               />
             ))}
