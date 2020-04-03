@@ -48,6 +48,32 @@ export interface IGetRidesHistoryResponseBodyEntry {
   submitDatetime: string;
 }
 
+export interface IHostedRideResponseBodyEntry {
+  car: {
+    color: string;
+    id: number;
+    model: string;
+    owner: number;
+    registryNumber: string;
+  };
+  declineReason: null;
+  freeSeats: number;
+  host: {
+    firstName: string;
+    id: number;
+    lastName: string;
+    phoneNumber: string;
+    photoUrl: string;
+    rating: number;
+  };
+  hostAnswer: null;
+  id: number;
+  price: number;
+  stopAddress: string;
+  startOrganizationName: string;
+  submitDatetime: string;
+}
+
 export default class RideModel {
   static joinRide = async (rideId: number) => {
     const res = await axios.post('/api/ride/join', { id: rideId });
@@ -77,6 +103,11 @@ export default class RideModel {
 
   static rideHistory = async (): Promise<IGetRidesHistoryResponseBodyEntry[]> => {
     const res = await axios.get('/api/ride/history');
+    return res.data;
+  };
+
+  static rideHosted = async (): Promise<IHostedRideResponseBodyEntry[]> => {
+    const res = await axios.get('/api/ride/hosted');
     return res.data;
   };
 }

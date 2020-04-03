@@ -5,9 +5,7 @@ import { useHistory } from 'react-router-dom';
 import usePageState from '../../hooks/usePageState';
 import { Button } from 'components/Button';
 import { DriverCard } from 'components/DriverCard/DriverCard';
-import { sampleAvatarSrc } from 'samples/samples';
-import { IRide } from 'domain/ride';
-import RideModel, { IGetActiveRidesResponseBodyEntry } from 'models/RideModel';
+import RideModel, { IGetActiveRidesResponseBodyEntry, IHostedRideResponseBodyEntry } from 'models/RideModel';
 import { useSelector } from 'react-redux';
 
 type Tabs = 'I_AM_DRIVER' | 'I_AM_PASSENGER';
@@ -46,6 +44,7 @@ export const ActiveRidesPage: React.FC<IActiveRidesPage> = props => {
   const [pageState, setNext, setPrev, renderWithState] = usePageState(['MY_RIDES', 'RIDE_CARD']);
   const [currentTab, setCurrentTab] = useState<Tabs>('I_AM_PASSENGER');
   const [activeRides, setActiveRides] = useState<IGetActiveRidesResponseBodyEntry[]>([]);
+  const [activeHostedRides, setActiveHostedRides] = useState<IHostedRideResponseBodyEntry[]>([]);
   const userInfo = useSelector(state => state.user.user);
 
   const handleBack = () => {
@@ -61,8 +60,8 @@ export const ActiveRidesPage: React.FC<IActiveRidesPage> = props => {
   };
 
   const getActiveRides = async () => {
-    const res = await RideModel.activeRides();
-    setActiveRides(res);
+    setActiveRides(await RideModel.activeRides());
+    setActiveHostedRides(await RideModel.rideHosted());
   };
 
   useEffect(() => {
@@ -86,25 +85,39 @@ export const ActiveRidesPage: React.FC<IActiveRidesPage> = props => {
             </Button>
           </div>
           <div className={'active-rides-page'}>
-            {activeRides.map(value => (
-              <DriverCard
-                onSelectRide={() => {}}
-                ride={{
-                  car: value.car,
-                  freeSeats: value.freeSeats,
-                  host: value.host,
-                  id: value.id,
-                  passengers: [], //@todo
-                  price: value.price,
-                  startOrganizationAddress: 'tbd', //@todo
-                  stopAddress: value.stopAddress,
-                  submitDatetime: value.submitDatetime
-                }}
-                driverAnswer={props.driverAnswer || 'WAITING'}
-                key={value.id}
-                waiting
-              />
-            ))}
+            {currentTab === 'I_AM_PASSENGER' &&
+              activeRides.map(value => (
+                <DriverCard
+                  onSelectRide={() => {}}
+                  ride={{
+                    car: value.car,
+                    freeSeats: value.freeSeats,
+                    host: value.host,
+                    id: value.id,
+                    passengers: [], //@todo
+                    price: value.price,
+                    startOrganizationAddress: 'tbd', //@todo
+                    stopAddress: value.stopAddress,
+                    submitDatetime: value.submitDatetime
+                  }}
+                  driverAnswer={props.driverAnswer || 'WAITING'}
+                  key={value.id}
+                  waiting
+                />
+              ))}
+            {currentTab === 'I_AM_DRIVER' &&
+              activeHostedRides.map(value => (
+                <DriverCard
+                  key={value.id}
+                  ride={{
+                    ...value,
+                    startOrganizationAddress: value.startOrganizationName,
+                    passengers: [] //@todo
+                  }}
+                  onSelectRide={() => {}}
+                  waiting={false}
+                />
+              ))}
           </div>
         </div>
       )}
