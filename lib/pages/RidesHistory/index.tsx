@@ -1,16 +1,26 @@
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 import './RidesHistory.scss';
 import { DoneRide } from 'components/DoneRide';
-import { sampleAvatarSrc } from 'samples/samples';
 import { Header } from 'components/Header';
 import { useHistory } from 'react-router-dom';
+import RideModel, { IGetRidesHistoryResponseBodyEntry } from 'models/RideModel';
 
 export const RidesHistoryPage: React.FC = props => {
   const history = useHistory();
+  const [ridesHistory, setRidesHistory] = useState<IGetRidesHistoryResponseBodyEntry[]>([]);
 
   const handleBack = () => {
-    history.goBack();
+    history.push('/');
   };
+
+  const fetchRidesHistory = async () => {
+    const res = await RideModel.rideHistory();
+    setRidesHistory(res);
+  };
+
+  useEffect(() => {
+    fetchRidesHistory();
+  }, []);
 
   return (
     <div>
@@ -18,30 +28,24 @@ export const RidesHistoryPage: React.FC = props => {
         История поездок
       </Header>
       <div className={'rides-history-page'}>
-        <DoneRide
-          driver={{ avatarSrc: sampleAvatarSrc, firstName: 'Kezhik', lastName: 'Kyzyl-ool' }}
-          from={'Abakan'}
-          to={'Moscow'}
-          date={'2005-08-09T18:31:42'}
-          cost={300}
-          rideId={0}
-        />
-        <DoneRide
-          driver={{ avatarSrc: sampleAvatarSrc, firstName: 'Kezhik', lastName: 'Kyzyl-ool' }}
-          from={'Abakan'}
-          to={'Moscow'}
-          date={'2005-08-09T18:31:42'}
-          cost={300}
-          rideId={0}
-        />
-        <DoneRide
-          driver={{ avatarSrc: sampleAvatarSrc, firstName: 'Kezhik', lastName: 'Kyzyl-ool' }}
-          from={'Abakan'}
-          to={'Moscow'}
-          date={'2005-08-09T18:31:42'}
-          cost={300}
-          rideId={0}
-        />
+        {ridesHistory.map(value => (
+          <DoneRide
+            key={value.id}
+            rideId={value.id}
+            driver={{
+              avatarSrc: value.host.photoUrl,
+              firstName: value.host.firstName,
+              lastName: value.host.lastName
+            }}
+            from={value.startOrganizationName}
+            to={value.stopAddress}
+            date={value.submitDatetime}
+            cost={value.price}
+          />
+        ))}
+        {ridesHistory.length === 0 ? (
+          <span className={'rides-history-page__no-rides-text'}>У вас пока не было поездок</span>
+        ) : null}
       </div>
     </div>
   );
