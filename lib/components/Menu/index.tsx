@@ -1,7 +1,8 @@
 import React, { ReactNode, Fragment } from 'react';
 import { Link } from 'react-router-dom';
-import './Menu.scss';
 import UserModel from 'models/UserModel';
+import './Menu.scss';
+import { useSelector } from 'react-redux';
 
 // type RouteIconType = "PROFILE" | "STAR" |
 
@@ -21,22 +22,22 @@ const APPLICATION_ROUTES: IRoute[] = [
     disabled: false
   },
   {
-    path: '/rating',
+    path: '/user',
     label: 'Мой рейтинг',
     routeIconClassModifier: 'rating',
-    disabled: true
+    disabled: false
   },
   {
-    path: '/rides',
+    path: '/ride/active',
     label: 'Активные поездки',
     routeIconClassModifier: 'active-rides',
-    disabled: true
+    disabled: false
   },
   {
     path: '/ride/history',
     label: 'История поездок',
     routeIconClassModifier: 'history',
-    disabled: true
+    disabled: false
   },
   {
     path: '/help',
@@ -56,6 +57,8 @@ const APPLICATION_ROUTES: IRoute[] = [
 ];
 
 export const Menu = () => {
+  const { id: userId } = useSelector(state => state.user.user);
+  const userSpecifiedPath = `/user/${userId}`;
   return (
     <ul className="rsh-menu">
       {APPLICATION_ROUTES.map(({ path, label, routeIconClassModifier, disabled, backendRequestCallback }) => {

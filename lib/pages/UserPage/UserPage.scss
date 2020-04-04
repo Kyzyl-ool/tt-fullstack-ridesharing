@@ -1,4 +1,4 @@
-@import "lib/styles/colors";
+@import 'lib/styles/colors';
 
 .user-page {
   background-color: $ui-white-color;
@@ -22,7 +22,6 @@
       text-align: center;
 
       color: #000000;
-
     }
   }
 
@@ -34,6 +33,7 @@
     display: flex;
     align-items: center;
     text-align: justify;
+    margin-top: 17px;
 
     color: #000000;
   }

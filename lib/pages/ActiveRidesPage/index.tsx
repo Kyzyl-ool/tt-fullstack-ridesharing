@@ -73,10 +73,18 @@ export const ActiveRidesPage: React.FC = props => {
             Активные поездки
           </Header>
           <div className={'flex-row nav-tab'}>
-            <Button filled={currentTab === 'I_AM_DRIVER'} onClick={() => setCurrentTab('I_AM_DRIVER')}>
+            <Button
+              className="active-rides-page__navigation-button"
+              filled={currentTab === 'I_AM_DRIVER'}
+              onClick={() => setCurrentTab('I_AM_DRIVER')}
+            >
               Вы водитель
             </Button>
-            <Button filled={currentTab === 'I_AM_PASSENGER'} onClick={() => setCurrentTab('I_AM_PASSENGER')}>
+            <Button
+              className="active-rides-page__navigation-button"
+              filled={currentTab === 'I_AM_PASSENGER'}
+              onClick={() => setCurrentTab('I_AM_PASSENGER')}
+            >
               Вы пассажир
             </Button>
           </div>
@@ -99,6 +107,7 @@ export const ActiveRidesPage: React.FC = props => {
                   driverAnswer={props.driverAnswer || 'WAITING'}
                   key={value.id}
                   waiting
+                  shadowed
                 />
               ))}
             {currentTab === 'I_AM_DRIVER' &&
@@ -111,6 +120,7 @@ export const ActiveRidesPage: React.FC = props => {
                     passengers: [] //@todo
                   }}
                   onSelectRide={() => {}}
+                  shadowed
                   waiting={false}
                 />
               ))}

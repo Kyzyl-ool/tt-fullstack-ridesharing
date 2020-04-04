@@ -5,6 +5,8 @@ import UserModel, { IGetUserInfoResponseBody } from 'models/UserModel';
 import './UserPage.scss';
 import { Avatar } from 'components/Avatar/Avatar';
 import { Button } from 'components/Button';
+import { useSelector } from 'react-redux';
+import { sampleAvatarSrc } from 'samples/samples';
 
 export const UserPage: React.FC = props => {
   const [userInfo, setUserInfo] = useState<IGetUserInfoResponseBody>({
@@ -16,6 +18,7 @@ export const UserPage: React.FC = props => {
   });
   const history = useHistory();
   const { userId } = useParams();
+  const thisUserInfo = useSelector(state => state.user.user);
 
   const fetchUserData = async () => {
     const res = await UserModel.getUserInfo(userId);
@@ -23,23 +26,30 @@ export const UserPage: React.FC = props => {
   };
 
   const onBack = () => {
-    history.goBack();
+    history.push('/');
   };
 
   const toRides = () => {};
 
   useEffect(() => {
-    fetchUserData();
-  }, []);
+    if (userId) {
+      fetchUserData();
+    } else {
+      // show current user if userId was not specified
+      if (thisUserInfo.id) {
+        setUserInfo(thisUserInfo);
+      }
+    }
+  }, [userId, thisUserInfo]);
 
   return (
     <>
       <Header iconType={'back'} onIconClick={onBack}>
-        {userInfo.firstName}&nbsp;{userInfo.lastName}
+        {`${userInfo.firstName} ${userInfo.lastName}`}
       </Header>
       <div className={'user-page'}>
         <div className={'user-page__avatar-and-name'}>
-          <Avatar src={userInfo.photoUrl} size={'large'} mark={userInfo.rating} shadowed />
+          <Avatar src={sampleAvatarSrc} size={'large'} mark={userInfo.rating} shadowed />
           <h1>
             {userInfo.firstName} {userInfo.lastName}
           </h1>
@@ -49,7 +59,6 @@ export const UserPage: React.FC = props => {
           fusce. Nibh congue amet lacinia elit neque, scelerisque. Volutpat ante sollicitudin in faucibus. Dictum
           imperdiet velit donec massa, amet magna est.
         </div>
-        <Button onClick={toRides}>Просмотреть поездки</Button>
       </div>
     </>
   );

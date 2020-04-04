@@ -73,6 +73,7 @@ export const JoinRidePage = () => {
   };
 
   const onConfirmAddress = ({ gps: { latitude, longitude } }: IDestination) => {
+    console.log('works');
     setRideSearchingInformation({ ...rideSearchingInformation, latitude, longitude });
   };
 

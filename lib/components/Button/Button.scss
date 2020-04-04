@@ -1,46 +1,45 @@
-@import "lib/styles/colors";
+@import 'lib/styles/colors';
 
 .rsh-button {
   min-width: 311px;
   min-height: 56px;
-  border: 1px solid #33A852;
+  border: 1px solid #33a852;
   box-sizing: border-box;
   border-radius: 10px;
-  background: #FFFFFF;
+  background: #ffffff;
   box-shadow: none;
   font-family: 'Source Sans Pro', sans-serif;
   font-size: 20px;
   line-height: 25px;
   text-align: center;
-  color: #33A852;
+  color: #33a852;
   padding: 10px;
   outline: none;
   cursor: pointer;
   font-style: normal;
   font-weight: normal;
 
-
   &__filled {
-    background: #33A852;
-    color: #FFFFFF;
+    background: #33a852;
+    color: #ffffff;
   }
 
   &__disabled {
-    color: #C1C1C1;
-    border-color: #C1C1C1;
+    color: #c1c1c1;
+    border-color: #c1c1c1;
     cursor: none;
   }
 
   &__disabled.rsh-button__filled {
-    color: #FFFFFF;
-    background: #C1C1C1;
+    color: #ffffff;
+    background: #c1c1c1;
   }
 
-  &_shadowed {
+  &__shadowed {
     box-shadow: 0px 4px 4px rgba(0, 0, 0, 0.25);
   }
 
-  &_outlined {
+  &__outlined {
     border: 1px solid $ui-primary-color;
     color: $ui-black-color;
     border-radius: 10px;

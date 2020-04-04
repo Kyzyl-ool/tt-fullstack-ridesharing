@@ -1,29 +1,33 @@
 import React from 'react';
 import { Avatar } from '../Avatar/Avatar';
-import './DriverCard.scss';
 import { DriverAnswerType } from 'pages/ActiveRidesPage';
 import { IRide } from 'domain/ride';
 import { parseLocationAddress } from 'helpers/parseLocationAddress';
 import { sampleAvatarSrc } from 'samples/samples';
+import './DriverCard.scss';
 
 interface IDriverCard {
   ride: IRide;
   onSelectRide: (rideId: number) => void;
   driverAnswer?: DriverAnswerType;
   waiting: boolean;
+  shadowed?: boolean;
 }
 
 export const DriverCard = ({
   ride: { id, host, price, freeSeats, startOrganizationAddress, stopAddress, car, submitDatetime },
   driverAnswer,
-  onSelectRide
+  onSelectRide,
+  shadowed = false
 }: IDriverCard) => {
   const onCardClick = () => {
     onSelectRide(id);
   };
-
   return (
-    <div onClick={onCardClick} className={`driver-card ${driverAnswer ? 'driver-card_waiting' : ''}`}>
+    <div
+      onClick={onCardClick}
+      className={`driver-card ${shadowed ? 'driver-card--shadowed' : ''} ${driverAnswer ? 'driver-card_waiting' : ''}`}
+    >
       <div className={'driver-card__avatar'}>
         <Avatar src={sampleAvatarSrc} size={'medium'} mark={host.rating} />
       </div>

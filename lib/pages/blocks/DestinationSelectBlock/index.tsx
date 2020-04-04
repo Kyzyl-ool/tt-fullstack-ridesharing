@@ -83,6 +83,7 @@ export const DestinationSelectBlock = ({
   };
 
   const onConfirmButtonClick = () => {
+    console.log(onConfirmAddress);
     setIsMapShown(false);
     onConfirmAddress({
       address: selectedAddress,

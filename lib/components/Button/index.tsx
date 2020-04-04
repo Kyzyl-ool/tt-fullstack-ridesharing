@@ -26,8 +26,8 @@ export const Button = ({
     'rsh-button__disabled': disabled,
     'rsh-button__filled': filled,
     [className]: true,
-    'rsh-button_shadowed': shadowed,
-    'rsh-button_outlined': outlined
+    'rsh-button__shadowed': shadowed,
+    'rsh-button__outlined': outlined
   });
 
   return (

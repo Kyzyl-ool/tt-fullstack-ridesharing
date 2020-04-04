@@ -47,7 +47,6 @@ export const CarCard: React.FC<ICarCard> = ({
   const handleSubmit = e => {
     e.preventDefault();
     setEditing(false);
-    console.log(e.target);
     onChange(id, {
       name: e.target.name.value,
       number: e.target.number.value,

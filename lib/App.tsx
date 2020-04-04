@@ -74,6 +74,9 @@ const App = () => {
           <Route path={'/ride/history'}>
             <RidesHistoryPage />
           </Route>
+          <Route exact path={'/user'}>
+            <UserPage />
+          </Route>
           <Route path={'/user/:userId'}>
             <UserPage />
           </Route>

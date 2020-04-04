@@ -1,7 +1,7 @@
-@import "lib/styles/colors";
+@import 'lib/styles/colors';
 
 .nav-tab {
-  padding: 0 16px 0 16px;
+  // padding: 0 16px 0 16px;
   background-color: $ui-secondary-color;
   .rsh-button {
     width: 100%;
@@ -21,4 +21,9 @@
   background-color: $ui-secondary-color;
   height: calc(100vh - 60px);
   padding-top: 8px;
+
+  &__navigation-button {
+    font-size: 16px;
+    line-height: 20px;
+  }
 }
