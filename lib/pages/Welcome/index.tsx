@@ -14,9 +14,6 @@ export const Welcome: React.FC = props => {
   const [authorized, setAuthorized] = useState<boolean>(false);
 
   useEffect(() => {
-    //fetch....
-  }, []);
-  useEffect(() => {
     if (authorized) {
       history.push('/');
     }
@@ -39,7 +36,14 @@ export const Welcome: React.FC = props => {
 
         {renderForState(
           'NAMES',
-          <Dialog onClose={handleNext} hide={false} buttonText={'Подтвердить'} cross={false}>
+          <Dialog
+            onClose={handleNext}
+            hide={false}
+            buttonText={'Подтвердить'}
+            cross={false}
+            redirectTo={''}
+            withRedirectTo={false}
+          >
             <p className={'welcome__text'}>Добро пожаловать! Введите, пожалуйста, регистрационные данные:</p>
             <Input id={'last-name'} placeholderText={'Фамилия'} placeholderType={'subscript'} />
             <Input id={'first-name'} placeholderText={'Имя'} placeholderType={'subscript'} />
@@ -48,7 +52,7 @@ export const Welcome: React.FC = props => {
         )}
         {renderForState(
           'TELEGRAM',
-          <Dialog onClose={handleNext} hide={false} buttonText={'Подтвердить'} cross={false}>
+          <Dialog onClose={handleNext} hide={false} buttonText={'Подтвердить'} cross={false} withRedirectTo={false}>
             <p className={'welcome__text'}>Введите ваш Telegram для связи:</p>
             <Input id={'telegram'} placeholderText={'Telegram'} placeholderType={'subscript'} />
           </Dialog>,
@@ -56,7 +60,7 @@ export const Welcome: React.FC = props => {
         )}
         {renderForState(
           'FINISH',
-          <Dialog onClose={handleNext} hide={false} buttonText={'Подтвердить'}>
+          <Dialog onClose={handleNext} hide={false} buttonText={'Подтвердить'} withRedirectTo={false}>
             <p className={'welcome__text'}>Поздравляем! Вы успешно зарегистрировались в приложении RideSharing!</p>
           </Dialog>,
           'appear'
