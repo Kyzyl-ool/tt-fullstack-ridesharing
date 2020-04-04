@@ -85,6 +85,10 @@ export const CreateRidePage = () => {
     setRideCreationInfo({ ...rideCreationInfo, price });
   };
 
+  const onConfirmAddress = ({ gps: { latitude, longitude } }: IDestination) => {
+    setRideCreationInfo({ ...rideCreationInfo, stopLatitude: latitude, stopLongitude: longitude });
+  };
+
   return (
     <div>
       {pageState === 'INITIAL' && <InitialRideBlock onInputClick={onStartOrganizationChoosing} />}
@@ -97,6 +101,7 @@ export const CreateRidePage = () => {
         visible={pageState === 'DESTINATION_CHOOSING'}
         onGoBack={onReturnToOrganizationChoosing}
         onSelectDestination={onSelectDestination}
+        onConfirmAddress={onConfirmAddress}
         startOrganizationName={selectedOrganizationName}
       />
       <CarSelectBlock

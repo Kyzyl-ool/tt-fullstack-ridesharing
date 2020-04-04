@@ -59,6 +59,9 @@ export const UserPage: React.FC = props => {
           fusce. Nibh congue amet lacinia elit neque, scelerisque. Volutpat ante sollicitudin in faucibus. Dictum
           imperdiet velit donec massa, amet magna est.
         </div>
+        <div className="user-page__rating-container">
+          Текущий рейтинг:<h4 className="user-page__rating">{userInfo.rating}</h4>
+        </div>
       </div>
     </>
   );

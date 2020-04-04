@@ -83,7 +83,6 @@ export const DestinationSelectBlock = ({
   };
 
   const onConfirmButtonClick = () => {
-    console.log(onConfirmAddress);
     setIsMapShown(false);
     onConfirmAddress({
       address: selectedAddress,
@@ -91,10 +90,15 @@ export const DestinationSelectBlock = ({
     });
   };
 
+  const onBackIconClick = () => {
+    setIsMapShown(false);
+    onGoBack();
+  };
+
   return (
     <Fragment>
       {visible && (
-        <Header iconType="back" onIconClick={onGoBack}>
+        <Header iconType="back" onIconClick={onBackIconClick}>
           Укажите пункт назначения
         </Header>
       )}
