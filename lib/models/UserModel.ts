@@ -2,9 +2,11 @@
 import axios from 'axios';
 
 export interface IUserData {
+  email: string;
   firstName: string;
   id: number;
   lastName: string;
+  phoneNumber: string;
   photoUrl: string;
   rating: number;
 }
