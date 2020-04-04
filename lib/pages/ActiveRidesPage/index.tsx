@@ -12,10 +12,6 @@ type Tabs = 'I_AM_DRIVER' | 'I_AM_PASSENGER';
 
 export type DriverAnswerType = 'ACCEPT' | 'DECLINE' | 'WAITING' | 'CANCELLED';
 
-interface IActiveRidesPage {
-  driverAnswer: DriverAnswerType;
-}
-
 type Ride = {
   rideId: number;
   time: string;
@@ -39,7 +35,7 @@ type Ride = {
   driverPhoneNumber?: string;
 };
 
-export const ActiveRidesPage: React.FC<IActiveRidesPage> = props => {
+export const ActiveRidesPage: React.FC = props => {
   const history = useHistory();
   const [pageState, setNext, setPrev, renderWithState] = usePageState(['MY_RIDES', 'RIDE_CARD']);
   const [currentTab, setCurrentTab] = useState<Tabs>('I_AM_PASSENGER');

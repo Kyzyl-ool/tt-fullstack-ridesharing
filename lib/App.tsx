@@ -62,7 +62,7 @@ const App = () => {
           <Route path={'/auth'}>
             <Auth />
           </Route>
-          <Route path={'/rides'}>
+          <Route path={'/ride/active'}>
             <ActiveRidesPage />
           </Route>
           <Route path={'/welcome'}>
