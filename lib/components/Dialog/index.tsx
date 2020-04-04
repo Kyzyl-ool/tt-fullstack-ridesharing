@@ -9,6 +9,7 @@ interface IDialog {
   onClose: () => any;
   hide: boolean;
   cross?: boolean;
+  withRedirectTo?: boolean;
 }
 
 export const Dialog: React.FC<IDialog> = ({
@@ -17,18 +18,25 @@ export const Dialog: React.FC<IDialog> = ({
   buttonText,
   hide = false,
   cross = true,
-  redirectTo = '/'
+  redirectTo = '/',
+  withRedirectTo = true
 }) => {
   return (
     <>
       {hide ? null : (
         <div className={'dialog'}>
           {children}
-          <Link to={redirectTo}>
+          {withRedirectTo ? (
+            <Link to={redirectTo}>
+              <Button className="dialog__button" filled onClick={onClose}>
+                {buttonText ? buttonText : 'OK'}
+              </Button>
+            </Link>
+          ) : (
             <Button className="dialog__button" filled onClick={onClose}>
               {buttonText ? buttonText : 'OK'}
             </Button>
-          </Link>
+          )}
           {cross ? <div className={'dialog__close-button'} onClick={onClose} /> : null}
         </div>
       )}
