@@ -38,7 +38,9 @@ export const LocationsList = ({
             </li>
           ))
         ) : (
-          <div className="location-list__text">К сожалению, не удалось найти ваши организации</div>
+          <div className="location-list__text">
+            К сожалению, не удалось найти ваши организации. Создайте новую или присоединитесь к существующей.
+          </div>
         )}
       </ul>
       {onAddNewOrganization && (
