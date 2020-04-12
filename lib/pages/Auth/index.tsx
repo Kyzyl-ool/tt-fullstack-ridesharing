@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import usePageState from '../../hooks/usePageState';
+import usePageState from 'hooks/usePageState/usePageState';
 import './Auth.scss';
 import { BaseLayer } from 'components/BaseLayer/BaseLayer';
 import { Button } from 'components/Button';

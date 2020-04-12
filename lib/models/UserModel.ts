@@ -50,11 +50,11 @@ export default class UserModel {
       const res = await axios.post(
         `/api/login`,
         { login: 'user_66@gmail.com', password: '12345' },
-        { withCredentials: true }
+        { withCredentials: true, validateStatus: status => (status >= 200 && status < 300) || status === 400 }
       );
-      return res.data;
+      return true;
     } catch (e) {
-      console.log(e);
+      return e.response.data.description === 'Already logged-in';
     }
   };
 

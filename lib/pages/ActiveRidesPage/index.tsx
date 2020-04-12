@@ -2,7 +2,7 @@ import React, { useEffect, useState } from 'react';
 import './ActiveRidesPage.scss';
 import { Header } from 'components/Header';
 import { useHistory } from 'react-router-dom';
-import usePageState from '../../hooks/usePageState';
+import usePageState from 'hooks/usePageState/usePageState';
 import { Button } from 'components/Button';
 import { DriverCard } from 'components/DriverCard/DriverCard';
 import RideModel, { IGetActiveRidesResponseBodyEntry, IHostedRideResponseBodyEntry } from 'models/RideModel';
@@ -42,6 +42,8 @@ export const ActiveRidesPage: React.FC = props => {
   const [activeRides, setActiveRides] = useState<IGetActiveRidesResponseBodyEntry[]>([]);
   const [activeHostedRides, setActiveHostedRides] = useState<IHostedRideResponseBodyEntry[]>([]);
   const userInfo = useSelector(state => state.user.user);
+  const [activeRidesPlaceholderText, setActiveRidesPlaceholderText] = useState<string>('Загрузка...');
+  const [hostedRidesPlaceholderText, setHostedRidesPlaceholderText] = useState<string>('Загрузка...');
 
   const handleBack = () => {
     if (pageState === 'MY_RIDES') {
@@ -58,6 +60,12 @@ export const ActiveRidesPage: React.FC = props => {
   const getActiveRides = async () => {
     setActiveRides(await RideModel.activeRides());
     setActiveHostedRides(await RideModel.rideHosted());
+    if (activeRides.length === 0) {
+      setActiveRidesPlaceholderText('У вас еще нет активных поездок.');
+    }
+    if (activeHostedRides.length === 0) {
+      setHostedRidesPlaceholderText('Вы еще не создавали поездок.');
+    }
   };
 
   useEffect(() => {
@@ -89,41 +97,49 @@ export const ActiveRidesPage: React.FC = props => {
             </Button>
           </div>
           <div className={'active-rides-page'}>
-            {currentTab === 'I_AM_PASSENGER' &&
-              activeRides.map(value => (
-                <DriverCard
-                  onSelectRide={() => {}}
-                  ride={{
-                    car: value.car,
-                    freeSeats: value.freeSeats,
-                    host: value.host,
-                    id: value.id,
-                    passengers: [], //@todo
-                    price: value.price,
-                    startOrganizationAddress: 'tbd', //@todo
-                    stopAddress: value.stopAddress,
-                    submitDatetime: value.submitDatetime
-                  }}
-                  driverAnswer={props.driverAnswer || 'WAITING'}
-                  key={value.id}
-                  waiting
-                  shadowed
-                />
-              ))}
-            {currentTab === 'I_AM_DRIVER' &&
-              activeHostedRides.map(value => (
-                <DriverCard
-                  key={value.id}
-                  ride={{
-                    ...value,
-                    startOrganizationAddress: value.startOrganizationName,
-                    passengers: [] //@todo
-                  }}
-                  onSelectRide={() => {}}
-                  shadowed
-                  waiting={false}
-                />
-              ))}
+            {currentTab === 'I_AM_PASSENGER'
+              ? activeRides.map(value => (
+                  <DriverCard
+                    onSelectRide={() => {}}
+                    ride={{
+                      car: value.car,
+                      freeSeats: value.freeSeats,
+                      host: value.host,
+                      id: value.id,
+                      passengers: [], //@todo
+                      price: value.price,
+                      startOrganizationAddress: 'tbd', //@todo
+                      stopAddress: value.stopAddress,
+                      submitDatetime: value.submitDatetime
+                    }}
+                    driverAnswer={props.driverAnswer || 'WAITING'}
+                    key={value.id}
+                    waiting
+                    shadowed
+                  />
+                ))
+              : null}
+            {currentTab === 'I_AM_PASSENGER' && activeRides.length === 0 ? (
+              <span className={'active-rides-page__placeholder-text'}>{activeRidesPlaceholderText}</span>
+            ) : null}
+            {currentTab === 'I_AM_DRIVER'
+              ? activeHostedRides.map(value => (
+                  <DriverCard
+                    key={value.id}
+                    ride={{
+                      ...value,
+                      startOrganizationAddress: value.startOrganizationName,
+                      passengers: [] //@todo
+                    }}
+                    onSelectRide={() => {}}
+                    shadowed
+                    waiting={false}
+                  />
+                ))
+              : null}
+            {currentTab === 'I_AM_DRIVER' && activeHostedRides.length === 0 ? (
+              <span className={'active-rides-page__placeholder-text'}>{hostedRidesPlaceholderText}</span>
+            ) : null}
           </div>
         </div>
       )}

@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import { useParams, useHistory } from 'react-router-dom';
 import { Header } from 'components/Header';
-import usePageState from '../../hooks/usePageState';
+import usePageState from 'hooks/usePageState/usePageState';
 import { NearestOrganizationLabel } from 'components/NearestOrganizationLabel';
 import './OrganizationPage.scss';
 import { Avatar } from 'components/Avatar/Avatar';

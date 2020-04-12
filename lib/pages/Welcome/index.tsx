@@ -4,7 +4,7 @@ import { NearestOrganizationLabel } from 'components/NearestOrganizationLabel';
 import { Dialog } from 'components/Dialog';
 import { Input } from 'components/Input';
 import { Backdrop } from 'components/Backdrop';
-import usePageState from '../../hooks/usePageState';
+import usePageState from 'hooks/usePageState/usePageState';
 import { useHistory } from 'react-router-dom';
 import './Welcome.scss';
 
