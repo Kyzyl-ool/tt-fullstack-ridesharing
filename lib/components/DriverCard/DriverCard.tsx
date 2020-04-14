@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { ReactNode } from 'react';
 import { Avatar } from '../Avatar/Avatar';
 import { DriverAnswerType } from 'pages/ActiveRidesPage';
 import { IRide, IHostAnswer } from 'domain/ride';
@@ -12,12 +12,14 @@ interface IDriverCard {
   driverAnswer?: IHostAnswer;
   waiting: boolean;
   shadowed?: boolean;
+  renderRequestsButton?: () => ReactNode;
 }
 
 export const DriverCard = ({
-  ride: { id, host, price, freeSeats, startOrganizationAddress, hostAnswer, stopAddress, car, submitDatetime },
+  ride: { id, host, price, freeSeats, startOrganizationAddress, hostAnswer, stopAddress, car, startDatetime },
   onSelectRide,
-  shadowed = false
+  shadowed = false,
+  renderRequestsButton = null
 }: IDriverCard) => {
   const onCardClick = () => {
     onSelectRide(id);
@@ -39,9 +41,18 @@ export const DriverCard = ({
           <b>{car.model}</b>
         </span>
         {/* Нужно будет прояснить что делать со временем */}
-        {/* <span className={'driver-card__text'}>
-          Время отправления:&nbsp;<b>{submitDatetime}</b>
-        </span> */}
+        <span className={'driver-card__text'}>
+          <div className="driver-card__time-icon" />
+          <b>
+            {new Date(startDatetime).toLocaleDateString('ru-RU', {
+              month: 'short',
+              day: 'numeric',
+              hour: 'numeric',
+              minute: 'numeric',
+              hour12: false
+            })}
+          </b>
+        </span>
       </div>
 
       <span className={'driver-card__price'}>{price.toFixed(0)}&nbsp;₽</span>

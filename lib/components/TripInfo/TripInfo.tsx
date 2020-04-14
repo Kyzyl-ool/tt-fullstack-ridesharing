@@ -1,6 +1,6 @@
 // eslint-disable-next-line @typescript-eslint/no-empty-function
 import React, { useState } from 'react';
-import DatePicker, { registerLocale, setDefaultLocale } from 'react-datepicker';
+import DatePicker, { registerLocale } from 'react-datepicker';
 import ru from 'date-fns/locale/ru';
 import { BaseLayer } from 'components/BaseLayer/BaseLayer';
 import { Input } from 'components/Input';
@@ -14,9 +14,10 @@ interface ITripInfo {
   onButtonClick: () => void;
   onSeatsNumberChange: (placeNumber: string) => void;
   onPriceChange: (cost: string) => void;
+  onDateChange: (timestamp: number) => void;
 }
 
-export const TripInfo = ({ onButtonClick, onPriceChange, onSeatsNumberChange }: ITripInfo) => {
+export const TripInfo = ({ onButtonClick, onPriceChange, onSeatsNumberChange, onDateChange }: ITripInfo) => {
   const [text, setText] = useState<string>('Создать поездку');
   const [btnDisabled, setBtnDisabled] = useState(false);
   const [startDate, setStartDate] = useState<Date>();
@@ -34,7 +35,10 @@ export const TripInfo = ({ onButtonClick, onPriceChange, onSeatsNumberChange }: 
     onSeatsNumberChange(placeNumber);
   };
 
-  const onDateChange = (date: Date) => setStartDate(date);
+  const onDateInputChange = (date: Date) => {
+    onDateChange(date.getTime());
+    setStartDate(date);
+  };
 
   const CustomDateInput = ({ value, onClick }) => (
     <div onClick={onClick}>
@@ -69,7 +73,7 @@ export const TripInfo = ({ onButtonClick, onPriceChange, onSeatsNumberChange }: 
         />
         <DatePicker
           selected={startDate}
-          onChange={onDateChange}
+          onChange={onDateInputChange}
           locale="ru"
           showTimeSelect
           timeFormat="p"

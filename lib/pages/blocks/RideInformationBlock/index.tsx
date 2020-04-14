@@ -9,6 +9,7 @@ interface IRideInformationBlock {
   onCreateRide: () => void;
   onSeatsNumberChange: (placeNumber: string) => void;
   onPriceChange: (cost: string) => void;
+  onDateChange: (timestamp: number) => void;
   onGoBack: () => void;
 }
 
@@ -17,6 +18,7 @@ export const RideInformationBlock = ({
   onCreateRide,
   onPriceChange,
   onSeatsNumberChange,
+  onDateChange,
   onGoBack
 }: IRideInformationBlock) => {
   return (
@@ -27,6 +29,7 @@ export const RideInformationBlock = ({
           onButtonClick={onCreateRide}
           onPriceChange={onPriceChange}
           onSeatsNumberChange={onSeatsNumberChange}
+          onDateChange={onDateChange}
         />
       </Slider>
     </Fragment>

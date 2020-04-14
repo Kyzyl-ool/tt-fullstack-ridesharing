@@ -1,4 +1,5 @@
 @import 'lib/styles/colors';
+@import 'lib/styles/icons';
 
 .driver-card {
   display: flex;
@@ -86,11 +87,19 @@
     }
   }
 
+  &__time-icon {
+    width: 12px;
+    height: 12px;
+    margin-right: 4px;
+    background: $time-icon no-repeat;
+    background-size: contain;
+  }
+
   b {
     font-family: 'Source Sans Pro', sans-serif;
     font-style: normal;
     font-weight: bold;
-    font-size: 14px;
+    font-size: 12px;
     line-height: 15px;
     text-align: center;
 
@@ -101,7 +110,7 @@
     font-family: 'Source Sans Pro', sans-serif;
     font-style: italic;
     font-weight: normal;
-    font-size: 12px;
+    font-size: 10px;
     line-height: 14px;
     /* identical to box height */
 

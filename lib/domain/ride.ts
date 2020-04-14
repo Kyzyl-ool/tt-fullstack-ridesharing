@@ -10,6 +10,7 @@ export interface IRideCreationInfo {
   stopLongitude: number;
   totalSeats: string;
   price: string;
+  startDatetime: string;
 }
 
 export interface IRide {
@@ -22,5 +23,6 @@ export interface IRide {
   startOrganizationAddress: string;
   stopAddress: string;
   submitDatetime: string;
+  startDatetime: string;
   hostAnswer: IHostAnswer;
 }

@@ -1,4 +1,5 @@
 import React, { useState } from 'react';
+import parseISO from 'date-fns/parseISO';
 import { BaseLayer } from '../BaseLayer/BaseLayer';
 import { Avatar } from '../Avatar/Avatar';
 import { sampleAvatarSrc } from '../../samples/samples';
@@ -59,7 +60,6 @@ export const RideCard = ({ ride, onBack, onButtonClick }: IRideCard) => {
         return <Button {...commonProps}>Отправить запрос</Button>;
     }
   };
-  console.log(ride, 'RIDE');
   return (
     <BaseLayer
       type={'headed'}
@@ -119,8 +119,15 @@ export const RideCard = ({ ride, onBack, onButtonClick }: IRideCard) => {
                 <div>
                   <span>Время отправления:</span>
                   <br />
-                  {/* <b>{ride.submitDatetime}</b> */}
-                  <b>По договоренности</b>
+                  <b>
+                    {new Date(ride.startDatetime).toLocaleDateString('ru-RU', {
+                      month: 'long',
+                      day: 'numeric',
+                      hour: 'numeric',
+                      minute: 'numeric',
+                      hour12: false
+                    })}
+                  </b>
                 </div>
                 <u onClick={() => setShow(true)} className={'ride-card-participants-button'}>
                   Пассажиров:&nbsp;<b>{ride.passengers.length}</b>

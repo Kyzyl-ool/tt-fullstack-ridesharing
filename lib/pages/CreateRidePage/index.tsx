@@ -28,7 +28,8 @@ export const CreateRidePage = () => {
     stopLatitude: null,
     stopLongitude: null,
     totalSeats: null,
-    price: null
+    price: null,
+    startDatetime: null
   });
   const [selectedOrganizationName, setSelectedOrganizationName] = useState('');
   const history = useHistory();
@@ -87,6 +88,11 @@ export const CreateRidePage = () => {
     setRideCreationInfo({ ...rideCreationInfo, price });
   };
 
+  const onDateChange = (dateInTimestamp: number) => {
+    console.log(dateInTimestamp);
+    setRideCreationInfo({ ...rideCreationInfo, startDatetime: new Date(dateInTimestamp).toISOString() });
+  };
+
   const onConfirmAddress = ({ gps: { latitude, longitude } }: IDestination) => {
     setRideCreationInfo({ ...rideCreationInfo, stopLatitude: latitude, stopLongitude: longitude });
   };
@@ -121,6 +127,7 @@ export const CreateRidePage = () => {
         onGoBack={onReturnToCarChoosing}
         onPriceChange={onPriceChange}
         onSeatsNumberChange={onSeatsNumberChange}
+        onDateChange={onDateChange}
       />
       {pageState === 'DONE' && (
         <Dialog onClose={onDialogClose} hide={false}>

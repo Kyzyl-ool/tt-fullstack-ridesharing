@@ -15,29 +15,6 @@ type Tabs = 'I_AM_DRIVER' | 'I_AM_PASSENGER';
 
 export type DriverAnswerType = 'ACCEPT' | 'DECLINE' | 'WAITING' | 'CANCELLED';
 
-type Ride = {
-  rideId: number;
-  time: string;
-  amountOfFreePlaces: number;
-  driver: {
-    driverId: number;
-    firstName: string;
-    lastName: string;
-    avatarSrc: string;
-    rating: number;
-  };
-  cost: string;
-  car: {
-    model: string;
-    licensePlateNumber: string;
-    color: string;
-  };
-  destinationAddress: string;
-  driverAnswer: DriverAnswerType;
-  declineReason?: string;
-  driverPhoneNumber?: string;
-};
-
 export const ActiveRidesPage: React.FC = props => {
   const history = useHistory();
   const [pageState, setNext, setPrev, renderWithState] = usePageState(['MY_RIDES', 'RIDE_CARD']);
