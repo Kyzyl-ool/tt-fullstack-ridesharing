@@ -19,7 +19,7 @@ interface ITripInfo {
 export const TripInfo = ({ onButtonClick, onPriceChange, onSeatsNumberChange }: ITripInfo) => {
   const [text, setText] = useState<string>('Создать поездку');
   const [btnDisabled, setBtnDisabled] = useState(false);
-  const [startDate, setStartDate] = useState(new Date());
+  const [startDate, setStartDate] = useState<Date>();
   const handleClick = () => {
     setText('Создание поездки...');
     setBtnDisabled(true);
@@ -76,6 +76,7 @@ export const TripInfo = ({ onButtonClick, onPriceChange, onSeatsNumberChange }: 
           timeIntervals={15}
           dateFormat="Pp"
           timeCaption="Время"
+          minDate={new Date()}
           customInput={<CustomDateInput />}
         />
         <div className="trip-info__button-wrapper">
