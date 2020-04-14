@@ -12,31 +12,17 @@ interface IDialog {
   withRedirectTo?: boolean;
 }
 
-export const Dialog: React.FC<IDialog> = ({
-  children,
-  onClose,
-  buttonText,
-  hide = false,
-  cross = true,
-  redirectTo = '/',
-  withRedirectTo = true
-}) => {
+export const Dialog: React.FC<IDialog> = ({ children, onClose, buttonText, hide = false, cross = true }) => {
   return (
     <>
       {hide ? null : (
         <div className={'dialog'}>
           {children}
-          {withRedirectTo ? (
-            <Link to={redirectTo}>
-              <Button className="dialog__button" filled onClick={onClose}>
-                {buttonText ? buttonText : 'OK'}
-              </Button>
-            </Link>
-          ) : (
-            <Button className="dialog__button" filled onClick={onClose}>
-              {buttonText ? buttonText : 'OK'}
-            </Button>
-          )}
+
+          <Button className="dialog__button" filled onClick={onClose}>
+            {buttonText ? buttonText : 'OK'}
+          </Button>
+
           {cross ? <div className={'dialog__close-button'} onClick={onClose} /> : null}
         </div>
       )}

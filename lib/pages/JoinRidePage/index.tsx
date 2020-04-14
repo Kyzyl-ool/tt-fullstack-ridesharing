@@ -12,6 +12,7 @@ import { IDestination, ILocation } from 'domain/map';
 import RideModel from 'models/RideModel';
 import { IRide } from 'domain/ride';
 import './JoinRidePage.scss';
+import { useHistory } from 'react-router-dom';
 
 type PageState =
   | 'INITIAL'
@@ -32,6 +33,7 @@ export const JoinRidePage = () => {
   const [selectedRideId, setSelectedRideId] = useState<number>(null);
   const [selectedOrganizationName, setSelectedOrganizationName] = useState('');
   const [fetchedRides, setFetchedRides] = useState<IRide[]>([]);
+  const history = useHistory();
 
   const onStartOrganizationChoosing = () => {
     setPageState('ORGANIZATION_CHOOSING');
@@ -95,6 +97,8 @@ export const JoinRidePage = () => {
     }
   };
 
+  const onDialogClose = () => history.push('/');
+
   const getPriceToPay = () =>
     !_isEmpty(fetchedRides) ? fetchedRides.find(ride => ride.id === selectedRideId).price : 0;
 
@@ -115,11 +119,16 @@ export const JoinRidePage = () => {
       />
       <SearchRideBlock onShowMenu={() => {}} visible={pageState === 'SEARCHING'} from="" to="" />
       {pageState === 'SEARCH_COMPLETED' && (
-        <FoundRides onSelectRide={onSelectRide} onSendRequest={onSendRequest} rides={fetchedRides} />
+        <FoundRides
+          onGoBack={onReturnToDestinationChoosing}
+          onSelectRide={onSelectRide}
+          onSendRequest={onSendRequest}
+          rides={fetchedRides}
+        />
       )}
       {pageState === 'PAYING' && <PaymentBlock amountToPay={getPriceToPay()} onPaymentConfirmed={onPaymentConfirmed} />}
       {pageState === 'DONE' && (
-        <Dialog hide={false}>
+        <Dialog onClose={onDialogClose} hide={false}>
           Запрос на присоединение к поездке отправлен. Ответ водителя будет направлен вам по push-уведомлению
         </Dialog>
       )}

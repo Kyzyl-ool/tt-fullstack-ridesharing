@@ -25,7 +25,7 @@ export interface IGetActiveRidesResponseBodyEntry {
     photoUrl: string;
     rating: number;
   };
-  hostAnswer: 'ACCEPTED' | 'NO_ANSWER' | 'DECLINED';
+  hostAnswer: 'ACCEPTED' | 'NO ANSWER' | 'DECLINED';
   id: number;
   price: number;
   stopAddress: string;

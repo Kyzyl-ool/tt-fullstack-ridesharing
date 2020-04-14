@@ -10,6 +10,7 @@ import { RideInformationBlock } from 'pages/blocks/RideInformationBlock';
 import { ILocation, IDestination } from 'domain/map';
 import RideModel from 'models/RideModel';
 import { IRideCreationInfo } from 'domain/ride';
+import { useHistory } from 'react-router-dom';
 
 type PageState =
   | 'INITIAL'
@@ -30,6 +31,7 @@ export const CreateRidePage = () => {
     price: null
   });
   const [selectedOrganizationName, setSelectedOrganizationName] = useState('');
+  const history = useHistory();
 
   const onStartOrganizationChoosing = () => {
     setPageState('ORGANIZATION_CHOOSING');
@@ -89,6 +91,8 @@ export const CreateRidePage = () => {
     setRideCreationInfo({ ...rideCreationInfo, stopLatitude: latitude, stopLongitude: longitude });
   };
 
+  const onDialogClose = () => history.push('/');
+
   return (
     <div>
       {pageState === 'INITIAL' && <InitialRideBlock onInputClick={onStartOrganizationChoosing} />}
@@ -119,7 +123,7 @@ export const CreateRidePage = () => {
         onSeatsNumberChange={onSeatsNumberChange}
       />
       {pageState === 'DONE' && (
-        <Dialog hide={false}>
+        <Dialog onClose={onDialogClose} hide={false}>
           Новая поездка успешно создана. Запросы от пассажиров будут направлены вам push-уведомлением.
         </Dialog>
       )}

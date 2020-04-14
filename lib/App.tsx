@@ -16,8 +16,8 @@ import { RidesHistoryPage } from 'pages/RidesHistory';
 import { ProfilePage } from 'pages/ProfilePage';
 import { Backdrop } from 'components/Backdrop';
 import { setUserAction } from 'store/actions/userActions';
-import './App.global.scss';
 import { UserPage } from 'pages/UserPage';
+import './App.global.scss';
 
 const App = () => {
   const dispatch = useDispatch();

@@ -5,9 +5,10 @@ import { sampleAvatarSrc } from '../../samples/samples';
 import { Button } from '../Button';
 import { CSSTransition } from 'react-transition-group';
 import { UserCard } from '../UserCard';
-import { IRide } from 'domain/ride';
+import { IRide, IHostAnswer } from 'domain/ride';
 import { parseLocationAddress } from 'helpers/parseLocationAddress';
 import './RideCard.scss';
+import { useSelector } from 'react-redux';
 
 export interface IRideCard {
   ride: IRide;
@@ -17,8 +18,46 @@ export interface IRideCard {
 
 export const RideCard = ({ ride, onBack, onSendRequest }: IRideCard) => {
   const [show, setShow] = useState<boolean>(false);
+  const userInfo = useSelector(state => state.user.user);
   const handleRequest = () => {
     onSendRequest();
+  };
+
+  const renderButton = (hostAnswerType: IHostAnswer, isHost: boolean) => {
+    const commonProps = {
+      onClick: handleRequest,
+      className: 'ride-card-send-button',
+      filled: true
+    };
+    if (isHost) {
+      return (
+        <Button {...commonProps} disabled>
+          Это ваша поездка
+        </Button>
+      );
+    }
+    switch (hostAnswerType) {
+      case 'ACCEPTED':
+        return (
+          <Button disabled {...commonProps}>
+            Вы уже в поездке
+          </Button>
+        );
+      case 'DECLINED':
+        return (
+          <Button disabled {...commonProps}>
+            Заявка отклонена
+          </Button>
+        );
+      case 'NO ANSWER':
+        return (
+          <Button disabled {...commonProps}>
+            Ожидание ответа водителя
+          </Button>
+        );
+      default:
+        return <Button {...commonProps}>Отправить запрос</Button>;
+    }
   };
 
   return (
@@ -27,15 +66,17 @@ export const RideCard = ({ ride, onBack, onSendRequest }: IRideCard) => {
       header={
         <div className={'ride-card-header'}>
           <span className={'ride-card-header__icon ride-card-header__icon_back'} onClick={onBack} />
-          <div className={'ride-card-aligner'}>
-            <span className={'ride-card-header__icon ride-card-header__icon_dot'} />
-            <span className={'ride-card-header__destinations'}>
-              {parseLocationAddress(ride.startOrganizationAddress).name}
-            </span>
-          </div>
-          <div className={'ride-card-aligner'}>
-            <span className={'ride-card-header__icon ride-card-header__icon_geo'} />
-            <span className={'ride-card-header__destinations'}>{parseLocationAddress(ride.stopAddress).name}</span>
+          <div className="ride-card-header__container">
+            <div className={'ride-card-aligner'}>
+              <span className={'ride-card-header__icon ride-card-header__icon_dot'} />
+              <span className={'ride-card-header__destinations'}>
+                {parseLocationAddress(ride.startOrganizationAddress).name}
+              </span>
+            </div>
+            <div className={'ride-card-aligner'}>
+              <span className={'ride-card-header__icon ride-card-header__icon_geo'} />
+              <span className={'ride-card-header__destinations'}>{parseLocationAddress(ride.stopAddress).name}</span>
+            </div>
           </div>
         </div>
       }
@@ -93,9 +134,7 @@ export const RideCard = ({ ride, onBack, onSendRequest }: IRideCard) => {
               <span className={'ride-cost__cost'}>{ride.price}&nbsp;₽</span>
             </div>
           </div>
-          <Button onClick={handleRequest} filled={true} className={'ride-card-send-button'}>
-            Отправить запрос
-          </Button>
+          {renderButton(ride.hostAnswer, userInfo.id === ride.host.id)}
         </div>
       </CSSTransition>
     </BaseLayer>
