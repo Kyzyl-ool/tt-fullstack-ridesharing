@@ -12,6 +12,14 @@
   &__form {
     width: 311px;
     padding: 0 24px;
+
+    .react-datepicker-wrapper {
+      display: block;
+    }
+
+    .react-datepicker__input-container {
+      display: block;
+    }
   }
 
   &__button {
