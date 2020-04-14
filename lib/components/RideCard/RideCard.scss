@@ -4,6 +4,7 @@
 .ride-card-header {
   display: flex;
   justify-content: center;
+  align-items: center;
   margin-top: -4px;
   position: relative;
 
@@ -41,6 +42,7 @@
     &_back {
       background: $back-icon-white no-repeat;
       cursor: pointer;
+      margin-right: 10px;
     }
   }
 }

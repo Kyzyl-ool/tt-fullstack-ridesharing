@@ -1,7 +1,7 @@
 import { ICar } from './car';
 import { IPassenger, IDriver } from './driver';
 
-export type IHostAnswer = 'ACCEPTED' | 'NO ANSWER' | 'DECLINED' | 'NONE';
+export type IHostAnswer = 'ACCEPTED' | 'NO ANSWER' | 'DECLINED' | null;
 
 export interface IRideCreationInfo {
   carId: string;

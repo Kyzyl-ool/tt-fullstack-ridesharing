@@ -1,7 +1,7 @@
 import React from 'react';
 import { Avatar } from '../Avatar/Avatar';
 import { DriverAnswerType } from 'pages/ActiveRidesPage';
-import { IRide } from 'domain/ride';
+import { IRide, IHostAnswer } from 'domain/ride';
 import { parseLocationAddress } from 'helpers/parseLocationAddress';
 import { sampleAvatarSrc } from 'samples/samples';
 import './DriverCard.scss';
@@ -9,14 +9,13 @@ import './DriverCard.scss';
 interface IDriverCard {
   ride: IRide;
   onSelectRide: (rideId: number) => void;
-  driverAnswer?: DriverAnswerType;
+  driverAnswer?: IHostAnswer;
   waiting: boolean;
   shadowed?: boolean;
 }
 
 export const DriverCard = ({
-  ride: { id, host, price, freeSeats, startOrganizationAddress, stopAddress, car, submitDatetime },
-  driverAnswer,
+  ride: { id, host, price, freeSeats, startOrganizationAddress, hostAnswer, stopAddress, car, submitDatetime },
   onSelectRide,
   shadowed = false
 }: IDriverCard) => {
@@ -26,7 +25,7 @@ export const DriverCard = ({
   return (
     <div
       onClick={onCardClick}
-      className={`driver-card ${shadowed ? 'driver-card--shadowed' : ''} ${driverAnswer ? 'driver-card_waiting' : ''}`}
+      className={`driver-card ${shadowed ? 'driver-card--shadowed' : ''} ${hostAnswer ? 'driver-card_waiting' : ''}`}
     >
       <div className={'driver-card__avatar'}>
         <Avatar src={sampleAvatarSrc} size={'medium'} mark={host.rating} />
@@ -46,19 +45,20 @@ export const DriverCard = ({
       </div>
 
       <span className={'driver-card__price'}>{price.toFixed(0)}&nbsp;₽</span>
-      <div className={`driver-card__destination ${driverAnswer ? 'driver-card__destination_waiting' : null}`}>
+      <div className={`driver-card__destination ${hostAnswer ? 'driver-card__destination_waiting' : null}`}>
         <span className="driver-card__host-name">{host.firstName} едет до:</span>
         <span className="driver-card__stop-address">{parseLocationAddress(stopAddress).name}</span>
       </div>
 
-      {driverAnswer === 'WAITING' ? <span className={'driver-card__waiting'}>Ожидание ответа водителя</span> : null}
-      {driverAnswer === 'CANCELLED' ? (
+      {hostAnswer === 'NO ANSWER' ? <span className={'driver-card__waiting'}>Ожидание ответа водителя</span> : null}
+      {/* Пока с бэкенда не приходит информация о том, что поездка отменена */}
+      {/* {driverAnswer === 'CANCELLED' ? (
         <span className={'driver-card__waiting driver-card__waiting_red'}>Поездка отменена</span>
-      ) : null}
-      {driverAnswer === 'DECLINE' ? (
+      ) : null} */}
+      {hostAnswer === 'DECLINED' ? (
         <span className={'driver-card__waiting driver-card__waiting_red'}>Запрос отклонен</span>
       ) : null}
-      {driverAnswer === 'ACCEPT' ? (
+      {hostAnswer === 'ACCEPTED' ? (
         <span className={'driver-card__waiting driver-card__waiting_green'}>Запрос принят</span>
       ) : null}
     </div>

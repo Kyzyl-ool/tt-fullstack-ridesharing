@@ -1,5 +1,5 @@
 import axios from 'axios';
-import { IRideCreationInfo } from 'domain/ride';
+import { IRideCreationInfo, IRide } from 'domain/ride';
 
 interface IFindRidesRequest {
   organizationId: string;
@@ -96,7 +96,7 @@ export default class RideModel {
     return res.data;
   };
 
-  static activeRides = async (): Promise<IGetActiveRidesResponseBodyEntry[]> => {
+  static activeRides = async (): Promise<IRide[]> => {
     const res = await axios.get('/api/ride/active');
     return res.data;
   };
@@ -106,7 +106,7 @@ export default class RideModel {
     return res.data;
   };
 
-  static rideHosted = async (): Promise<IHostedRideResponseBodyEntry[]> => {
+  static rideHosted = async (): Promise<IRide[]> => {
     const res = await axios.get('/api/ride/hosted');
     return res.data;
   };

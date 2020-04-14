@@ -13,19 +13,19 @@ import { useSelector } from 'react-redux';
 export interface IRideCard {
   ride: IRide;
   onBack: () => void;
-  onSendRequest: () => void;
+  onButtonClick: (hostAnswerType: IHostAnswer) => void;
 }
 
-export const RideCard = ({ ride, onBack, onSendRequest }: IRideCard) => {
+export const RideCard = ({ ride, onBack, onButtonClick }: IRideCard) => {
   const [show, setShow] = useState<boolean>(false);
   const userInfo = useSelector(state => state.user.user);
-  const handleRequest = () => {
-    onSendRequest();
+  const handleClick = (hostAnswerType: IHostAnswer) => {
+    onButtonClick(hostAnswerType);
   };
 
   const renderButton = (hostAnswerType: IHostAnswer, isHost: boolean) => {
     const commonProps = {
-      onClick: handleRequest,
+      onClick: () => handleClick(hostAnswerType),
       className: 'ride-card-send-button',
       filled: true
     };
@@ -59,7 +59,7 @@ export const RideCard = ({ ride, onBack, onSendRequest }: IRideCard) => {
         return <Button {...commonProps}>Отправить запрос</Button>;
     }
   };
-
+  console.log(ride, 'RIDE');
   return (
     <BaseLayer
       type={'headed'}
