@@ -17,10 +17,10 @@ export const SearchingWindow: React.FC<ISearchingWindow> = ({ from, to }) => {
   return (
     <div className={'waiting-card'}>
       <BaseLayer type={'primary'} header={null}>
-        <div>
-          <b>Поиск подходящих поездок</b>
+        <div className="waiting-card__header">
+          <b className="waiting-card__main-header-part">Поиск подходящих поездок</b>
           <br />
-          <span>Это может занять некоторое время</span>
+          <span className="waiting-card__secondary-header-part">Это может занять некоторое время</span>
         </div>
         <ProgressBar progress={countUp / 100} />
         <Button onClick={handleCancelSearch} filled>
