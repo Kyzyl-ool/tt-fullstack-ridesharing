@@ -1,6 +1,8 @@
 import { ICar } from './car';
 import { IPassenger, IDriver } from './driver';
 
+export type IHostAnswer = 'ACCEPTED' | 'NO ANSWER' | 'DECLINED' | 'NONE';
+
 export interface IRideCreationInfo {
   carId: string;
   startOrganizationId: string;
@@ -20,4 +22,5 @@ export interface IRide {
   startOrganizationAddress: string;
   stopAddress: string;
   submitDatetime: string;
+  hostAnswer: IHostAnswer;
 }

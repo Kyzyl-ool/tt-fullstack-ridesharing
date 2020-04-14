@@ -3,30 +3,25 @@
 
 .ride-card-header {
   display: flex;
-  flex-direction: column;
   justify-content: center;
   margin-top: -4px;
   position: relative;
 
+  &__container {
+    display: flex;
+    flex-direction: column;
+  }
+
   &__destinations {
-    font-family: 'Source Sans Pro', sans-serif;
-    font-style: normal;
     font-weight: bold;
     font-size: 10px;
     line-height: 13px;
-    display: flex;
-    align-items: center;
-
-    /* UI / White */
-
-    color: #ffffff;
-
-    /* Inside Auto Layout */
-
-    flex: none;
-    order: 1;
-    align-self: center;
     margin: 8px 0px;
+    overflow: hidden;
+    white-space: nowrap;
+    text-overflow: ellipsis;
+    width: 80%;
+    text-align: left;
   }
 
   &__icon {
@@ -45,9 +40,6 @@
 
     &_back {
       background: $back-icon-white no-repeat;
-      position: absolute;
-      top: 16px;
-      left: -40px;
       cursor: pointer;
     }
   }

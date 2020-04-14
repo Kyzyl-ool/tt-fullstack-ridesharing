@@ -49,7 +49,7 @@ export default class UserModel {
     try {
       const res = await axios.post(
         `/api/login`,
-        { login: 'user_66@gmail.com', password: '12345' },
+        { login: 'user_67@gmail.com', password: '12345' },
         { withCredentials: true, validateStatus: status => (status >= 200 && status < 300) || status === 400 }
       );
       return true;
