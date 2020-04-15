@@ -8,8 +8,11 @@ import { CSSTransition } from 'react-transition-group';
 import { UserCard } from '../UserCard';
 import { IRide, IHostAnswer } from 'domain/ride';
 import { parseLocationAddress } from 'helpers/parseLocationAddress';
-import './RideCard.scss';
 import { useSelector } from 'react-redux';
+import { Dialog } from 'components/Dialog';
+import RideModel from 'models/RideModel';
+import './RideCard.scss';
+import { useHistory } from 'react-router-dom';
 
 export interface IRideCard {
   ride: IRide;
@@ -20,9 +23,66 @@ export interface IRideCard {
 
 export const RideCard = ({ ride, onBack, onButtonClick, renderCustomHostButton = null }: IRideCard) => {
   const [show, setShow] = useState<boolean>(false);
+  const [isHostInfoShown, setIsHostInfoShown] = useState<boolean>(false);
+  const [isSuccessCancelanceShown, setIsSuccessCancelanceShown] = useState<boolean>(false);
+  const [isSuccessFinishShown, setIsSuccessFinishShown] = useState<boolean>(false);
+  const [isRejectReasonShown, setIsRejectReasonShown] = useState<boolean>(false);
   const userInfo = useSelector(state => state.user.user);
+  const history = useHistory();
   const handleClick = (hostAnswerType: IHostAnswer) => {
     onButtonClick(hostAnswerType);
+  };
+
+  const showHostInfo = () => {
+    setIsHostInfoShown(true);
+  };
+
+  const showSuccessCancelance = () => {
+    setIsSuccessCancelanceShown(true);
+    history.push('/');
+  };
+
+  const showSuccessFinish = () => {
+    setIsSuccessFinishShown(true);
+    history.push('/');
+  };
+
+  const showRejectReason = () => {
+    setIsRejectReasonShown(true);
+  };
+
+  const onCloseHostInfo = () => {
+    setIsHostInfoShown(false);
+  };
+
+  const onCloseRejectReason = () => {
+    setIsRejectReasonShown(false);
+  };
+
+  const onCloseFinishDialog = () => {
+    setIsSuccessFinishShown(false);
+  };
+
+  const onCloseCancelDialog = () => {
+    setIsSuccessCancelanceShown(false);
+  };
+
+  const onCancelRide = async () => {
+    try {
+      await RideModel.cancelRide(ride.id);
+      showSuccessCancelance();
+    } catch (e) {
+      throw new Error(e);
+    }
+  };
+
+  const onFinishRide = async () => {
+    try {
+      await RideModel.finishRide(ride.id);
+      showSuccessFinish();
+    } catch (e) {
+      throw new Error(e);
+    }
   };
 
   const renderButton = (hostAnswerType: IHostAnswer, isHost: boolean) => {
@@ -31,7 +91,6 @@ export const RideCard = ({ ride, onBack, onButtonClick, renderCustomHostButton =
       className: 'ride-card-send-button',
       filled: true
     };
-    console.log(isHost);
     if (isHost) {
       if (renderCustomHostButton) {
         return renderCustomHostButton();
@@ -45,14 +104,14 @@ export const RideCard = ({ ride, onBack, onButtonClick, renderCustomHostButton =
     switch (hostAnswerType) {
       case 'ACCEPTED':
         return (
-          <Button disabled {...commonProps}>
-            Вы уже в поездке
+          <Button {...commonProps} onClick={showHostInfo}>
+            Контактные данные
           </Button>
         );
       case 'DECLINED':
         return (
-          <Button disabled {...commonProps}>
-            Заявка отклонена
+          <Button {...commonProps} onClick={showRejectReason}>
+            Запрос отклонен
           </Button>
         );
       case 'NO ANSWER':
@@ -65,6 +124,7 @@ export const RideCard = ({ ride, onBack, onButtonClick, renderCustomHostButton =
         return <Button {...commonProps}>Отправить запрос</Button>;
     }
   };
+
   return (
     <BaseLayer
       type={'headed'}
@@ -147,8 +207,43 @@ export const RideCard = ({ ride, onBack, onButtonClick, renderCustomHostButton =
             </div>
           </div>
           {renderButton(ride.hostAnswer, userInfo.id === ride.host.id)}
+          {userInfo.id === ride.host.id && (
+            <div className="ride-card__host-buttons">
+              <div onClick={onFinishRide} className="ride-card__secondary-button ride-card__secondary-button--finish">
+                <div className="ride-card__finish-button-icon" />
+                Завершить
+              </div>
+              <div onClick={onCancelRide} className="ride-card__secondary-button ride-card__secondary-button--cancel">
+                <div className="ride-card__cancel-button-icon" />
+                Отменить
+              </div>
+            </div>
+          )}
         </div>
       </CSSTransition>
+      <Dialog className="ride-card__dialog" hide={!isHostInfoShown} onClose={onCloseHostInfo} withConfirmButton={false}>
+        <div className="ride-card__text">Водитель оставил Вам свои контактные данные для связи:</div>
+        <Button filled>{ride.host.phoneNumber}</Button>
+      </Dialog>
+      <Dialog
+        className="ride-card__dialog"
+        hide={!isRejectReasonShown}
+        onClose={onCloseRejectReason}
+        withConfirmButton={false}
+      >
+        <p className="ride-card__text">Запрос был отклонен. Водитель пишет: {ride.declineReason}</p>
+      </Dialog>
+      <Dialog
+        className="ride-card__dialog"
+        hide={!isSuccessCancelanceShown}
+        onClose={onCloseCancelDialog}
+        // withConfirmButton={false}
+      >
+        <p className="ride-card__text">Поездка успешно отклонена!</p>
+      </Dialog>
+      <Dialog className="ride-card__dialog" hide={!isSuccessFinishShown} onClose={onCloseFinishDialog}>
+        <p className="ride-card__text">Поездка успешно завершена!</p>
+      </Dialog>
     </BaseLayer>
   );
 };

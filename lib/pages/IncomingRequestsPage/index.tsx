@@ -55,7 +55,7 @@ const IncomingRequestsPage = () => {
           ))}
         </ul>
       ) : (
-        <p>Запросов на присоединение к данной поездке пока нет</p>
+        <p className="incoming-requests-page__text">Запросов на присоединение к данной поездке пока нет</p>
       )}
     </div>
   );

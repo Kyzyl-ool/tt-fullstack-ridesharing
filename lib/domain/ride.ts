@@ -30,4 +30,5 @@ export interface IRide {
   submitDatetime: string;
   startDatetime: string;
   hostAnswer: IHostAnswer;
+  declineReason?: string;
 }

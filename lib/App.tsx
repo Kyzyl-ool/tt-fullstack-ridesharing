@@ -12,62 +12,60 @@ import { RidesHistoryPage } from 'pages/RidesHistory';
 import { ProfilePage } from 'pages/ProfilePage';
 import { Backdrop } from 'components/Backdrop';
 import IncomingRequestsPage from 'pages/IncomingRequestsPage';
-import './App.global.scss';
-import './App.scss';
 import { UserPage } from 'pages/UserPage';
 import { PrivateRoute } from 'components/PrivateRoute';
 import { CSSTransition, TransitionGroup } from 'react-transition-group';
 import { UserRequestPage } from 'pages/UserRequestPage';
+import './App.global.scss';
+import './App.scss';
 
 const AnimatedRouting = () => {
   const location = useLocation();
   return (
-    <TransitionGroup>
-      <CSSTransition key={location.key} classNames={'fade'} timeout={300}>
-        <Switch>
-          <Route exact path="/">
-            <MainPage />
-          </Route>
-          <Route exact path="/ride/create">
-            <CreateRidePage />
-          </Route>
-          <Route exact path="/ride/join">
-            <JoinRidePage />
-          </Route>
-          <Route exact path={'/organization/create'}>
-            <CreateOrganizationPage />
-          </Route>
-          <Route exact path={'/organization/join'}>
-            <JoinOrganizationPage />
-          </Route>
-          <Route exact path={'/organization/:organizationId'}>
-            <OrganizationPage />
-          </Route>
-          <Route exact path={'/ride/active'}>
-            <ActiveRidesPage />
-          </Route>
-          <Route exact path={'/profile'}>
-            <ProfilePage />
-          </Route>
-          <Route exact path={'/ride/history'}>
-            <RidesHistoryPage />
-          </Route>
-          <Route exact path={'/user'}>
-            <UserPage />
-          </Route>
-          <Route exact path={'/user/:userId'}>
-            <UserPage />
-          </Route>
-          <Route exact path="/ride/:rideId/requests">
-            <IncomingRequestsPage />
-          </Route>
-          <Route exact path="/ride/:rideId/requests/:userId">
-            <UserRequestPage />
-          </Route>
-          <Redirect to={'/'} />
-        </Switch>
-      </CSSTransition>
-    </TransitionGroup>
+    // <TransitionGroup>
+    //   <CSSTransition key={location.key} classNames={'fade'} timeout={300}>
+    <Switch>
+      <Route exact path="/">
+        <MainPage />
+      </Route>
+      <Route exact path="/ride/create">
+        <CreateRidePage />
+      </Route>
+      <Route exact path="/ride/join">
+        <JoinRidePage />
+      </Route>
+      <Route exact path={'/organization/create'}>
+        <CreateOrganizationPage />
+      </Route>
+      <Route exact path={'/organization/join'}>
+        <JoinOrganizationPage />
+      </Route>
+      <Route exact path={'/organization/:organizationId'}>
+        <OrganizationPage />
+      </Route>
+      <Route exact path={'/ride/active'}>
+        <ActiveRidesPage />
+      </Route>
+      <Route exact path={'/profile'}>
+        <ProfilePage />
+      </Route>
+      <Route exact path={'/ride/history'}>
+        <RidesHistoryPage />
+      </Route>
+      <Route exact path={'/user'}>
+        <UserPage />
+      </Route>
+      <Route exact path={'/user/:userId'}>
+        <UserPage />
+      </Route>
+      <Route exact path="/ride/:rideId/requests">
+        <IncomingRequestsPage />
+      </Route>
+      <Route exact path="/ride/:rideId/requests/:userId">
+        <UserRequestPage />
+      </Route>
+      <Redirect to={'/'} />
+    </Switch>
   );
 };
 

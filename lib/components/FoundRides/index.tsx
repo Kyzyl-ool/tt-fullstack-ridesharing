@@ -3,9 +3,10 @@ import { RideCard } from 'components/RideCard';
 import { BaseLayer } from 'components/BaseLayer/BaseLayer';
 import { DriverCard } from 'components/DriverCard/DriverCard';
 import { Slider } from 'components/Slider';
-import { IRide } from 'domain/ride';
+import { IRide, IHostAnswer } from 'domain/ride';
 import { GoBackArrow } from 'components/GoBackArrow';
 import './FoundRides.scss';
+import { Dialog } from 'components/Dialog';
 
 interface IFoundRides {
   rides: IRide[];
