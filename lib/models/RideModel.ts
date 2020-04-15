@@ -116,4 +116,24 @@ export default class RideModel {
     console.log(res.data);
     return res.data;
   };
+
+  static acceptRequest = async ({ userId, rideId }: { userId: string; rideId: string }) => {
+    const res = await axios.post('/api/ride/request/accept', { userId, rideId });
+    return res.data;
+  };
+
+  static declineRequest = async ({ userId, rideId }: { userId: string; rideId: string }) => {
+    const res = await axios.post('/api/ride/request/decline', { userId, rideId });
+    return res.data;
+  };
+
+  static cancelRide = async (rideId: string) => {
+    const res = await axios.post('/api/ride/cancel', { id: rideId });
+    return res.data;
+  };
+
+  static finishRide = async (rideId: string) => {
+    const res = await axios.post('/api/ride/finish', { id: rideId });
+    return res.data;
+  };
 }

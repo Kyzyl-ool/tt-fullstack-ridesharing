@@ -12,13 +12,12 @@ import { RidesHistoryPage } from 'pages/RidesHistory';
 import { ProfilePage } from 'pages/ProfilePage';
 import { Backdrop } from 'components/Backdrop';
 import IncomingRequestsPage from 'pages/IncomingRequestsPage';
-import './App.global.scss';
-import './App.scss';
 import { UserPage } from 'pages/UserPage';
 import { PrivateRoute } from 'components/PrivateRoute';
 import { CSSTransition, TransitionGroup } from 'react-transition-group';
 import { UserRequestPage } from 'pages/UserRequestPage';
-import { CenteredLoader } from 'components/CenteredLoader';
+import './App.global.scss';
+import './App.scss';
 
 const AnimatedRouting = () => {
   const location = useLocation();

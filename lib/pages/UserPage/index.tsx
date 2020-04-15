@@ -8,9 +8,15 @@ import { useSelector } from 'react-redux';
 import { sampleAvatarSrc } from 'samples/samples';
 import './UserPage.scss';
 import { Button } from 'components/Button';
+import RideModel from 'models/RideModel';
+
+interface IRequestInfo {
+  userId: string;
+  rideId: string;
+}
 
 interface IUserPage {
-  requestInfo?: boolean;
+  requestInfo?: IRequestInfo;
 }
 
 export const UserPage: React.FC<IUserPage> = props => {
@@ -32,6 +38,20 @@ export const UserPage: React.FC<IUserPage> = props => {
 
   const onBack = () => {
     history.goBack();
+  };
+
+  const acceptRequest = async () => {
+    if (props.requestInfo) {
+      await RideModel.acceptRequest(props.requestInfo);
+      history.push('/ride/active');
+    }
+  };
+
+  const declineRequest = async () => {
+    if (props.requestInfo) {
+      await RideModel.declineRequest(props.requestInfo);
+      history.push('/ride/active');
+    }
   };
 
   useEffect(() => {
@@ -70,8 +90,10 @@ export const UserPage: React.FC<IUserPage> = props => {
 
         {!_isEmpty(props.requestInfo) && (
           <div className="user-page__buttons-wrapper">
-            <Button filled>Принять</Button>
-            <Button filled className="user-page__button--decline">
+            <Button onClick={acceptRequest} filled>
+              Принять
+            </Button>
+            <Button onClick={declineRequest} filled className="user-page__button--decline">
               Отклонить
             </Button>
           </div>

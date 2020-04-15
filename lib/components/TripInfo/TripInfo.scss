@@ -8,11 +8,11 @@
   }
 
   &__input {
-    margin: 9px 0;
+    margin: 6px 0;
+    min-width: 311px;
   }
 
   &__form {
-    width: calc(min(256px, 100% - 40px));
     padding: 0 24px;
 
     .react-datepicker-wrapper {
