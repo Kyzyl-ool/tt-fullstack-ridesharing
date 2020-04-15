@@ -18,6 +18,7 @@ import { UserPage } from 'pages/UserPage';
 import { PrivateRoute } from 'components/PrivateRoute';
 import { CSSTransition, TransitionGroup } from 'react-transition-group';
 import { UserRequestPage } from 'pages/UserRequestPage';
+import { CenteredLoader } from 'components/CenteredLoader';
 
 const AnimatedRouting = () => {
   const location = useLocation();
