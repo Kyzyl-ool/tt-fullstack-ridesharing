@@ -13,6 +13,11 @@ export interface IRideCreationInfo {
   startDatetime: string;
 }
 
+export interface IRequest {
+  rideId: string;
+  user: IPassenger;
+}
+
 export interface IRide {
   car: ICar;
   freeSeats: number;

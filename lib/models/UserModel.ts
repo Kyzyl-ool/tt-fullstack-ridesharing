@@ -1,5 +1,6 @@
 /* eslint-disable no-empty */
 import axios from 'axios';
+import { IDriver, IPassenger } from 'domain/driver';
 
 export interface IUserData {
   email: string;
@@ -54,7 +55,7 @@ export interface IRegisterUserRequestBody {
 export default class UserModel {
   static checkAuth = async (): Promise<boolean> => {
     try {
-      await UserModel.getMyProfileInfo();
+      await UserModel.getThisUser();
       return true;
     } catch (e) {
       // console.error(e);
@@ -64,7 +65,7 @@ export default class UserModel {
 
   static login = async (phoneNumber: string, password: string): Promise<boolean> => {
     try {
-      const res = await axios.post(
+      await axios.post(
         `/api/login`,
         { login: `${phoneNumber}@ridesharing.online`, password },
         { withCredentials: true }
@@ -108,7 +109,7 @@ export default class UserModel {
     return res.data;
   };
 
-  static getMyProfileInfo = async (): Promise<IUserData> => {
+  static getThisUser = async (): Promise<IPassenger> => {
     const res = await axios.get('/api/user', {
       withCredentials: true
     });

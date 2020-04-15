@@ -20,47 +20,47 @@ const App = () => {
   return (
     <Backdrop>
       <Router>
-        <PrivateRoute>
-          <Switch>
-            <Route exact path="/">
-              <MainPage />
-            </Route>
-            <Route exact path="/ride/create">
-              <CreateRidePage />
-            </Route>
-            <Route exact path="/ride/join">
-              <JoinRidePage />
-            </Route>
-            <Route exact path={'/organization/create'}>
-              <CreateOrganizationPage />
-            </Route>
-            <Route exact path={'/organization/join'}>
-              <JoinOrganizationPage />
-            </Route>
-            <Route exact path={'/organization/:organizationId'}>
-              <OrganizationPage />
-            </Route>
-            <Route exact path={'/ride/active'}>
-              <ActiveRidesPage />
-            </Route>
-            <Route exact path={'/profile'}>
-              <ProfilePage />
-            </Route>
-            <Route exact path={'/ride/history'}>
-              <RidesHistoryPage />
-            </Route>
-            <Route exact path={'/user'}>
-              <UserPage />
-            </Route>
-            <Route exact path={'/user/:userId'}>
-              <UserPage />
-            </Route>
-            <Route path={'/ride/:rideId/requests'}>
-              <IncomingRequestsPage />
-            </Route>
-            <Redirect to={'/'} />
-          </Switch>
-        </PrivateRoute>
+        {/* <PrivateRoute> */}
+        <Switch>
+          <Route exact path="/">
+            <MainPage />
+          </Route>
+          <Route exact path="/ride/create">
+            <CreateRidePage />
+          </Route>
+          <Route exact path="/ride/join">
+            <JoinRidePage />
+          </Route>
+          <Route exact path={'/organization/create'}>
+            <CreateOrganizationPage />
+          </Route>
+          <Route exact path={'/organization/join'}>
+            <JoinOrganizationPage />
+          </Route>
+          <Route exact path={'/organization/:organizationId'}>
+            <OrganizationPage />
+          </Route>
+          <Route exact path={'/ride/active'}>
+            <ActiveRidesPage />
+          </Route>
+          <Route exact path={'/profile'}>
+            <ProfilePage />
+          </Route>
+          <Route exact path={'/ride/history'}>
+            <RidesHistoryPage />
+          </Route>
+          <Route exact path={'/user'}>
+            <UserPage />
+          </Route>
+          <Route exact path={'/user/:userId'}>
+            <UserPage />
+          </Route>
+          <Route exact path={'/ride/:rideId/requests'}>
+            <IncomingRequestsPage />
+          </Route>
+          <Redirect to={'/'} />
+        </Switch>
+        {/* </PrivateRoute> */}
       </Router>
     </Backdrop>
   );

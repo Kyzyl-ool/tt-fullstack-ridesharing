@@ -11,6 +11,7 @@
   &__container {
     display: flex;
     flex-direction: column;
+    width: 90%;
   }
 
   &__destinations {
@@ -42,7 +43,7 @@
     &_back {
       background: $back-icon-white no-repeat;
       cursor: pointer;
-      margin-right: 10px;
+      margin: 0 10px;
     }
   }
 }
@@ -50,7 +51,7 @@
 .ride-card-aligner {
   display: flex;
   align-items: center;
-  //justify-content: ;
+  justify-content: center;
 }
 
 .ride-card-content {

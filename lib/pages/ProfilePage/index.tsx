@@ -28,7 +28,7 @@ export const ProfilePage: React.FC = props => {
     const getUserData = async () => {
       const getOrganizationsResponse = await UserModel.getOrganizations();
       setMyOrganizations(getOrganizationsResponse);
-      const getUserProfileResponse = await UserModel.getMyProfileInfo();
+      const getUserProfileResponse = await UserModel.getThisUser();
       setUserData(getUserProfileResponse);
       const getMyCars = await UserModel.getCars();
     };

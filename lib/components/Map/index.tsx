@@ -49,7 +49,6 @@ export const Map = ({ className = '', onViewportChange, onMapClicked }: IMapProp
   }, []);
 
   // const onMapPositionChanged = ({ lngLat: [longitude, latitude] }: PointerEvent) => {
-  //   console.log('s');
   //   if (onViewportChange) {
   //     onViewportChange({ longitude, latitude });
   //   }
@@ -59,6 +58,8 @@ export const Map = ({ className = '', onViewportChange, onMapClicked }: IMapProp
   const onClick = ({ lngLat: [longitude, latitude] }: PointerEvent) => {
     if (isCustomPointsAllowed) {
       dispatch(setActivePointAction({ longitude, latitude }));
+    } else {
+      dispatch(updateGeopositionAction({ longitude, latitude }));
     }
     if (onMapClicked) {
       onMapClicked({ longitude, latitude });
@@ -95,7 +96,7 @@ export const Map = ({ className = '', onViewportChange, onMapClicked }: IMapProp
     <div className={mapClassNames}>
       <ReactMapGL
         {...viewport}
-        // dragRotate={false}
+        dragRotate={false}
         // onMouseUp={onMapPositionChanged}
         // onTouchEnd={onMapPositionChanged}
         onClick={onClick}

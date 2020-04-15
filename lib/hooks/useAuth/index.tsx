@@ -1,5 +1,6 @@
 import UserModel from 'models/UserModel';
 import { useDispatch, useSelector } from 'react-redux';
+import { setUserAction } from 'store/actions/userActions';
 
 export const useAuth = (): [
   boolean,
@@ -18,6 +19,8 @@ export const useAuth = (): [
   const auth = async (phoneNumber, password): Promise<boolean> => {
     try {
       setAuthorized(await UserModel.login(phoneNumber, password));
+      const userInfo = await UserModel.getThisUser();
+      dispatch(setUserAction(userInfo));
       return true;
     } catch (e) {
       console.log(e);

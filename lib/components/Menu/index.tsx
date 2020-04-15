@@ -1,11 +1,8 @@
-import React, { ReactNode, Fragment } from 'react';
+import React from 'react';
 import { Link } from 'react-router-dom';
 import UserModel from 'models/UserModel';
-import './Menu.scss';
 import { useSelector } from 'react-redux';
-import { useAuth } from 'hooks/useAuth';
-
-// type RouteIconType = "PROFILE" | "STAR" |
+import './Menu.scss';
 
 interface IRoute {
   path: string;
@@ -59,10 +56,6 @@ const APPLICATION_ROUTES: IRoute[] = [
 ];
 
 export const Menu = () => {
-  const { id: userId } = useSelector(state => state.user.user);
-  const [auth, , logout] = useAuth();
-
-  const userSpecifiedPath = `/user/${userId}`;
   return (
     <ul className="rsh-menu">
       {APPLICATION_ROUTES.map(({ path, label, routeIconClassModifier, disabled, backendRequestCallback }) => {
@@ -71,7 +64,6 @@ export const Menu = () => {
             <div
               onClick={async () => {
                 await backendRequestCallback();
-                // await logout();
               }}
               className={`rsh-menu__item-content ${disabled ? 'rsh-menu__item-content--disabled' : ''}`}
             >

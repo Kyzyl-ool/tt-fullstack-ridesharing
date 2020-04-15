@@ -1,6 +1,6 @@
 import React, { useEffect, useState, Fragment } from 'react';
 import { Header } from 'components/Header';
-import { useHistory } from 'react-router-dom';
+import { useHistory, Link } from 'react-router-dom';
 import usePageState from 'hooks/usePageState/usePageState';
 import { Button } from 'components/Button';
 import { DriverCard } from 'components/DriverCard/DriverCard';
@@ -119,9 +119,11 @@ export const ActiveRidesPage: React.FC = props => {
           <div className="active-rides-page__container">
             <RideCard
               renderCustomHostButton={() => (
-                <Button className="active-rides-page__requests-button" onClick={() => {}} filled>
-                  Посмотреть запросы
-                </Button>
+                <Link to={`/ride/${selectedRide.id}/requests`}>
+                  <Button className="active-rides-page__requests-button" onClick={() => {}} filled>
+                    Посмотреть запросы
+                  </Button>
+                </Link>
               )}
               ride={selectedRide}
               onBack={handleBack}

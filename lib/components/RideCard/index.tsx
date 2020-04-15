@@ -31,6 +31,7 @@ export const RideCard = ({ ride, onBack, onButtonClick, renderCustomHostButton =
       className: 'ride-card-send-button',
       filled: true
     };
+    console.log(isHost);
     if (isHost) {
       if (renderCustomHostButton) {
         return renderCustomHostButton();
