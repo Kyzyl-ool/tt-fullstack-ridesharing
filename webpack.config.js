@@ -18,7 +18,7 @@ const envKeys = Object.keys(env).reduce((prev, next) => {
 
 module.exports = {
   mode: process.env.NODE_ENV === 'production' ? 'production' : 'development',
-  devtool: 'inline-source-map',
+  devtool: process.env.NODE_ENV === 'development' ? 'inline-source-map' : '',
   entry: {
     main: './lib/index.tsx'
   },
