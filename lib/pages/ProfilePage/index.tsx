@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import usePageState from 'hooks/usePageState';
+import usePageState from 'hooks/usePageState/usePageState';
 import { HeaderBackground } from 'components/HeaderBackground';
 import './ProfilePage.scss';
 import { Avatar } from 'components/Avatar/Avatar';

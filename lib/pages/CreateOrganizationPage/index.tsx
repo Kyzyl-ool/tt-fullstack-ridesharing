@@ -4,7 +4,7 @@ import { Backdrop } from 'components/Backdrop';
 import { Header } from 'components/Header';
 import { Input } from 'components/Input';
 import { useHistory } from 'react-router-dom';
-import usePageState from '../../hooks/usePageState';
+import usePageState from 'hooks/usePageState/usePageState';
 import { Button } from 'components/Button';
 import { Dialog } from 'components/Dialog';
 import { OrganizationModel } from 'models/OrganizationModel';

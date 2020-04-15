@@ -3,7 +3,7 @@ import { useParams, useHistory } from 'react-router-dom';
 import dateFormat from 'date-fns/format';
 import ruLocale from 'date-fns/locale/ru';
 import { Header } from 'components/Header';
-import usePageState from '../../hooks/usePageState';
+import usePageState from 'hooks/usePageState/usePageState';
 import { NearestOrganizationLabel } from 'components/NearestOrganizationLabel';
 import { Avatar } from 'components/Avatar/Avatar';
 import { Backdrop } from 'components/Backdrop';

@@ -4,7 +4,6 @@ import { useHistory, useParams } from 'react-router-dom';
 import UserModel, { IGetUserInfoResponseBody } from 'models/UserModel';
 import './UserPage.scss';
 import { Avatar } from 'components/Avatar/Avatar';
-import { Button } from 'components/Button';
 import { useSelector } from 'react-redux';
 import { sampleAvatarSrc } from 'samples/samples';
 
@@ -22,6 +21,7 @@ export const UserPage: React.FC = props => {
 
   const fetchUserData = async () => {
     const res = await UserModel.getUserInfo(userId);
+    console.log(res);
     setUserInfo(res);
   };
 
@@ -36,6 +36,7 @@ export const UserPage: React.FC = props => {
       fetchUserData();
     } else {
       // show current user if userId was not specified
+      console.log(thisUserInfo);
       if (thisUserInfo.id) {
         setUserInfo(thisUserInfo);
       }

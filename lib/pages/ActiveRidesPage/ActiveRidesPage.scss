@@ -38,4 +38,23 @@
     min-height: 56px;
     margin-top: 8px;
   }
+
+  &__placeholder-text {
+    font-style: normal;
+    font-weight: normal;
+    font-size: 16px;
+    line-height: 13px;
+    /* identical to box height */
+
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    text-align: center;
+
+    /* UI / Gray */
+
+    color: #989898;
+
+    margin: 8px 0 0 0;
+  }
 }

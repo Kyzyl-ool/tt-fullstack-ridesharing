@@ -1,7 +1,7 @@
 import React, { useEffect, useState, Fragment } from 'react';
 import { Header } from 'components/Header';
 import { useHistory } from 'react-router-dom';
-import usePageState from '../../hooks/usePageState';
+import usePageState from 'hooks/usePageState/usePageState';
 import { Button } from 'components/Button';
 import { DriverCard } from 'components/DriverCard/DriverCard';
 import RideModel, { IGetActiveRidesResponseBodyEntry, IHostedRideResponseBodyEntry } from 'models/RideModel';
@@ -24,6 +24,8 @@ export const ActiveRidesPage: React.FC = props => {
   const [selectedRide, setSelectedRide] = useState<IRide>(null);
   const [isDriverInfoShown, setIsDriverInfoShown] = useState(false);
   const userInfo = useSelector(state => state.user.user);
+  const [activeRidesPlaceholderText, setActiveRidesPlaceholderText] = useState<string>('Загрузка...');
+  const [hostedRidesPlaceholderText, setHostedRidesPlaceholderText] = useState<string>('Загрузка...');
 
   const handleBack = () => {
     if (pageState === 'MY_RIDES') {
@@ -46,6 +48,12 @@ export const ActiveRidesPage: React.FC = props => {
   const getActiveRides = async () => {
     setActiveRides(await RideModel.activeRides());
     setActiveHostedRides(await RideModel.rideHosted());
+    if (activeRides.length === 0) {
+      setActiveRidesPlaceholderText('У вас еще нет активных поездок.');
+    }
+    if (activeHostedRides.length === 0) {
+      setHostedRidesPlaceholderText('Вы еще не создавали поездок.');
+    }
   };
 
   const onRideButtonClick = (hostAnswerType: IHostAnswer) => {

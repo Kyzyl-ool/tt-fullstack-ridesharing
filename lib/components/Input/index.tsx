@@ -14,6 +14,8 @@ interface IInput {
   validate?: (string) => string;
   renderRightAdornment?: () => ReactNode;
   disabled?: boolean;
+  type?: string;
+  errored?: boolean;
 }
 
 export const Input = ({
@@ -26,7 +28,9 @@ export const Input = ({
   onChange = () => {},
   validate = () => {},
   renderRightAdornment = null,
-  disabled = false
+  disabled = false,
+  type = 'text',
+  errored = false
 }: IInput) => {
   const [value, setValue] = useState<string>(defaultValue);
 
@@ -54,8 +58,8 @@ export const Input = ({
         placeholder={placeholderType === 'default' ? placeholderText : ''}
         className={`rsh-input__form ${icon ? 'rsh-input__form--with-icon' : ''} ${
           disabled ? 'rsh-input__form--disabled' : ''
-        }`}
-        type="text"
+        } ${errored ? 'rsh-input__form--errored' : ''}`}
+        type={type}
       />
       {renderRightAdornment && <div className="rsh-input__adornment">{renderRightAdornment()}</div>}
       {placeholderType === 'subscript' && <div className="rsh-input__caption">{placeholderText}</div>}

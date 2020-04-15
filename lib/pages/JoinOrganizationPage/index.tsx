@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import usePageState from '../../hooks/usePageState';
+import usePageState from 'hooks/usePageState/usePageState';
 import { Header } from 'components/Header';
 import { useHistory } from 'react-router-dom';
 import { Input } from 'components/Input';

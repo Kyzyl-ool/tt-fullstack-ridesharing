@@ -3,6 +3,7 @@ import { Link } from 'react-router-dom';
 import UserModel from 'models/UserModel';
 import './Menu.scss';
 import { useSelector } from 'react-redux';
+import { useAuth } from 'hooks/useAuth';
 
 // type RouteIconType = "PROFILE" | "STAR" |
 
@@ -52,12 +53,15 @@ const APPLICATION_ROUTES: IRoute[] = [
     disabled: false,
     backendRequestCallback: async () => {
       await UserModel.logout();
+      location.reload();
     }
   }
 ];
 
 export const Menu = () => {
   const { id: userId } = useSelector(state => state.user.user);
+  const [auth, , logout] = useAuth();
+
   const userSpecifiedPath = `/user/${userId}`;
   return (
     <ul className="rsh-menu">
@@ -65,7 +69,10 @@ export const Menu = () => {
         return (
           <li key={path} className="rsh-menu__item">
             <div
-              onClick={backendRequestCallback}
+              onClick={async () => {
+                await backendRequestCallback();
+                // await logout();
+              }}
               className={`rsh-menu__item-content ${disabled ? 'rsh-menu__item-content--disabled' : ''}`}
             >
               <div className={`rsh-menu__icon rsh-menu__icon--${routeIconClassModifier}`} />
