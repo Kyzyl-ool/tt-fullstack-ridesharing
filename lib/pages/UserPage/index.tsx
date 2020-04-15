@@ -27,7 +27,6 @@ export const UserPage: React.FC<IUserPage> = props => {
 
   const fetchUserData = async () => {
     const res = await UserModel.getUserInfo(userId);
-    console.log(res);
     setUserInfo(res);
   };
 
