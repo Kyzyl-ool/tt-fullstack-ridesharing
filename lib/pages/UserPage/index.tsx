@@ -32,14 +32,8 @@ export const UserPage: React.FC<IUserPage> = props => {
   };
 
   const onBack = () => {
-    // if (props.onGoBack) {
-    //   props.onGoBack()
-    // } else {
-    // }
     history.goBack();
   };
-
-  const toRides = () => {};
 
   useEffect(() => {
     if (userId) {
