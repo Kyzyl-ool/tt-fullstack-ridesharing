@@ -5,6 +5,7 @@
   flex-direction: column;
   overflow-y: scroll;
   height: 100%;
+  position: absolute;
 
 
   .location-list__wrapper {
@@ -22,7 +23,7 @@
   }
 
   .icon_back-white {
-    position: absolute;
+    position: fixed;
     top: 0;
     margin: 24px;
   }

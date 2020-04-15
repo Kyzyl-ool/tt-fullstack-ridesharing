@@ -10,7 +10,7 @@ import { useDispatch } from 'react-redux';
 import { useAuth } from 'hooks/useAuth';
 import UserModel from 'models/UserModel';
 import { Input } from 'components/Input';
-// import './firebaseui-styles.css';
+import './firebaseui-styles.css';
 
 // Configure Firebase.
 const config = {
