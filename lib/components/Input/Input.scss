@@ -4,18 +4,25 @@
 .rsh-input {
   display: flex;
   align-content: center;
+  position: relative;
   box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.2);
   border-radius: 10px;
-  position: relative;
+  //width: calc(min(256px, 100% - 40px));
+    width: 100%;
 
   &__form {
     border-radius: 10px;
-    width: calc(100% - 24px);
     padding: 0 12px 0 24px;
+    width: 100%;
     border: none;
     height: $size-base * 6;
     font-size: 14px;
     line-height: 18px;
+
+    left: 0;
+    right: 0;
+    margin: auto;
+
 
     &--with-icon {
       border-radius: 0 10px 10px 0;

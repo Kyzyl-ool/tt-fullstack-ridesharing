@@ -5,7 +5,7 @@ import { Mark, markToText } from '../Mark/Mark';
 type AvatarSize = 'small' | 'medium' | 'large';
 
 interface IAvatar {
-  src: string;
+  src?: string;
   mark?: number;
   size: AvatarSize;
   subtext?: string;
@@ -13,11 +13,18 @@ interface IAvatar {
   shadowed?: boolean;
 }
 
-export const Avatar: React.FC<IAvatar> = ({ src, mark, className, size, subtext, shadowed = false }) => {
+export const Avatar: React.FC<IAvatar> = ({
+  src = 'https://toppng.com/uploads/preview/roger-berry-avatar-placeholder-11562991561rbrfzlng6h.png',
+  mark,
+  className,
+  size,
+  subtext,
+  shadowed = false
+}) => {
   const img = (
     <div className={`avatar-subtext-container`}>
       <img
-        src={src}
+        src={src ? src : 'https://toppng.com/uploads/preview/roger-berry-avatar-placeholder-11562991561rbrfzlng6h.png'}
         alt={'Avatar'}
         className={`avatar avatar_${size} ${mark ? `avatar_stroke avatar_stroke-${markToText(mark)}` : ''}`}
       />

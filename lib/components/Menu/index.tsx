@@ -70,7 +70,7 @@ export const Menu = () => {
           <li key={path} className="rsh-menu__item">
             <div
               onClick={async () => {
-                await backendRequestCallback();
+                backendRequestCallback && (await backendRequestCallback());
                 // await logout();
               }}
               className={`rsh-menu__item-content ${disabled ? 'rsh-menu__item-content--disabled' : ''}`}

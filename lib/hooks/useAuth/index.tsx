@@ -15,10 +15,24 @@ export const useAuth = (): [
     });
   };
 
+  const updateUser = async () => {
+    const user = await UserModel.getMyProfileInfo();
+    dispatch({
+      type: 'SET_USER',
+      userInfo: {
+        ...user
+      }
+    });
+  };
+
   const auth = async (phoneNumber, password): Promise<boolean> => {
     try {
-      setAuthorized(await UserModel.login(phoneNumber, password));
-      return true;
+      const result = await UserModel.login(phoneNumber, password);
+      setAuthorized(result);
+      if (result) {
+        await updateUser();
+      }
+      return result;
     } catch (e) {
       console.log(e);
       setAuthorized(false);
@@ -33,16 +47,6 @@ export const useAuth = (): [
     } catch (e) {
       console.log(e);
     }
-  };
-
-  const updateUser = async () => {
-    const user = await UserModel.getMyProfileInfo();
-    dispatch({
-      type: 'SET_USER',
-      userInfo: {
-        ...user
-      }
-    });
   };
 
   const checkAuth = async () => {

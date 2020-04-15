@@ -10,8 +10,11 @@
   }
 
   &__form {
-    width: 311px;
+    width: calc(min(256px, 100% - 40px));
     padding: 0 24px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
   }
 
   &__button {

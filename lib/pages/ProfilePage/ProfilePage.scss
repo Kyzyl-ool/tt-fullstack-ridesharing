@@ -3,7 +3,8 @@
 .profile-page {
   display: flex;
   flex-direction: column;
-
+  overflow-y: scroll;
+  height: 100%;
 
 
   .location-list__wrapper {
@@ -28,11 +29,11 @@
 
   &__content {
     background-color: $ui-secondary-color;
-    height: calc(76vh - 40px);
+    min-height: calc(76vh - 40px);
     position: relative;
     display: flex;
     flex-direction: column;
-    padding: 40px 32px 0 32px;
+    padding: 40px 32px 60px 32px;
 
     .avatar {
       position: absolute;
@@ -41,6 +42,11 @@
       right: 0;
       top: -40px;
       box-shadow: 0px 4px 4px rgba(0, 0, 0, 0.25);
+    }
+    .rsh-button {
+      left: 0;
+      right: 0;
+      margin: auto;
     }
   }
 }

@@ -61,6 +61,17 @@
   &__map-form {
     position: fixed;
     bottom: 31px;
-    left: calc(50% - 155px);
+    //left: calc(50% - 155px);
+    left: 0;
+    right: 0;
+    margin: auto;
+    width: calc(min(311px, 100% - 40px));
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+
+    >.rsh-input {
+      width: 100%;
+    }
   }
 }

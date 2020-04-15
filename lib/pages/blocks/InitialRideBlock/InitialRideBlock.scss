@@ -4,9 +4,12 @@
 .initial-ride-block {
   &__fixed-input {
     position: fixed;
-    min-width: 312px;
+    width: calc(min(311px, 100% - 40px));
+    left: 0;
+    right: 0;
+    margin: auto;
     bottom: 56px;
-    left: calc(50% - 156px);
+    //left: calc(50% - 156px);
   }
 
   &__input-icon {

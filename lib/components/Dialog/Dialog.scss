@@ -1,7 +1,8 @@
 @import 'lib/styles/icons';
 
 .dialog {
-  min-width: 311px;
+  //min-width: 311px;
+  min-width: calc(min(311px, 100% - 40px));
   border-radius: 10px;
   position: absolute;
   padding: 32px;
