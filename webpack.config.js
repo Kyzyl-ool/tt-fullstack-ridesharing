@@ -4,6 +4,7 @@ const CopyWebpackPlugin = require('copy-webpack-plugin');
 const MiniCssExtractPlugin = require('mini-css-extract-plugin');
 const { CleanWebpackPlugin } = require('clean-webpack-plugin');
 const UglifyJsPlugin = require('uglifyjs-webpack-plugin');
+const TerserPlugin = require('terser-webpack-plugin');
 const path = require('path');
 const dotenv = require('dotenv');
 
@@ -94,7 +95,14 @@ module.exports = {
     new webpack.HashedModuleIdsPlugin()
   ],
   optimization: {
-    minimizer: [new UglifyJsPlugin({ parallel: true })],
+    minimizer: [
+      new TerserPlugin({
+        parallel: true,
+        terserOptions: {
+          ecma: 6
+        }
+      })
+    ],
     runtimeChunk: 'single',
     splitChunks: {
       chunks: 'all',
