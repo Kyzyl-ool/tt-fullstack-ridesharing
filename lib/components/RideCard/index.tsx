@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, ReactNode } from 'react';
 import parseISO from 'date-fns/parseISO';
 import { BaseLayer } from '../BaseLayer/BaseLayer';
 import { Avatar } from '../Avatar/Avatar';
@@ -15,9 +15,10 @@ export interface IRideCard {
   ride: IRide;
   onBack: () => void;
   onButtonClick: (hostAnswerType: IHostAnswer) => void;
+  renderCustomHostButton?: () => ReactNode;
 }
 
-export const RideCard = ({ ride, onBack, onButtonClick }: IRideCard) => {
+export const RideCard = ({ ride, onBack, onButtonClick, renderCustomHostButton = null }: IRideCard) => {
   const [show, setShow] = useState<boolean>(false);
   const userInfo = useSelector(state => state.user.user);
   const handleClick = (hostAnswerType: IHostAnswer) => {
@@ -31,6 +32,9 @@ export const RideCard = ({ ride, onBack, onButtonClick }: IRideCard) => {
       filled: true
     };
     if (isHost) {
+      if (renderCustomHostButton) {
+        return renderCustomHostButton();
+      }
       return (
         <Button {...commonProps} disabled>
           Это ваша поездка

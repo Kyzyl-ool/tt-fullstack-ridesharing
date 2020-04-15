@@ -4,8 +4,8 @@ import { BaseLayer } from 'components/BaseLayer/BaseLayer';
 import { DriverCard } from 'components/DriverCard/DriverCard';
 import { Slider } from 'components/Slider';
 import { IRide } from 'domain/ride';
-import './FoundRides.scss';
 import { GoBackArrow } from 'components/GoBackArrow';
+import './FoundRides.scss';
 
 interface IFoundRides {
   rides: IRide[];

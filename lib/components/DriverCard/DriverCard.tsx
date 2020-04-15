@@ -12,17 +12,24 @@ interface IDriverCard {
   driverAnswer?: IHostAnswer;
   waiting: boolean;
   shadowed?: boolean;
-  renderRequestsButton?: () => ReactNode;
+  showRequestsButton?: boolean;
 }
 
 export const DriverCard = ({
   ride: { id, host, price, freeSeats, startOrganizationAddress, hostAnswer, stopAddress, car, startDatetime },
   onSelectRide,
   shadowed = false,
-  renderRequestsButton = null
+  showRequestsButton = false
 }: IDriverCard) => {
   const onCardClick = () => {
     onSelectRide(id);
+  };
+  const renderRequestsButton = () => {
+    return (
+      <div className="driver-card__request-button">
+        <button>Смотреть запросы</button>
+      </div>
+    );
   };
   return (
     <div
@@ -72,6 +79,7 @@ export const DriverCard = ({
       {hostAnswer === 'ACCEPTED' ? (
         <span className={'driver-card__waiting driver-card__waiting_green'}>Запрос принят</span>
       ) : null}
+      {showRequestsButton && renderRequestsButton()}
     </div>
   );
 };

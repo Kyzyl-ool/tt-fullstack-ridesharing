@@ -110,4 +110,10 @@ export default class RideModel {
     const res = await axios.get('/api/ride/hosted');
     return res.data;
   };
+
+  static getRequests = async () => {
+    const res = await axios.get('/api/ride/request');
+    console.log(res.data);
+    return res.data;
+  };
 }

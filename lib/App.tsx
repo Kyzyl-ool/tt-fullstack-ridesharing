@@ -18,6 +18,7 @@ import { Backdrop } from 'components/Backdrop';
 import { setUserAction } from 'store/actions/userActions';
 import { UserPage } from 'pages/UserPage';
 import './App.global.scss';
+import IncomingRequestsPage from 'pages/IncomingRequestsPage';
 
 const App = () => {
   const dispatch = useDispatch();
@@ -79,6 +80,9 @@ const App = () => {
           </Route>
           <Route path={'/user/:userId'}>
             <UserPage />
+          </Route>
+          <Route path={'/ride/:rideId/requests'}>
+            <IncomingRequestsPage />
           </Route>
           <RidesHistoryPage />
           <Redirect to="/" />

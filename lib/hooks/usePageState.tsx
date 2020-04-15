@@ -32,7 +32,7 @@ const usePageState = (states: string[]): IUsePageState => {
       return (
         <CSSTransition
           in={key === states[currentState]}
-          timeout={300}
+          timeout={600}
           classNames={animationClasses[animationType]}
           mountOnEnter={true}
           exit

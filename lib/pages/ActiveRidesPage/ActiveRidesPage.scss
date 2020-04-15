@@ -32,4 +32,10 @@
     bottom: 0;
     width: 100vw;
   }
+
+  &__requests-button {
+    min-width: 85vw;
+    min-height: 56px;
+    margin-top: 8px;
+  }
 }

@@ -109,12 +109,22 @@ export const ActiveRidesPage: React.FC = props => {
         'RIDE_CARD',
         <Fragment>
           <div className="active-rides-page__container">
-            <RideCard ride={selectedRide} onBack={handleBack} onButtonClick={onRideButtonClick} />
+            <RideCard
+              renderCustomHostButton={() => (
+                <Button className="active-rides-page__requests-button" onClick={() => {}} filled>
+                  Посмотреть запросы
+                </Button>
+              )}
+              ride={selectedRide}
+              onBack={handleBack}
+              onButtonClick={onRideButtonClick}
+            />
           </div>
           <Dialog onClose={onCloseDriverInfo} hide={!isDriverInfoShown}>
             Номер телефона
           </Dialog>
-        </Fragment>
+        </Fragment>,
+        'slideBottom'
       )}
     </div>
   );

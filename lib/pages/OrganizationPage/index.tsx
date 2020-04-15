@@ -1,16 +1,16 @@
 import React, { useEffect, useState } from 'react';
 import { useParams, useHistory } from 'react-router-dom';
+import dateFormat from 'date-fns/format';
+import ruLocale from 'date-fns/locale/ru';
 import { Header } from 'components/Header';
 import usePageState from '../../hooks/usePageState';
 import { NearestOrganizationLabel } from 'components/NearestOrganizationLabel';
-import './OrganizationPage.scss';
 import { Avatar } from 'components/Avatar/Avatar';
 import { Backdrop } from 'components/Backdrop';
 import { BaseLayer } from 'components/BaseLayer/BaseLayer';
 import { OrganizationModel } from 'models/OrganizationModel';
-import dateFormat from 'date-fns/format';
-import ruLocale from 'date-fns/locale/ru';
 import { UserCard } from 'components/UserCard';
+import './OrganizationPage.scss';
 
 type OrganizationDataType = {
   address: string;
