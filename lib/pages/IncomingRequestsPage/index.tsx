@@ -44,9 +44,11 @@ const IncomingRequestsPage = () => {
           {requests.map(request => (
             <Link key={request.user.id} to={`/ride/${rideId}/requests/${request.user.id}`}>
               <li className="incoming-requests-page__request" key={request.user.id}>
-                <div className="incoming-requests-page__avatar">
-                  <Avatar size="medium" src={sampleAvatarSrc} />
-                </div>
+                <Link to={`/ride/${request.user.id}`}>
+                  <div className="incoming-requests-page__avatar">
+                    <Avatar size="medium" src={sampleAvatarSrc} />
+                  </div>
+                </Link>
                 <span className="incoming-requests-page__name">
                   {request.user.firstName} {request.user.lastName}
                 </span>

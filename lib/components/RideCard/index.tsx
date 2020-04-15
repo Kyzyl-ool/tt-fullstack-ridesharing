@@ -1,5 +1,5 @@
 import React, { useState, ReactNode } from 'react';
-import parseISO from 'date-fns/parseISO';
+import { useHistory, Link } from 'react-router-dom';
 import { BaseLayer } from '../BaseLayer/BaseLayer';
 import { Avatar } from '../Avatar/Avatar';
 import { sampleAvatarSrc } from '../../samples/samples';
@@ -12,7 +12,6 @@ import { useSelector } from 'react-redux';
 import { Dialog } from 'components/Dialog';
 import RideModel from 'models/RideModel';
 import './RideCard.scss';
-import { useHistory } from 'react-router-dom';
 
 export interface IRideCard {
   ride: IRide;
@@ -166,9 +165,11 @@ export const RideCard = ({ ride, onBack, onButtonClick, renderCustomHostButton =
           <div className={'ride-card-content'}>
             <div className={'ride-card-content_horizontal'}>
               <div className={'ride-card-avatar-and-info'}>
-                <div className={'ride-card-content_margin-8'}>
-                  <Avatar src={sampleAvatarSrc} size={'small'} mark={ride.host.rating} />
-                </div>
+                <Link to={`/user/${ride.host.id}`}>
+                  <div className={'ride-card-content_margin-8'}>
+                    <Avatar src={sampleAvatarSrc} size={'small'} mark={ride.host.rating} />
+                  </div>
+                </Link>
                 <div>
                   <b>
                     {ride.host.firstName}&nbsp;{ride.host.lastName}
