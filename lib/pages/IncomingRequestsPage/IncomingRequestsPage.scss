@@ -12,6 +12,13 @@
     list-style: none;
     padding: 22px;
     margin: 0;
+    height: 100%;
+    overflow-y: auto;
+
+    a {
+      color: $ui-black-color;
+      text-decoration: none;
+    }
   }
 
   &__avatar {

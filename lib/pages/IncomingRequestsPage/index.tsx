@@ -1,6 +1,7 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useState, Fragment } from 'react';
 import _isEmpty from 'lodash/isEmpty';
-import { useParams, useHistory } from 'react-router-dom';
+import _isEqual from 'lodash/isEqual';
+import { useParams, useHistory, Link } from 'react-router-dom';
 import RideModel from 'models/RideModel';
 import { IRequest } from 'domain/ride';
 import './IncomingRequestsPage.scss';
@@ -16,29 +17,14 @@ const IncomingRequestsPage = () => {
 
   const getRequests = async () => {
     const fetchedRequests = await RideModel.getRequests();
-    // setRequests(fetchedRequests.filter(request => request.rideId === rideId));
-    setRequests([
-      {
-        rideId,
-        user: {
-          id: 2,
-          firstName: 'John',
-          lastName: 'Krasinsky',
-          photoUrl: '',
-          rating: 9
-        }
-      },
-      {
-        rideId,
-        user: {
-          id: 3,
-          firstName: 'Michael',
-          lastName: 'Scott',
-          photoUrl: '',
-          rating: 3
-        }
-      }
-    ]);
+    console.log(
+      fetchedRequests.filter(request => request.rideId.toString() === rideId),
+      rideId,
+      fetchedRequests[0].rideId,
+      rideId === fetchedRequests[0].rideId.toString(),
+      _isEqual(rideId, fetchedRequests[0].rideId)
+    );
+    setRequests(fetchedRequests.filter(request => request.rideId.toString() === rideId));
   };
 
   useEffect(() => {
@@ -53,19 +39,23 @@ const IncomingRequestsPage = () => {
         <NearestOrganizationLabel onClick={() => {}} />
       </Header>
       <div className="incoming-requests-page__header">Входящие запросы</div>
-      {!_isEmpty(requests) && (
+      {!_isEmpty(requests) ? (
         <ul className="incoming-requests-page__requests-list">
           {requests.map(request => (
-            <li className="incoming-requests-page__request" key={request.user.id}>
-              <div className="incoming-requests-page__avatar">
-                <Avatar size="medium" src={sampleAvatarSrc} />
-              </div>
-              <span className="incoming-requests-page__name">
-                {request.user.firstName} {request.user.lastName}
-              </span>
-            </li>
+            <Link key={request.user.id} to={`/ride/${rideId}/requests/${request.user.id}`}>
+              <li className="incoming-requests-page__request" key={request.user.id}>
+                <div className="incoming-requests-page__avatar">
+                  <Avatar size="medium" src={sampleAvatarSrc} />
+                </div>
+                <span className="incoming-requests-page__name">
+                  {request.user.firstName} {request.user.lastName}
+                </span>
+              </li>
+            </Link>
           ))}
         </ul>
+      ) : (
+        <p>Запросов на присоединение к данной поездке пока нет</p>
       )}
     </div>
   );

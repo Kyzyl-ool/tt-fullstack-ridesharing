@@ -3,9 +3,12 @@
 .user-page {
   background-color: $ui-white-color;
   height: calc(100vh - 60px);
-  padding: 40px 32px 0px 32px;
+  padding: 40px 32px 40px 32px;
   position: relative;
   box-sizing: border-box;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
 
   &__avatar-and-name {
     display: flex;
@@ -25,6 +28,13 @@
     }
   }
 
+  &__button {
+    &--decline {
+      background-color: $ui-error-color;
+      border-color: $ui-error-color;
+    }
+  }
+
   &__about {
     font-style: normal;
     font-weight: 300;
@@ -38,11 +48,14 @@
     color: #000000;
   }
 
+  &__buttons-wrapper {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+  }
+
   .rsh-button {
-    position: absolute;
-    left: 0;
-    right: 0;
-    margin: auto;
+    margin: 6px;
     bottom: 44px;
   }
 

@@ -15,6 +15,7 @@ import IncomingRequestsPage from 'pages/IncomingRequestsPage';
 import { UserPage } from 'pages/UserPage';
 import { PrivateRoute } from 'components/PrivateRoute';
 import './App.global.scss';
+import { UserRequestPage } from 'pages/UserRequestPage';
 
 const App = () => {
   return (
@@ -55,8 +56,11 @@ const App = () => {
             <Route exact path={'/user/:userId'}>
               <UserPage />
             </Route>
-            <Route exact path={'/ride/:rideId/requests'}>
+            <Route exact path="/ride/:rideId/requests">
               <IncomingRequestsPage />
+            </Route>
+            <Route exact path="/ride/:rideId/requests/:userId">
+              <UserRequestPage />
             </Route>
             <Redirect to={'/'} />
           </Switch>
