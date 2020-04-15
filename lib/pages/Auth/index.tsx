@@ -8,6 +8,8 @@ import StyledFirebaseAuth from 'react-firebaseui/StyledFirebaseAuth';
 import firebase from 'firebase';
 import { useDispatch } from 'react-redux';
 import { useAuth } from 'hooks/useAuth';
+import UserModel from 'models/UserModel';
+import { Input } from 'components/Input';
 // import './firebaseui-styles.css';
 
 // Configure Firebase.
@@ -25,13 +27,14 @@ firebase.initializeApp(config);
 firebase.auth().useDeviceLanguage();
 
 export const Auth: React.FC = props => {
-  const [pageState, setNext, setPrev, renderForState] = usePageState(['BEGIN', 'ENTER_PHONE']);
+  const [pageState, setNext, setPrev, renderForState] = usePageState(['BEGIN', 'ENTER_PHONE', 'ENTER_PASSWORD']);
   const [phoneNumber, setPhoneNumber] = useState<string>();
-  const [smsCode, setSmsCode] = useState<string>('');
+  const [password, setPassword] = useState<string>('');
   const [waiting, setWaiting] = useState<boolean>(false);
   const history = useHistory();
   const dispatch = useDispatch();
-  const [auth, , , check] = useAuth();
+  const [errored, setErrored] = useState<boolean>(false);
+  const [, login] = useAuth();
 
   const uiConfig = {
     // Popup signin flow rather than redirect flow.
@@ -62,11 +65,11 @@ export const Auth: React.FC = props => {
             phoneNumber: currentUser.user.phoneNumber
           }
         });
-        if (!isNewUser) {
-          ///@todo remove "!"
+        if (isNewUser) {
           history.push('/welcome');
         } else {
-          history.push('/');
+          // UserModel.login(phoneNumber)
+          setNext();
         }
       },
       signInFailure: (error: string) => {
@@ -78,19 +81,25 @@ export const Auth: React.FC = props => {
   const handleNext = async () => {
     setWaiting(true);
     switch (pageState) {
-      case 'ENTER_PHONE': {
+      case 'ENTER_PASSWORD': {
+        if (await login(phoneNumber, password)) {
+          history.push('/');
+        } else {
+          setErrored(true);
+        }
         break;
       }
-      case 'SMS_CODE': {
-        history.push('/welcome');
+      default: {
+        setNext();
         break;
       }
-      default:
-        break;
     }
-    setNext();
     setWaiting(false);
   };
+
+  useEffect(() => {
+    setErrored(false);
+  }, [password]);
 
   return (
     <div className={'auth-page'}>
@@ -109,6 +118,22 @@ export const Auth: React.FC = props => {
         'ENTER_PHONE',
         <BaseLayer type={'primary'} header={<>Авторизоваться по номеру телефона</>} className={'auth-page__base-layer'}>
           <StyledFirebaseAuth uiConfig={uiConfig} firebaseAuth={firebase.auth()} />
+        </BaseLayer>,
+        'appear'
+      )}
+      {renderForState(
+        'ENTER_PASSWORD',
+        <BaseLayer type={'primary'} header={<>Введите пароль</>} className={'auth-page__base-layer'}>
+          <Input
+            id={'password'}
+            placeholderText={'Пароль'}
+            onChange={value => setPassword(value)}
+            type={'password'}
+            errored={errored}
+          />
+          <Button onClick={handleNext} filled disabled={waiting}>
+            {waiting ? 'Ожидание...' : 'Подтвердить'}
+          </Button>
         </BaseLayer>,
         'appear'
       )}

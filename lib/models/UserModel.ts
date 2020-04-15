@@ -1,6 +1,5 @@
 /* eslint-disable no-empty */
 import axios from 'axios';
-import User from 'firebase';
 
 export interface IUserData {
   email: string;
@@ -48,16 +47,6 @@ export interface IRegisterUserRequestBody {
   firstName: string;
   lastName: string;
   email: string;
-  organizations: {
-    id: number;
-    name: string;
-    latitude: number;
-    longitude: number;
-    users: number[];
-    address: string;
-    description: string;
-    photoUrl: string;
-  };
   phoneNumber: string;
   password: string;
 }
@@ -68,8 +57,21 @@ export default class UserModel {
       await UserModel.getMyProfileInfo();
       return true;
     } catch (e) {
-      console.error(e);
+      // console.error(e);
       return false;
+    }
+  };
+
+  static login = async (phoneNumber: string, password: string): Promise<boolean> => {
+    try {
+      const res = await axios.post(
+        `/api/login`,
+        { login: `${phoneNumber}@ridesharing.online`, password },
+        { withCredentials: true }
+      );
+      return true;
+    } catch (e) {
+      return e.response.data.description === 'Already logged-in';
     }
   };
 
@@ -79,7 +81,7 @@ export default class UserModel {
       const res = await axios.post(
         `/api/login`,
         { login: 'user_67@gmail.com', password: '12345' },
-        { withCredentials: true, validateStatus: status => (status >= 200 && status < 300) || status === 400 }
+        { withCredentials: true }
       );
       return true;
     } catch (e) {
@@ -107,7 +109,9 @@ export default class UserModel {
   };
 
   static getMyProfileInfo = async (): Promise<IUserData> => {
-    const res = await axios.get('/api/user');
+    const res = await axios.get('/api/user', {
+      withCredentials: true
+    });
     return res.data;
   };
 
@@ -137,8 +141,17 @@ export default class UserModel {
     return res.data;
   };
 
-  static registerUser = async (registerUserBody: IRegisterUserRequestBody): Promise<{ userId: number }> => {
-    const res = await axios.post('/api/register_user', registerUserBody);
+  static registerUser = async (registerUserBody: IRegisterUserRequestBody): Promise<{ user_id: number }> => {
+    const res = await axios.post('/api/register_user', {
+      // eslint-disable-next-line @typescript-eslint/camelcase
+      first_name: registerUserBody.firstName,
+      // eslint-disable-next-line @typescript-eslint/camelcase
+      last_name: registerUserBody.lastName,
+      // eslint-disable-next-line @typescript-eslint/camelcase
+      phone_number: registerUserBody.phoneNumber,
+      password: registerUserBody.password,
+      email: `${registerUserBody.phoneNumber}@ridesharing.online`
+    });
     return res.data;
   };
 }

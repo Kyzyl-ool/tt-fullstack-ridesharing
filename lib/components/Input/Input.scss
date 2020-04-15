@@ -25,6 +25,13 @@
       cursor: pointer;
       pointer-events: none;
     }
+
+    &--errored {
+      border: 1px solid $ui-error-color;
+      outline-color: red;
+      /* also need animation and -moz-animation */
+      -webkit-animation: shake .5s linear;
+    }
   }
 
   &__icon {
@@ -66,5 +73,23 @@
   input[type='text']::placeholder {
     color: $ui-gray-color;
     margin-left: 24px;
+  }
+}
+
+@keyframes shake {
+  8%, 41% {
+    -webkit-transform: translateX(-10px);
+  }
+  25%, 58% {
+    -webkit-transform: translateX(10px);
+  }
+  75% {
+    -webkit-transform: translateX(-5px);
+  }
+  92% {
+    -webkit-transform: translateX(5px);
+  }
+  0%, 100% {
+    -webkit-transform: translateX(0);
   }
 }

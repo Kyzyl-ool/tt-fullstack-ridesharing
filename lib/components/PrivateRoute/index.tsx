@@ -1,5 +1,5 @@
 import React, { useEffect } from 'react';
-import { Route, Redirect, Switch } from 'react-router-dom';
+import { Route, Redirect } from 'react-router-dom';
 import { useAuth } from 'hooks/useAuth';
 import { Auth } from 'pages/Auth';
 import { Welcome } from 'pages/Welcome';

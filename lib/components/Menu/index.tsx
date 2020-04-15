@@ -53,6 +53,7 @@ const APPLICATION_ROUTES: IRoute[] = [
     disabled: false,
     backendRequestCallback: async () => {
       await UserModel.logout();
+      location.reload();
     }
   }
 ];
@@ -69,8 +70,8 @@ export const Menu = () => {
           <li key={path} className="rsh-menu__item">
             <div
               onClick={async () => {
-                // backendRequestCallback();
-                await logout();
+                await backendRequestCallback();
+                // await logout();
               }}
               className={`rsh-menu__item-content ${disabled ? 'rsh-menu__item-content--disabled' : ''}`}
             >

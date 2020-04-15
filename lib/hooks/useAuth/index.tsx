@@ -1,8 +1,12 @@
-import { useEffect } from 'react';
 import UserModel from 'models/UserModel';
 import { useDispatch, useSelector } from 'react-redux';
 
-export const useAuth = (): [boolean, () => void, () => void, () => void] => {
+export const useAuth = (): [
+  boolean,
+  (phoneNumber: string, password: string) => Promise<boolean>,
+  () => void,
+  () => void
+] => {
   const { authorized } = useSelector(state => state.auth);
   const dispatch = useDispatch();
   const setAuthorized = (state: boolean) => {
@@ -11,12 +15,14 @@ export const useAuth = (): [boolean, () => void, () => void, () => void] => {
     });
   };
 
-  const auth = async () => {
+  const auth = async (phoneNumber, password): Promise<boolean> => {
     try {
-      setAuthorized(await UserModel.mockLogin());
+      setAuthorized(await UserModel.login(phoneNumber, password));
+      return true;
     } catch (e) {
       console.log(e);
       setAuthorized(false);
+      return false;
     }
   };
 

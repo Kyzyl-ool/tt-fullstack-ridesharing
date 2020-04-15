@@ -9,6 +9,8 @@ import { useHistory } from 'react-router-dom';
 import './Welcome.scss';
 import UserModel from 'models/UserModel';
 import { useSelector } from 'react-redux';
+import { useAuth } from 'hooks/useAuth';
+import User from 'firebase';
 
 export const Welcome: React.FC = props => {
   const [pageState, setNext, setPrev, renderForState] = usePageState(['PASSWORD', 'NAMES', 'FINISH']);
@@ -19,13 +21,14 @@ export const Welcome: React.FC = props => {
   const [password1, setPassword1] = useState<string>('');
   const [password2, setPassword2] = useState<string>('');
   const { phoneNumber } = useSelector(state => state.auth);
+  const [, login] = useAuth();
 
   const register = async (): Promise<number> => {
-    const { userId: userId } = await UserModel.registerUser({
+    // eslint-disable-next-line @typescript-eslint/camelcase
+    const { user_id: userId } = await UserModel.registerUser({
       email: null,
       firstName: firstName,
       lastName: lastName,
-      organizations: null,
       password: password1,
       phoneNumber: phoneNumber
     });
@@ -50,6 +53,7 @@ export const Welcome: React.FC = props => {
         break;
       }
       case 'FINISH': {
+        await login(phoneNumber, password1);
         history.push('/');
         break;
       }
