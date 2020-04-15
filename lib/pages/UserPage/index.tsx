@@ -21,7 +21,6 @@ export const UserPage: React.FC = props => {
 
   const fetchUserData = async () => {
     const res = await UserModel.getUserInfo(userId);
-    console.log(res);
     setUserInfo(res);
   };
 
@@ -36,7 +35,6 @@ export const UserPage: React.FC = props => {
       fetchUserData();
     } else {
       // show current user if userId was not specified
-      console.log(thisUserInfo);
       if (thisUserInfo.id) {
         setUserInfo(thisUserInfo);
       }
