@@ -7,9 +7,13 @@ import { CenteredLoader } from 'components/CenteredLoader';
 
 export const PrivateRoute: React.FC = ({ children, ...rest }) => {
   const [auth, login, , check] = useAuth();
+  const history = useHistory();
 
   const checkAuth = async () => {
-    await check();
+    const result = await check();
+    if (!result) {
+      history.push('/auth');
+    }
   };
 
   useEffect(() => {
