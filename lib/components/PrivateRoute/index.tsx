@@ -10,6 +10,7 @@ export const PrivateRoute: React.FC = ({ children, ...rest }) => {
   useEffect(() => {
     check();
   }, []);
+
   return (
     <>
       {auth ? (

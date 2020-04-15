@@ -35,8 +35,20 @@ export const useAuth = (): [
     }
   };
 
+  const updateUser = async () => {
+    const user = await UserModel.getMyProfileInfo();
+    dispatch({
+      type: 'SET_USER',
+      userInfo: {
+        ...user
+      }
+    });
+  };
+
   const checkAuth = async () => {
-    setAuthorized(await UserModel.checkAuth());
+    const result = await UserModel.checkAuth();
+    setAuthorized(result);
+    result && (await updateUser());
   };
 
   return [authorized, auth, logout, checkAuth];
