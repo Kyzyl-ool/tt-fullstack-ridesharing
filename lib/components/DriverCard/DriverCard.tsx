@@ -5,6 +5,7 @@ import { IRide, IHostAnswer } from 'domain/ride';
 import { parseLocationAddress } from 'helpers/parseLocationAddress';
 import { sampleAvatarSrc } from 'samples/samples';
 import './DriverCard.scss';
+import { Link } from 'react-router-dom';
 
 interface IDriverCard {
   ride: IRide;
@@ -36,9 +37,12 @@ export const DriverCard = ({
       onClick={onCardClick}
       className={`driver-card ${shadowed ? 'driver-card--shadowed' : ''} ${hostAnswer ? 'driver-card_waiting' : ''}`}
     >
-      <div className={'driver-card__avatar'}>
-        <Avatar src={sampleAvatarSrc} size={'medium'} mark={host.rating} />
-      </div>
+      <Link to={`/user/${host.id}`}>
+        <div className={'driver-card__avatar'}>
+          <Avatar src={sampleAvatarSrc} size={'medium'} mark={host.rating} />
+        </div>
+      </Link>
+
       <div className={'driver-card__text-container'}>
         <b>
           {host.firstName}&nbsp;{host.lastName}
