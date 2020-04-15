@@ -15,46 +15,46 @@
  */
 
 .firebaseui-container {
-  background: rgba(0, 0, 0, 0.05);
-  margin-bottom: 15px;
-  min-height: 150px;
-  padding-top: 10px;
-  border-radius: 20px;
-  box-shadow: none;
 }
 .firebaseui-container.firebaseui-page-provider-sign-in {
-  background: transparent;
-  box-shadow: none;
-  min-height: 0;
-  margin-bottom: 0;
-  padding-top: 0;
 }
 .firebaseui-container.firebaseui-id-page-callback {
-  background: transparent;
-  box-shadow: none;
-  margin-top: 40px;
-  height: 84px;
-  min-height: 0;
-  margin-bottom: 0;
-  padding-top: 0;
 }
 .firebaseui-card-header {
   display: none;
 }
 .firebaseui-subtitle, .firebaseui-text {
-  color: rgba(255, 255, 255, 0.87);
+}
+
+.firebaseui-card-content, .firebaseui-card-footer {
+  padding: 0 !important;
 }
 .firebaseui-form-actions .mdl-button--raised.mdl-button--colored.firebaseui-button {
-  background: rgba(0, 0, 0, 0.1);
+  /*height: 56px;*/
+  border: 1px solid #33a852;
+  box-sizing: border-box;
+  border-radius: 10px;
+  box-shadow: none;
+  font-family: 'Source Sans Pro', sans-serif;
+  font-size: 16px;
+  line-height: 16px;
+  text-align: center;
+  padding: 10px;
+  outline: none;
+  cursor: pointer;
+  font-style: normal;
+  font-weight: normal;
+  background: #33a852;
+  color: #ffffff;
+}
+.firebaseui-form-actions {
+  text-align: center !important;
 }
 .firebaseui-id-dismiss-info-bar {
-  display: block;
 }
 .firebaseui-info-bar {
-  border: 0;
-  border-radius: 10px;
-  left: 5%;
-  right: 5%;
-  top: 10%;
-  bottom: 10%;
 }
+.firebaseui-id-country-selector{
+
+}
+

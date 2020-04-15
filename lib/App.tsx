@@ -23,7 +23,7 @@ const AnimatedRouting = () => {
   const location = useLocation();
   return (
     // <TransitionGroup>
-    //   <CSSTransition key={location.key} classNames={'fade'} timeout={300}>
+    //   <CSSTransition key={location.key} classNames={'fade'} timeout={300} mountOnEnter unmountOnExit={false}>
     <Switch>
       <Route exact path="/">
         <MainPage />
@@ -66,6 +66,8 @@ const AnimatedRouting = () => {
       </Route>
       <Redirect to={'/'} />
     </Switch>
+    // </CSSTransition>
+    // </TransitionGroup>
   );
 };
 

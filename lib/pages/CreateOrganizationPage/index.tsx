@@ -91,21 +91,19 @@ export const CreateOrganizationPage: React.FC = props => {
       <Backdrop onMapClicked={newPosition => setCoordinates(newPosition)}>
         {renderForState(
           'ENTER_NAME',
-          <>
-            <Input
-              id={'organization-name'}
-              placeholderText={'Введите название новой организации'}
-              className={'centerize centerize_center'}
-              onChange={value => setName(value)}
-            />
-          </>,
+          <Input
+            id={'organization-name'}
+            placeholderText={'Введите название новой организации'}
+            className={'centerize centerize_center'}
+            onChange={value => setName(value)}
+          />,
           'appear'
         )}
         {renderForState('CHOOSE_LOCATION', <></>, 'appear')}
         {renderForState(
           'ENTER_QUESTIONS',
           <div className={'backgrounded backgrounded--with-padding'}>
-            <div>
+            <div className={'inputs-container'}>
               <Input
                 className={'centered margins'}
                 id={`question`}
