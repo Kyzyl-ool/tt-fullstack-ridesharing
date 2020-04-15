@@ -10,16 +10,24 @@ interface IDialog {
   hide: boolean;
   cross?: boolean;
   withRedirectTo?: boolean;
+  confirmButtonDisabled?: boolean;
 }
 
-export const Dialog: React.FC<IDialog> = ({ children, onClose, buttonText, hide = false, cross = true }) => {
+export const Dialog: React.FC<IDialog> = ({
+  children,
+  onClose,
+  buttonText,
+  hide = false,
+  cross = true,
+  confirmButtonDisabled = false
+}) => {
   return (
     <>
       {hide ? null : (
         <div className={'dialog'}>
           {children}
 
-          <Button className="dialog__button" filled onClick={onClose}>
+          <Button className="dialog__button" filled onClick={onClose} disabled={confirmButtonDisabled}>
             {buttonText ? buttonText : 'OK'}
           </Button>
 

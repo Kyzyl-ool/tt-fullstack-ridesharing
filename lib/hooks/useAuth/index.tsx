@@ -1,12 +1,19 @@
-import { useEffect, useState } from 'react';
+import { useEffect } from 'react';
 import UserModel from 'models/UserModel';
+import { useDispatch, useSelector } from 'react-redux';
 
-export const useAuth = () => {
-  const [authorized, setAuthorized] = useState<boolean>(false);
+export const useAuth = (): [boolean, () => void, () => void, () => void] => {
+  const { authorized } = useSelector(state => state.auth);
+  const dispatch = useDispatch();
+  const setAuthorized = (state: boolean) => {
+    dispatch({
+      type: state ? 'SET_AUTHORIZED' : 'SET_UNAUTHORIZED'
+    });
+  };
 
   const auth = async () => {
     try {
-      setAuthorized(await UserModel.login());
+      setAuthorized(await UserModel.mockLogin());
     } catch (e) {
       console.log(e);
       setAuthorized(false);
@@ -15,16 +22,16 @@ export const useAuth = () => {
 
   const logout = async () => {
     try {
-      await UserModel.logout();
       setAuthorized(false);
+      await UserModel.logout();
     } catch (e) {
       console.log(e);
     }
   };
 
-  useEffect(() => {
-    auth();
-  }, []);
+  const checkAuth = async () => {
+    setAuthorized(await UserModel.checkAuth());
+  };
 
-  return [authorized, auth, logout];
+  return [authorized, auth, logout, checkAuth];
 };

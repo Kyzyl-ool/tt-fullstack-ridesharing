@@ -7,9 +7,7 @@ import { MainPage } from 'pages/MainPage';
 import { CreateOrganizationPage } from 'pages/CreateOrganizationPage';
 import { JoinOrganizationPage } from 'pages/JoinOrganizationPage';
 import { OrganizationPage } from 'pages/OrganizationPage';
-import { Auth } from 'pages/Auth';
 import { ActiveRidesPage } from 'pages/ActiveRidesPage';
-import { Welcome } from 'pages/Welcome';
 import { RidesHistoryPage } from 'pages/RidesHistory';
 import { ProfilePage } from 'pages/ProfilePage';
 import { Backdrop } from 'components/Backdrop';
@@ -21,8 +19,8 @@ const App = () => {
   return (
     <Backdrop>
       <Router>
-        <Switch>
-          <PrivateRoute path={'/'}>
+        <PrivateRoute>
+          <Switch>
             <Route exact path="/">
               <MainPage />
             </Route>
@@ -56,15 +54,9 @@ const App = () => {
             <Route exact path={'/user/:userId'}>
               <UserPage />
             </Route>
-            <Redirect to="/" />
-          </PrivateRoute>
-          <Route exact path={'/auth'}>
-            <Auth />
-          </Route>
-          <Route exact path={'/welcome'}>
-            <Welcome />
-          </Route>
-        </Switch>
+            <Redirect to={'/'} />
+          </Switch>
+        </PrivateRoute>
       </Router>
     </Backdrop>
   );

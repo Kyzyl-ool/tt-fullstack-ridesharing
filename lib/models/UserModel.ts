@@ -1,5 +1,6 @@
 /* eslint-disable no-empty */
 import axios from 'axios';
+import User from 'firebase';
 
 export interface IUserData {
   email: string;
@@ -43,8 +44,36 @@ export interface IGetUserInfoResponseBody {
   rating: number;
 }
 
+export interface IRegisterUserRequestBody {
+  firstName: string;
+  lastName: string;
+  email: string;
+  organizations: {
+    id: number;
+    name: string;
+    latitude: number;
+    longitude: number;
+    users: number[];
+    address: string;
+    description: string;
+    photoUrl: string;
+  };
+  phoneNumber: string;
+  password: string;
+}
+
 export default class UserModel {
-  static login = async () => {
+  static checkAuth = async (): Promise<boolean> => {
+    try {
+      await UserModel.getMyProfileInfo();
+      return true;
+    } catch (e) {
+      console.error(e);
+      return false;
+    }
+  };
+
+  static mockLogin = async () => {
     // TODO implement real authorization logic when authorization will be ready
     try {
       const res = await axios.post(
@@ -65,11 +94,6 @@ export default class UserModel {
     } catch (e) {
       console.log(e);
     }
-  };
-
-  static getMyself = async () => {
-    const res = await axios.get('/api/user');
-    return res.data;
   };
 
   static getOrganizations = async () => {
@@ -110,6 +134,11 @@ export default class UserModel {
         id: userId
       }
     });
+    return res.data;
+  };
+
+  static registerUser = async (registerUserBody: IRegisterUserRequestBody): Promise<{ userId: number }> => {
+    const res = await axios.post('/api/register_user', registerUserBody);
     return res.data;
   };
 }
