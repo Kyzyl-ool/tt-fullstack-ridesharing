@@ -1,11 +1,9 @@
 import React, { useState } from 'react';
-import { Backdrop } from 'components/Backdrop';
 import { Dialog } from 'components/Dialog';
 import { CarSelectBlock } from 'pages/blocks/CarSelectBlock';
 import { InitialRideBlock } from '../blocks/InitialRideBlock';
 import { OrganizationSelectBlock } from '../blocks/OrganizationSelectBlock';
 import { DestinationSelectBlock } from '../blocks/DestinationSelectBlock';
-import { userCarsStub } from '../__stubs__';
 import { RideInformationBlock } from 'pages/blocks/RideInformationBlock';
 import { ILocation, IDestination } from 'domain/map';
 import RideModel from 'models/RideModel';

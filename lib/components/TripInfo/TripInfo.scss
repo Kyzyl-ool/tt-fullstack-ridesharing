@@ -12,7 +12,7 @@
   }
 
   &__form {
-    width: 311px;
+    width: calc(min(256px, 100% - 40px));
     padding: 0 24px;
 
     .react-datepicker-wrapper {
@@ -42,6 +42,9 @@
       li.react-datepicker__time-list-item--selected {
       background-color: $ui-primary-color;
     }
+    display: flex;
+    flex-direction: column;
+    align-items: center;
   }
 
   &__button {

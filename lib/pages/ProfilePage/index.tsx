@@ -89,12 +89,6 @@ export const ProfilePage: React.FC = props => {
         <span className={'user-id'}>ID&nbsp;{userData && userData.id}</span>
 
         <div className={'user-info-item'}>
-          <span className={'profile-caption'}>e-mail адрес</span>
-          <span className={'user-info'}>{userData && userData.email}</span>
-          <PenIcon className={'user-info-item__pen'} />
-        </div>
-
-        <div className={'user-info-item'}>
           <span className={'profile-caption'}>Мобильный телефон</span>
           <span className={'user-info'}>{userData && userData.phoneNumber}</span>
           <PenIcon className={'user-info-item__pen'} />
