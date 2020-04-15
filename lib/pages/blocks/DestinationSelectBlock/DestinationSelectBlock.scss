@@ -15,6 +15,7 @@
   &__input {
     margin: 8px 0;
     box-shadow: 0px 4px 4px rgba(0, 0, 0, 0.25);
+    width: 100%;
   }
 
   &__input-icon {
@@ -70,7 +71,7 @@
     flex-direction: column;
     align-items: center;
 
-    >.rsh-input {
+    > .rsh-input {
       width: 100%;
     }
   }
