@@ -16,7 +16,7 @@ export const useAuth = (): [
   };
 
   const updateUser = async () => {
-    const user = await UserModel.getMyProfileInfo();
+    const user = await UserModel.getThisUser();
     dispatch({
       type: 'SET_USER',
       userInfo: {
