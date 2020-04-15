@@ -6,7 +6,7 @@ export const useAuth = (): [
   boolean,
   (phoneNumber: string, password: string) => Promise<boolean>,
   () => void,
-  () => void
+  () => Promise<boolean>
 ] => {
   const { authorized } = useSelector(state => state.auth);
   const dispatch = useDispatch();
@@ -49,6 +49,7 @@ export const useAuth = (): [
     const result = await UserModel.checkAuth();
     setAuthorized(result);
     result && (await updateUser());
+    return result;
   };
 
   return [authorized, auth, logout, checkAuth];
