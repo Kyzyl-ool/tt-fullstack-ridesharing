@@ -1,7 +1,0 @@
-flask
-flask_sqlalchemy
-flask_script
-flask_migrate
-cryptography
-mimesis
-psycopg2
