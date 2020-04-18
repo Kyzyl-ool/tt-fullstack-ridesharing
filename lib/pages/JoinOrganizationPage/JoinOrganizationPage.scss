@@ -1,0 +1,20 @@
+@import 'lib/styles/colors';
+
+.backgrounded {
+  background-color: $ui-secondary-color;
+  height: 100%;
+
+  &_grey {
+    background-color: $ui-background-grey-color;
+  }
+
+  &--with-padding {
+    padding-top: 24px;
+  }
+}
+
+.join-organization-page {
+  &__input {
+    margin: 8px 16px 8px 16px;
+  }
+}

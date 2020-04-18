@@ -1,0 +1,176 @@
+@import 'lib/styles/colors';
+@import 'lib/styles/icons';
+
+.driver-card {
+  display: flex;
+  border-radius: 10px;
+  background-color: #f2f2f2;
+  padding: 8px 24px 8px 24px;
+  margin: 8px 24px 0 24px;
+  position: relative;
+  min-height: 96px;
+  max-width: 400px;
+  cursor: pointer;
+
+  &--shadowed {
+    box-shadow: 0px 4px 4px rgba(0, 0, 0, 0.25);
+    border: 1px solid $ui-primary-color;
+  }
+
+  &__text-container {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    text-align: center;
+    margin-top: 8px;
+    width: 50%;
+  }
+
+  &__avatar {
+    margin: 6px 12px 0 0;
+  }
+
+  &__price {
+    position: absolute;
+    top: 16px;
+    right: 10px;
+    font-family: 'Source Sans Pro', sans-serif;
+    font-style: normal;
+    font-weight: 900;
+    font-size: 24px;
+    line-height: 30px;
+    text-align: center;
+    color: #33a852;
+    margin-top: 8px;
+    margin-right: 8px;
+  }
+
+  &__host-name {
+    flex: 2;
+    word-wrap: nowrap;
+    text-overflow: ellipsis;
+    text-align: center;
+    overflow: hidden;
+  }
+
+  &__stop-address {
+    flex: 3;
+    white-space: nowrap;
+    text-overflow: ellipsis;
+    text-align: center;
+    overflow: hidden;
+    margin-left: 1rem;
+  }
+
+  &__destination {
+    position: absolute;
+    padding: 0 8px;
+    bottom: 8px;
+    left: 16px;
+    border-radius: 5px;
+    min-height: 10px;
+    border: 0.5px solid #c1c1c1;
+    display: flex;
+    flex-direction: row;
+    font-family: 'Source Sans Pro', sans-serif;
+    font-style: normal;
+    font-weight: normal;
+    font-size: 10px;
+    line-height: 14px;
+    width: 70vw;
+    max-width: 370px;
+    justify-content: space-around;
+    color: #000000;
+    background-color: #ffffff;
+
+    &_waiting {
+      bottom: 32px;
+    }
+  }
+
+  &__time-icon {
+    width: 12px;
+    height: 12px;
+    margin-right: 4px;
+    background: $time-icon no-repeat;
+    background-size: contain;
+  }
+
+  b {
+    font-family: 'Source Sans Pro', sans-serif;
+    font-style: normal;
+    font-weight: bold;
+    font-size: 12px;
+    line-height: 15px;
+    text-align: center;
+
+    color: #000000;
+  }
+
+  i {
+    font-family: 'Source Sans Pro', sans-serif;
+    font-style: italic;
+    font-weight: normal;
+    font-size: 10px;
+    line-height: 14px;
+    /* identical to box height */
+
+    display: flex;
+    align-items: center;
+    text-align: center;
+  }
+
+  &__text {
+    font-family: 'Source Sans Pro', sans-serif;
+    font-style: normal;
+    font-weight: normal;
+    font-size: 10px;
+    line-height: 13px;
+    display: flex;
+    align-items: center;
+    text-align: center;
+  }
+
+  &__request-button {
+    position: absolute;
+    right: -19px;
+    top: -12px;
+
+    button {
+      border: $ui-primary-color 1px solid;
+      outline: none;
+      background-color: white;
+      border-radius: 5px;
+      font-size: 12px;
+      color: $ui-black-color;
+    }
+  }
+
+  &__waiting {
+    font-family: 'Source Sans Pro', sans-serif;
+    font-style: normal;
+    font-weight: normal;
+    font-size: 8px;
+    line-height: 10px;
+    text-align: center;
+    text-transform: uppercase;
+    color: #989898;
+    position: absolute;
+    bottom: 8px;
+    margin: 0 auto 0 auto;
+    left: 0;
+    right: 0;
+
+    &_red {
+      color: $ui-error-color;
+    }
+    &_green {
+      color: $ui-primary-color;
+    }
+  }
+
+  &_waiting {
+    min-height: 118px;
+    border: 1px solid #33a852;
+  }
+}

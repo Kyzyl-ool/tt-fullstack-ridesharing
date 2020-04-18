@@ -1,0 +1,46 @@
+@import "lib/styles/icons";
+
+.way-to-pay {
+  border: 1px solid #33A852;
+  box-sizing: border-box;
+  border-radius: 10px;
+  display: flex;
+  align-items: center;
+  padding: 8px;
+
+  &__payment-icon {
+    background: $payment-icon no-repeat;
+    box-sizing: border-box;
+    min-width: 72px;
+    min-height: 72px;
+    margin-left: 10px;
+  }
+
+  &__name {
+    font-family: 'Source Sans Pro', sans-serif;
+    font-style: normal;
+    font-weight: bold;
+    font-size: 16px;
+    line-height: 20px;
+    display: flex;
+    align-items: center;
+
+    color: #000000;
+  }
+
+  &__caption {
+    font-family: 'Source Sans Pro', sans-serif;
+    font-style: normal;
+    font-weight: normal;
+    font-size: 12px;
+    line-height: 15px;
+    /* identical to box height */
+
+    display: flex;
+    align-items: center;
+
+    /* UI / Gray */
+
+    color: #989898;
+  }
+}

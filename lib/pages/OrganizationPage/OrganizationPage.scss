@@ -1,0 +1,133 @@
+@import "lib/styles/colors";
+
+.centerize {
+
+  &_floor {
+    bottom: 40px;
+  }
+}
+
+.organization-page-card {
+  background-color: $ui-white-color;
+  display: flex;
+  flex-direction: column;
+  border-radius: 40px;
+  width: 100%;
+
+  &__head {
+    font-family: 'Source Sans Pro', sans-serif;
+    font-style: normal;
+    font-weight: normal;
+    font-size: 16px;
+    line-height: 20px;
+    display: flex;
+    align-items: center;
+
+    &_address {
+      font-family: 'Source Sans Pro', sans-serif;
+      font-style: normal;
+      font-weight: bold;
+      font-size: 12px;
+      line-height: 15px;
+      display: flex;
+      align-items: center;
+
+    }
+  }
+
+  &__info {
+    font-family: 'Source Sans Pro', sans-serif;
+    font-style: normal;
+    font-weight: normal;
+    font-size: 12px;
+    line-height: 15px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    color: #000000;
+
+    padding: 0 16px 0px 16px;
+  }
+}
+
+.flex-row {
+  display: flex;
+  align-items: center;
+
+  &_center {
+    justify-content: center;
+  }
+}
+
+.flex-column {
+  display: flex;
+  flex-direction: column;
+
+  &_center {
+    align-items: center;
+  }
+
+  &_space-evenly {
+    justify-content: space-evenly;
+  }
+}
+
+.margin {
+  margin: 8px;
+}
+
+.underlined-clickable {
+  cursor: pointer;
+  color: $ui-primary-color;
+  font-style: normal;
+  font-weight: bold;
+  font-size: 12px;
+  line-height: 15px;
+}
+
+.driver-name {
+  font-family: 'Source Sans Pro', sans-serif;
+  font-style: normal;
+  font-weight: bold;
+  font-size: 10px;
+  line-height: 13px;
+  /* identical to box height */
+
+  display: flex;
+  align-items: center;
+
+  color: #000000;
+
+}
+
+.from-to-string {
+  font-family: 'Source Sans Pro', sans-serif;
+  font-style: normal;
+  font-weight: normal;
+  font-size: 8px;
+  line-height: 10px;
+  /* identical to box height */
+
+  display: flex;
+  align-items: center;
+  text-align: center;
+
+  color: #000000;
+}
+
+.date-label {
+  font-family: 'Source Sans Pro', sans-serif;
+  font-style: normal;
+  font-weight: bold;
+  font-size: 10px;
+  line-height: 13px;
+  /* identical to box height */
+
+  display: flex;
+  align-items: center;
+  text-align: center;
+
+  /* UI / Gray */
+
+  color: #989898;
+}

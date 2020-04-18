@@ -1,0 +1,45 @@
+.mark {
+  border-radius: 50px;
+  font-family: 'Source Sans Pro', sans-serif;
+  font-style: normal;
+  font-weight: normal;
+  font-size: 8px;
+  line-height: 10px;
+  min-width: 32px;
+  min-height: 16px;
+  text-align: center;
+  margin-top: -4px;
+  color: #FFFFFF;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  &_large {
+    font-size: 12px;
+    line-height: 15px;
+    min-width: 48px;
+    min-height: 24px;
+  }
+
+  &_background {
+    &-green {
+      background-color: #27AE60;
+    }
+
+    &-yellow {
+      background-color: #F2C94C;
+    }
+
+    &-orange {
+      background-color: #F2994A;
+    }
+
+    &-red {
+      background-color: #EB5757;
+    }
+
+    &-gray {
+      background-color: #BDBDBD;
+    }
+  }
+}

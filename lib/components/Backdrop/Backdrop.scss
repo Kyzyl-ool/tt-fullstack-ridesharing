@@ -1,0 +1,18 @@
+@import 'lib/styles/colors';
+
+.rsh-backdrop {
+  width: 100vw;
+  height: 100vh;
+  //padding: 0 32px 0 32px;
+  position: fixed;
+  background: $ui-secondary-color;
+
+  &__map {
+    position: fixed;
+    z-index: -1;
+  }
+
+  .rsh-button {
+    width: calc(min(311px, 100% - 40px));
+  }
+}

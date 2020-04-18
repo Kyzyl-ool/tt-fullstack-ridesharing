@@ -1,0 +1,20 @@
+@import 'lib/styles/colors';
+@import 'lib/styles/icons';
+
+.search-ride-block {
+  &__header-text {
+    width: 100%;
+    font-weight: 300;
+    font-size: 16px;
+    line-height: 20px;
+    color: $ui-black-color;
+    font-style: normal;
+    text-align: center;
+  }
+
+  &__searching-window {
+    position: fixed;
+    bottom: 0;
+    width: 100vw;
+  }
+}

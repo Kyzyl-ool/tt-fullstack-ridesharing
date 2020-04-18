@@ -1,0 +1,53 @@
+@import 'lib/styles/colors';
+
+.base-layer {
+  border-radius: 40px;
+  font-family: 'Source Sans Pro', sans-serif;
+  padding: 0 0 24px 0;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  background: $ui-white-color;
+
+  &_secondary {
+    background-color: $ui-primary-color;
+  }
+
+  &_primary {
+    background-color: #ffffff;
+  }
+
+  &_headed {
+    &::before {
+      content: '';
+      min-height: 64px;
+      width: 100%;
+      background-color: $ui-primary-color;
+      color: #ffffff;
+      border-radius: 40px 40px 0 0;
+    }
+  }
+
+  &__header {
+    color: #ffffff;
+    text-align: center;
+    font-style: normal;
+    font-weight: normal;
+    font-size: 20px;
+    line-height: 25px;
+    padding: 16px 0;
+
+    &_headed {
+      margin-top: -64px;
+      padding: 8px 0;
+      max-width: 100vw;
+      padding-left: 24px;
+      width: 100%;
+    }
+  }
+
+  > .input {
+    margin-top: 8px;
+    width: 100%;
+  }
+}

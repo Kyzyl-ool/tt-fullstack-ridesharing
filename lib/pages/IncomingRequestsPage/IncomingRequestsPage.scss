@@ -1,0 +1,62 @@
+@import 'lib/styles/colors';
+
+.incoming-requests-page {
+  &__backdrop {
+    z-index: 99;
+    width: 100vw;
+    height: 100vh;
+    background-color: $ui-secondary-color;
+  }
+
+  &__requests-list {
+    list-style: none;
+    padding: 22px;
+    margin: 0;
+    height: 100%;
+    overflow-y: auto;
+
+    a {
+      color: $ui-black-color;
+      text-decoration: none;
+    }
+  }
+
+  &__avatar {
+    margin-left: 40px;
+  }
+
+  &__request {
+    background: $ui-white-color;
+    border: 1px solid $ui-primary-color;
+    box-sizing: border-box;
+    border-radius: 10px;
+    display: flex;
+    align-items: center;
+    height: 80px;
+    // width: 80vw;
+    margin-bottom: 8px;
+  }
+
+  &__name {
+    font-weight: bold;
+    font-size: 16px;
+    line-height: 20px;
+    width: 100%;
+    text-align: center;
+  }
+
+  &__header {
+    font-style: normal;
+    font-weight: bold;
+    font-size: 24px;
+    line-height: 30px;
+    padding: 16px;
+    text-align: center;
+  }
+
+  &__text {
+    padding: 20px;
+    text-align: center;
+    color: $ui-gray-color;
+  }
+}

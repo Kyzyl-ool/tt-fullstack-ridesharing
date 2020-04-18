@@ -1,0 +1,33 @@
+@import 'lib/styles/colors';
+
+.centerize {
+  position: fixed;
+  left: 0;
+  right: 0;
+  margin: auto;
+
+  &_center {
+    top: 40%;
+  }
+
+  &_bottom {
+    bottom: 40px;
+  }
+
+  &-flex {
+    margin-top: 16px;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+  }
+}
+
+.margins {
+  margin: 8px 16px 0px 16px;
+}
+
+.inputs-container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}

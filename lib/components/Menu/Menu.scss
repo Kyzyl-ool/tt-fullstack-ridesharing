@@ -1,0 +1,68 @@
+@import 'lib/styles/icons';
+
+.rsh-menu {
+  list-style: none;
+  padding: 0;
+  margin: 47px 0 0 0;
+
+  &__item {
+    // display: flex;
+    margin-top: 24px;
+  }
+
+  &__item-content {
+    display: flex;
+    align-items: center;
+
+    > a {
+      color: black;
+      text-decoration: none;
+    }
+
+    &--disabled {
+      opacity: 0.3;
+      pointer-events: none;
+    }
+  }
+
+  &__icon {
+    width: 24px;
+    height: 24px;
+
+    &--profile {
+      background: $sidebar-profile-icon;
+      background-size: contain;
+    }
+
+    &--rating {
+      background: $sidebar-rating-icon;
+      background-size: contain;
+    }
+
+    &--active-rides {
+      background: $sidebar-active-rides-icon;
+      background-size: contain;
+    }
+
+    &--history {
+      background: $sidebar-history-icon;
+      background-size: contain;
+    }
+
+    &--help {
+      background: $sidebar-help-icon;
+      background-size: contain;
+    }
+
+    &--logout {
+      background: $sidebar-logout-icon;
+      background-size: contain;
+    }
+  }
+
+  &__label {
+    margin: 0 0 0 10px;
+    font-size: 16px;
+    line-height: 20px;
+  }
+}

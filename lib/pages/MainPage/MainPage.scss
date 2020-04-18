@@ -1,0 +1,33 @@
+.main-page {
+  &__organization-label {
+    display: flex;
+    width: 100%;
+    justify-content: center;
+  }
+
+  &__button {
+    margin-top: 10px;
+  }
+
+  &__buttons-group {
+    position: fixed;
+    display: flex;
+    flex-direction: column;
+    bottom: 40px;
+    //left: calc(50% - 155px);
+    align-items: center;
+    left: 0;
+    right: 0;
+
+    >a {
+      width: calc(min(311px, 100% - 40px));
+
+      > .rsh-button {
+        width: 100%;
+      }
+    }
+
+
+
+  }
+}

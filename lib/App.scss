@@ -1,0 +1,57 @@
+@import 'lib/styles/modifiers';
+@import 'lib/styles/typography';
+
+.notification-group {
+  z-index: 12;
+  position: absolute;
+  transform: translate(-50%, -10vh);
+  display: flex;
+  left: 50%;
+  color: white;
+  flex-flow: column nowrap;
+  justify-content: center;
+  align-items: center;
+}
+
+.fade-enter {
+  opacity: 0;
+  transform: scale(0.9);
+}
+
+.fade-enter-done {
+  //opacity: 0;
+}
+
+.fade-enter-active {
+  opacity: 1;
+  transform: translateX(0);
+  transition: opacity 300ms, transform 300ms;
+}
+
+.fade-exit {
+  opacity: 0;
+  //opacity: 1;
+}
+
+.fade-exit-active {
+  opacity: 0;
+  transform: scale(0.9);
+  transition: opacity 300ms, transform 300ms;
+}
+
+.fade-exit-done {
+  display: none;
+}
+
+.fade {
+  &-enter, &-exit {
+    &-active, &-done {
+      .rsh-header {
+        opacity: 1;
+        display: flex;
+        //transform: none;
+        //transition: none; //?????
+      }
+    }
+  }
+}
