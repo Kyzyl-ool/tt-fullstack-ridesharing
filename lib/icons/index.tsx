@@ -33,3 +33,11 @@ export const PenIcon: AbstractIcon = ({ size = 'medium', className }) => {
 export const PlusIcon: AbstractIcon = ({ size = 'medium', className }) => {
   return <div className={`icon icon_plus-icon icon_${size} ${className ? className : ''}`} />;
 };
+
+export const DoubleArrowIcon: AbstractIcon = ({ size = 'medium', className }) => {
+  return <div className={`icon icon_double-arrow-icon icon_${size} ${className ? className : ''}`} />;
+};
+
+export const DoubleArrowBlackIcon: AbstractIcon = ({ size = 'medium', className }) => {
+  return <div className={`icon icon_double-arrow-black-icon icon_${size} ${className ? className : ''}`} />;
+};

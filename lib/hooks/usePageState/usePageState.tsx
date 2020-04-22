@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { CSSTransition } from 'react-transition-group';
 import './PageStateHook.scss';
 
@@ -25,7 +25,7 @@ const usePageState = (states: string[]): IUsePageState => {
     setCurrentState((currentState + 1) % states.length);
   };
   const setPrev = () => {
-    setCurrentState((currentState - 1) % states.length);
+    currentState > 0 && setCurrentState((currentState - 1) % states.length);
   };
   const renderForState = (key, node, animationType = 'none'): React.ReactNode => {
     if (animationType !== 'none') {
@@ -47,6 +47,7 @@ const usePageState = (states: string[]): IUsePageState => {
   const goTo = (state: string) => {
     setCurrentState(states.indexOf(state));
   };
+
   return [states[currentState], setNext, setPrev, renderForState, goTo];
 };
 

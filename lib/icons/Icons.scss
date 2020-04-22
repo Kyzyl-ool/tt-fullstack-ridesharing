@@ -36,4 +36,12 @@
   &_small {
     transform: scale(0.5);
   }
+
+  &_double-arrow-icon {
+    background: $double-arrow-down-icon no-repeat;
+  }
+
+  &_double-arrow-black-icon {
+    background: $double-arrow-down-black-icon no-repeat;
+  }
 }
