@@ -1,7 +1,7 @@
-import React, { Fragment } from 'react';
-import { Header } from 'components/Header';
+import React, { Fragment, useEffect } from 'react';
 import { Slider } from 'components/Slider';
 import { SearchingWindow } from 'components/SearchingWindow';
+import { useDimmedMap } from 'hooks/mapHooks';
 import './SearchRideBlock.scss';
 
 interface ISearchRideBlock {
@@ -12,6 +12,19 @@ interface ISearchRideBlock {
 }
 
 export const SearchRideBlock = ({ onShowMenu, visible, from, to }: ISearchRideBlock) => {
+  const [isMapDimmed, toggleDimmed] = useDimmedMap();
+  useEffect(() => {
+    if (visible) {
+      if (!isMapDimmed) {
+        toggleDimmed();
+      }
+    }
+    return () => {
+      if (isMapDimmed) {
+        toggleDimmed();
+      }
+    };
+  }, []);
   return (
     <Fragment>
       <Slider visible={visible} from="bottom" timeout={400} unmountOnExit>

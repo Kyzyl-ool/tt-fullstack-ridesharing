@@ -28,6 +28,12 @@
   &__item {
     width: 100%;
   }
+
+  &__loader {
+    width: 100vw;
+    justify-content: center;
+    display: flex;
+  }
 }
 
 .ready-button {
@@ -40,5 +46,3 @@
   background-color: $ui-white-color;
   cursor: pointer;
 }
-
-

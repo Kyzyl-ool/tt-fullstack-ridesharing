@@ -1,4 +1,5 @@
 import MapModel from 'models/MapModel';
+import _isEmpty from 'lodash/isEmpty';
 
 export const updateNearestOrganizationAction = nearestOrganization => {
   return {
@@ -16,7 +17,11 @@ export const updateGeopositionAction = ({ latitude, longitude }) => async dispat
     }
   });
   const nearestOrganizationsList = await MapModel.getNearestOrganization({ latitude, longitude });
-  dispatch(updateNearestOrganizationAction(nearestOrganizationsList[0].name));
+  if (_isEmpty(nearestOrganizationsList)) {
+    dispatch(updateNearestOrganizationAction('Нет организаций'));
+  } else {
+    dispatch(updateNearestOrganizationAction(nearestOrganizationsList[0].name));
+  }
 };
 
 export const setActivePointAction = ({ latitude, longitude }) => {
@@ -38,5 +43,65 @@ export const allowCustomPointsAction = () => {
 export const forbidCustomPointsAction = () => {
   return {
     type: 'FORBID_CUSTOM_POINTS'
+  };
+};
+
+export const allowUserLocation = () => {
+  return {
+    type: 'ALLOW_USER_LOCATION'
+  };
+};
+
+export const forbidUserLocation = () => {
+  return {
+    type: 'FORBID_USER_LOCATION'
+  };
+};
+
+export const allowGeopositionUpdateAction = () => {
+  return {
+    type: 'ALLOW_GEOPOSITION_UPDATE'
+  };
+};
+
+export const forbidGeopositionUpdateAction = () => {
+  return {
+    type: 'FORBID_GEOPOSITION_UPDATE'
+  };
+};
+
+export const setMapHideAction = () => {
+  return {
+    type: 'SET_MAP_HIDE'
+  };
+};
+
+export const resetMapHideAction = () => {
+  return {
+    type: 'RESET_MAP_HIDE'
+  };
+};
+
+export const setMapBlurAction = () => {
+  return {
+    type: 'SET_MAP_BLUR'
+  };
+};
+
+export const resetMapBlurAction = () => {
+  return {
+    type: 'RESET_MAP_BLUR'
+  };
+};
+
+export const setMapDimAction = () => {
+  return {
+    type: 'SET_MAP_DIM'
+  };
+};
+
+export const resetMapDimAction = () => {
+  return {
+    type: 'RESET_MAP_DIM'
   };
 };

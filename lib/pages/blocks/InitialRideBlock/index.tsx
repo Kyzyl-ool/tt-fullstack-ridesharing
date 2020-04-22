@@ -2,6 +2,7 @@ import React, { Fragment } from 'react';
 import { Header } from 'components/Header';
 import { Input } from 'components/Input';
 import { NearestOrganizationLabel } from 'components/NearestOrganizationLabel';
+import { useUserLocation } from 'hooks/mapHooks';
 import './InitialRideBlock.scss';
 
 interface IInitialRideBlock {
@@ -9,6 +10,7 @@ interface IInitialRideBlock {
 }
 
 export const InitialRideBlock = ({ onInputClick }: IInitialRideBlock) => {
+  useUserLocation(true);
   return (
     <Fragment>
       <Header iconType="menu" onIconClick={() => {}}>

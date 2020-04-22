@@ -6,7 +6,6 @@ import { Slider } from 'components/Slider';
 import { IRide, IHostAnswer } from 'domain/ride';
 import { GoBackArrow } from 'components/GoBackArrow';
 import './FoundRides.scss';
-import { Dialog } from 'components/Dialog';
 
 interface IFoundRides {
   rides: IRide[];

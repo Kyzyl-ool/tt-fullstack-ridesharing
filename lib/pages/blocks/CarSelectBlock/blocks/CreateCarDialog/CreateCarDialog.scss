@@ -1,0 +1,20 @@
+@import 'lib/styles/colors';
+
+.create-car-dialog {
+  .dialog {
+    position: fixed;
+    padding: 15px 10px;
+  }
+
+  .rsh-input {
+    margin-bottom: 5px;
+  }
+
+  &__text {
+    color: $ui-black-color;
+  }
+
+  &__button {
+    margin-top: 10px;
+  }
+}
