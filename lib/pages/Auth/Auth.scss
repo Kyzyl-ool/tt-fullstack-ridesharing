@@ -67,7 +67,7 @@
   }
 
   &__footer, &__authors {
-    position: absolute;
+    position: fixed;
     display: flex;
     flex-direction: column;
     align-items: center;
