@@ -24,7 +24,7 @@ type PageState =
   | 'DONE';
 
 export const JoinRidePage = () => {
-  const [pageState, setPageState] = useState<PageState>('INITIAL');
+  const [pageState, setPageState] = useState<PageState>('ORGANIZATION_CHOOSING');
   const [rideSearchingInformation, setRideSearchingInformation] = useState({
     startOrganizationId: null,
     latitude: null,
@@ -44,7 +44,7 @@ export const JoinRidePage = () => {
   };
 
   const onReturnToInitial = () => {
-    setPageState('INITIAL');
+    history.push('/');
   };
 
   const onReturnToDestinationChoosing = () => {

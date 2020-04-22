@@ -8,10 +8,11 @@ import { Button } from 'components/Button';
 import { GoBackArrow } from 'components/GoBackArrow';
 import { ICar } from 'domain/car';
 import UserModel from 'models/UserModel';
-import './CarSelectBlock.scss';
 import { PlusIcon } from '../../../icons';
+import { CreateCarDialog } from './blocks/CreateCarDialog';
+import './CarSelectBlock.scss';
 
-export type CarInfo = Omit<ICar, 'id'>;
+export type CarInfo = Omit<ICar, 'id' | 'owner'>;
 
 interface ICarSelectBlock {
   visible: boolean;
@@ -60,7 +61,7 @@ export const CarSelectBlock = ({
     setFetchedCars(cars);
   };
 
-  const createNewCar = async (id: number, carInfo) => {
+  const createNewCar = async (carInfo: CarInfo) => {
     await UserModel.putCar(carInfo);
     setIsCreatingNewCar(false);
     await fetchCars();
@@ -96,29 +97,8 @@ export const CarSelectBlock = ({
                   withClickableCars={withClickableCars}
                 />
               ))}
-            {isCreatingNewCar && (
-              <CarCard
-                car={{
-                  owner: null,
-                  model: '',
-                  color: '',
-                  registryNumber: '',
-                  id: null
-                }}
-                isCardSelected={true}
-                onDelete={() => setIsCreatingNewCar(false)}
-                onChange={async (id, data) => {
-                  await createNewCar(id, {
-                    registryNumber: data.number,
-                    color: data.color,
-                    model: data.name
-                  });
-                }}
-                onClick={() => {}}
-                withClickableCars={withClickableCars}
-              />
-            )}
-            {withAddNewCarButton && (
+            {isCreatingNewCar && <CreateCarDialog onClose={() => setIsCreatingNewCar(false)} onReady={createNewCar} />}
+            {(withAddNewCarButton || _isEmpty(fetchedCars)) && (
               <li
                 className={'car-card car-card-add-button'}
                 onClick={() => {

@@ -14,11 +14,11 @@
 
     &_add {
       display: flex;
-      padding-left: 20px;
+      padding: 0 10px;
+      color: $ui-gray-color;
       .icon {
         margin-right: 16px;
       }
-      
     }
   }
 

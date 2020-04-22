@@ -10,6 +10,9 @@ import { Dialog } from 'components/Dialog';
 import { OrganizationModel } from 'models/OrganizationModel';
 import { useDispatch } from 'react-redux';
 import { allowCustomPointsAction, forbidCustomPointsAction } from 'store/actions/mapActions';
+import { useBlurredMap } from 'hooks/mapHooks';
+import MapModel from 'models/MapModel';
+import { parseLocationAddress } from 'helpers/parseLocationAddress';
 
 type Coordinates = {
   latitude: number;
@@ -23,7 +26,7 @@ type QuestionAndAnswer = {
 
 export const CreateOrganizationPage: React.FC = props => {
   const [name, setName] = useState<string>('');
-  const [coordinates, setCoordinates] = useState<Coordinates>({ latitude: -1, longitude: -1 });
+  const [coordinates, setCoordinates] = useState<Coordinates>({ latitude: null, longitude: null });
   const [question, setQuestion] = useState<QuestionAndAnswer>({
     question: '',
     answer: ''
@@ -37,11 +40,14 @@ export const CreateOrganizationPage: React.FC = props => {
     'ADDED'
   ]);
   const [confirmButtonDisabled, setConfirmButtonDisabled] = useState<boolean>(true);
+  const [_, setIsMapBlurred] = useBlurredMap(true);
+  const [selectedAddress, setSelectedAddress] = useState('');
+
   useEffect(() => {
     setConfirmButtonDisabled(name.length === 0);
   }, [name]);
   useEffect(() => {
-    setConfirmButtonDisabled(coordinates.longitude === -1 && coordinates.latitude === -1);
+    setConfirmButtonDisabled(!(coordinates.longitude && coordinates.latitude));
   }, [coordinates]);
   useEffect(() => {
     setConfirmButtonDisabled(question.question.length === 0 || question.answer.length === 0);
@@ -51,12 +57,19 @@ export const CreateOrganizationPage: React.FC = props => {
     if (pageState === 'ENTER_NAME') {
       history.push('/');
     } else {
+      if (pageState === 'CHOOSE_LOCATION') {
+        setIsMapBlurred(true);
+      }
       setPrev();
     }
   };
   const handleNext = async () => {
+    if (pageState === 'ENTER_NAME') {
+      setIsMapBlurred(false);
+    }
     if (pageState === 'ENTER_QUESTIONS') {
       setConfirmButtonDisabled(true);
+      setIsMapBlurred(true);
       await OrganizationModel.put({
         name,
         controlQuestion: question.question,
@@ -75,11 +88,22 @@ export const CreateOrganizationPage: React.FC = props => {
     }
   };
 
+  const getAddress = async ({ latitude, longitude }: Coordinates) => {
+    const res = await MapModel.reverseGeocoding({ latitude, longitude });
+    setSelectedAddress(parseLocationAddress(res.address).name);
+  };
+
   useEffect(() => {
     // effect allowing custom pins on the map
     dispatch(allowCustomPointsAction());
     return () => dispatch(forbidCustomPointsAction());
-  });
+  }, []);
+
+  useEffect(() => {
+    if (coordinates.latitude && coordinates.longitude) {
+      getAddress(coordinates);
+    }
+  }, [coordinates]);
 
   return (
     <div>
@@ -99,7 +123,20 @@ export const CreateOrganizationPage: React.FC = props => {
           />,
           'appear'
         )}
-        {renderForState('CHOOSE_LOCATION', <></>, 'appear')}
+        {renderForState(
+          'CHOOSE_LOCATION',
+          <>
+            <Input
+              id="organizationAddress"
+              placeholderText="Адрес организации"
+              className="centerize centerize_center"
+              disabled
+              defaultValue={selectedAddress}
+              onChange={value => setName(value)}
+            />
+          </>,
+          'appear'
+        )}
         {renderForState(
           'ENTER_QUESTIONS',
           <div className={'backgrounded backgrounded--with-padding'}>

@@ -11,6 +11,9 @@ import { useAuth } from 'hooks/useAuth';
 import UserModel from 'models/UserModel';
 import { Input } from 'components/Input';
 import './firebaseui-styles.css';
+import { Icon } from 'semantic-ui-react';
+import { DoubleArrowBlackIcon, DoubleArrowIcon } from '../../icons';
+import { useBackButton } from 'hooks/useBackButton/useBackButton';
 
 // Configure Firebase.
 const config = {
@@ -27,7 +30,13 @@ firebase.initializeApp(config);
 firebase.auth().useDeviceLanguage();
 
 export const Auth: React.FC = props => {
-  const [pageState, setNext, setPrev, renderForState] = usePageState(['BEGIN', 'ENTER_PHONE', 'ENTER_PASSWORD']);
+  const [pageState, setNext, setPrev, renderForState, goTo] = usePageState([
+    'BEGIN',
+    'ENTER_PHONE',
+    'ENTER_PASSWORD',
+    'LANDING',
+    'FIND_TRIPS'
+  ]);
   const [phoneNumber, setPhoneNumber] = useState<string>();
   const [password, setPassword] = useState<string>('');
   const [waiting, setWaiting] = useState<boolean>(false);
@@ -35,6 +44,25 @@ export const Auth: React.FC = props => {
   const dispatch = useDispatch();
   const [errored, setErrored] = useState<boolean>(false);
   const [, login] = useAuth();
+  useBackButton(() => {
+    switch (pageState) {
+      case 'ENTER_PHONE': {
+        setPrev();
+        break;
+      }
+      case 'LANDING': {
+        goTo('BEGIN');
+        break;
+      }
+      case 'FIND_TRIPS': {
+        goTo('BEGIN');
+        break;
+      }
+      default: {
+        break;
+      }
+    }
+  });
 
   const uiConfig = {
     // Popup signin flow rather than redirect flow.
@@ -107,18 +135,35 @@ export const Auth: React.FC = props => {
       <h1 className={'auth-page__brand'}>RideSharing</h1>
       {renderForState(
         'BEGIN',
-        <BaseLayer type={'primary'} header={<>Авторизоваться</>} className={'auth-page__base-layer'}>
-          <Button onClick={handleNext} filled>
-            По номеру телефона
-          </Button>
-        </BaseLayer>,
+        <div>
+          <div className={'auth-page__base-layer'}>
+            <Button onClick={handleNext}>
+              <b>Регистрация / Вход</b>
+            </Button>
+            {/*<Button onClick={() => goTo('FIND_TRIPS')}>*/}
+            {/*  <b>Найти поездки</b>*/}
+            {/*</Button>*/}
+          </div>
+          <span className={'auth-page__footer'}>
+            Подробнее о приложении
+            <div onClick={() => goTo('LANDING')}>
+              <DoubleArrowIcon />
+            </div>
+          </span>
+        </div>,
         'appear'
       )}
       {renderForState(
         'ENTER_PHONE',
-        <BaseLayer type={'primary'} header={<>Авторизоваться по номеру телефона</>} className={'auth-page__base-layer'}>
-          <StyledFirebaseAuth uiConfig={uiConfig} firebaseAuth={firebase.auth()} />
-        </BaseLayer>,
+        <>
+          <BaseLayer
+            type={'primary'}
+            header={<>Авторизация по номеру телефона</>}
+            className={'auth-page__base-layer auth-page__base-layer_shadowed'}
+          >
+            <StyledFirebaseAuth uiConfig={uiConfig} firebaseAuth={firebase.auth()} />
+          </BaseLayer>
+        </>,
         'appear'
       )}
       {renderForState(
@@ -137,11 +182,42 @@ export const Auth: React.FC = props => {
         </BaseLayer>,
         'appear'
       )}
-      <span className={'auth-page__authors'}>
-        Кежик Кызыл-оол, Никита Израилев, Алексей Кожарин
-        <br />
-        Технотрек 2020
-      </span>
+      {renderForState(
+        'LANDING',
+        <div className={'landing-page-container'}>
+          <div className={'landing-page'}>
+            <div className={'landing-page__text'}>
+              <b>Что такое RideSharing?</b>
+              <p>
+                Поиск попутчиков, но только в рамках одного города и среди ваших друзей, коллег, знакомых в одной
+                организации
+              </p>
+            </div>
+            <div className={'landing-page__downtown'} />
+            <span className={'auth-page__footer auth-page__footer_black'}>
+              Как организованы поездки?
+              <DoubleArrowBlackIcon />
+            </span>
+          </div>
+          <div className={'landing-page'}>
+            <div className={'landing-page__text'}>
+              <b>Присоединяйтесь к организации</b>
+              <p>Или создайте ее, чтобы организовать круг доверенных лиц</p>
+              <b>Создавайте поездку</b>
+              <p>Можно создать свою или присоединиться к подходящей из существующих</p>
+              <b>Добирайтесь до пункта назначения вместе!</b>
+            </div>
+            <div className={'landing-page__tandembike'} />
+            <span className={'auth-page__footer auth-page__footer_black'}>
+              В начало
+              <div onClick={() => goTo('BEGIN')}>
+                <DoubleArrowBlackIcon />
+              </div>
+            </span>
+          </div>
+        </div>,
+        'slideBottom'
+      )}
     </div>
   );
 };

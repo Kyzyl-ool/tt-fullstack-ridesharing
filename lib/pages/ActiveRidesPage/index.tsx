@@ -9,7 +9,7 @@ import { useSelector } from 'react-redux';
 import { IRide, IHostAnswer } from 'domain/ride';
 import { RideCard } from 'components/RideCard';
 import './ActiveRidesPage.scss';
-import { Dialog } from 'components/Dialog';
+import { CenteredLoader } from 'components/CenteredLoader';
 
 type Tabs = 'I_AM_DRIVER' | 'I_AM_PASSENGER';
 
@@ -22,10 +22,7 @@ export const ActiveRidesPage: React.FC = props => {
   const [activeRides, setActiveRides] = useState<IRide[]>([]);
   const [activeHostedRides, setActiveHostedRides] = useState<IRide[]>([]);
   const [selectedRide, setSelectedRide] = useState<IRide>(null);
-  const [isDriverInfoShown, setIsDriverInfoShown] = useState(false);
-  const userInfo = useSelector(state => state.user.user);
-  const [activeRidesPlaceholderText, setActiveRidesPlaceholderText] = useState<string>('Загрузка...');
-  const [hostedRidesPlaceholderText, setHostedRidesPlaceholderText] = useState<string>('Загрузка...');
+  const [isLoaded, setIsLoaded] = useState(false);
 
   const handleBack = () => {
     if (pageState === 'MY_RIDES') {
@@ -40,7 +37,6 @@ export const ActiveRidesPage: React.FC = props => {
     const selectedRide = [...activeRides, ...activeHostedRides].find(ride => ride.id === selectedRideId);
     selectedRide['startOrganizationAddress'] = selectedRide['startOrganization'].address;
     selectedRide['passengers'] = [];
-    console.log(selectedRide);
     setSelectedRide(selectedRide);
     setNext();
   };
@@ -48,26 +44,11 @@ export const ActiveRidesPage: React.FC = props => {
   const getActiveRides = async () => {
     setActiveRides(await RideModel.activeRides());
     setActiveHostedRides(await RideModel.rideHosted());
-    if (activeRides.length === 0) {
-      setActiveRidesPlaceholderText('У вас еще нет активных поездок.');
-    }
-    if (activeHostedRides.length === 0) {
-      setHostedRidesPlaceholderText('Вы еще не создавали поездок.');
-    }
-  };
-
-  const onRideButtonClick = (hostAnswerType: IHostAnswer) => {
-    if (hostAnswerType === 'ACCEPTED') {
-      setIsDriverInfoShown(true);
-    }
-  };
-
-  const onCloseDriverInfo = () => {
-    setIsDriverInfoShown(false);
   };
 
   useEffect(() => {
     getActiveRides();
+    setIsLoaded(true);
   }, []);
 
   return (
@@ -94,23 +75,27 @@ export const ActiveRidesPage: React.FC = props => {
               Вы пассажир
             </Button>
           </div>
-          <div className={'active-rides-page'}>
-            {currentTab === 'I_AM_PASSENGER' &&
-              activeRides.map(ride => (
-                <DriverCard
-                  onSelectRide={handleNext}
-                  ride={ride}
-                  driverAnswer={ride.hostAnswer}
-                  key={ride.id}
-                  waiting
-                  shadowed
-                />
-              ))}
-            {currentTab === 'I_AM_DRIVER' &&
-              activeHostedRides.map(ride => (
-                <DriverCard key={ride.id} ride={ride} onSelectRide={handleNext} shadowed waiting={false} />
-              ))}
-          </div>
+          {isLoaded ? (
+            <div className={'active-rides-page'}>
+              {currentTab === 'I_AM_PASSENGER' &&
+                activeRides.map(ride => (
+                  <DriverCard
+                    onSelectRide={handleNext}
+                    ride={ride}
+                    driverAnswer={ride.hostAnswer}
+                    key={ride.id}
+                    waiting
+                    shadowed
+                  />
+                ))}
+              {currentTab === 'I_AM_DRIVER' &&
+                activeHostedRides.map(ride => (
+                  <DriverCard key={ride.id} ride={ride} onSelectRide={handleNext} shadowed waiting={false} />
+                ))}
+            </div>
+          ) : (
+            <CenteredLoader />
+          )}
         </div>
       )}
       {renderWithState(
@@ -127,12 +112,9 @@ export const ActiveRidesPage: React.FC = props => {
               )}
               ride={selectedRide}
               onBack={handleBack}
-              onButtonClick={onRideButtonClick}
+              onButtonClick={() => {}}
             />
           </div>
-          <Dialog onClose={onCloseDriverInfo} hide={!isDriverInfoShown}>
-            Номер телефона
-          </Dialog>
         </Fragment>,
         'slideBottom'
       )}

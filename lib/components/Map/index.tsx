@@ -14,14 +14,25 @@ interface IMapProps {
 }
 
 export const Map = ({ className = '', onViewportChange, onMapClicked }: IMapProps) => {
-  const mapClassNames = classNames({
-    'rsh-map': true,
-    [className]: true
-  });
-
-  const { activePointGps, isCustomPointsAllowed } = useSelector(state => state.map);
+  const {
+    activePointGps,
+    isCustomPointsAllowed,
+    isUserLocationAllowed,
+    isGeopositionUpdateAllowed,
+    isBlurred,
+    isHidden,
+    isDimmed
+  } = useSelector(state => state.map);
   const { latitude: userLatitude, longitude: userLongitude } = useSelector(state => state.user);
   const dispatch = useDispatch();
+
+  const mapClassNames = classNames({
+    'rsh-map': true,
+    'rsh-map--blurred': isBlurred,
+    'rsh-map--hidden': isHidden,
+    'rsh-map--dimmed': isDimmed,
+    [className]: true
+  });
 
   const [viewport, setViewport] = useState({
     // type assertion is here 'cause library does not
@@ -38,15 +49,24 @@ export const Map = ({ className = '', onViewportChange, onMapClicked }: IMapProp
   });
 
   const getInitialUserGeoposition = () => {
-    navigator.geolocation.getCurrentPosition(({ coords: { latitude, longitude } }: Position) => {
-      setViewport({ ...viewport, latitude, longitude });
-      dispatch(updateGeopositionAction({ longitude, latitude }));
-    });
+    navigator.geolocation.getCurrentPosition(
+      ({ coords: { latitude, longitude } }: Position) => {
+        setViewport({ ...viewport, latitude, longitude });
+        dispatch(updateGeopositionAction({ longitude, latitude }));
+      },
+      () => {},
+      {
+        timeout: 5000,
+        enableHighAccuracy: true
+      }
+    );
   };
 
   useEffect(() => {
-    getInitialUserGeoposition();
-  }, []);
+    if (isUserLocationAllowed) {
+      getInitialUserGeoposition();
+    }
+  }, [isUserLocationAllowed]);
 
   // const onMapPositionChanged = ({ lngLat: [longitude, latitude] }: PointerEvent) => {
   //   if (onViewportChange) {
@@ -59,7 +79,9 @@ export const Map = ({ className = '', onViewportChange, onMapClicked }: IMapProp
     if (isCustomPointsAllowed) {
       dispatch(setActivePointAction({ longitude, latitude }));
     } else {
-      dispatch(updateGeopositionAction({ longitude, latitude }));
+      if (isGeopositionUpdateAllowed) {
+        dispatch(updateGeopositionAction({ longitude, latitude }));
+      }
     }
     if (onMapClicked) {
       onMapClicked({ longitude, latitude });
@@ -82,9 +104,9 @@ export const Map = ({ className = '', onViewportChange, onMapClicked }: IMapProp
   };
 
   const renderUserLocationPin = () => {
+    const couldBeRendered = isUserLocationAllowed && userLatitude && userLongitude;
     return (
-      userLatitude &&
-      userLongitude && (
+      couldBeRendered && (
         <Marker latitude={userLatitude} longitude={userLongitude}>
           <div className="rsh-map__pin" />
         </Marker>

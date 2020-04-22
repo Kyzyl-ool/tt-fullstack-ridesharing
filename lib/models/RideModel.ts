@@ -113,7 +113,6 @@ export default class RideModel {
 
   static getRequests = async (): Promise<IRequest[]> => {
     const res = await axios.get<IRequest[]>('/api/ride/requests');
-    console.log(res.data);
     return res.data;
   };
 

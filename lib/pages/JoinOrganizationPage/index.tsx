@@ -4,13 +4,13 @@ import { Header } from 'components/Header';
 import { useHistory } from 'react-router-dom';
 import { Input } from 'components/Input';
 import { SearchIcon } from '../../icons';
-import './JoinOrganizationPage.scss';
 import { LocationsList } from 'components/LocationsList';
 import { Button } from 'components/Button';
 import { Dialog } from 'components/Dialog';
 import _debounce from 'lodash/debounce';
 import { IGetQuestionsResponseBody, OrganizationModel } from 'models/OrganizationModel';
 import { ILocation } from 'domain/map';
+import './JoinOrganizationPage.scss';
 
 export const JoinOrganizationPage: React.FC = props => {
   const [questions, setQuestions] = useState<IGetQuestionsResponseBody[]>([]);
@@ -83,7 +83,12 @@ export const JoinOrganizationPage: React.FC = props => {
             className={'join-organization-page__input'}
             onChange={v => makeSearch(v)}
           />
-          <LocationsList locations={foundOrganizations} text={'Найденные организации:'} onSelectLocation={handleNext} />
+          <LocationsList
+            withAdding={false}
+            locations={foundOrganizations}
+            text={'Найденные организации:'}
+            onSelectLocation={handleNext}
+          />
         </div>,
         'appear'
       )}

@@ -19,7 +19,7 @@ type PageState =
   | 'DONE';
 
 export const CreateRidePage = () => {
-  const [pageState, setPageState] = useState<PageState>('INITIAL');
+  const [pageState, setPageState] = useState<PageState>('ORGANIZATION_CHOOSING');
   const [rideCreationInfo, setRideCreationInfo] = useState<IRideCreationInfo>({
     carId: null,
     startOrganizationId: null,
@@ -41,7 +41,8 @@ export const CreateRidePage = () => {
   };
 
   const onReturnToInitial = () => {
-    setPageState('INITIAL');
+    // setPageState('INITIAL');
+    history.push('/');
   };
 
   const onReturnToDestinationChoosing = () => {
@@ -87,7 +88,6 @@ export const CreateRidePage = () => {
   };
 
   const onDateChange = (dateInTimestamp: number) => {
-    console.log(dateInTimestamp);
     setRideCreationInfo({ ...rideCreationInfo, startDatetime: new Date(dateInTimestamp).toISOString() });
   };
 

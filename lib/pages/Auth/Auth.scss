@@ -8,7 +8,7 @@
     box-sizing: border-box;
     width: 2896px;
     height: 100vh;
-    animation: 30s ease-in-out 0s infinite alternate move_eye;
+    animation: 10s ease-in-out 0s infinite alternate move_eye;
     //position: absolute;
     //z-index: -1;
   }
@@ -21,7 +21,7 @@
     line-height: 70px;
     margin-block-start: 0;
     margin-block-end: 0;
-    
+
     @media only screen and (max-width: 360px) {
       font-size: 48px;
     }
@@ -39,19 +39,36 @@
     text-align: center;
   }
 
-  &__authors {
+  &__footer, &__authors {
     position: absolute;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    bottom: 16px;
     left: 0;
     right: 0;
-    margin: 0;
-    bottom: 24px;
+    margin: auto;
     font-family: 'Source Sans Pro', sans-serif;
     font-style: normal;
     font-weight: normal;
-    font-size: 10px;
-    line-height: 13px;
+    font-size: 12px;
+    //line-height: 13px;
     text-align: center;
     text-transform: uppercase;
+
+    &_black {
+      color: black;
+    }
+
+    .icon {
+      height: 64px;
+      width: 64px;
+      cursor: pointer;
+      text-align: center;
+      left: 0;
+      right: 0;
+      margin: auto;
+    }
 
     /* UI / White */
 
@@ -65,13 +82,21 @@
     margin: auto;
     left: 0;
     right: 0;
-    box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.5);
+    text-align: center;
     margin-inline-start: 24px;
     margin-inline-end: 24px;
     padding: 0 16px 16px 16px;
 
+    &_shadowed {
+      box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.5);
+    }
+
     .rsh-input {
       margin: 8px 0 8px 0;
+    }
+
+    .rsh-button {
+      margin: 4px 16px;
     }
   }
 
@@ -89,12 +114,55 @@
   }
 }
 
+.landing-page {
+  background-color: $ui-secondary-color;
+  height: 100vh;
+  width: 100vw;
+  z-index: 1;
+  position: relative;
+
+  &__text {
+    padding: 48px 48px 0 48px;
+
+    b {
+      font-size: 20px;
+    }
+
+    p {
+      font-size: 16px;
+    }
+
+  }
+
+  &__downtown {
+    background: $downtown no-repeat;
+    width: 100vw;
+    min-height: 326px;
+    mix-blend-mode: darken;
+  }
+
+  &__tandembike {
+    background: $tandembike no-repeat;
+    width: 100vw;
+    min-height: 276px;
+    mix-blend-mode: darken;
+  }
+}
+
+.landing-page-container {
+  height: 100%;
+  overflow-y: scroll;
+  position: absolute;
+  top: 0;
+  left: 0;
+}
+
 
 @keyframes move_eye {
   from {
-    transform: translateX(0);
+    transform: translateX(0%);
   }
   to {
-    transform: translateX(-20%);
+    transform: translateX(-5%);
   }
 }

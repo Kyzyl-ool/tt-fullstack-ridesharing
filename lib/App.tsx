@@ -23,7 +23,7 @@ const AnimatedRouting = () => {
   const location = useLocation();
   return (
     // <TransitionGroup>
-    //   <CSSTransition key={location.key} classNames={'fade'} timeout={300} mountOnEnter unmountOnExit={false}>
+    // <CSSTransition key={location.key} classNames={'fade'} timeout={300} mountOnEnter unmountOnExit={false}>
     <Switch>
       <Route exact path="/">
         <MainPage />

@@ -1,3 +1,5 @@
+@import 'lib/styles/colors';
+
 .car-select-block {
   &__layer {
     position: fixed;
@@ -26,8 +28,11 @@
 }
 
 .car-card-add-button {
+  display: flex;
+  padding: 0 10px;
+  color: $ui-gray-color;
   justify-content: flex-start;
   .icon {
-    margin-right: 24px;
+    margin-right: 16px;
   }
 }
