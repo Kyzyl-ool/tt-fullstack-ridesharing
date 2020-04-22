@@ -155,7 +155,7 @@ export const Auth: React.FC = props => {
       )}
       {renderForState(
         'ENTER_PHONE',
-        <>
+        <div>
           <BaseLayer
             type={'primary'}
             header={<>Авторизация по номеру телефона</>}
@@ -163,7 +163,7 @@ export const Auth: React.FC = props => {
           >
             <StyledFirebaseAuth uiConfig={uiConfig} firebaseAuth={firebase.auth()} />
           </BaseLayer>
-        </>,
+        </div>,
         'appear'
       )}
       {renderForState(
@@ -194,7 +194,7 @@ export const Auth: React.FC = props => {
               </p>
             </div>
             <div className={'landing-page__downtown'} />
-            <span className={'auth-page__footer auth-page__footer_black'}>
+            <span className={'auth-page__arrow-down auth-page__footer_black'}>
               Как организованы поездки?
               <DoubleArrowBlackIcon />
             </span>
@@ -208,7 +208,7 @@ export const Auth: React.FC = props => {
               <b>Добирайтесь до пункта назначения вместе!</b>
             </div>
             <div className={'landing-page__tandembike'} />
-            <span className={'auth-page__footer auth-page__footer_black'}>
+            <span className={'auth-page__arrow-down auth-page__footer_black'}>
               В начало
               <div onClick={() => goTo('BEGIN')}>
                 <DoubleArrowBlackIcon />

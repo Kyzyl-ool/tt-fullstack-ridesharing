@@ -42,12 +42,36 @@
     text-align: center;
   }
 
+  &__arrow-down {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    left: 0;
+    right: 0;
+    margin: auto;
+    padding: 0 0 40px 0;
+    font-family: 'Source Sans Pro', sans-serif;
+    font-style: normal;
+    font-weight: normal;
+    font-size: 12px;
+    .icon {
+      height: 64px;
+      width: 64px;
+      cursor: pointer;
+      text-align: center;
+      left: 0;
+      right: 0;
+      margin: auto;
+    }
+    color: #ffffff;
+  }
+
   &__footer, &__authors {
     position: absolute;
     display: flex;
     flex-direction: column;
     align-items: center;
-    bottom: 48px;
+    bottom: 16px;
     left: 0;
     right: 0;
     margin: auto;
@@ -81,7 +105,7 @@
   &__base-layer {
     position: absolute;
     border-radius: 10px;
-    top: 40%;
+    top: 60vw;
     margin: auto;
     left: 0;
     right: 0;
@@ -119,7 +143,7 @@
 
 .landing-page {
   background-color: $ui-secondary-color;
-  height: 100vh;
+  //height: 100vh;
   width: 100vw;
   z-index: 1;
   position: relative;
