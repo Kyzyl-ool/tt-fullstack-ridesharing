@@ -140,9 +140,9 @@ export const Auth: React.FC = props => {
             <Button onClick={handleNext}>
               <b>Регистрация / Вход</b>
             </Button>
-            <Button onClick={() => goTo('FIND_TRIPS')}>
-              <b>Найти поездки</b>
-            </Button>
+            {/*<Button onClick={() => goTo('FIND_TRIPS')}>*/}
+            {/*  <b>Найти поездки</b>*/}
+            {/*</Button>*/}
           </div>
           <span className={'auth-page__footer'}>
             Подробнее о приложении

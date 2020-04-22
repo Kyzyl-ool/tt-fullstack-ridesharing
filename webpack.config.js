@@ -33,6 +33,7 @@ module.exports = {
     contentBase: path.join(__dirname, 'dist'),
     compress: true,
     port: 3000,
+    host: '0.0.0.0',
     proxy: {
       '/api': {
         target: 'http://tt-ridesharing-backend.herokuapp.com',
