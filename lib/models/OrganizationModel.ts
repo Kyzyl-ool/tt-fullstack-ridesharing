@@ -82,7 +82,7 @@ export class OrganizationModel {
   }
 
   static async getQuestions(organizationId: number): Promise<IGetQuestionsResponseBody> {
-    const res = await axios.get('/apiorganization/question', {
+    const res = await axios.get('/api/organization/question', {
       params: {
         id: organizationId
       }
