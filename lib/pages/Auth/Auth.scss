@@ -1,5 +1,5 @@
-@import "lib/styles/icons";
-@import "lib/styles/colors";
+@import 'lib/styles/icons';
+@import 'lib/styles/colors';
 
 .auth-page {
   &__background {
@@ -11,6 +11,10 @@
     animation: 10s ease-in-out 0s infinite alternate move_eye;
     //position: absolute;
     //z-index: -1;
+  }
+
+  &__back-button {
+    width: 170px;
   }
 
   &__brand {
@@ -26,10 +30,9 @@
       font-size: 48px;
     }
 
-
     /* UI / White */
 
-    color: #FFFFFF;
+    color: #ffffff;
     text-shadow: 0px 4px 4px rgba(0, 0, 0, 0.25);
     position: absolute;
     left: 0;
@@ -39,7 +42,33 @@
     text-align: center;
   }
 
-  &__footer, &__authors {
+  &__arrow-down {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    left: 0;
+    right: 0;
+    margin: auto;
+    padding: 0 0 60px 0;
+    font-family: 'Source Sans Pro', sans-serif;
+    font-style: normal;
+    font-weight: normal;
+    font-size: 12px;
+
+    .icon {
+      height: 64px;
+      width: 64px;
+      cursor: pointer;
+      text-align: center;
+      left: 0;
+      right: 0;
+      margin: auto;
+    }
+    color: #ffffff;
+  }
+
+  &__footer,
+  &__authors {
     position: absolute;
     display: flex;
     flex-direction: column;
@@ -72,7 +101,7 @@
 
     /* UI / White */
 
-    color: #FFFFFF;
+    color: #ffffff;
   }
 
   &__base-layer {
@@ -89,6 +118,10 @@
 
     &_shadowed {
       box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.5);
+    }
+
+    &--for-auth {
+      top: 25%;
     }
 
     .rsh-input {
@@ -121,6 +154,30 @@
   z-index: 1;
   position: relative;
 
+  &__container {
+    height: 100vh;
+    overflow-y: scroll;
+  }
+
+  &__revert-icon {
+    transform: rotate(180deg);
+  }
+
+  &__background {
+    background: $background-image no-repeat;
+    background-size: contain;
+    box-sizing: border-box;
+    animation: 10s ease-in-out 0s infinite alternate move_eye;
+    height: 100vh;
+    width: 500vw;
+    position: absolute;
+  }
+
+  &__auth {
+    position: relative;
+    height: 100vh;
+  }
+
   &__text {
     padding: 48px 48px 0 48px;
 
@@ -131,12 +188,12 @@
     p {
       font-size: 16px;
     }
-
   }
 
   &__downtown {
     background: $downtown no-repeat;
     width: 100vw;
+    background-size: cover;
     min-height: 326px;
     mix-blend-mode: darken;
   }
@@ -150,13 +207,12 @@
 }
 
 .landing-page-container {
-  height: 100%;
+  height: 100vh;
   overflow-y: scroll;
   position: absolute;
   top: 0;
   left: 0;
 }
-
 
 @keyframes move_eye {
   from {
