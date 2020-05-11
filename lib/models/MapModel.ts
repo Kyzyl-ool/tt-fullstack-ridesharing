@@ -5,7 +5,7 @@ interface ICoordinates {
   longitude: number;
 }
 
-interface ILocation {
+export interface ILocation {
   address: string;
   gps: ICoordinates;
 }

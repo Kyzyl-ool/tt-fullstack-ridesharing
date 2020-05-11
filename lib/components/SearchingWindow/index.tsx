@@ -8,10 +8,13 @@ import './SearchingPage.scss';
 interface ISearchingWindow {
   from: string;
   to: string;
+  onCancel: () => void;
 }
 
-export const SearchingWindow: React.FC<ISearchingWindow> = ({ from, to }) => {
-  const handleCancelSearch = () => {};
+export const SearchingWindow: React.FC<ISearchingWindow> = ({ from, to, onCancel }) => {
+  const handleCancelSearch = () => {
+    onCancel();
+  };
   const { countUp } = useCountUp({ end: 100, duration: 3, useEasing: true });
 
   return (

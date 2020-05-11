@@ -5,7 +5,7 @@ import './Input.scss';
 
 type InputPlaceholderType = 'default' | 'subscript';
 
-interface IInput {
+export interface IInputProps {
   defaultValue?: string;
   className?: string;
   adornmentClassName?: string;
@@ -36,7 +36,7 @@ const Input = ({
   renderRightAdornment = null,
   disabled = false,
   type = 'text'
-}: IInput) => {
+}: IInputProps) => {
   const [value, setValue] = useState<string>(defaultValue);
   const [error, setError] = useState('');
 
@@ -45,7 +45,6 @@ const Input = ({
   }, [defaultValue]);
 
   const onInputChange = e => {
-    console.log(e.target.value);
     if (changeModifier) {
       const modifiedValue = changeModifier(e.target.value);
       setValue(modifiedValue);
@@ -85,6 +84,7 @@ const Input = ({
             disabled ? 'rsh-input__form--disabled' : ''
           } ${error ? 'rsh-input__form--errored' : ''}`}
           type={type}
+          autoComplete="off"
         />
         {renderRightAdornment && (
           <div className={`rsh-input__adornment ${adornmentClassName}`}>{renderRightAdornment()}</div>

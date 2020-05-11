@@ -1,5 +1,5 @@
-import React, { useEffect, useState } from 'react';
-import './CreateOrganization.scss';
+import React, { useEffect, useState, useCallback } from 'react';
+import _debounce from 'lodash/debounce';
 import { Backdrop } from 'components/Backdrop';
 import { Header } from 'components/Header';
 import { Input } from 'components/Input';
@@ -9,12 +9,20 @@ import { Button } from 'components/Button';
 import { Dialog } from 'components/Dialog';
 import { OrganizationModel } from 'models/OrganizationModel';
 import { useDispatch } from 'react-redux';
-import { allowCustomPointsAction, forbidCustomPointsAction } from 'store/actions/mapActions';
+import {
+  allowCustomPointsAction,
+  forbidCustomPointsAction,
+  setActivePointAction,
+  setActivePointTypeAction
+} from 'store/actions/mapActions';
 import { useBlurredMap } from 'hooks/mapHooks';
 import MapModel from 'models/MapModel';
 import { parseLocationAddress } from 'helpers/parseLocationAddress';
 import UserModel from 'models/UserModel';
 import { setOrganizationsAction } from 'store/actions/userActions';
+import { Select } from 'components/Select';
+import { IDestination } from 'domain/map';
+import './CreateOrganization.scss';
 
 type Coordinates = {
   latitude: number;
@@ -26,8 +34,19 @@ type QuestionAndAnswer = {
   answer: string;
 };
 
+const serializeOptions = (options: IDestination[]) => {
+  return options.map(option => {
+    const optionName = parseLocationAddress(option.address).name;
+    return {
+      id: option.address,
+      name: optionName
+    };
+  });
+};
+
 export const CreateOrganizationPage: React.FC = props => {
   const [name, setName] = useState<string>('');
+  const [options, setOptions] = useState<IDestination[] | []>([]);
   const [coordinates, setCoordinates] = useState<Coordinates>({ latitude: null, longitude: null });
   const [question, setQuestion] = useState<QuestionAndAnswer>({
     question: '',
@@ -95,12 +114,34 @@ export const CreateOrganizationPage: React.FC = props => {
   const getAddress = async ({ latitude, longitude }: Coordinates) => {
     const res = await MapModel.reverseGeocoding({ latitude, longitude });
     setSelectedAddress(parseLocationAddress(res.address).name);
+    setOptions([]);
+  };
+
+  const fetchOptions = useCallback(
+    _debounce(async (value: string) => {
+      const addressOptions = await MapModel.forwardGeocoding(value);
+      setOptions(addressOptions);
+    }, 300),
+    []
+  );
+
+  const onSelectOption = (address: string) => {
+    const selectedOption = options.find(option => option.address === address);
+    const selectedPointGps = selectedOption.gps;
+    dispatch(setActivePointAction(selectedPointGps, 'organization'));
+    setSelectedAddress(parseLocationAddress(address).name);
+    setOptions([]);
   };
 
   useEffect(() => {
     // effect allowing custom pins on the map
     dispatch(allowCustomPointsAction());
-    return () => dispatch(forbidCustomPointsAction());
+    // effect allowing organization pins on the map
+    dispatch(setActivePointTypeAction('organization'));
+    return () => {
+      dispatch(forbidCustomPointsAction());
+      dispatch(setActivePointTypeAction('default'));
+    };
   }, []);
 
   useEffect(() => {
@@ -133,13 +174,14 @@ export const CreateOrganizationPage: React.FC = props => {
         {renderForState(
           'CHOOSE_LOCATION',
           <>
-            <Input
+            <Select
               id="organizationAddress"
               placeholderText="Адрес организации"
               className="centerize centerize_top"
-              disabled
               defaultValue={selectedAddress}
-              onChange={value => setName(value)}
+              onChange={fetchOptions}
+              selectionOptions={options}
+              onSelect={onSelectOption}
             />
           </>,
           'appear'

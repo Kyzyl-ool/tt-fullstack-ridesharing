@@ -62,8 +62,6 @@ export const Menu = () => {
   const dispatch = useDispatch();
 
   const cleanRedux = () => {
-    console.log('cleanRedux');
-
     dispatch(resetUserAction());
     dispatch(resetMapAction());
   };

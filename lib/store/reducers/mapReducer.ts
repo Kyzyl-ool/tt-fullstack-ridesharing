@@ -8,7 +8,8 @@ const defaultState = {
   activePointGps: {
     latitude: null,
     longitude: null
-  }
+  },
+  activePointType: 'default'
 };
 
 export const mapReducer = (state = defaultState, action) => {
@@ -39,9 +40,15 @@ export const mapReducer = (state = defaultState, action) => {
       return { ...state, isGeopositionUpdateAllowed: false };
     case 'FORBID_CUSTOM_POINTS':
       return { ...state, isCustomPointsAllowed: false };
+    case 'UPDATE_CUSTOM_POINT_TYPE':
+      return { ...state, activePointType: action.pointType };
     case 'SET_CUSTOM_GEOPOSITION':
       return state.isCustomPointsAllowed
-        ? { ...state, activePointGps: { latitude: action.payload.latitude, longitude: action.payload.longitude } }
+        ? {
+            ...state,
+            activePointGps: { latitude: action.payload.latitude, longitude: action.payload.longitude },
+            activePointType: action.payload.pointType
+          }
         : state;
     default:
       return state;

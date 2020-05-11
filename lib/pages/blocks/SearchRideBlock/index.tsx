@@ -9,9 +9,10 @@ interface ISearchRideBlock {
   visible: boolean;
   from: string;
   to: string;
+  onCancelSearch: () => void;
 }
 
-export const SearchRideBlock = ({ onShowMenu, visible, from, to }: ISearchRideBlock) => {
+export const SearchRideBlock = ({ onShowMenu, visible, from, to, onCancelSearch }: ISearchRideBlock) => {
   const [isMapDimmed, toggleDimmed] = useDimmedMap();
   useEffect(() => {
     if (visible) {
@@ -29,7 +30,7 @@ export const SearchRideBlock = ({ onShowMenu, visible, from, to }: ISearchRideBl
     <Fragment>
       <Slider visible={visible} from="bottom" timeout={400} unmountOnExit>
         <div className="search-ride-block__searching-window">
-          <SearchingWindow from={from} to={to} />
+          <SearchingWindow from={from} to={to} onCancel={onCancelSearch} />
         </div>
       </Slider>
     </Fragment>

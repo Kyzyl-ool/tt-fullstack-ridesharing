@@ -17,13 +17,6 @@ const IncomingRequestsPage = () => {
 
   const getRequests = async () => {
     const fetchedRequests = await RideModel.getRequests();
-    console.log(
-      fetchedRequests.filter(request => request.rideId.toString() === rideId),
-      rideId,
-      fetchedRequests[0].rideId,
-      rideId === fetchedRequests[0].rideId.toString(),
-      _isEqual(rideId, fetchedRequests[0].rideId)
-    );
     setRequests(fetchedRequests.filter(request => request.rideId.toString() === rideId));
   };
 

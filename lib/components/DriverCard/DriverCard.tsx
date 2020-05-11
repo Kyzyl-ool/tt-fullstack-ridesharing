@@ -17,7 +17,7 @@ interface IDriverCard {
 }
 
 export const DriverCard = ({
-  ride: { id, host, price, freeSeats, startOrganizationAddress, hostAnswer, stopAddress, car, startDatetime },
+  ride: { id, host, price, freeSeats, organization, hostAnswer, address, car, startDatetime, fromOrganization },
   onSelectRide,
   shadowed = false,
   showRequestsButton = false
@@ -32,6 +32,7 @@ export const DriverCard = ({
       </div>
     );
   };
+  const stopAddress = fromOrganization ? address : organization.address;
   return (
     <div
       onClick={onCardClick}

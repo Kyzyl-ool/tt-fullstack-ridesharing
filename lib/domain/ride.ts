@@ -1,5 +1,7 @@
 import { ICar } from './car';
 import { IPassenger, IDriver } from './driver';
+import { IOrganization } from './organization';
+import { ILocation } from './map';
 
 export type IHostAnswer = 'ACCEPTED' | 'NO ANSWER' | 'DECLINED' | null;
 
@@ -26,10 +28,11 @@ export interface IRide {
   id: number;
   passengers: IPassenger[];
   price: number;
-  startOrganizationAddress: string;
-  stopAddress: string;
+  organization: ILocation;
+  address: string;
   submitDatetime: string;
   startDatetime: string;
   hostAnswer: IHostAnswer;
   declineReason?: string;
+  fromOrganization: boolean;
 }

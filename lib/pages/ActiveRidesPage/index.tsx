@@ -34,10 +34,11 @@ export const ActiveRidesPage: React.FC = props => {
 
   const handleNext = selectedRideId => {
     // TODO REMOVE STRANGE ASSIGNMENT AFTER BUG WITH startOrganizationAddress will be FIXED
-    const selectedRide = [...activeRides, ...activeHostedRides].find(ride => ride.id === selectedRideId);
-    selectedRide['startOrganizationAddress'] = selectedRide['startOrganization'].address;
-    selectedRide['passengers'] = [];
-    setSelectedRide(selectedRide);
+    const selected = [...activeRides, ...activeHostedRides].find(ride => ride.id === selectedRideId);
+    // selectedRide['startOrganizationAddress'] = selectedRide['startOrganization'].address;
+    selected['passengers'] = [];
+    console.log(selected);
+    setSelectedRide(selected);
     setNext();
   };
 

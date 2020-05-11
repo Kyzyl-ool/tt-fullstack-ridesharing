@@ -6,7 +6,7 @@ import { Header } from 'components/Header';
 import { Slider } from 'components/Slider';
 import { Input } from 'components/Input';
 import { DestinationsList } from 'components/DestinationsList';
-import { IDestination, IDirectedDestination } from 'domain/map';
+import { IDirectedDestination } from 'domain/map';
 import MapModel from 'models/MapModel';
 import { Button } from 'components/Button';
 import { allowCustomPointsAction, forbidCustomPointsAction } from 'store/actions/mapActions';
@@ -14,7 +14,7 @@ import './DestinationSelectBlock.scss';
 
 interface IDestinationSelectBlock {
   onGoBack: () => void;
-  onSelectDestination: (dest: Pick<IDirectedDestination, 'gps' | 'fromOrganization'>) => void;
+  onSelectDestination: (gps: IDirectedDestination['gps'], fromOrganization: boolean) => void;
   onConfirmAddress: (gps: IDirectedDestination) => void;
   startOrganizationName: string;
   visible: boolean;
@@ -102,8 +102,7 @@ export const DestinationSelectBlock = ({
   };
 
   const onDestinationSelected = ({ latitude, longitude }: IDirectedDestination['gps']) => {
-    console.log(fromOrganization);
-    onSelectDestination({ gps: { latitude, longitude }, fromOrganization });
+    onSelectDestination({ latitude, longitude }, fromOrganization);
   };
 
   const renderOrganizationInput = () => {

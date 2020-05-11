@@ -12,6 +12,7 @@ import {
 import './Map.scss';
 import MapModel from 'models/MapModel';
 import { OrganizationMarker } from 'components/OrganizationMarker';
+import { IDestination, ILocation } from 'domain/map';
 
 interface IMapProps {
   className?: string;
@@ -23,6 +24,7 @@ interface IMapProps {
 export const Map = ({ className = '', onViewportChange, onMapClicked }: IMapProps) => {
   const {
     activePointGps,
+    activePointType,
     isCustomPointsAllowed,
     isUserLocationAllowed,
     isGeopositionUpdateAllowed,
@@ -32,7 +34,7 @@ export const Map = ({ className = '', onViewportChange, onMapClicked }: IMapProp
   } = useSelector(state => state.map);
   const { authorized } = useSelector(state => state.auth);
   const { latitude: userLatitude, longitude: userLongitude, organizations } = useSelector(state => state.user);
-  const [fetchedOrganizations, setFetchedOrganizations] = useState([]);
+  const [fetchedOrganizations, setFetchedOrganizations] = useState<(ILocation & IDestination)[]>([]);
   const dispatch = useDispatch();
 
   const mapClassNames = classNames({
@@ -99,9 +101,15 @@ export const Map = ({ className = '', onViewportChange, onMapClicked }: IMapProp
     organizationGeocoding();
   }, [organizations]);
 
+  useEffect(() => {
+    if (activePointGps.longitude && activePointGps.latitude) {
+      setViewport({ ...viewport, latitude: activePointGps.latitude, longitude: activePointGps.longitude });
+    }
+  }, [activePointGps]);
+
   const onClick = ({ lngLat: [longitude, latitude] }: PointerEvent) => {
     if (isCustomPointsAllowed) {
-      dispatch(setActivePointAction({ longitude, latitude }));
+      dispatch(setActivePointAction({ longitude, latitude }, activePointType));
     } else {
       if (isGeopositionUpdateAllowed) {
         dispatch(updateGeopositionAction({ longitude, latitude }));
@@ -117,11 +125,15 @@ export const Map = ({ className = '', onViewportChange, onMapClicked }: IMapProp
   };
 
   const renderCustomPin = () => {
+    const customPinsClassNames = classNames({
+      'rsh-map__active-pin': activePointType === 'default',
+      'rsh-map__organization-pin': activePointType === 'organization'
+    });
     return (
       isCustomPointsAllowed &&
       activePointGps.longitude && (
         <Marker longitude={activePointGps.longitude} latitude={activePointGps.latitude}>
-          <div className="rsh-map__active-pin" />
+          <div className={customPinsClassNames} />
         </Marker>
       )
     );
@@ -155,8 +167,6 @@ export const Map = ({ className = '', onViewportChange, onMapClicked }: IMapProp
       <ReactMapGL
         {...viewport}
         dragRotate={false}
-        // onMouseUp={onMapPositionChanged}
-        // onTouchEnd={onMapPositionChanged}
         onClick={onClick}
         onViewportChange={onViewportPositionChange}
         mapboxApiAccessToken={process.env.MAPBOX_TOKEN}

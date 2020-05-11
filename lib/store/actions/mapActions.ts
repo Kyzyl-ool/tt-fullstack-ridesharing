@@ -1,6 +1,8 @@
 import MapModel from 'models/MapModel';
 import _isEmpty from 'lodash/isEmpty';
 
+type pointType = 'default' | 'organization';
+
 export const updateNearestOrganizationAction = nearestOrganization => {
   return {
     type: 'UPDATE_NEAREST_ORGANIZATION',
@@ -24,12 +26,20 @@ export const updateGeopositionAction = ({ latitude, longitude }) => async dispat
   }
 };
 
-export const setActivePointAction = ({ latitude, longitude }) => {
+export const setActivePointTypeAction = (pointType: pointType) => {
+  return {
+    type: 'UPDATE_CUSTOM_POINT_TYPE',
+    pointType
+  };
+};
+
+export const setActivePointAction = ({ latitude, longitude }, pointType = 'default') => {
   return {
     type: 'SET_CUSTOM_GEOPOSITION',
     payload: {
-      latitude,
-      longitude
+      latitude: parseFloat(latitude),
+      longitude: parseFloat(longitude),
+      pointType
     }
   };
 };

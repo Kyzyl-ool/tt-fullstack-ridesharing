@@ -61,7 +61,6 @@ export const JoinRidePage = () => {
     gps: { latitude, longitude },
     fromOrganization
   }: Pick<IDirectedDestination, 'fromOrganization' | 'gps'>) => {
-    console.log(fromOrganization, 'onSelectDestination');
     setRideSearchingInformation({ ...rideSearchingInformation, latitude, longitude, fromOrganization });
     setPageState('SEARCHING');
     try {
@@ -80,10 +79,8 @@ export const JoinRidePage = () => {
   };
 
   const onConfirmAddress = async ({ gps: { latitude, longitude }, fromOrganization }: IDirectedDestination) => {
-    console.log(fromOrganization, 'onConfirmAddress');
     setRideSearchingInformation({ ...rideSearchingInformation, latitude, longitude, fromOrganization });
     await onSelectDestination({ gps: { latitude, longitude }, fromOrganization });
-    setPageState('SEARCHING');
   };
 
   const onSendRequest = () => {
@@ -125,7 +122,13 @@ export const JoinRidePage = () => {
         onSelectDestination={onSelectDestination}
         startOrganizationName={selectedOrganizationName}
       />
-      <SearchRideBlock onShowMenu={() => {}} visible={pageState === 'SEARCHING'} from="" to="" />
+      <SearchRideBlock
+        onCancelSearch={onReturnToDestinationChoosing}
+        onShowMenu={() => {}}
+        visible={pageState === 'SEARCHING'}
+        from=""
+        to=""
+      />
       {pageState === 'SEARCH_COMPLETED' && (
         <FoundRides
           onGoBack={onReturnToDestinationChoosing}

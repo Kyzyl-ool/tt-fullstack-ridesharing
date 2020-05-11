@@ -21,6 +21,14 @@
     transform: translate(-24px, -48px);
   }
 
+  &__organization-pin {
+    background: $active-organization-pin-icon no-repeat;
+    background-size: contain;
+    width: 32px;
+    height: 32px;
+    transform: translate(-16px, -32px);
+  }
+
   &--hidden {
     pointer-events: none;
     display: none;

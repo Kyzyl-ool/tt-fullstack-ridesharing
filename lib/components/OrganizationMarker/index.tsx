@@ -5,15 +5,17 @@ import { Marker } from 'react-map-gl';
 import Loader from 'react-loader-spinner';
 import { OrganizationModel } from 'models/OrganizationModel';
 import { parseLocationAddress } from 'helpers/parseLocationAddress';
+import { ILocation, IDestination } from 'domain/map';
+import { IOrganization } from 'domain/organization';
 import './OrganizationMarker.scss';
 
 interface IOrganizationMarker {
-  organization: any;
+  organization: ILocation & IDestination;
 }
 
-export const OrganizationMarker = ({ organization }) => {
+export const OrganizationMarker = ({ organization }: IOrganizationMarker) => {
   const [isTooltipShown, setIsTooltipShown] = useState(false);
-  const [organizationInfo, setOrganizationInfo] = useState({});
+  const [organizationInfo, setOrganizationInfo] = useState<IOrganization>({});
   const [isFetched, setIsFetched] = useState(false);
   const tooltipClasses = classNames({
     'organization-marker__tooltip': true,
