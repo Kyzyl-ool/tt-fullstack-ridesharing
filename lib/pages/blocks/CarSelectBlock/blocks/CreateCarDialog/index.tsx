@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import { Dialog } from 'components/Dialog';
-import { Input } from 'components/Input';
+import { Input, validators } from 'components/Input';
 import { Button } from 'components/Button';
 import { ICar } from 'domain/car';
 import './CreateCarDialog.scss';
@@ -38,8 +38,11 @@ export const CreateCarDialog = ({ onClose, onReady }: ICreateCarDialog) => {
     onReady(creatingCarInfo);
   };
 
+  const isReady = !!(creatingCarInfo.model && creatingCarInfo.registryNumber && creatingCarInfo.color);
+
   return (
     <div className="create-car-dialog">
+      <div className="create-car-dialog__blurred-background" />
       <Dialog
         onClose={onClose}
         hide={false}
@@ -53,16 +56,28 @@ export const CreateCarDialog = ({ onClose, onReady }: ICreateCarDialog) => {
           id="model"
           placeholderText="Модель"
           placeholderType="subscript"
-          onChange={value => onModelChange(value)}
+          onChange={(value, isValid) => onModelChange(isValid ? value : '')}
+          className="create-car-dialog__input"
+          validate={validators.composeValidators(validators.notEmpty, validators.isString)}
         />
         <Input
           id="registryNumber"
           placeholderText="Регистрационный номер"
           placeholderType="subscript"
-          onChange={value => onRegistryNumberChange(value)}
+          onChange={(value, isValid) => onRegistryNumberChange(isValid ? value : '')}
+          changeModifier={value => value.toUpperCase()}
+          validate={validators.composeValidators(validators.notEmpty, validators.validRegistryNumber)}
+          className="create-car-dialog__input"
         />
-        <Input id="color" placeholderText="Цвет" placeholderType="subscript" onChange={value => onColorChange(value)} />
-        <Button filled className="create-car-dialog__button" onClick={onCreatingReady}>
+        <Input
+          id="color"
+          placeholderText="Цвет"
+          placeholderType="subscript"
+          onChange={(value, isValid) => onColorChange(isValid ? value : '')}
+          className="create-car-dialog__input"
+          validate={validators.composeValidators(validators.notEmpty, validators.isString)}
+        />
+        <Button disabled={!isReady} filled className="create-car-dialog__button" onClick={onCreatingReady}>
           Готово
         </Button>
       </Dialog>

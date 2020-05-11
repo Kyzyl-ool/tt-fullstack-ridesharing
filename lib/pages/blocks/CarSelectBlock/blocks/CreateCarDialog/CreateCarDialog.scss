@@ -4,6 +4,7 @@
   .dialog {
     position: fixed;
     padding: 15px 10px;
+    z-index: 9;
   }
 
   .rsh-input {
@@ -16,5 +17,15 @@
 
   &__button {
     margin-top: 10px;
+  }
+
+  &__blurred-background {
+    backdrop-filter: blur(2px);
+    position: fixed;
+    pointer-events: none;
+    height: 100vh;
+    width: 100vw;
+    top: 0;
+    left: 0;
   }
 }

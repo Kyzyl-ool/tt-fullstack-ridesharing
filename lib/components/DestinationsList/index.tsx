@@ -33,5 +33,24 @@ export const DestinationsList = ({
         )}
       </ul>
     </div>
+    // <div className="destination-list__wrapper">
+    //   {!_isEmpty(destinations) ? (
+    //     <>
+    //       <p className="destination-list__text">{text}</p>
+    //       <ul className="destination-list__list">
+    //         {destinations.map(
+    //           (destination, index) =>
+    //             index < 4 && (
+    //               <li className="destination-list__item" key={destination.address}>
+    //                 <DestinationItem onSelectDestination={onSelectDestination} destination={destination} />
+    //               </li>
+    //             )
+    //         )}
+    //       </ul>
+    //     </>
+    //   ) : (
+    //     <div className="destination-list__text">По данному запросу не удалось найти подходящих адресов</div>
+    //   )}
+    // </div>
   );
 };

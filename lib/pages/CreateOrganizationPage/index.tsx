@@ -55,7 +55,7 @@ export const CreateOrganizationPage: React.FC = props => {
 
   const handleClickBack = () => {
     if (pageState === 'ENTER_NAME') {
-      history.push('/');
+      history.push('/profile');
     } else {
       if (pageState === 'CHOOSE_LOCATION') {
         setIsMapBlurred(true);

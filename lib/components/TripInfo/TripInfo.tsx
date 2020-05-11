@@ -3,7 +3,7 @@ import React, { useState } from 'react';
 import DatePicker, { registerLocale } from 'react-datepicker';
 import ru from 'date-fns/locale/ru';
 import { BaseLayer } from 'components/BaseLayer/BaseLayer';
-import { Input } from 'components/Input';
+import { Input, validators } from 'components/Input';
 import { Button } from 'components/Button';
 import './TripInfo.scss';
 import 'react-datepicker/dist/react-datepicker.css';
@@ -61,6 +61,7 @@ export const TripInfo = ({ onButtonClick, onPriceChange, onSeatsNumberChange, on
           className="trip-info__input"
           placeholderType="subscript"
           id="places"
+          validate={validators.notEmpty}
           placeholderText="Кол-во посадочных мест"
           onChange={onPlaceNumberInputChange}
         />
@@ -68,8 +69,10 @@ export const TripInfo = ({ onButtonClick, onPriceChange, onSeatsNumberChange, on
           className="trip-info__input"
           placeholderType="subscript"
           id="cost"
+          validate={validators.composeValidators(validators.notEmpty)}
           placeholderText="Стоимость поездки"
           onChange={onCostInputChange}
+          renderRightAdornment={() => <label className="trip-info__roubles">₽</label>}
         />
         <DatePicker
           selected={startDate}

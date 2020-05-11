@@ -1,4 +1,4 @@
-@import "lib/styles/colors";
+@import 'lib/styles/colors';
 
 .profile-page {
   display: flex;
@@ -7,13 +7,11 @@
   height: 100%;
   position: absolute;
 
-
   .location-list__wrapper {
     position: fixed;
     bottom: 0;
     min-height: 300px;
   }
-
 
   &__header {
     z-index: -1;
@@ -30,7 +28,7 @@
 
   &__content {
     background-color: $ui-secondary-color;
-    min-height: calc(76vh - 40px);
+    min-height: calc(76vh - 100px);
     position: relative;
     display: flex;
     flex-direction: column;
@@ -92,7 +90,6 @@
   align-items: center;
   text-transform: uppercase;
 }
-
 
 .user-info-item {
   position: relative;

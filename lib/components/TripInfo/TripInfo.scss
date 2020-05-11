@@ -8,8 +8,17 @@
   }
 
   &__input {
-    margin: 6px 0;
+    margin: 2px 0;
     min-width: 311px;
+  }
+
+  &__roubles {
+    font-size: 18px;
+    position: absolute;
+    top: 3px;
+    right: 8px;
+    color: #989898;
+    text-transform: uppercase;
   }
 
   &__form {
