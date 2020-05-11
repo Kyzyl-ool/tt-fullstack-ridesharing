@@ -13,8 +13,24 @@
   }
 
   &__input {
-    margin: 8px 0;
+    // margin-top: 10px;
     width: 100%;
+
+    &--organization {
+      pointer-events: none;
+    }
+  }
+  &__button-wrapper {
+    width: 100%;
+    display: flex;
+    justify-content: center;
+  }
+
+  &__adornment {
+    width: 100px;
+    flex-direction: column;
+    font-size: 12px;
+    color: $ui-primary-color;
   }
 
   &__input-icon {
@@ -33,20 +49,27 @@
     }
   }
 
+  &__switch-button {
+    height: 25px;
+    padding: 0;
+    max-width: 150px;
+    font-size: 14px;
+  }
+
   &__input-form {
     position: fixed;
     z-index: 4;
     top: 60px;
     background: $ui-white-color;
     width: calc(100vw - 48px);
-    height: 145px;
-    padding: 12px 24px;
+    height: 155px;
+    padding: 24px 24px 12px 24px;
     box-shadow: 0px 4px 4px rgba(0, 0, 0, 0.25);
   }
 
   &__destinations-list {
     position: fixed;
-    padding-top: 15px;
+    padding-top: 30px;
     width: 100vw;
     top: 205px;
   }

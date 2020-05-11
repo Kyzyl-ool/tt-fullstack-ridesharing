@@ -8,6 +8,7 @@ type InputPlaceholderType = 'default' | 'subscript';
 interface IInput {
   defaultValue?: string;
   className?: string;
+  adornmentClassName?: string;
   placeholderType?: InputPlaceholderType;
   icon?: React.ReactElement;
   id: string;
@@ -25,6 +26,7 @@ const Input = ({
   placeholderType = 'default',
   defaultValue = '',
   className = '',
+  adornmentClassName = '',
   icon,
   id,
   placeholderText,
@@ -33,8 +35,7 @@ const Input = ({
   changeModifier = null,
   renderRightAdornment = null,
   disabled = false,
-  type = 'text',
-  errored = false
+  type = 'text'
 }: IInput) => {
   const [value, setValue] = useState<string>(defaultValue);
   const [error, setError] = useState('');
@@ -44,13 +45,14 @@ const Input = ({
   }, [defaultValue]);
 
   const onInputChange = e => {
+    console.log(e.target.value);
     if (changeModifier) {
       const modifiedValue = changeModifier(e.target.value);
       setValue(modifiedValue);
-      onChange(modifiedValue, !error);
+      onChange(modifiedValue, validate && !validate(e.target.value));
     } else {
       setValue(e.target.value);
-      onChange(e.target.value, !error);
+      onChange(e.target.value, validate && !validate(e.target.value));
     }
   };
 
@@ -76,7 +78,7 @@ const Input = ({
         <input
           id={id}
           value={value}
-          onInput={e => onInputChange(e)}
+          onChange={e => onInputChange(e)}
           onBlur={onBlur}
           placeholder={placeholderType === 'default' ? placeholderText : ''}
           className={`rsh-input__form ${icon ? 'rsh-input__form--with-icon' : ''} ${
@@ -84,7 +86,9 @@ const Input = ({
           } ${error ? 'rsh-input__form--errored' : ''}`}
           type={type}
         />
-        {renderRightAdornment && <div className="rsh-input__adornment">{renderRightAdornment()}</div>}
+        {renderRightAdornment && (
+          <div className={`rsh-input__adornment ${adornmentClassName}`}>{renderRightAdornment()}</div>
+        )}
         {placeholderType === 'subscript' && <div className="rsh-input__caption">{placeholderText}</div>}
       </div>
       <p className="rsh-input__error-text">{error}</p>

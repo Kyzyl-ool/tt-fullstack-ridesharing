@@ -1,6 +1,7 @@
 import UserModel from 'models/UserModel';
 import { useDispatch, useSelector } from 'react-redux';
-import { setUserAction } from 'store/actions/userActions';
+import { setUserAction, setOrganizationsAction, resetUserAction } from 'store/actions/userActions';
+import { resetMapAction } from 'store/actions/mapActions';
 
 export const useAuth = (): [
   boolean,
@@ -16,6 +17,11 @@ export const useAuth = (): [
     });
   };
 
+  const updateOrganizations = async () => {
+    const organizations = await UserModel.getOrganizations();
+    dispatch(setOrganizationsAction(organizations));
+  };
+
   const updateUser = async () => {
     const user = await UserModel.getThisUser();
     dispatch(setUserAction(user));
@@ -27,6 +33,7 @@ export const useAuth = (): [
       setAuthorized(result);
       if (result) {
         await updateUser();
+        await updateOrganizations();
       }
       return result;
     } catch (e) {
@@ -48,7 +55,10 @@ export const useAuth = (): [
   const checkAuth = async () => {
     const result = await UserModel.checkAuth();
     setAuthorized(result);
-    result && (await updateUser());
+    if (result) {
+      await updateUser();
+      await updateOrganizations();
+    }
     return result;
   };
 

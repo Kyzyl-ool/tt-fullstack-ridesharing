@@ -70,8 +70,8 @@ export const JoinOrganizationPage: React.FC = props => {
   return (
     <div>
       <Header iconType={'back'} onIconClick={handleBack}>
-        {renderForState('CHOOSE', <span>Вступить в организацию</span>)}
-        {renderForState('QUESTIONS', <span>Контрольные вопросы</span>)}
+        {renderForState('CHOOSE', <span className="join-organization-page__text">Вступить в организацию</span>)}
+        {renderForState('QUESTIONS', <span className="join-organization-page__text">Контрольные вопросы</span>)}
       </Header>
       {renderForState(
         'CHOOSE',
@@ -97,8 +97,13 @@ export const JoinOrganizationPage: React.FC = props => {
         <div className={'rsh-backdrop backgrounded backgrounded--with-padding'}>
           {questions.map((value, index) => (
             <div className={'margins'} key={index}>
-              <span>{value.controlQuestion}</span>
-              <Input id={`question${index + 1}`} placeholderText={'Ответ'} onChange={v => setControlAnswer(v)} />
+              <span className="join-organization-page__question">{value.controlQuestion}</span>
+              <Input
+                id={`question${index + 1}`}
+                className="join-organization-page__input"
+                placeholderText={'Ответ'}
+                onChange={v => setControlAnswer(v)}
+              />
             </div>
           ))}
           <Button className={'centerize centerize_bottom'} onClick={() => handleNext(null)} filled>

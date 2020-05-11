@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import _isEmpty from 'lodash/isEmpty';
-import { Backdrop } from 'components/Backdrop';
+import { useHistory } from 'react-router-dom';
 import { FoundRides } from 'components/FoundRides';
 import { Dialog } from 'components/Dialog';
 import { PaymentBlock } from 'pages/blocks/PaymentBlock';
@@ -8,11 +8,10 @@ import { OrganizationSelectBlock } from 'pages/blocks/OrganizationSelectBlock';
 import { DestinationSelectBlock } from 'pages/blocks/DestinationSelectBlock';
 import { SearchRideBlock } from 'pages/blocks/SearchRideBlock';
 import { InitialRideBlock } from 'pages/blocks/InitialRideBlock';
-import { IDestination, ILocation } from 'domain/map';
+import { IDestination, ILocation, IDirectedDestination } from 'domain/map';
 import RideModel from 'models/RideModel';
 import { IRide } from 'domain/ride';
 import './JoinRidePage.scss';
-import { useHistory } from 'react-router-dom';
 
 type PageState =
   | 'INITIAL'
@@ -26,9 +25,10 @@ type PageState =
 export const JoinRidePage = () => {
   const [pageState, setPageState] = useState<PageState>('ORGANIZATION_CHOOSING');
   const [rideSearchingInformation, setRideSearchingInformation] = useState({
-    startOrganizationId: null,
+    organizationId: null,
     latitude: null,
-    longitude: null
+    longitude: null,
+    fromOrganization: true
   });
   const [selectedRideId, setSelectedRideId] = useState<number>(null);
   const [selectedOrganizationName, setSelectedOrganizationName] = useState('');
@@ -52,19 +52,24 @@ export const JoinRidePage = () => {
   };
 
   const onSelectOrganization = (organization: ILocation) => {
-    setRideSearchingInformation({ ...rideSearchingInformation, startOrganizationId: organization.id });
+    setRideSearchingInformation({ ...rideSearchingInformation, organizationId: organization.id });
     setSelectedOrganizationName(organization.name);
     setPageState('DESTINATION_CHOOSING');
   };
 
-  const onSelectDestination = async ({ latitude, longitude }: IDestination['gps']) => {
-    setRideSearchingInformation({ ...rideSearchingInformation, latitude, longitude });
+  const onSelectDestination = async ({
+    gps: { latitude, longitude },
+    fromOrganization
+  }: Pick<IDirectedDestination, 'fromOrganization' | 'gps'>) => {
+    console.log(fromOrganization, 'onSelectDestination');
+    setRideSearchingInformation({ ...rideSearchingInformation, latitude, longitude, fromOrganization });
     setPageState('SEARCHING');
     try {
       const rides = await RideModel.findRides({
-        organizationId: rideSearchingInformation.startOrganizationId,
+        organizationId: rideSearchingInformation.organizationId,
         latitude,
-        longitude
+        longitude,
+        fromOrganization
       });
       setFetchedRides(rides);
       setPageState('SEARCH_COMPLETED');
@@ -74,8 +79,11 @@ export const JoinRidePage = () => {
     }
   };
 
-  const onConfirmAddress = ({ gps: { latitude, longitude } }: IDestination) => {
-    setRideSearchingInformation({ ...rideSearchingInformation, latitude, longitude });
+  const onConfirmAddress = async ({ gps: { latitude, longitude }, fromOrganization }: IDirectedDestination) => {
+    console.log(fromOrganization, 'onConfirmAddress');
+    setRideSearchingInformation({ ...rideSearchingInformation, latitude, longitude, fromOrganization });
+    await onSelectDestination({ gps: { latitude, longitude }, fromOrganization });
+    setPageState('SEARCHING');
   };
 
   const onSendRequest = () => {

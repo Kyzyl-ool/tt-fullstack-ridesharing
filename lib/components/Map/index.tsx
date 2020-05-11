@@ -3,8 +3,15 @@ import React, { useState, ReactNode, useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import classNames from 'classnames';
 import ReactMapGL, { PointerEvent, FlyToInterpolator, Marker } from 'react-map-gl';
-import { updateGeopositionAction, setActivePointAction } from 'store/actions/mapActions';
+import {
+  updateGeopositionAction,
+  setActivePointAction,
+  forbidUserLocation,
+  allowUserLocation
+} from 'store/actions/mapActions';
 import './Map.scss';
+import MapModel from 'models/MapModel';
+import { OrganizationMarker } from 'components/OrganizationMarker';
 
 interface IMapProps {
   className?: string;
@@ -23,7 +30,9 @@ export const Map = ({ className = '', onViewportChange, onMapClicked }: IMapProp
     isHidden,
     isDimmed
   } = useSelector(state => state.map);
-  const { latitude: userLatitude, longitude: userLongitude } = useSelector(state => state.user);
+  const { authorized } = useSelector(state => state.auth);
+  const { latitude: userLatitude, longitude: userLongitude, organizations } = useSelector(state => state.user);
+  const [fetchedOrganizations, setFetchedOrganizations] = useState([]);
   const dispatch = useDispatch();
 
   const mapClassNames = classNames({
@@ -39,12 +48,12 @@ export const Map = ({ className = '', onViewportChange, onMapClicked }: IMapProp
     // know width and height could be strings
     width: ('100vw' as unknown) as number,
     height: ('100vh' as unknown) as number,
-    latitude: 55.7972075,
-    longitude: 37.5377682,
-    zoom: 17,
+    latitude: 55.7493817,
+    longitude: 37.6254686,
+    zoom: 13,
     bearing: 0,
     pitch: 0,
-    transitionInterpolator: new FlyToInterpolator({ speed: 1.2 }),
+    transitionInterpolator: new FlyToInterpolator({ speed: 1.7 }),
     transitionDuration: 'auto'
   });
 
@@ -53,8 +62,11 @@ export const Map = ({ className = '', onViewportChange, onMapClicked }: IMapProp
       ({ coords: { latitude, longitude } }: Position) => {
         setViewport({ ...viewport, latitude, longitude });
         dispatch(updateGeopositionAction({ longitude, latitude }));
+        dispatch(allowUserLocation());
       },
-      () => {},
+      () => {
+        dispatch(forbidUserLocation());
+      },
       {
         timeout: 5000,
         enableHighAccuracy: true
@@ -63,17 +75,29 @@ export const Map = ({ className = '', onViewportChange, onMapClicked }: IMapProp
   };
 
   useEffect(() => {
-    if (isUserLocationAllowed) {
+    if (authorized) {
       getInitialUserGeoposition();
     }
-  }, [isUserLocationAllowed]);
+  }, [authorized]);
 
-  // const onMapPositionChanged = ({ lngLat: [longitude, latitude] }: PointerEvent) => {
-  //   if (onViewportChange) {
-  //     onViewportChange({ longitude, latitude });
-  //   }
-  //   dispatch(updateGeopositionAction({ longitude, latitude }));
-  // };
+  //temporary effect for geocoding organizations
+  // TODO remove when /organizations will sent coords inside response
+  useEffect(() => {
+    const organizationGeocoding = async () => {
+      const decodedOrganizations = await Promise.all<Array<any>>(
+        organizations.map(org => MapModel.forwardGeocoding(org.address))
+      );
+      setFetchedOrganizations(
+        decodedOrganizations
+          .map(org => org[0])
+          .map(org => {
+            const orgToMerge = organizations.find(oldOrg => oldOrg.address === org.address);
+            return { ...orgToMerge, gps: org.gps };
+          })
+      );
+    };
+    organizationGeocoding();
+  }, [organizations]);
 
   const onClick = ({ lngLat: [longitude, latitude] }: PointerEvent) => {
     if (isCustomPointsAllowed) {
@@ -104,13 +128,25 @@ export const Map = ({ className = '', onViewportChange, onMapClicked }: IMapProp
   };
 
   const renderUserLocationPin = () => {
-    const couldBeRendered = isUserLocationAllowed && userLatitude && userLongitude;
+    const canBeRendered = isUserLocationAllowed && userLatitude && userLongitude;
     return (
-      couldBeRendered && (
+      canBeRendered && (
         <Marker latitude={userLatitude} longitude={userLongitude}>
           <div className="rsh-map__pin" />
         </Marker>
       )
+    );
+  };
+
+  const renderOrganizationMarkers = () => {
+    // index = 0 is nearest organization
+    return (
+      <>
+        {fetchedOrganizations.length > 0 &&
+          fetchedOrganizations.map((organization, index) => (
+            <OrganizationMarker key={organization.name} organization={organization} />
+          ))}
+      </>
     );
   };
 
@@ -128,6 +164,7 @@ export const Map = ({ className = '', onViewportChange, onMapClicked }: IMapProp
       >
         {renderCustomPin()}
         {renderUserLocationPin()}
+        {renderOrganizationMarkers()}
       </ReactMapGL>
     </div>
   );

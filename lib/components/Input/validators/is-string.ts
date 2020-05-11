@@ -1,7 +1,7 @@
 import { IValidator } from './types';
 
 export const isString: IValidator = value => {
-  if (typeof value !== 'string') {
+  if (!value.match(/[A-Z|а-я]+$/i)) {
     return 'Значение некорректно';
   }
 };

@@ -28,6 +28,10 @@
       display: block;
     }
 
+    .react-datepicker-popper {
+      z-index: 2;
+    }
+
     .react-datepicker__input-container {
       display: block;
     }
@@ -54,6 +58,12 @@
     display: flex;
     flex-direction: column;
     align-items: center;
+
+    .rsh-input__error-text {
+      margin-top: -16px;
+      z-index: 2;
+      margin-left: 5px;
+    }
   }
 
   &__button {

@@ -5,12 +5,13 @@ export type IHostAnswer = 'ACCEPTED' | 'NO ANSWER' | 'DECLINED' | null;
 
 export interface IRideCreationInfo {
   carId: string;
-  startOrganizationId: string;
-  stopLatitude: number;
-  stopLongitude: number;
+  organizationId: string;
+  latitude: number;
+  longitude: number;
   totalSeats: string;
   price: string;
   startDatetime: string;
+  fromOrganization: boolean;
 }
 
 export interface IRequest {

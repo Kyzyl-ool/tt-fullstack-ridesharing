@@ -6,16 +6,16 @@ import { Header } from 'components/Header';
 import { Slider } from 'components/Slider';
 import { Input } from 'components/Input';
 import { DestinationsList } from 'components/DestinationsList';
-import { IDestination } from 'domain/map';
+import { IDestination, IDirectedDestination } from 'domain/map';
 import MapModel from 'models/MapModel';
-import './DestinationSelectBlock.scss';
 import { Button } from 'components/Button';
 import { allowCustomPointsAction, forbidCustomPointsAction } from 'store/actions/mapActions';
+import './DestinationSelectBlock.scss';
 
 interface IDestinationSelectBlock {
   onGoBack: () => void;
-  onSelectDestination: (gps: IDestination['gps']) => void;
-  onConfirmAddress: (gps: IDestination) => void;
+  onSelectDestination: (dest: Pick<IDirectedDestination, 'gps' | 'fromOrganization'>) => void;
+  onConfirmAddress: (gps: IDirectedDestination) => void;
   startOrganizationName: string;
   visible: boolean;
 }
@@ -29,6 +29,7 @@ export const DestinationSelectBlock = ({
 }: IDestinationSelectBlock) => {
   const [matchedDestinations, setMatchedDestinations] = useState([]);
   const [isMapShown, setIsMapShown] = useState(false);
+  const [fromOrganization, setFromOrganization] = useState(true);
   const [selectedAddress, setSelectedAddress] = useState('');
   const addressName = useMemo(
     () =>
@@ -79,14 +80,19 @@ export const DestinationSelectBlock = ({
   };
 
   const renderMapButton = () => {
-    return <div onClick={onMapButtonClick} className="destination-select-block__map-button" />;
+    return (
+      <>
+        <div onClick={onMapButtonClick} className="destination-select-block__map-button" /> <div>На карте</div>
+      </>
+    );
   };
 
   const onConfirmButtonClick = () => {
     setIsMapShown(false);
     onConfirmAddress({
       address: selectedAddress,
-      gps: activePointGps
+      gps: activePointGps,
+      fromOrganization
     });
   };
 
@@ -95,35 +101,75 @@ export const DestinationSelectBlock = ({
     onGoBack();
   };
 
+  const onDestinationSelected = ({ latitude, longitude }: IDirectedDestination['gps']) => {
+    console.log(fromOrganization);
+    onSelectDestination({ gps: { latitude, longitude }, fromOrganization });
+  };
+
+  const renderOrganizationInput = () => {
+    return (
+      <Input
+        id="departure"
+        defaultValue={startOrganizationName}
+        className="destination-select-block__input destination-select-block__input--organization"
+        placeholderText=""
+        icon={<div className="destination-select-block__input-icon--from" />}
+      />
+    );
+  };
+
+  const renderPointInput = () => {
+    return (
+      <Input
+        id="arrival"
+        className="destination-select-block__input"
+        defaultValue={addressName}
+        placeholderText=""
+        icon={<div className="destination-select-block__input-icon--to" />}
+        onChange={onDestinationSearch}
+        renderRightAdornment={renderMapButton}
+        adornmentClassName="destination-select-block__adornment"
+      />
+    );
+  };
+
   return (
     <Fragment>
       {visible && (
         <Header iconType="back" onIconClick={onBackIconClick}>
-          Укажите пункт назначения
+          {`Укажите пункт ${fromOrganization ? 'назначения' : 'отправления'}`}
         </Header>
       )}
       <Slider visible={visible && !isMapShown} from="top" timeout={400} unmountOnExit>
         <div>
           <div className="destination-select-block__input-form">
-            <Input
-              id="departure"
-              defaultValue={startOrganizationName}
-              className="destination-select-block__input"
-              placeholderText=""
-              icon={<div className="destination-select-block__input-icon--from" />}
-            />
-            <Input
-              id="arrival"
-              className="destination-select-block__input"
-              defaultValue={addressName}
-              placeholderText=""
-              icon={<div className="destination-select-block__input-icon--to" />}
-              onChange={onDestinationSearch}
-              renderRightAdornment={renderMapButton}
-            />
+            {fromOrganization ? (
+              <>
+                {renderOrganizationInput()}
+                {renderPointInput()}
+                <div className="destination-select-block__button-wrapper">
+                  <Button
+                    className="destination-select-block__switch-button"
+                    onClick={() => setFromOrganization(false)}
+                  >
+                    {'Ехать к организации'}
+                  </Button>
+                </div>
+              </>
+            ) : (
+              <>
+                {renderPointInput()}
+                {renderOrganizationInput()}
+                <div className="destination-select-block__button-wrapper">
+                  <Button className="destination-select-block__switch-button" onClick={() => setFromOrganization(true)}>
+                    {'Ехать от организации'}
+                  </Button>
+                </div>
+              </>
+            )}
           </div>
           <div className="destination-select-block__destinations-list">
-            <DestinationsList text="" destinations={matchedDestinations} onSelectDestination={onSelectDestination} />
+            <DestinationsList text="" destinations={matchedDestinations} onSelectDestination={onDestinationSelected} />
           </div>
         </div>
       </Slider>

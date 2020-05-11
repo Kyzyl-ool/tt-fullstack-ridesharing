@@ -13,6 +13,8 @@ const defaultState = {
 
 export const mapReducer = (state = defaultState, action) => {
   switch (action.type) {
+    case 'RESET_MAP':
+      return { ...defaultState };
     case 'SET_MAP_BLUR':
       return { ...state, isBlurred: true };
     case 'RESET_MAP_BLUR':

@@ -13,6 +13,8 @@ import { allowCustomPointsAction, forbidCustomPointsAction } from 'store/actions
 import { useBlurredMap } from 'hooks/mapHooks';
 import MapModel from 'models/MapModel';
 import { parseLocationAddress } from 'helpers/parseLocationAddress';
+import UserModel from 'models/UserModel';
+import { setOrganizationsAction } from 'store/actions/userActions';
 
 type Coordinates = {
   latitude: number;
@@ -81,6 +83,8 @@ export const CreateOrganizationPage: React.FC = props => {
     } else {
       if (pageState === 'ADDED') {
         history.push('/');
+        const organizations = await UserModel.getOrganizations();
+        dispatch(setOrganizationsAction(organizations));
       } else {
         setNext();
         setConfirmButtonDisabled(true);
@@ -108,9 +112,12 @@ export const CreateOrganizationPage: React.FC = props => {
   return (
     <div>
       <Header iconType="back" onIconClick={handleClickBack}>
-        {renderForState('ENTER_NAME', <span>Новая организация</span>)}
-        {renderForState('CHOOSE_LOCATION', <span>Выберите местоположение</span>)}
-        {renderForState('ENTER_QUESTIONS', <span>Контрольный вопрос</span>)}
+        {renderForState('ENTER_NAME', <span className="create-organization-page__text">Новая организация</span>)}
+        {renderForState(
+          'CHOOSE_LOCATION',
+          <span className="create-organization-page__text">Выберите местоположение</span>
+        )}
+        {renderForState('ENTER_QUESTIONS', <span className="create-organization-page__text">Контрольный вопрос</span>)}
       </Header>
       <Backdrop onMapClicked={newPosition => setCoordinates(newPosition)}>
         {renderForState(
@@ -129,7 +136,7 @@ export const CreateOrganizationPage: React.FC = props => {
             <Input
               id="organizationAddress"
               placeholderText="Адрес организации"
-              className="centerize centerize_center"
+              className="centerize centerize_top"
               disabled
               defaultValue={selectedAddress}
               onChange={value => setName(value)}

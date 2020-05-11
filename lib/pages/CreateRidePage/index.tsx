@@ -22,12 +22,13 @@ export const CreateRidePage = () => {
   const [pageState, setPageState] = useState<PageState>('ORGANIZATION_CHOOSING');
   const [rideCreationInfo, setRideCreationInfo] = useState<IRideCreationInfo>({
     carId: null,
-    startOrganizationId: null,
-    stopLatitude: null,
-    stopLongitude: null,
+    organizationId: null,
+    latitude: null,
+    longitude: null,
     totalSeats: null,
     price: null,
-    startDatetime: null
+    startDatetime: null,
+    fromOrganization: true
   });
   const [selectedOrganizationName, setSelectedOrganizationName] = useState('');
   const history = useHistory();
@@ -50,13 +51,13 @@ export const CreateRidePage = () => {
   };
 
   const onSelectOrganization = (organization: ILocation) => {
-    setRideCreationInfo({ ...rideCreationInfo, startOrganizationId: organization.id });
+    setRideCreationInfo({ ...rideCreationInfo, organizationId: organization.id });
     setSelectedOrganizationName(organization.name);
     setPageState('DESTINATION_CHOOSING');
   };
 
   const onSelectDestination = ({ latitude, longitude }: IDestination['gps']) => {
-    setRideCreationInfo({ ...rideCreationInfo, stopLatitude: latitude, stopLongitude: longitude });
+    setRideCreationInfo({ ...rideCreationInfo, latitude, longitude });
     setPageState('CAR_CHOOSING');
   };
 
@@ -92,7 +93,7 @@ export const CreateRidePage = () => {
   };
 
   const onConfirmAddress = ({ gps: { latitude, longitude } }: IDestination) => {
-    setRideCreationInfo({ ...rideCreationInfo, stopLatitude: latitude, stopLongitude: longitude });
+    setRideCreationInfo({ ...rideCreationInfo, latitude, longitude });
   };
 
   const onDialogClose = () => history.push('/');
@@ -126,6 +127,7 @@ export const CreateRidePage = () => {
         onPriceChange={onPriceChange}
         onSeatsNumberChange={onSeatsNumberChange}
         onDateChange={onDateChange}
+        rideInfo={rideCreationInfo}
       />
       {pageState === 'DONE' && (
         <Dialog onClose={onDialogClose} hide={false}>

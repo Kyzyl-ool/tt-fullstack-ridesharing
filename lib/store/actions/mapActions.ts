@@ -105,3 +105,9 @@ export const resetMapDimAction = () => {
     type: 'RESET_MAP_DIM'
   };
 };
+
+export const resetMapAction = () => {
+  return {
+    type: 'RESET_MAP'
+  };
+};

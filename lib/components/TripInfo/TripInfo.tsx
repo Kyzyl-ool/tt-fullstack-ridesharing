@@ -1,38 +1,53 @@
 // eslint-disable-next-line @typescript-eslint/no-empty-function
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import DatePicker, { registerLocale } from 'react-datepicker';
 import ru from 'date-fns/locale/ru';
+import { setHours, setMinutes, getHours, getMinutes } from 'date-fns';
 import { BaseLayer } from 'components/BaseLayer/BaseLayer';
 import { Input, validators } from 'components/Input';
 import { Button } from 'components/Button';
 import './TripInfo.scss';
 import 'react-datepicker/dist/react-datepicker.css';
+import { IRideCreationInfo } from 'domain/ride';
 
 registerLocale('ru', ru);
 
 interface ITripInfo {
+  rideInfo: IRideCreationInfo;
   onButtonClick: () => void;
   onSeatsNumberChange: (placeNumber: string) => void;
   onPriceChange: (cost: string) => void;
   onDateChange: (timestamp: number) => void;
 }
 
-export const TripInfo = ({ onButtonClick, onPriceChange, onSeatsNumberChange, onDateChange }: ITripInfo) => {
+export const TripInfo = ({ onButtonClick, onPriceChange, onSeatsNumberChange, onDateChange, rideInfo }: ITripInfo) => {
   const [text, setText] = useState<string>('Создать поездку');
-  const [btnDisabled, setBtnDisabled] = useState(false);
+  const [btnDisabled, setBtnDisabled] = useState(true);
   const [startDate, setStartDate] = useState<Date>();
   const handleClick = () => {
-    setText('Создание поездки...');
     setBtnDisabled(true);
+    setText('Создание поездки...');
     onButtonClick();
+    setTimeout(() => {
+      setBtnDisabled(false);
+      setText('Создать поездку');
+    }, 3000);
   };
 
-  const onCostInputChange = (cost: string) => {
-    onPriceChange(cost);
+  useEffect(() => {
+    if (!rideInfo.price || !rideInfo.totalSeats || !rideInfo.startDatetime) {
+      setBtnDisabled(true);
+    } else {
+      setBtnDisabled(false);
+    }
+  }, [rideInfo]);
+
+  const onCostInputChange = (cost: string, isValid: boolean) => {
+    onPriceChange(isValid ? cost : '');
   };
 
-  const onPlaceNumberInputChange = (placeNumber: string) => {
-    onSeatsNumberChange(placeNumber);
+  const onPlaceNumberInputChange = (placeNumber: string, isValid: boolean) => {
+    onSeatsNumberChange(isValid ? placeNumber : '');
   };
 
   const onDateInputChange = (date: Date) => {
@@ -61,7 +76,7 @@ export const TripInfo = ({ onButtonClick, onPriceChange, onSeatsNumberChange, on
           className="trip-info__input"
           placeholderType="subscript"
           id="places"
-          validate={validators.notEmpty}
+          validate={validators.composeValidators(validators.notEmpty, validators.isNumber)}
           placeholderText="Кол-во посадочных мест"
           onChange={onPlaceNumberInputChange}
         />
@@ -69,7 +84,7 @@ export const TripInfo = ({ onButtonClick, onPriceChange, onSeatsNumberChange, on
           className="trip-info__input"
           placeholderType="subscript"
           id="cost"
-          validate={validators.composeValidators(validators.notEmpty)}
+          validate={validators.composeValidators(validators.notEmpty, validators.isNumber)}
           placeholderText="Стоимость поездки"
           onChange={onCostInputChange}
           renderRightAdornment={() => <label className="trip-info__roubles">₽</label>}
@@ -84,6 +99,8 @@ export const TripInfo = ({ onButtonClick, onPriceChange, onSeatsNumberChange, on
           dateFormat="Pp"
           timeCaption="Время"
           minDate={new Date()}
+          minTime={setHours(setMinutes(new Date(), getMinutes(new Date())), getHours(new Date()))}
+          maxTime={setHours(setMinutes(new Date(), 45), 23)}
           customInput={<CustomDateInput />}
         />
         <div className="trip-info__button-wrapper">
