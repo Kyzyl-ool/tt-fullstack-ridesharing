@@ -1,4 +1,4 @@
-import React, { useState, ReactNode } from 'react';
+import React, { useState, ReactNode, useEffect } from 'react';
 import { useHistory, Link } from 'react-router-dom';
 import { BaseLayer } from '../BaseLayer/BaseLayer';
 import { Avatar } from '../Avatar/Avatar';
@@ -8,10 +8,12 @@ import { CSSTransition } from 'react-transition-group';
 import { UserCard } from '../UserCard';
 import { IRide, IHostAnswer } from 'domain/ride';
 import { parseLocationAddress } from 'helpers/parseLocationAddress';
-import { useSelector } from 'react-redux';
+import { useSelector, useDispatch } from 'react-redux';
 import { Dialog } from 'components/Dialog';
 import RideModel from 'models/RideModel';
 import './RideCard.scss';
+import MapModel from 'models/MapModel';
+import { setLineAction, resetAllLinesAction } from 'store/actions/mapActions';
 
 export interface IRideCard {
   ride: IRide;
@@ -46,6 +48,7 @@ export const RideCard = ({
   const [isRejectReasonShown, setIsRejectReasonShown] = useState<boolean>(false);
   const userInfo = useSelector(state => state.user.user);
   const history = useHistory();
+  const dispatch = useDispatch();
   const handleClick = (hostAnswerType: IHostAnswer) => {
     onButtonClick(hostAnswerType);
   };
@@ -104,6 +107,18 @@ export const RideCard = ({
 
   const startAddress = fromOrganization ? organization.address : address;
   const stopAddress = fromOrganization ? address : organization.address;
+
+  useEffect(() => {
+    const setLine = async () => {
+      const [[first], [second]] = await Promise.all([
+        MapModel.forwardGeocoding(organization.address),
+        MapModel.forwardGeocoding(address)
+      ]);
+      dispatch(setLineAction(first.gps, second.gps, 'primary'));
+    };
+    setLine();
+    return () => dispatch(resetAllLinesAction());
+  }, []);
 
   const renderButton = (hostAnswerType: IHostAnswer, isHost: boolean) => {
     const commonProps = {

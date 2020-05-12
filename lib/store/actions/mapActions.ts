@@ -1,7 +1,8 @@
-import MapModel from 'models/MapModel';
+import MapModel, { ICoordinates } from 'models/MapModel';
 import _isEmpty from 'lodash/isEmpty';
 
 type pointType = 'default' | 'organization';
+type lineType = 'primary' | 'secondary';
 
 export const updateNearestOrganizationAction = nearestOrganization => {
   return {
@@ -119,5 +120,22 @@ export const resetMapDimAction = () => {
 export const resetMapAction = () => {
   return {
     type: 'RESET_MAP'
+  };
+};
+
+export const setLineAction = (start: ICoordinates, finish: ICoordinates, lineType: lineType) => {
+  return {
+    type: 'SET_LINE',
+    payload: {
+      start,
+      finish,
+      type: lineType
+    }
+  };
+};
+
+export const resetAllLinesAction = () => {
+  return {
+    type: 'RESET_LINES'
   };
 };

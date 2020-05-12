@@ -37,7 +37,6 @@ export const ActiveRidesPage: React.FC = props => {
     const selected = [...activeRides, ...activeHostedRides].find(ride => ride.id === selectedRideId);
     // selectedRide['startOrganizationAddress'] = selectedRide['startOrganization'].address;
     selected['passengers'] = [];
-    console.log(selected);
     setSelectedRide(selected);
     setNext();
   };

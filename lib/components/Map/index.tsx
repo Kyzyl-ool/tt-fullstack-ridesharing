@@ -1,5 +1,6 @@
 // Template from https://uber.github.io/react-map-gl/docs/get-started/get-started
 import React, { useState, ReactNode, useEffect } from 'react';
+import _isEmpty from 'lodash/isEmpty';
 import { useDispatch, useSelector } from 'react-redux';
 import classNames from 'classnames';
 import ReactMapGL, { PointerEvent, FlyToInterpolator, Marker } from 'react-map-gl';
@@ -13,6 +14,7 @@ import './Map.scss';
 import MapModel from 'models/MapModel';
 import { OrganizationMarker } from 'components/OrganizationMarker';
 import { IDestination, ILocation } from 'domain/map';
+import { MapDirection } from 'components/MapDirection';
 
 interface IMapProps {
   className?: string;
@@ -30,7 +32,8 @@ export const Map = ({ className = '', onViewportChange, onMapClicked }: IMapProp
     isGeopositionUpdateAllowed,
     isBlurred,
     isHidden,
-    isDimmed
+    isDimmed,
+    lines
   } = useSelector(state => state.map);
   const { authorized } = useSelector(state => state.auth);
   const { latitude: userLatitude, longitude: userLongitude, organizations } = useSelector(state => state.user);
@@ -175,6 +178,7 @@ export const Map = ({ className = '', onViewportChange, onMapClicked }: IMapProp
         {renderCustomPin()}
         {renderUserLocationPin()}
         {renderOrganizationMarkers()}
+        {!_isEmpty(lines) && lines.map(line => <MapDirection key={line.start.latitude} line={line} />)}
       </ReactMapGL>
     </div>
   );

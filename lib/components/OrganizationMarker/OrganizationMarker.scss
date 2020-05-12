@@ -37,9 +37,11 @@
     top: -116px;
     transition: opacity 1s;
     padding: 8px;
+    visibility: hidden;
 
     &--visible {
       opacity: 0.8;
+      visibility: visible;
     }
 
     &::after {
