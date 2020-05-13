@@ -169,6 +169,7 @@ export const OrganizationPage: React.FC = props => {
           {renderForState(
             'MEMBERS',
             <div className={`organization-page__background`}>
+              <h3 className="organization-page__participants-header">Участники</h3>
               {organizationMembers.members.map(value => (
                 <UserCard
                   key={value.id}
