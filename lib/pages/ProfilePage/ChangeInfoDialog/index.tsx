@@ -78,6 +78,23 @@ export const ChangeInfoDialog = ({ editObject, onUpdate, onUpdateDone }: IChange
           />
         );
         break;
+      case 'ABOUT':
+        inputs = (
+          <Input
+            id={'about'}
+            placeholderText={'О себе'}
+            placeholderType={'subscript'}
+            onChange={value =>
+              onUpdate({
+                variant: 'ABOUT',
+                payload: {
+                  about: value
+                }
+              })
+            }
+          />
+        );
+        break;
       default:
         return null;
     }

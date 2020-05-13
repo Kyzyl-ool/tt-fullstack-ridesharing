@@ -1,6 +1,6 @@
 /* eslint-disable no-empty */
 import axios from 'axios';
-import { IDriver, IPassenger } from 'domain/driver';
+import { IPassenger } from 'domain/driver';
 
 export interface IUserData {
   email: string;
@@ -10,6 +10,7 @@ export interface IUserData {
   phoneNumber: string;
   photoUrl: string;
   rating: number;
+  about?: string;
 }
 
 interface IPutCarRequestBody {

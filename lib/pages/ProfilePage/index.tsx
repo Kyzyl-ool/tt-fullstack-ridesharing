@@ -178,7 +178,7 @@ export const ProfilePage: React.FC = props => {
 
         <div className={'user-info-item'}>
           <span className={'profile-caption'}>О себе</span>
-          <span className={'user-about'}>Данных о пользователе пока нет</span>
+          <span className={'user-about'}>{(userData && userData.about) || 'Данных о пользователе пока нет'}</span>
           <div onClick={onAboutEdit}>
             <PenIcon className={'user-info-item__pen user-info-item__pen_about'} />
           </div>
@@ -202,9 +202,9 @@ export const ProfilePage: React.FC = props => {
         </FileUploader>
 
         <br />
-        <Button filled disabled={!isChanged} onClick={onSave}>
+        {/* <Button filled disabled={!isChanged} onClick={onSave}>
           Сохранить
-        </Button>
+        </Button> */}
       </div>
       <CarSelectBlock
         onDelete={id => onDeleteCar(id)}
