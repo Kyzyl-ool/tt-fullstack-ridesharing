@@ -1,5 +1,5 @@
-import React, { useEffect, useState } from 'react';
-import './CreateOrganization.scss';
+import React, { useEffect, useState, useCallback } from 'react';
+import _debounce from 'lodash/debounce';
 import { Backdrop } from 'components/Backdrop';
 import { Header } from 'components/Header';
 import { Input } from 'components/Input';
@@ -9,10 +9,20 @@ import { Button } from 'components/Button';
 import { Dialog } from 'components/Dialog';
 import { OrganizationModel } from 'models/OrganizationModel';
 import { useDispatch } from 'react-redux';
-import { allowCustomPointsAction, forbidCustomPointsAction } from 'store/actions/mapActions';
+import {
+  allowCustomPointsAction,
+  forbidCustomPointsAction,
+  setActivePointAction,
+  setActivePointTypeAction
+} from 'store/actions/mapActions';
 import { useBlurredMap } from 'hooks/mapHooks';
 import MapModel from 'models/MapModel';
 import { parseLocationAddress } from 'helpers/parseLocationAddress';
+import UserModel from 'models/UserModel';
+import { setOrganizationsAction } from 'store/actions/userActions';
+import { Select } from 'components/Select';
+import { IDestination } from 'domain/map';
+import './CreateOrganization.scss';
 
 type Coordinates = {
   latitude: number;
@@ -26,7 +36,9 @@ type QuestionAndAnswer = {
 
 export const CreateOrganizationPage: React.FC = props => {
   const [name, setName] = useState<string>('');
+  const [options, setOptions] = useState<IDestination[] | []>([]);
   const [coordinates, setCoordinates] = useState<Coordinates>({ latitude: null, longitude: null });
+  const [newOrganizationId, setNewOrganizationId] = useState(null);
   const [question, setQuestion] = useState<QuestionAndAnswer>({
     question: '',
     answer: ''
@@ -55,7 +67,7 @@ export const CreateOrganizationPage: React.FC = props => {
 
   const handleClickBack = () => {
     if (pageState === 'ENTER_NAME') {
-      history.push('/');
+      history.push('/profile');
     } else {
       if (pageState === 'CHOOSE_LOCATION') {
         setIsMapBlurred(true);
@@ -76,11 +88,14 @@ export const CreateOrganizationPage: React.FC = props => {
         controlAnswer: question.answer,
         ...coordinates
       }).then(r => {
+        setNewOrganizationId(r.data.id);
         setNext();
       });
     } else {
       if (pageState === 'ADDED') {
-        history.push('/');
+        history.push(`/organization/${newOrganizationId}`);
+        const organizations = await UserModel.getOrganizations();
+        dispatch(setOrganizationsAction(organizations));
       } else {
         setNext();
         setConfirmButtonDisabled(true);
@@ -91,12 +106,35 @@ export const CreateOrganizationPage: React.FC = props => {
   const getAddress = async ({ latitude, longitude }: Coordinates) => {
     const res = await MapModel.reverseGeocoding({ latitude, longitude });
     setSelectedAddress(parseLocationAddress(res.address).name);
+    setOptions([]);
+  };
+
+  const fetchOptions = useCallback(
+    _debounce(async (value: string) => {
+      const addressOptions = await MapModel.forwardGeocoding(value);
+      setOptions(addressOptions);
+    }, 300),
+    []
+  );
+
+  const onSelectOption = (address: string) => {
+    const selectedOption = options.find(option => option.address === address);
+    const selectedPointGps = selectedOption.gps;
+    dispatch(setActivePointAction(selectedPointGps, 'organization'));
+    setSelectedAddress(parseLocationAddress(address).name);
+    setCoordinates(selectedPointGps);
+    setOptions([]);
   };
 
   useEffect(() => {
     // effect allowing custom pins on the map
     dispatch(allowCustomPointsAction());
-    return () => dispatch(forbidCustomPointsAction());
+    // effect allowing organization pins on the map
+    dispatch(setActivePointTypeAction('organization'));
+    return () => {
+      dispatch(forbidCustomPointsAction());
+      dispatch(setActivePointTypeAction('default'));
+    };
   }, []);
 
   useEffect(() => {
@@ -108,9 +146,13 @@ export const CreateOrganizationPage: React.FC = props => {
   return (
     <div>
       <Header iconType="back" onIconClick={handleClickBack}>
-        {renderForState('ENTER_NAME', <span>Новая организация</span>)}
-        {renderForState('CHOOSE_LOCATION', <span>Выберите местоположение</span>)}
-        {renderForState('ENTER_QUESTIONS', <span>Контрольный вопрос</span>)}
+        {renderForState('ENTER_NAME', <span className="create-organization-page__text">Новая организация</span>)}
+        {renderForState(
+          'CHOOSE_LOCATION',
+          <span className="create-organization-page__text">Выберите местоположение</span>
+        )}
+        {renderForState('ENTER_QUESTIONS', <span className="create-organization-page__text">Контрольный вопрос</span>)}
+        {renderForState('ADDED', <span className="create-organization-page__text">Организация добавлена</span>)}
       </Header>
       <Backdrop onMapClicked={newPosition => setCoordinates(newPosition)}>
         {renderForState(
@@ -126,13 +168,14 @@ export const CreateOrganizationPage: React.FC = props => {
         {renderForState(
           'CHOOSE_LOCATION',
           <>
-            <Input
+            <Select
               id="organizationAddress"
               placeholderText="Адрес организации"
-              className="centerize centerize_center"
-              disabled
+              className="centerize centerize_top"
               defaultValue={selectedAddress}
-              onChange={value => setName(value)}
+              onChange={fetchOptions}
+              selectionOptions={options}
+              onSelect={onSelectOption}
             />
           </>,
           'appear'

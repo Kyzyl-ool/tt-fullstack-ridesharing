@@ -30,7 +30,7 @@ export const Sidebar = ({ visible, onClose }: ISidebar) => {
         <menu className="rsh-sidebar">
           <div className="rsh-sidebar__container">
             <div className="rsh-sidebar__personal-info">
-              <Avatar src={sampleAvatarSrc} size="small" />
+              <Avatar src={userInfo.photoUrl || sampleAvatarSrc} size="small" />
               <h3 className="rsh-sidebar__username">
                 {userInfo.firstName} {userInfo.lastName}
               </h3>

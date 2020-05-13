@@ -5,6 +5,7 @@ interface IFindRidesRequest {
   organizationId: string;
   latitude: number;
   longitude: number;
+  fromOrganization: boolean;
 }
 
 export interface IGetActiveRidesResponseBodyEntry {
@@ -85,12 +86,13 @@ export default class RideModel {
     return res.data;
   };
 
-  static findRides = async ({ organizationId, latitude, longitude }: IFindRidesRequest) => {
+  static findRides = async ({ organizationId, latitude, longitude, fromOrganization }: IFindRidesRequest) => {
     const res = await axios.get('/api/ride/match', {
       params: {
         organizationId,
         latitude,
-        longitude
+        longitude,
+        fromOrganization
       }
     });
     return res.data;

@@ -17,13 +17,6 @@ const IncomingRequestsPage = () => {
 
   const getRequests = async () => {
     const fetchedRequests = await RideModel.getRequests();
-    console.log(
-      fetchedRequests.filter(request => request.rideId.toString() === rideId),
-      rideId,
-      fetchedRequests[0].rideId,
-      rideId === fetchedRequests[0].rideId.toString(),
-      _isEqual(rideId, fetchedRequests[0].rideId)
-    );
     setRequests(fetchedRequests.filter(request => request.rideId.toString() === rideId));
   };
 
@@ -46,7 +39,7 @@ const IncomingRequestsPage = () => {
               <li className="incoming-requests-page__request" key={request.user.id}>
                 <Link to={`/ride/${request.user.id}`}>
                   <div className="incoming-requests-page__avatar">
-                    <Avatar size="medium" src={sampleAvatarSrc} />
+                    <Avatar size="medium" src={request.user.photoUrl || sampleAvatarSrc} />
                   </div>
                 </Link>
                 <span className="incoming-requests-page__name">

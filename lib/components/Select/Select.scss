@@ -1,0 +1,36 @@
+@import 'lib/styles/colors';
+
+.rsh-select {
+  width: calc(100% - 40px);
+  &__options {
+    list-style: none;
+    margin: 0;
+    padding: 0;
+    background: $ui-white-color;
+    padding: 1px 12px 6px 12px;
+    margin-top: -16px;
+    border-radius: 10px;
+
+    > .location-item__item {
+      height: 35px;
+    }
+
+    .location-item__address {
+      width: 100%;
+      white-space: pre-line;
+      overflow: hidden;
+      max-height: 35px;
+    }
+  }
+
+  &__option {
+    color: $ui-gray-color;
+    line-height: 24px;
+    border-bottom: 1px solid $ui-gray-color;
+    padding: 10px;
+  }
+
+  .rsh-input {
+    width: auto;
+  }
+}

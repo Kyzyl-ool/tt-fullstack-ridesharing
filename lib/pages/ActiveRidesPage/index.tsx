@@ -34,10 +34,10 @@ export const ActiveRidesPage: React.FC = props => {
 
   const handleNext = selectedRideId => {
     // TODO REMOVE STRANGE ASSIGNMENT AFTER BUG WITH startOrganizationAddress will be FIXED
-    const selectedRide = [...activeRides, ...activeHostedRides].find(ride => ride.id === selectedRideId);
-    selectedRide['startOrganizationAddress'] = selectedRide['startOrganization'].address;
-    selectedRide['passengers'] = [];
-    setSelectedRide(selectedRide);
+    const selected = [...activeRides, ...activeHostedRides].find(ride => ride.id === selectedRideId);
+    // selectedRide['startOrganizationAddress'] = selectedRide['startOrganization'].address;
+    selected['passengers'] = [];
+    setSelectedRide(selected);
     setNext();
   };
 
@@ -62,17 +62,17 @@ export const ActiveRidesPage: React.FC = props => {
           <div className={'flex-row nav-tab'}>
             <Button
               className="active-rides-page__navigation-button"
-              filled={currentTab === 'I_AM_DRIVER'}
-              onClick={() => setCurrentTab('I_AM_DRIVER')}
-            >
-              Вы водитель
-            </Button>
-            <Button
-              className="active-rides-page__navigation-button"
               filled={currentTab === 'I_AM_PASSENGER'}
               onClick={() => setCurrentTab('I_AM_PASSENGER')}
             >
               Вы пассажир
+            </Button>
+            <Button
+              className="active-rides-page__navigation-button"
+              filled={currentTab === 'I_AM_DRIVER'}
+              onClick={() => setCurrentTab('I_AM_DRIVER')}
+            >
+              Вы водитель
             </Button>
           </div>
           {isLoaded ? (

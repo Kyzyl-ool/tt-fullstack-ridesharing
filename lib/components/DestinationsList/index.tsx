@@ -13,7 +13,7 @@ interface IDestinationsList {
 export const DestinationsList = ({
   destinations,
   onSelectDestination,
-  text = 'Выберите организацию, от которой будет начинаться поездка:'
+  text = 'Выберите организацию, от/к которой будет совершаться поездка:'
 }: IDestinationsList) => {
   return (
     <div className="destination-list__wrapper">

@@ -125,76 +125,47 @@ export const Auth: React.FC = props => {
     setWaiting(false);
   };
 
+  const scrollToTop = () => {
+    document.querySelector('div.landing-page__container').scroll({
+      top: 0,
+      behavior: 'smooth'
+    });
+  };
+
   useEffect(() => {
     setErrored(false);
   }, [password]);
 
   return (
     <div className={'auth-page'}>
-      <div className={'auth-page__background'} />
-      <h1 className={'auth-page__brand'}>RideSharing</h1>
+      <div className={'landing-page__background'} />
       {renderForState(
         'BEGIN',
-        <div>
-          <div className={'auth-page__base-layer'}>
-            <Button onClick={handleNext}>
-              <b>Регистрация / Вход</b>
-            </Button>
-            {/*<Button onClick={() => goTo('FIND_TRIPS')}>*/}
-            {/*  <b>Найти поездки</b>*/}
-            {/*</Button>*/}
-          </div>
-          <span className={'auth-page__footer'}>
-            Подробнее о приложении
-            <div onClick={() => goTo('LANDING')}>
-              <DoubleArrowIcon />
+        <div className="landing-page__container">
+          <div className="landing-page__auth">
+            <h1 className={'auth-page__brand'}>Ridesharing</h1>
+            <div className={'auth-page__base-layer'}>
+              <Button onClick={handleNext}>
+                <b>Регистрация / Вход</b>
+              </Button>
             </div>
-          </span>
-        </div>,
-        'appear'
-      )}
-      {renderForState(
-        'ENTER_PHONE',
-        <div>
-          <BaseLayer
-            type={'primary'}
-            header={<>Авторизация по номеру телефона</>}
-            className={'auth-page__base-layer auth-page__base-layer_shadowed'}
-          >
-            <StyledFirebaseAuth uiConfig={uiConfig} firebaseAuth={firebase.auth()} />
-          </BaseLayer>
-        </div>,
-        'appear'
-      )}
-      {renderForState(
-        'ENTER_PASSWORD',
-        <BaseLayer type={'primary'} header={<>Введите пароль</>} className={'auth-page__base-layer'}>
-          <Input
-            id={'password'}
-            placeholderText={'Пароль'}
-            onChange={value => setPassword(value)}
-            type={'password'}
-            errored={errored}
-          />
-          <Button onClick={handleNext} filled disabled={waiting}>
-            {waiting ? 'Ожидание...' : 'Подтвердить'}
-          </Button>
-        </BaseLayer>,
-        'appear'
-      )}
-      {renderForState(
-        'LANDING',
-        <div className={'landing-page-container'}>
+            <span className={'auth-page__footer'}>
+              Подробнее о приложении
+              <div>
+                <DoubleArrowIcon />
+              </div>
+            </span>
+          </div>
           <div className={'landing-page'}>
             <div className={'landing-page__text'}>
-              <b>Что такое RideSharing?</b>
+              <b>Что такое Ridesharing?</b>
               <p>
                 Поиск попутчиков, но только в рамках одного города и среди ваших друзей, коллег, знакомых в одной
                 организации
               </p>
             </div>
             <div className={'landing-page__downtown'} />
-            <span className={'auth-page__arrow-down auth-page__footer_black'}>
+            <span className={'auth-page__footer auth-page__footer_black'}>
               Как организованы поездки?
               <DoubleArrowBlackIcon />
             </span>
@@ -208,15 +179,50 @@ export const Auth: React.FC = props => {
               <b>Добирайтесь до пункта назначения вместе!</b>
             </div>
             <div className={'landing-page__tandembike'} />
-            <span className={'auth-page__arrow-down auth-page__footer_black'}>
+            <span className={'auth-page__footer auth-page__footer_black'}>
               В начало
-              <div onClick={() => goTo('BEGIN')}>
-                <DoubleArrowBlackIcon />
+              <div onClick={scrollToTop}>
+                <DoubleArrowBlackIcon className="landing-page__revert-icon" />
               </div>
             </span>
           </div>
         </div>,
-        'slideBottom'
+        'appear'
+      )}
+      {renderForState(
+        'ENTER_PHONE',
+        <>
+          <BaseLayer
+            type={'primary'}
+            header={<>Авторизация по номеру телефона</>}
+            className={'auth-page__base-layer auth-page__base-layer_shadowed auth-page__base-layer--for-auth'}
+          >
+            <StyledFirebaseAuth uiConfig={uiConfig} firebaseAuth={firebase.auth()} />
+            <Button className="auth-page__back-button" onClick={setPrev}>
+              <b>Назад</b>
+            </Button>
+          </BaseLayer>
+        </>,
+        'appear'
+      )}
+      {renderForState(
+        'ENTER_PASSWORD',
+        <>
+          <h1 className={'auth-page__brand'}>Ridesharing</h1>
+          <BaseLayer type={'primary'} header={<>Введите пароль</>} className={'auth-page__base-layer'}>
+            <Input
+              id={'password'}
+              placeholderText={'Пароль'}
+              onChange={value => setPassword(value)}
+              type={'password'}
+              errored={errored}
+            />
+            <Button onClick={handleNext} filled disabled={waiting}>
+              {waiting ? 'Ожидание...' : 'Подтвердить'}
+            </Button>
+          </BaseLayer>
+        </>,
+        'appear'
       )}
     </div>
   );

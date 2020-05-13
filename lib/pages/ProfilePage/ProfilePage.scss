@@ -1,4 +1,4 @@
-@import "lib/styles/colors";
+@import 'lib/styles/colors';
 
 .profile-page {
   display: flex;
@@ -6,14 +6,13 @@
   overflow-y: scroll;
   height: 100%;
   position: absolute;
-
+  width: 100vw;
 
   .location-list__wrapper {
     position: fixed;
     bottom: 0;
     min-height: 300px;
   }
-
 
   &__header {
     z-index: -1;
@@ -30,7 +29,7 @@
 
   &__content {
     background-color: $ui-secondary-color;
-    min-height: calc(76vh - 40px);
+    min-height: calc(76vh - 100px);
     position: relative;
     display: flex;
     flex-direction: column;
@@ -43,6 +42,13 @@
       right: 0;
       top: -40px;
       box-shadow: 0px 4px 4px rgba(0, 0, 0, 0.25);
+    }
+    svg[aria-label='audio-loading'] {
+      position: absolute;
+      margin: auto;
+      left: 0;
+      right: 0;
+      top: -40px;
     }
     .rsh-button {
       left: 0;
@@ -64,6 +70,7 @@
   &__pen {
     position: absolute;
     right: -40px;
+    transform: scale(0.8);
   }
 }
 
@@ -93,7 +100,6 @@
   text-transform: uppercase;
 }
 
-
 .user-info-item {
   position: relative;
   padding: 16px 0 0 0;
@@ -102,6 +108,7 @@
     position: absolute;
     right: 0;
     bottom: 0;
+    transform: scale(0.8);
 
     &_about {
       top: 24px;

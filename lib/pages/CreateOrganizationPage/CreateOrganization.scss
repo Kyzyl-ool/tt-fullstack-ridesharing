@@ -1,5 +1,11 @@
 @import 'lib/styles/colors';
 
+.create-organization-page {
+  &__text {
+    color: $ui-gray-color;
+  }
+}
+
 .centerize {
   position: fixed;
   left: 0;
@@ -8,6 +14,9 @@
 
   &_center {
     top: 40%;
+  }
+  &_top {
+    top: 15%;
   }
 
   &_bottom {

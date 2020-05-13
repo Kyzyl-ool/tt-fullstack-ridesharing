@@ -28,7 +28,8 @@ module.exports = {
     browser: true,
     node: true,
     jasmine: true,
-    jest: true
+    jest: true,
+    es6: true
   },
   settings: {
     react: {

@@ -8,11 +8,17 @@ const defaultState = {
   activePointGps: {
     latitude: null,
     longitude: null
-  }
+  },
+  activePointType: 'default',
+  lines: [],
+  points: [],
+  center: {}
 };
 
 export const mapReducer = (state = defaultState, action) => {
   switch (action.type) {
+    case 'RESET_MAP':
+      return { ...defaultState };
     case 'SET_MAP_BLUR':
       return { ...state, isBlurred: true };
     case 'RESET_MAP_BLUR':
@@ -37,10 +43,28 @@ export const mapReducer = (state = defaultState, action) => {
       return { ...state, isGeopositionUpdateAllowed: false };
     case 'FORBID_CUSTOM_POINTS':
       return { ...state, isCustomPointsAllowed: false };
+    case 'UPDATE_CUSTOM_POINT_TYPE':
+      return { ...state, activePointType: action.pointType };
     case 'SET_CUSTOM_GEOPOSITION':
       return state.isCustomPointsAllowed
-        ? { ...state, activePointGps: { latitude: action.payload.latitude, longitude: action.payload.longitude } }
+        ? {
+            ...state,
+            activePointGps: { latitude: action.payload.latitude, longitude: action.payload.longitude },
+            activePointType: action.payload.pointType
+          }
         : state;
+    case 'SET_LINE':
+      return { ...state, lines: [...state.lines, action.payload] };
+    case 'RESET_LINES':
+      return { ...state, lines: [...defaultState.lines] };
+    case 'SET_POINT':
+      return { ...state, points: [...state.points, action.point] };
+    case 'RESET_POINTS':
+      return { ...state, points: [...defaultState.points] };
+    case 'SET_CENTER':
+      return { ...state, center: action.point };
+    case 'RESET_CENTER':
+      return { ...state, center: { ...defaultState.center } };
     default:
       return state;
   }

@@ -11,3 +11,7 @@ export interface IDestination {
     longitude: number;
   };
 }
+
+export interface IDirectedDestination extends IDestination {
+  fromOrganization: boolean;
+}

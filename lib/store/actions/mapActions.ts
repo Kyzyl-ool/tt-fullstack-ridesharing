@@ -1,5 +1,8 @@
-import MapModel from 'models/MapModel';
+import MapModel, { ICoordinates } from 'models/MapModel';
 import _isEmpty from 'lodash/isEmpty';
+
+type pointType = 'default' | 'organization';
+type lineType = 'primary' | 'secondary';
 
 export const updateNearestOrganizationAction = nearestOrganization => {
   return {
@@ -24,12 +27,20 @@ export const updateGeopositionAction = ({ latitude, longitude }) => async dispat
   }
 };
 
-export const setActivePointAction = ({ latitude, longitude }) => {
+export const setActivePointTypeAction = (pointType: pointType) => {
+  return {
+    type: 'UPDATE_CUSTOM_POINT_TYPE',
+    pointType
+  };
+};
+
+export const setActivePointAction = ({ latitude, longitude }, pointType = 'default') => {
   return {
     type: 'SET_CUSTOM_GEOPOSITION',
     payload: {
-      latitude,
-      longitude
+      latitude: parseFloat(latitude),
+      longitude: parseFloat(longitude),
+      pointType
     }
   };
 };
@@ -103,5 +114,54 @@ export const setMapDimAction = () => {
 export const resetMapDimAction = () => {
   return {
     type: 'RESET_MAP_DIM'
+  };
+};
+
+export const resetMapAction = () => {
+  return {
+    type: 'RESET_MAP'
+  };
+};
+
+export const setLineAction = (start: ICoordinates, finish: ICoordinates, lineType: lineType) => {
+  return {
+    type: 'SET_LINE',
+    payload: {
+      start,
+      finish,
+      type: lineType
+    }
+  };
+};
+
+export const resetAllLinesAction = () => {
+  return {
+    type: 'RESET_LINES'
+  };
+};
+
+export const setPointAction = (point: ICoordinates) => {
+  return {
+    type: 'SET_POINT',
+    point
+  };
+};
+
+export const resetAllPointsAction = () => {
+  return {
+    type: 'RESET_POINTS'
+  };
+};
+
+export const setCenterOnPointAction = (point: ICoordinates) => {
+  return {
+    type: 'SET_CENTER',
+    point
+  };
+};
+
+export const resetCenterOnPointAction = () => {
+  return {
+    type: 'RESET_CENTER'
   };
 };

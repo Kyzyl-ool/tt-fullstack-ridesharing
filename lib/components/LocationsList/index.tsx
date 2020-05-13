@@ -21,7 +21,7 @@ interface ILocationsList {
 export const LocationsList = ({
   locations,
   onSelectLocation,
-  text = 'Выберите организацию, от которой будет начинаться поездка:',
+  text = 'Выберите организацию, от/к которой будет совершаться поездка:',
   onReadyButtonClick,
   onAddNewOrganization,
   onCreateNewOrganization,

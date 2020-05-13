@@ -1,15 +1,17 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
 import UserModel from 'models/UserModel';
-import { useSelector } from 'react-redux';
+import { useSelector, useDispatch } from 'react-redux';
 import './Menu.scss';
+import { resetMapAction } from 'store/actions/mapActions';
+import { resetUserAction } from 'store/actions/userActions';
 
 interface IRoute {
   path: string;
   label: string;
   routeIconClassModifier: string;
   disabled: boolean;
-  backendRequestCallback?: () => void;
+  backendRequestCallback?: (cb?: () => void) => void;
 }
 
 const APPLICATION_ROUTES: IRoute[] = [
@@ -48,7 +50,8 @@ const APPLICATION_ROUTES: IRoute[] = [
     label: 'Выход',
     routeIconClassModifier: 'logout',
     disabled: false,
-    backendRequestCallback: async () => {
+    backendRequestCallback: async clean => {
+      clean();
       await UserModel.logout();
       location.reload();
     }
@@ -56,6 +59,13 @@ const APPLICATION_ROUTES: IRoute[] = [
 ];
 
 export const Menu = () => {
+  const dispatch = useDispatch();
+
+  const cleanRedux = () => {
+    dispatch(resetUserAction());
+    dispatch(resetMapAction());
+  };
+
   return (
     <ul className="rsh-menu">
       {APPLICATION_ROUTES.map(({ path, label, routeIconClassModifier, disabled, backendRequestCallback }) => {
@@ -63,7 +73,7 @@ export const Menu = () => {
           <li key={path} className="rsh-menu__item">
             <div
               onClick={async () => {
-                backendRequestCallback && (await backendRequestCallback());
+                backendRequestCallback && (await backendRequestCallback(cleanRedux));
               }}
               className={`rsh-menu__item-content ${disabled ? 'rsh-menu__item-content--disabled' : ''}`}
             >

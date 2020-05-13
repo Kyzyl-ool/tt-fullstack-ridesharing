@@ -17,7 +17,7 @@ interface IDriverCard {
 }
 
 export const DriverCard = ({
-  ride: { id, host, price, freeSeats, startOrganizationAddress, hostAnswer, stopAddress, car, startDatetime },
+  ride: { id, host, price, freeSeats, organization, hostAnswer, address, car, startDatetime, fromOrganization },
   onSelectRide,
   shadowed = false,
   showRequestsButton = false
@@ -32,6 +32,7 @@ export const DriverCard = ({
       </div>
     );
   };
+  const stopAddress = fromOrganization ? address : organization.address;
   return (
     <div
       onClick={onCardClick}
@@ -39,7 +40,7 @@ export const DriverCard = ({
     >
       <Link to={`/user/${host.id}`}>
         <div className={'driver-card__avatar'}>
-          <Avatar src={sampleAvatarSrc} size={'medium'} mark={host.rating} />
+          <Avatar src={host.photoUrl || sampleAvatarSrc} size={'medium'} mark={host.rating} />
         </div>
       </Link>
 

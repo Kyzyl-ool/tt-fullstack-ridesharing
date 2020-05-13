@@ -1,11 +1,11 @@
 import axios from 'axios';
 
-interface ICoordinates {
+export interface ICoordinates {
   latitude: number;
   longitude: number;
 }
 
-interface ILocation {
+export interface ILocation {
   address: string;
   gps: ICoordinates;
 }
@@ -30,5 +30,12 @@ export default class MapModel {
   static reverseGeocoding = async ({ latitude, longitude }: ICoordinates) => {
     const res = await axios.post<IReverseGeocodingResponse>('/api/decode_gps', { latitude, longitude });
     return res.data;
+  };
+
+  static getDirection = async (start: ICoordinates, finish: ICoordinates) => {
+    const res = await axios.get(
+      `https://api.mapbox.com/directions/v5/mapbox/driving/${start.longitude},${start.latitude};${finish.longitude},${finish.latitude}?geometries=geojson&access_token=${process.env.MAPBOX_TOKEN}`
+    );
+    return res.data.routes[0].geometry;
   };
 }

@@ -1,4 +1,4 @@
-@import "lib/styles/colors";
+@import 'lib/styles/colors';
 
 .user-card {
   border-radius: 10px;
@@ -9,6 +9,7 @@
   min-width: 320px;
   align-items: center;
   margin-top: 8px;
+  padding: 0 10px;
 
   &__name {
     font-family: 'Source Sans Pro', sans-serif;
@@ -19,6 +20,5 @@
     display: flex;
     align-items: center;
     text-align: center;
-
   }
 }

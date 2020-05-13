@@ -1,0 +1,82 @@
+@import 'lib/styles/icons';
+@import 'lib/styles/colors';
+
+.organization-marker {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  // transform: translate(-13px, -26px);
+  position: relative;
+  width: 0;
+  &__icon {
+    background: $organization-icon no-repeat;
+    background-size: contain;
+    width: 26px;
+    height: 26px;
+  }
+  &__name {
+    font-size: 12px;
+    margin: 0;
+    color: $ui-primary-color;
+    text-align: center;
+  }
+  &__loader {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-25px, -25px);
+  }
+  &__tooltip {
+    position: absolute;
+    width: 200px;
+    height: 80px;
+    background-color: $ui-black-color;
+    border-radius: 8px;
+    opacity: 0;
+    top: -116px;
+    transition: opacity 1s;
+    padding: 8px;
+    visibility: hidden;
+
+    &--visible {
+      opacity: 0.8;
+      visibility: visible;
+    }
+
+    &::after {
+      content: '';
+      width: 0;
+      height: 0;
+      border-left: 20px solid transparent;
+      border-right: 20px solid transparent;
+      border-top: 20px solid $ui-black-color;
+      position: absolute;
+      bottom: -15px;
+      left: calc(50% - 20px);
+    }
+  }
+
+  &__info-name {
+    color: $ui-primary-color;
+    margin: 0;
+    font-size: 16px;
+    text-align: center;
+    font-weight: 600;
+    margin-bottom: 3px;
+  }
+
+  &__info-address {
+    color: white;
+    margin: 0;
+    font-size: 14px;
+    text-align: left;
+  }
+
+  &__info-participants {
+    color: white;
+    margin: 0;
+    font-size: 14px;
+    text-align: left;
+  }
+}

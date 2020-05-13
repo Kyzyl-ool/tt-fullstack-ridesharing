@@ -1,3 +1,5 @@
+@import 'lib/styles/colors';
+
 .found-rides {
   &__container {
     position: fixed;
@@ -15,5 +17,24 @@
     max-height: 70vh;
     overflow-y: auto;
     width: 100%;
+  }
+
+  &__placeholder {
+    font-weight: 300;
+    margin: 0;
+    padding: 12px 24px;
+    font-size: 16px;
+    line-height: 20px;
+    color: $ui-white-color;
+    margin-bottom: 15px;
+    font-style: normal;
+    text-align: center;
+  }
+
+  &__empty-options {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
   }
 }
