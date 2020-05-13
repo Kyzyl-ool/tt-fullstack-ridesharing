@@ -95,6 +95,11 @@ export default class UserModel {
     return res.data;
   };
 
+  static searchCarModel = async (search: string) => {
+    const res = await axios.get('/api/car/models', { params: { search } });
+    return res.data;
+  };
+
   static getThisUser = async (): Promise<IPassenger> => {
     const res = await axios.get('/api/user', {
       withCredentials: true

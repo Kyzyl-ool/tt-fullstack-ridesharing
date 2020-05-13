@@ -1,4 +1,5 @@
 import React, { useState } from 'react';
+import _debounce from 'lodash/debounce';
 import _isEmpty from 'lodash/isEmpty';
 import { Dialog } from 'components/Dialog';
 import { Input, validators } from 'components/Input';
@@ -7,6 +8,7 @@ import { ICar } from 'domain/car';
 import { Select } from 'components/Select';
 import { colorDict, ColorTile } from './components/ColorTile';
 import './CreateCarDialog.scss';
+import UserModel from 'models/UserModel';
 
 type CarInfo = Omit<ICar, 'id' | 'owner'>;
 
@@ -17,6 +19,8 @@ interface ICreateCarDialog {
 
 const serializeDict = (dict: string[]) => dict.map(elem => ({ id: elem, name: elem }));
 
+const delayedModelSearch = _debounce(async value => await UserModel.searchCarModel(value), 300);
+
 export const CreateCarDialog = ({ onClose, onReady }: ICreateCarDialog) => {
   const [creatingCarInfo, setCreatingCarInfo] = useState<CarInfo>({
     model: '',
@@ -25,9 +29,12 @@ export const CreateCarDialog = ({ onClose, onReady }: ICreateCarDialog) => {
   });
 
   const [colorOptions, setColorOptions] = useState([]);
+  const [modelOptions, setModelOptions] = useState([]);
 
-  const onModelChange = (model: string) => {
+  const onModelSelected = (model: string) => {
+    console.log(model);
     setCreatingCarInfo({ ...creatingCarInfo, model });
+    setModelOptions([]);
   };
 
   const onRegistryNumberChange = (registryNumber: string) => {
@@ -42,6 +49,11 @@ export const CreateCarDialog = ({ onClose, onReady }: ICreateCarDialog) => {
   const onFilterColors = (value: string) => {
     const filteredColorsOptions = colorDict.filter(color => color.match(new RegExp(value, 'i')));
     setColorOptions(filteredColorsOptions);
+  };
+
+  const onFilterModels = async (value: string) => {
+    const filteredModelsOptions = await delayedModelSearch(value);
+    setModelOptions(filteredModelsOptions);
   };
 
   const onCreatingReady = () => {
@@ -62,13 +74,21 @@ export const CreateCarDialog = ({ onClose, onReady }: ICreateCarDialog) => {
         withRedirectTo={false}
       >
         <p className="create-car-dialog__text">Новый автомобиль</p>
-        <Input
+        <Select
           id="model"
           placeholderText="Модель"
           placeholderType="subscript"
-          onChange={(value, isValid) => onModelChange(isValid ? value : '')}
+          onChange={(value, isValid) => onFilterModels(isValid ? value : '')}
           className="create-car-dialog__input"
+          defaultValue={creatingCarInfo.model || ''}
           validate={validators.composeValidators(validators.notEmpty, validators.isString)}
+          onSelect={onModelSelected}
+          selectionOptions={serializeDict(!_isEmpty(modelOptions) ? modelOptions : [])}
+          renderOption={(option, onSelectOption) => (
+            <div onClick={() => onSelectOption(option)} className="create-car-dialog__color-option">
+              <p className="create-car-dialog__color-option-name">{option.name}</p>
+            </div>
+          )}
         />
         <Input
           id="registryNumber"
@@ -83,13 +103,11 @@ export const CreateCarDialog = ({ onClose, onReady }: ICreateCarDialog) => {
           id="color"
           placeholderText="Цвет"
           placeholderType="subscript"
-          onChange={(value, isValid) => onFilterColors(value)}
+          onChange={(value, isValid) => onFilterColors(isValid ? value : '')}
           className="create-car-dialog__input"
           defaultValue={creatingCarInfo.color || ''}
-          // validate={validators.composeValidators(validators.notEmpty, validators.isString)}
           selectionOptions={serializeDict(!_isEmpty(colorOptions) ? colorOptions : [])}
           onSelect={onColorSelected}
-          // onBlur={() => setColorOptions([])}
           renderOption={(option, onSelectOption) => (
             <div onClick={() => onSelectOption(option)} className="create-car-dialog__color-option">
               <p className="create-car-dialog__color-option-name">{option.name}</p>
