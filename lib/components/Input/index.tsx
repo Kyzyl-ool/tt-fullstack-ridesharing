@@ -14,6 +14,7 @@ export interface IInputProps {
   id: string;
   placeholderText: string;
   onChange?: (value: string, isValid?: boolean) => void;
+  onBlur?: () => void;
   validate?: IValidator;
   changeModifier?: (value: string) => string;
   renderRightAdornment?: () => ReactNode;
@@ -31,6 +32,7 @@ const Input = ({
   id,
   placeholderText,
   onChange = () => {},
+  onBlur = () => {},
   validate = null,
   changeModifier = null,
   renderRightAdornment = null,
@@ -55,7 +57,8 @@ const Input = ({
     }
   };
 
-  const onBlur = (e: React.FocusEvent<HTMLInputElement>) => {
+  const onInputBlur = (e: React.FocusEvent<HTMLInputElement>) => {
+    onBlur();
     if (validate) {
       const errorMessage = validate(e.target.value);
       if (errorMessage) {
@@ -78,7 +81,7 @@ const Input = ({
           id={id}
           value={value}
           onChange={e => onInputChange(e)}
-          onBlur={onBlur}
+          onBlur={onInputBlur}
           placeholder={placeholderType === 'default' ? placeholderText : ''}
           className={`rsh-input__form ${icon ? 'rsh-input__form--with-icon' : ''} ${
             disabled ? 'rsh-input__form--disabled' : ''

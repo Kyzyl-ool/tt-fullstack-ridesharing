@@ -78,11 +78,6 @@ export const OrganizationPage: React.FC = props => {
     getData();
   }, []);
 
-  // useEffect(() => {
-  //   dispatch(setMapHideAction());
-  //   return () => dispatch(resetMapHideAction());
-  // }, []);
-
   const handleBack = () => {
     if (pageState === 'ORGANIZATION') {
       history.push('/');

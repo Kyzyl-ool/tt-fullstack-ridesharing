@@ -3,6 +3,7 @@ import classNames from 'classnames';
 import _isEmpty from 'lodash/isEmpty';
 import { IInputProps, Input } from '../Input';
 import { LocationItem } from 'components/LocationsList/LocationItem';
+import { ILocation } from 'domain/map';
 import './Select.scss';
 
 type IOption = {
@@ -11,16 +12,27 @@ type IOption = {
 };
 
 interface ISelectProps extends IInputProps {
-  selectionOptions: IOption;
+  selectionOptions: IOption[];
   onSelect: (optionId: string) => void;
+  renderOption?: (option: IOption, onSelectOption: (option: IOption) => void) => React.ReactNode;
   maxOptions?: number;
 }
 
-export const Select = ({ selectionOptions, onSelect, className, maxOptions = 3, ...inputProps }: ISelectProps) => {
+export const Select = ({
+  selectionOptions,
+  onSelect,
+  className,
+  renderOption = null,
+  maxOptions = 3,
+  ...inputProps
+}: ISelectProps) => {
   const selectClassNames = classNames({
     'rsh-select': true,
     [className]: true
   });
+  const onSelectOption = (location: ILocation) => {
+    return onSelect(location.address || location.id);
+  };
   return (
     <div className={selectClassNames}>
       <Input {...(inputProps as IInputProps)} />
@@ -29,11 +41,13 @@ export const Select = ({ selectionOptions, onSelect, className, maxOptions = 3, 
           {selectionOptions.map((option, index) => (
             <>
               {index < maxOptions && (
-                <LocationItem
-                  key={option.id}
-                  onSelectLocation={location => onSelect(location.address)}
-                  location={option}
-                />
+                <>
+                  {renderOption ? (
+                    renderOption(option, onSelectOption)
+                  ) : (
+                    <LocationItem key={option.id} onSelectLocation={onSelectOption} location={option} />
+                  )}
+                </>
               )}
             </>
           ))}
