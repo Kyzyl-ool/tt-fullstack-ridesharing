@@ -47,6 +47,8 @@ export const RideCard = ({
   const [isSuccessCancelanceShown, setIsSuccessCancelanceShown] = useState<boolean>(false);
   const [isSuccessFinishShown, setIsSuccessFinishShown] = useState<boolean>(false);
   const [isRejectReasonShown, setIsRejectReasonShown] = useState<boolean>(false);
+  const [finishWarning, setFinishWarning] = useState<string>('');
+  const [cancelWarning, setCancelWarning] = useState<string>('');
   const userInfo = useSelector(state => state.user.user);
   const history = useHistory();
   const dispatch = useDispatch();
@@ -60,12 +62,10 @@ export const RideCard = ({
 
   const showSuccessCancelance = () => {
     setIsSuccessCancelanceShown(true);
-    history.push('/');
   };
 
   const showSuccessFinish = () => {
     setIsSuccessFinishShown(true);
-    history.push('/');
   };
 
   const showRejectReason = () => {
@@ -80,9 +80,17 @@ export const RideCard = ({
     setIsRejectReasonShown(false);
   };
 
+  const onDone = () => {
+    setIsRejectReasonShown(false);
+    setIsSuccessCancelanceShown(false);
+    history.push('/');
+  };
+
   const onCloseFinishDialog = () => {
     setIsSuccessFinishShown(false);
   };
+
+  // conse onCloseWarning = () => {}
 
   const onCloseCancelDialog = () => {
     setIsSuccessCancelanceShown(false);
@@ -90,6 +98,7 @@ export const RideCard = ({
 
   const onCancelRide = async () => {
     try {
+      setCancelWarning('');
       await RideModel.cancelRide(rideId);
       showSuccessCancelance();
     } catch (e) {
@@ -97,8 +106,25 @@ export const RideCard = ({
     }
   };
 
+  const openFinishDialog = () => {
+    setFinishWarning('Вы уверены, что хотите завершить поездку');
+  };
+
+  const openCancelDialog = () => {
+    setCancelWarning('Вы уверены, что хотите отменить поездку');
+  };
+
+  const closeFinishDialog = () => {
+    setFinishWarning('');
+  };
+
+  const closeCancelDialog = () => {
+    setCancelWarning('');
+  };
+
   const onFinishRide = async () => {
     try {
+      setFinishWarning('');
       await RideModel.finishRide(rideId);
       showSuccessFinish();
     } catch (e) {
@@ -249,11 +275,17 @@ export const RideCard = ({
           {renderButton(hostAnswer, userInfo.id === host.id)}
           {userInfo.id === host.id && (
             <div className="ride-card__host-buttons">
-              <div onClick={onFinishRide} className="ride-card__secondary-button ride-card__secondary-button--finish">
+              <div
+                onClick={openFinishDialog}
+                className="ride-card__secondary-button ride-card__secondary-button--finish"
+              >
                 <div className="ride-card__finish-button-icon" />
                 Завершить
               </div>
-              <div onClick={onCancelRide} className="ride-card__secondary-button ride-card__secondary-button--cancel">
+              <div
+                onClick={openCancelDialog}
+                className="ride-card__secondary-button ride-card__secondary-button--cancel"
+              >
                 <div className="ride-card__cancel-button-icon" />
                 Отменить
               </div>
@@ -267,24 +299,51 @@ export const RideCard = ({
           {host.phoneNumber}
         </Button>
       </Dialog>
-      <Dialog
-        className="ride-card__dialog"
-        hide={!isRejectReasonShown}
-        onClose={onCloseRejectReason}
-        withConfirmButton={false}
-      >
+      <Dialog className="ride-card__dialog" hide={!isRejectReasonShown} onClose={onDone} withConfirmButton={false}>
         <p className="ride-card__text">Запрос был отклонен. Водитель пишет: {declineReason}</p>
       </Dialog>
       <Dialog
         className="ride-card__dialog"
         hide={!isSuccessCancelanceShown}
-        onClose={onCloseCancelDialog}
+        onClose={onDone}
         // withConfirmButton={false}
       >
+        <h3 className="ride-card__dialog-header">Успех</h3>
         <p className="ride-card__text">Поездка успешно отклонена!</p>
       </Dialog>
       <Dialog className="ride-card__dialog" hide={!isSuccessFinishShown} onClose={onCloseFinishDialog}>
+        <h3 className="ride-card__dialog-header">Поздравляем!</h3>
         <p className="ride-card__text">Поездка успешно завершена!</p>
+      </Dialog>
+      <Dialog
+        withConfirmButton={false}
+        className="ride-card__warning"
+        hide={!finishWarning}
+        onClose={closeFinishDialog}
+      >
+        <h3 className="ride-card__dialog-header">Предупреждение</h3>
+        <p className="ride-card__text">{finishWarning}</p>
+        <div className="ride-card__dialog-buttons">
+          <Button onClick={closeFinishDialog}>Отмена</Button>
+          <Button onClick={onFinishRide} filled>
+            Завершить
+          </Button>
+        </div>
+      </Dialog>
+      <Dialog
+        withConfirmButton={false}
+        className="ride-card__warning"
+        hide={!cancelWarning}
+        onClose={closeCancelDialog}
+      >
+        <h3 className="ride-card__dialog-header">Предупреждение</h3>
+        <p className="ride-card__text">{cancelWarning}</p>
+        <div className="ride-card__dialog-buttons">
+          <Button onClick={closeCancelDialog}>Отмена</Button>
+          <Button onClick={onCancelRide} filled>
+            Отменить
+          </Button>
+        </div>
       </Dialog>
     </BaseLayer>
   );

@@ -4,7 +4,7 @@
 .ride-card {
   &__text {
     padding: 20px;
-    font-size: 12px;
+    font-size: 16px;
     text-align: center;
     color: $ui-black-color;
   }
@@ -14,11 +14,28 @@
     top: 30vh;
   }
 
+  &__warning {
+    position: fixed;
+    top: 20%;
+  }
+
   &__host-buttons {
     display: flex;
     width: 80%;
     justify-content: space-evenly;
     margin-top: 15px;
+  }
+
+  &__dialog-header {
+    margin-top: 0;
+  }
+
+  &__dialog-buttons {
+    display: flex;
+
+    > button:last-child {
+      margin-left: 10px;
+    }
   }
 
   &__secondary-button {
