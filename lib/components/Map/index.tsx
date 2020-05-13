@@ -109,6 +109,7 @@ export const Map = ({ className = '', onViewportChange, onMapClicked }: IMapProp
   //temporary effect for geocoding organizations
   // TODO remove when /organizations will sent coords inside response
   useEffect(() => {
+    console.log(organizations);
     const organizationGeocoding = async () => {
       const decodedOrganizations = await Promise.all<Array<any>>(
         organizations.map(org => MapModel.forwardGeocoding(org.address))
@@ -188,6 +189,7 @@ export const Map = ({ className = '', onViewportChange, onMapClicked }: IMapProp
 
   const renderOrganizationMarkers = () => {
     // index = 0 is nearest organization
+    console.log('render');
     return (
       <>
         {fetchedOrganizations.length > 0 &&
