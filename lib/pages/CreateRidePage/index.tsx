@@ -92,6 +92,10 @@ export const CreateRidePage = () => {
     setRideCreationInfo({ ...rideCreationInfo, startDatetime: new Date(dateInTimestamp).toISOString() });
   };
 
+  const onChangeDirection = (fromOrganization: boolean) => {
+    setRideCreationInfo({ ...rideCreationInfo, fromOrganization });
+  };
+
   const onConfirmAddress = ({ gps: { latitude, longitude } }: IDestination) => {
     setRideCreationInfo({ ...rideCreationInfo, latitude, longitude });
   };
@@ -111,6 +115,8 @@ export const CreateRidePage = () => {
         onGoBack={onReturnToOrganizationChoosing}
         onSelectDestination={onSelectDestination}
         onConfirmAddress={onConfirmAddress}
+        onChangeDirection={onChangeDirection}
+        fromOrganization={rideCreationInfo.fromOrganization}
         startOrganizationName={selectedOrganizationName}
       />
       <CarSelectBlock

@@ -139,3 +139,29 @@ export const resetAllLinesAction = () => {
     type: 'RESET_LINES'
   };
 };
+
+export const setPointAction = (point: ICoordinates) => {
+  return {
+    type: 'SET_POINT',
+    point
+  };
+};
+
+export const resetAllPointsAction = () => {
+  return {
+    type: 'RESET_POINTS'
+  };
+};
+
+export const setCenterOnPointAction = (point: ICoordinates) => {
+  return {
+    type: 'SET_CENTER',
+    point
+  };
+};
+
+export const resetCenterOnPointAction = () => {
+  return {
+    type: 'RESET_CENTER'
+  };
+};

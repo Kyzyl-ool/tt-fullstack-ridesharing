@@ -1,4 +1,5 @@
 import React, { useEffect, useState } from 'react';
+import Loader from 'react-loader-spinner';
 import usePageState from 'hooks/usePageState/usePageState';
 import { HeaderBackground } from 'components/HeaderBackground';
 import './ProfilePage.scss';
@@ -11,6 +12,8 @@ import { LocationsList } from 'components/LocationsList';
 import UserModel, { IUserData } from 'models/UserModel';
 import { ILocation } from 'domain/map';
 import { sampleAvatarSrc } from 'samples/samples';
+import { FileUploader } from 'components/FIleUploader';
+import ImageModel from 'models/ImageModel';
 
 export const ProfilePage: React.FC = props => {
   const [pageState, setNext, setPrev, renderForState, goTo] = usePageState([
@@ -21,6 +24,7 @@ export const ProfilePage: React.FC = props => {
   ]);
   const [userData, setUserData] = useState<IUserData>();
   const [isChanged, setIsChanged] = useState<boolean>(false);
+  const [isPhotoUploaded, setIsPhotoUploaded] = useState(false);
   const history = useHistory();
   const [myOrganizations, setMyOrganizations] = useState<ILocation[]>();
 
@@ -30,10 +34,12 @@ export const ProfilePage: React.FC = props => {
       setMyOrganizations(getOrganizationsResponse);
       const getUserProfileResponse = await UserModel.getThisUser();
       setUserData(getUserProfileResponse);
-      const getMyCars = await UserModel.getCars();
+      setIsPhotoUploaded(true);
     };
 
-    getUserData();
+    if (!isPhotoUploaded) {
+      getUserData();
+    }
   }, []);
 
   const onDeleteCar = async id => {
@@ -71,6 +77,23 @@ export const ProfilePage: React.FC = props => {
     history.push('/organization/create');
   };
 
+  const onAvatarUpload = async (e: React.ChangeEvent<HTMLInputElement>) => {
+    setIsPhotoUploaded(false);
+    try {
+      const file = e.target.files[0];
+      await ImageModel.uploadImage(file);
+      const getUserProfileResponse = await UserModel.getThisUser();
+      setUserData(getUserProfileResponse);
+    } catch (e) {
+      throw new Error(e);
+    } finally {
+      setIsPhotoUploaded(true);
+    }
+  };
+
+  const onRedirectToOrganization = (organization: ILocation) => {
+    history.push(`/organization/${organization.id}`);
+  };
   return (
     <div className={'profile-page'}>
       <div onClick={onBack}>
@@ -82,7 +105,11 @@ export const ProfilePage: React.FC = props => {
 
       <div className={'profile-page__content'}>
         {/* <Avatar src={userData && userData.photoUrl} size={'large'} /> */}
-        <Avatar src={userData && sampleAvatarSrc} size="large" />
+        {isPhotoUploaded && userData ? (
+          <Avatar src={userData.photoUrl || sampleAvatarSrc} size="large" />
+        ) : (
+          <Loader height={50} width={50} color="#242424" type="Oval" />
+        )}
         <span className={'user-name'}>
           {userData && userData.firstName}&nbsp;{userData && userData.lastName} <PenIcon className={'user-name__pen'} />
         </span>
@@ -96,11 +123,7 @@ export const ProfilePage: React.FC = props => {
 
         <div className={'user-info-item'}>
           <span className={'profile-caption'}>О себе</span>
-          <span className={'user-about'}>
-            Lorem ipsum dolor sit amet, consectetur adipiscing elit. Augue blandit nascetur enim quam. Et suscipit non
-            aenean nibh massa augue. Morbi lacinia sit tincidunt nisl commodo id enim tempor, elementum. Lacus eget dui
-            velit malesuada adipiscing nunc, in id duis.
-          </span>
+          <span className={'user-about'}>Данных о пользователе пока нет</span>
           <PenIcon className={'user-info-item__pen user-info-item__pen_about'} />
         </div>
 
@@ -116,6 +139,10 @@ export const ProfilePage: React.FC = props => {
         <u className={'underlined-clickable'} onClick={() => goTo('PROFILE_PASSWORD')}>
           Сменить пароль
         </u>
+        <br />
+        <FileUploader id="file" accept=".jpg, .png, .jpeg" onChange={onAvatarUpload}>
+          <u className={'underlined-clickable'}>Изменить аватар</u>
+        </FileUploader>
 
         <br />
         <Button filled disabled={!isChanged} onClick={onSave}>
@@ -140,7 +167,7 @@ export const ProfilePage: React.FC = props => {
         <LocationsList
           text={'Ваши организации:'}
           locations={myOrganizations}
-          onSelectLocation={() => {}}
+          onSelectLocation={onRedirectToOrganization}
           onReadyButtonClick={onOrganizationsSave}
           onAddNewOrganization={onAddNewOrganization}
           onCreateNewOrganization={onCreateNewOrganization}

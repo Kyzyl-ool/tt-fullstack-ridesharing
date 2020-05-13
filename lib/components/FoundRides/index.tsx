@@ -40,7 +40,14 @@ export const FoundRides: React.FC<IFoundRides> = ({ rides, onSendRequest, onSele
       <GoBackArrow onGoBack={onBackArrowClick} className="found-rides__back-arrow" />
       <Slider visible={selected} timeout={900} unmountOnExit from={'bottom'}>
         <div className="found-rides__container">
-          <RideCard onButtonClick={onSendRequest} ride={rides[selectedRideIndex]} onBack={() => setSelected(false)} />
+          <RideCard
+            onButtonClick={onSendRequest}
+            ride={{
+              ...rides[selectedRideIndex],
+              organization: { address: rides[selectedRideIndex] && rides[selectedRideIndex].organizationAddress }
+            }}
+            onBack={() => setSelected(false)}
+          />
         </div>
       </Slider>
       <Slider visible={!selected} timeout={900} unmountOnExit from={'bottom'}>
@@ -57,7 +64,12 @@ export const FoundRides: React.FC<IFoundRides> = ({ rides, onSendRequest, onSele
                     }}
                     style={{ width: '100%' }}
                   >
-                    <DriverCard key={index} ride={ride} onSelectRide={onSelectRide} waiting={false} />
+                    <DriverCard
+                      key={index}
+                      ride={{ ...ride, organization: { address: ride.organizationAddress } }}
+                      onSelectRide={onSelectRide}
+                      waiting={false}
+                    />
                   </div>
                 ))
               ) : (

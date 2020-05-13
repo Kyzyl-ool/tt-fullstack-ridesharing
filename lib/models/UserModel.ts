@@ -76,20 +76,6 @@ export default class UserModel {
     }
   };
 
-  static mockLogin = async () => {
-    // TODO implement real authorization logic when authorization will be ready
-    try {
-      const res = await axios.post(
-        `/api/login`,
-        { login: 'user_67@gmail.com', password: '12345' },
-        { withCredentials: true }
-      );
-      return true;
-    } catch (e) {
-      return e.response.data.description === 'Already logged-in';
-    }
-  };
-
   static logout = async () => {
     try {
       const res = await axios.post('/api/logout');

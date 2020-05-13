@@ -62,17 +62,17 @@ export const ActiveRidesPage: React.FC = props => {
           <div className={'flex-row nav-tab'}>
             <Button
               className="active-rides-page__navigation-button"
-              filled={currentTab === 'I_AM_DRIVER'}
-              onClick={() => setCurrentTab('I_AM_DRIVER')}
-            >
-              Вы водитель
-            </Button>
-            <Button
-              className="active-rides-page__navigation-button"
               filled={currentTab === 'I_AM_PASSENGER'}
               onClick={() => setCurrentTab('I_AM_PASSENGER')}
             >
               Вы пассажир
+            </Button>
+            <Button
+              className="active-rides-page__navigation-button"
+              filled={currentTab === 'I_AM_DRIVER'}
+              onClick={() => setCurrentTab('I_AM_DRIVER')}
+            >
+              Вы водитель
             </Button>
           </div>
           {isLoaded ? (

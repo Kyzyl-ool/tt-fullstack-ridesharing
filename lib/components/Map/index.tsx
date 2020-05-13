@@ -3,7 +3,7 @@ import React, { useState, ReactNode, useEffect } from 'react';
 import _isEmpty from 'lodash/isEmpty';
 import { useDispatch, useSelector } from 'react-redux';
 import classNames from 'classnames';
-import ReactMapGL, { PointerEvent, FlyToInterpolator, Marker } from 'react-map-gl';
+import ReactMapGL, { PointerEvent, FlyToInterpolator, Marker, GeolocateControl } from 'react-map-gl';
 import {
   updateGeopositionAction,
   setActivePointAction,
@@ -33,7 +33,9 @@ export const Map = ({ className = '', onViewportChange, onMapClicked }: IMapProp
     isBlurred,
     isHidden,
     isDimmed,
-    lines
+    lines,
+    points,
+    center
   } = useSelector(state => state.map);
   const { authorized } = useSelector(state => state.auth);
   const { latitude: userLatitude, longitude: userLongitude, organizations } = useSelector(state => state.user);
@@ -84,6 +86,25 @@ export const Map = ({ className = '', onViewportChange, onMapClicked }: IMapProp
       getInitialUserGeoposition();
     }
   }, [authorized]);
+
+  useEffect(() => {
+    if (!_isEmpty(lines)) {
+      setViewport({
+        ...viewport,
+        zoom: 9
+      });
+    }
+  }, [lines]);
+
+  useEffect(() => {
+    if (!_isEmpty(center)) {
+      setViewport({
+        ...viewport,
+        latitude: center.latitude,
+        longitude: center.longitude
+      });
+    }
+  }, [center]);
 
   //temporary effect for geocoding organizations
   // TODO remove when /organizations will sent coords inside response
@@ -142,6 +163,18 @@ export const Map = ({ className = '', onViewportChange, onMapClicked }: IMapProp
     );
   };
 
+  const renderPoint = () => {
+    return (
+      <>
+        {points.map(point => (
+          <Marker key={point.latitude} longitude={parseFloat(point.longitude)} latitude={parseFloat(point.latitude)}>
+            <div className="rsh-map__active-pin" />
+          </Marker>
+        ))}
+      </>
+    );
+  };
+
   const renderUserLocationPin = () => {
     const canBeRendered = isUserLocationAllowed && userLatitude && userLongitude;
     return (
@@ -179,6 +212,17 @@ export const Map = ({ className = '', onViewportChange, onMapClicked }: IMapProp
         {renderUserLocationPin()}
         {renderOrganizationMarkers()}
         {!_isEmpty(lines) && lines.map(line => <MapDirection key={line.start.latitude} line={line} />)}
+        {!_isEmpty(points) && renderPoint()}
+        <GeolocateControl
+          style={{
+            position: 'fixed',
+            top: '70px',
+            right: 0
+          }}
+          showUserLocation={false}
+          positionOptions={{ enableHighAccuracy: true }}
+          trackUserLocation={true}
+        />
       </ReactMapGL>
     </div>
   );

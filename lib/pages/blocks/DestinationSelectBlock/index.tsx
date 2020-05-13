@@ -12,10 +12,12 @@ import { Button } from 'components/Button';
 import { allowCustomPointsAction, forbidCustomPointsAction } from 'store/actions/mapActions';
 import './DestinationSelectBlock.scss';
 
-interface IDestinationSelectBlock {
+interface IDestinationSelectBlockProps {
   onGoBack: () => void;
-  onSelectDestination: (gps: IDirectedDestination['gps'], fromOrganization: boolean) => void;
+  onSelectDestination: (gps: IDirectedDestination['gps']) => void;
   onConfirmAddress: (gps: IDirectedDestination) => void;
+  onChangeDirection: (fromOrganization: boolean) => void;
+  fromOrganization: boolean;
   startOrganizationName: string;
   visible: boolean;
 }
@@ -25,11 +27,13 @@ export const DestinationSelectBlock = ({
   visible,
   onSelectDestination,
   onConfirmAddress,
-  startOrganizationName
-}: IDestinationSelectBlock) => {
+  startOrganizationName,
+  onChangeDirection,
+  fromOrganization
+}: IDestinationSelectBlockProps) => {
   const [matchedDestinations, setMatchedDestinations] = useState([]);
   const [isMapShown, setIsMapShown] = useState(false);
-  const [fromOrganization, setFromOrganization] = useState(true);
+  // const [fromOrganization, setFromOrganization] = useState(true);
   const [selectedAddress, setSelectedAddress] = useState('');
   const addressName = useMemo(
     () =>
@@ -147,10 +151,7 @@ export const DestinationSelectBlock = ({
                 {renderOrganizationInput()}
                 {renderPointInput()}
                 <div className="destination-select-block__button-wrapper">
-                  <Button
-                    className="destination-select-block__switch-button"
-                    onClick={() => setFromOrganization(false)}
-                  >
+                  <Button className="destination-select-block__switch-button" onClick={() => onChangeDirection(false)}>
                     {'Ехать к организации'}
                   </Button>
                 </div>
@@ -160,7 +161,7 @@ export const DestinationSelectBlock = ({
                 {renderPointInput()}
                 {renderOrganizationInput()}
                 <div className="destination-select-block__button-wrapper">
-                  <Button className="destination-select-block__switch-button" onClick={() => setFromOrganization(true)}>
+                  <Button className="destination-select-block__switch-button" onClick={() => onChangeDirection(true)}>
                     {'Ехать от организации'}
                   </Button>
                 </div>

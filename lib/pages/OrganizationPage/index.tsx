@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from 'react';
-import { useParams, useHistory } from 'react-router-dom';
+import _isEmpty from 'lodash/isEmpty';
+import { useParams, useHistory, Link } from 'react-router-dom';
 import dateFormat from 'date-fns/format';
 import ruLocale from 'date-fns/locale/ru';
 import { Header } from 'components/Header';
@@ -11,6 +12,15 @@ import { BaseLayer } from 'components/BaseLayer/BaseLayer';
 import { OrganizationModel } from 'models/OrganizationModel';
 import { UserCard } from 'components/UserCard';
 import './OrganizationPage.scss';
+import { useHiddenMap } from 'hooks/mapHooks';
+import {
+  setMapHideAction,
+  resetMapHideAction,
+  setCenterOnPointAction,
+  resetCenterOnPointAction
+} from 'store/actions/mapActions';
+import { useDispatch } from 'react-redux';
+import { CenteredLoader } from 'components/CenteredLoader';
 
 type OrganizationDataType = {
   address: string;
@@ -27,6 +37,8 @@ type OrganizationDataType = {
   photoUrl: string;
   totalDrivers: string;
   totalMembers: string;
+  latitude: number;
+  longitude: number;
 };
 
 type OrganizationMemberType = {
@@ -44,28 +56,15 @@ type OrganizationMembersType = {
 
 export const OrganizationPage: React.FC = props => {
   const { organizationId } = useParams();
+  // const [mapHidden, setMapHidden] = useHiddenMap(false);
   const history = useHistory();
-  const [organizationData, setOrganizationData] = useState<OrganizationDataType>({
-    address: 'загрузка...',
-    creator: {
-      id: 0,
-      photoUrl: ''
-    },
-    description: '',
-    id: 0,
-    lastRideDatetime: new Date().toISOString(),
-    maxRideCost: '-',
-    minRideCost: '-',
-    name: '',
-    photoUrl: '',
-    totalDrivers: '',
-    totalMembers: ''
-  });
+  const [organizationData, setOrganizationData] = useState<OrganizationDataType>(null);
   const [organizationMembers, setOrganizationMembers] = useState<OrganizationMembersType>({
     id: 0,
     members: []
   });
   const [pageState, setNext, setPrev, renderForState] = usePageState(['ORGANIZATION', 'MEMBERS']);
+  const dispatch = useDispatch();
 
   useEffect(() => {
     const getData = async () => {
@@ -79,6 +78,11 @@ export const OrganizationPage: React.FC = props => {
     getData();
   }, []);
 
+  // useEffect(() => {
+  //   dispatch(setMapHideAction());
+  //   return () => dispatch(resetMapHideAction());
+  // }, []);
+
   const handleBack = () => {
     if (pageState === 'ORGANIZATION') {
       history.push('/');
@@ -90,81 +94,99 @@ export const OrganizationPage: React.FC = props => {
     setNext();
   };
 
+  useEffect(() => {
+    if (!_isEmpty(organizationData)) {
+      const { latitude, longitude } = organizationData;
+      dispatch(setCenterOnPointAction({ latitude, longitude }));
+    }
+    return () => dispatch(resetCenterOnPointAction());
+  }, [organizationData]);
+
   return (
-    <div>
-      <Backdrop>
-        <Header iconType={'back'} onIconClick={handleBack}>
-          <NearestOrganizationLabel onClick={() => {}} />
-        </Header>
-        {renderForState(
-          'ORGANIZATION',
-          <BaseLayer type={'primary'} className={'centerize centerize_bottom'}>
-            <div className={'flex-row organization-page-card__head'}>
-              <Avatar
-                src={organizationData.creator.photoUrl}
-                size={'small'}
-                subtext={'Создатель'}
-                className={'margin'}
-              />
-              <div className={'flex-column'}>
-                <span>Эта организация находится по адресу:</span>
-                <span className={'organization-page-card__head_address'}>
-                  <b>{organizationData.address}</b>
-                </span>
+    <>
+      {!_isEmpty(organizationData) ? (
+        <div>
+          <Header iconType={'back'} onIconClick={handleBack}>
+            <NearestOrganizationLabel onClick={() => {}} />
+          </Header>
+          {renderForState(
+            'ORGANIZATION',
+            <BaseLayer type={'primary'} className={'organization-page__layer'}>
+              <div className={'flex-row organization-page__head'}>
+                <Link to={`/user/${organizationData.creator.id}`}>
+                  <Avatar
+                    src={organizationData.creator.photoUrl}
+                    size={'small'}
+                    subtext={'Создатель'}
+                    className={'margin'}
+                  />
+                </Link>
+                <div className={'organization-page__main-info'}>
+                  <span className="organization-page__name">{organizationData.name}</span>
+                  <span className={'organization-page__address-wrapper'}>
+                    <b className={'organization-page__address'}>{organizationData.address}</b>
+                  </span>
+                </div>
               </div>
-            </div>
-            <div className={'organization-page-card__info'}>
-              <div>
+              <div className={'organization-page__info'}>
                 <div className={'flex-row'}>
                   <div style={{ width: '60%' }}>
-                    <span>Последняя поездка с водителем из этой организации была создана</span>
+                    <span>Дата последней поездки:</span>
                     <br />
                     <b>
-                      {dateFormat(new Date(organizationData.lastRideDatetime), 'dd MMM yyyy', {
-                        locale: ruLocale
-                      })}
+                      {organizationData.lastRideDatetime !== '-'
+                        ? dateFormat(new Date(organizationData.lastRideDatetime), 'dd MMM yyyy', {
+                            locale: ruLocale
+                          })
+                        : 'N/A'}
                     </b>
                   </div>
                   <div>
                     Кол-во участников:&nbsp;<b>{organizationData.totalMembers}</b>
                     <br />
-                    Из них водителей:&nbsp;<b>{organizationData.totalDrivers}</b>
+                    Водителей:&nbsp;<b>{organizationData.totalDrivers}</b>
                     <br />
-                    Пассажиров:&nbsp;<b>{+organizationData.totalMembers - +organizationData.totalDrivers}</b>
                     <br />
                     <u onClick={handleNext} className={'underlined-clickable'}>
                       Просмотреть участников
                     </u>
                   </div>
                 </div>
+                <br />
+
+                <div>
+                  Стоимость поездки:{' '}
+                  {organizationData.minRideCost !== '-' && organizationData.maxRideCost !== '-' ? (
+                    <b>
+                      от {Number(organizationData.minRideCost).toFixed(0)} до{' '}
+                      {Number(organizationData.maxRideCost).toFixed(0)} ₽
+                    </b>
+                  ) : (
+                    <b>N/A</b>
+                  )}
+                </div>
               </div>
-              <br />
-              <div>
-                Стоимость поездки:{' '}
-                <b>
-                  от {Number(organizationData.minRideCost).toFixed(0)} до{' '}
-                  {Number(organizationData.maxRideCost).toFixed(0)} ₽
-                </b>
-              </div>
-            </div>
-          </BaseLayer>,
-          'slideBottom'
-        )}
-        {renderForState(
-          'MEMBERS',
-          <div className={`backgrounded`}>
-            {organizationMembers.members.map(value => (
-              <UserCard
-                key={value.id}
-                avatarSrc={value.photoUrl}
-                mark={value.rating}
-                name={`${value.firstName} ${value.lastName}`}
-              />
-            ))}
-          </div>,
-          'slideBottom'
-        )}
-      </Backdrop>
-    </div>
+            </BaseLayer>,
+            'appear'
+          )}
+          {renderForState(
+            'MEMBERS',
+            <div className={`organization-page__background`}>
+              {organizationMembers.members.map(value => (
+                <UserCard
+                  key={value.id}
+                  avatarSrc={value.photoUrl}
+                  mark={value.rating}
+                  name={`${value.firstName} ${value.lastName}`}
+                />
+              ))}
+            </div>,
+            'appear'
+          )}
+        </div>
+      ) : (
+        <CenteredLoader />
+      )}
+    </>
   );
 };

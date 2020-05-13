@@ -57,18 +57,15 @@ export const JoinRidePage = () => {
     setPageState('DESTINATION_CHOOSING');
   };
 
-  const onSelectDestination = async ({
-    gps: { latitude, longitude },
-    fromOrganization
-  }: Pick<IDirectedDestination, 'fromOrganization' | 'gps'>) => {
-    setRideSearchingInformation({ ...rideSearchingInformation, latitude, longitude, fromOrganization });
+  const onSelectDestination = async ({ latitude, longitude }: IDestination['gps']) => {
+    setRideSearchingInformation({ ...rideSearchingInformation, latitude, longitude });
     setPageState('SEARCHING');
     try {
       const rides = await RideModel.findRides({
         organizationId: rideSearchingInformation.organizationId,
         latitude,
         longitude,
-        fromOrganization
+        fromOrganization: rideSearchingInformation.fromOrganization
       });
       setFetchedRides(rides);
       setPageState('SEARCH_COMPLETED');
@@ -78,9 +75,9 @@ export const JoinRidePage = () => {
     }
   };
 
-  const onConfirmAddress = async ({ gps: { latitude, longitude }, fromOrganization }: IDirectedDestination) => {
-    setRideSearchingInformation({ ...rideSearchingInformation, latitude, longitude, fromOrganization });
-    await onSelectDestination({ gps: { latitude, longitude }, fromOrganization });
+  const onConfirmAddress = async ({ gps: { latitude, longitude } }: IDestination) => {
+    setRideSearchingInformation({ ...rideSearchingInformation, latitude, longitude });
+    await onSelectDestination({ latitude, longitude });
   };
 
   const onSendRequest = () => {
@@ -107,6 +104,10 @@ export const JoinRidePage = () => {
   const getPriceToPay = () =>
     !_isEmpty(fetchedRides) ? fetchedRides.find(ride => ride.id === selectedRideId).price : 0;
 
+  const onChangeDirection = (fromOrganization: boolean) => {
+    setRideSearchingInformation({ ...rideSearchingInformation, fromOrganization });
+  };
+
   return (
     <div>
       {pageState === 'INITIAL' && <InitialRideBlock onInputClick={onStartOrganizationChoosing} />}
@@ -119,6 +120,8 @@ export const JoinRidePage = () => {
         onConfirmAddress={onConfirmAddress}
         visible={pageState === 'DESTINATION_CHOOSING'}
         onGoBack={onReturnToOrganizationChoosing}
+        onChangeDirection={onChangeDirection}
+        fromOrganization={rideSearchingInformation.fromOrganization}
         onSelectDestination={onSelectDestination}
         startOrganizationName={selectedOrganizationName}
       />

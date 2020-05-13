@@ -13,7 +13,7 @@ import { Dialog } from 'components/Dialog';
 import RideModel from 'models/RideModel';
 import './RideCard.scss';
 import MapModel from 'models/MapModel';
-import { setLineAction, resetAllLinesAction } from 'store/actions/mapActions';
+import { setLineAction, resetAllLinesAction, setPointAction, resetAllPointsAction } from 'store/actions/mapActions';
 
 export interface IRideCard {
   ride: IRide;
@@ -23,6 +23,7 @@ export interface IRideCard {
 }
 
 export const RideCard = ({
+  ride,
   ride: {
     organization,
     address,
@@ -115,10 +116,14 @@ export const RideCard = ({
         MapModel.forwardGeocoding(address)
       ]);
       dispatch(setLineAction(first.gps, second.gps, 'primary'));
+      dispatch(setPointAction(second.gps));
     };
     setLine();
-    return () => dispatch(resetAllLinesAction());
-  }, []);
+    return () => {
+      dispatch(resetAllLinesAction());
+      dispatch(resetAllPointsAction());
+    };
+  }, [ride]);
 
   const renderButton = (hostAnswerType: IHostAnswer, isHost: boolean) => {
     const commonProps = {
@@ -201,7 +206,7 @@ export const RideCard = ({
               <div className={'ride-card-avatar-and-info'}>
                 <Link to={`/user/${host.id}`}>
                   <div className={'ride-card-content_margin-8'}>
-                    <Avatar src={sampleAvatarSrc} size={'small'} mark={host.rating} />
+                    <Avatar src={host.photoUrl || sampleAvatarSrc} size={'small'} mark={host.rating} />
                   </div>
                 </Link>
                 <div>

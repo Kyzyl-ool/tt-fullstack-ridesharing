@@ -1,4 +1,5 @@
 import React, { useRef } from 'react';
+import './FileUploader.scss';
 
 export const FileUploader = ({ id, children, onChange, accept }) => {
   const inputRef = useRef(null);
@@ -8,7 +9,7 @@ export const FileUploader = ({ id, children, onChange, accept }) => {
   };
 
   return (
-    <div onClick={onClick}>
+    <div className="rsh-uploader" onClick={onClick}>
       <input id={id} type="file" onChange={onChange} accept={accept} hidden={true} ref={inputRef} />
       {children}
     </div>

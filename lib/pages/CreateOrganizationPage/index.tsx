@@ -34,20 +34,11 @@ type QuestionAndAnswer = {
   answer: string;
 };
 
-const serializeOptions = (options: IDestination[]) => {
-  return options.map(option => {
-    const optionName = parseLocationAddress(option.address).name;
-    return {
-      id: option.address,
-      name: optionName
-    };
-  });
-};
-
 export const CreateOrganizationPage: React.FC = props => {
   const [name, setName] = useState<string>('');
   const [options, setOptions] = useState<IDestination[] | []>([]);
   const [coordinates, setCoordinates] = useState<Coordinates>({ latitude: null, longitude: null });
+  const [newOrganizationId, setNewOrganizationId] = useState(null);
   const [question, setQuestion] = useState<QuestionAndAnswer>({
     question: '',
     answer: ''
@@ -97,11 +88,12 @@ export const CreateOrganizationPage: React.FC = props => {
         controlAnswer: question.answer,
         ...coordinates
       }).then(r => {
+        setNewOrganizationId(r.data.id);
         setNext();
       });
     } else {
       if (pageState === 'ADDED') {
-        history.push('/');
+        history.push(`/organization/${newOrganizationId}`);
         const organizations = await UserModel.getOrganizations();
         dispatch(setOrganizationsAction(organizations));
       } else {
@@ -130,6 +122,7 @@ export const CreateOrganizationPage: React.FC = props => {
     const selectedPointGps = selectedOption.gps;
     dispatch(setActivePointAction(selectedPointGps, 'organization'));
     setSelectedAddress(parseLocationAddress(address).name);
+    setCoordinates(selectedPointGps);
     setOptions([]);
   };
 
@@ -159,6 +152,7 @@ export const CreateOrganizationPage: React.FC = props => {
           <span className="create-organization-page__text">Выберите местоположение</span>
         )}
         {renderForState('ENTER_QUESTIONS', <span className="create-organization-page__text">Контрольный вопрос</span>)}
+        {renderForState('ADDED', <span className="create-organization-page__text">Организация добавлена</span>)}
       </Header>
       <Backdrop onMapClicked={newPosition => setCoordinates(newPosition)}>
         {renderForState(

@@ -40,7 +40,7 @@ export const DriverCard = ({
     >
       <Link to={`/user/${host.id}`}>
         <div className={'driver-card__avatar'}>
-          <Avatar src={sampleAvatarSrc} size={'medium'} mark={host.rating} />
+          <Avatar src={host.photoUrl || sampleAvatarSrc} size={'medium'} mark={host.rating} />
         </div>
       </Link>
 

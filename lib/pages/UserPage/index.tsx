@@ -73,7 +73,7 @@ export const UserPage: React.FC<IUserPage> = props => {
       <div className={'user-page'}>
         <div className="user-page__user-info">
           <div className={'user-page__avatar-and-name'}>
-            <Avatar src={sampleAvatarSrc} size={'large'} mark={userInfo.rating} shadowed />
+            <Avatar src={userInfo.photoUrl || sampleAvatarSrc} size={'large'} mark={userInfo.rating} shadowed />
             <h1>
               {userInfo.firstName} {userInfo.lastName}
             </h1>

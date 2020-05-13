@@ -10,7 +10,9 @@ const defaultState = {
     longitude: null
   },
   activePointType: 'default',
-  lines: []
+  lines: [],
+  points: [],
+  center: {}
 };
 
 export const mapReducer = (state = defaultState, action) => {
@@ -55,6 +57,14 @@ export const mapReducer = (state = defaultState, action) => {
       return { ...state, lines: [...state.lines, action.payload] };
     case 'RESET_LINES':
       return { ...state, lines: [...defaultState.lines] };
+    case 'SET_POINT':
+      return { ...state, points: [...state.points, action.point] };
+    case 'RESET_POINTS':
+      return { ...state, points: [...defaultState.points] };
+    case 'SET_CENTER':
+      return { ...state, center: action.point };
+    case 'RESET_CENTER':
+      return { ...state, center: { ...defaultState.center } };
     default:
       return state;
   }
