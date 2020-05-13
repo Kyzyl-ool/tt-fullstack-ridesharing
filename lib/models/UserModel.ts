@@ -142,11 +142,8 @@ export default class UserModel {
 
   static registerUser = async (registerUserBody: IRegisterUserRequestBody): Promise<{ user_id: number }> => {
     const res = await axios.post('/api/register_user', {
-      // eslint-disable-next-line @typescript-eslint/camelcase
       firstName: registerUserBody.firstName,
-      // eslint-disable-next-line @typescript-eslint/camelcase
       lastName: registerUserBody.lastName,
-      // eslint-disable-next-line @typescript-eslint/camelcase
       phoneNumber: registerUserBody.phoneNumber,
       password: registerUserBody.password,
       email: `${registerUserBody.phoneNumber}@ridesharing.online`
