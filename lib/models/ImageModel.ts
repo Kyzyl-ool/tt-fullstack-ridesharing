@@ -20,7 +20,7 @@ export default class ImageModel {
       const bodyFormData = new FormData();
       Object.entries(presignData.fields).forEach(([key, value]) => bodyFormData.set(key, value as string));
       bodyFormData.append('file', image);
-      axios.post(presignData.url, bodyFormData, {
+      await axios.post(presignData.url, bodyFormData, {
         headers: {
           'Content-Type': 'multipart/form-data'
         }
