@@ -14,6 +14,7 @@ import RideModel from 'models/RideModel';
 import './RideCard.scss';
 import MapModel from 'models/MapModel';
 import { setLineAction, resetAllLinesAction, setPointAction, resetAllPointsAction } from 'store/actions/mapActions';
+import { parseISO, parse, isBefore } from 'date-fns';
 
 export interface IRideCard {
   ride: IRide;
@@ -191,6 +192,9 @@ export const RideCard = ({
     }
   };
 
+  // artificially forbid to finish if current time is less than startDatetime
+  const isPossibleToFinish = isBefore(parseISO(startDatetime), new Date());
+
   return (
     <BaseLayer
       type={'headed'}
@@ -277,7 +281,9 @@ export const RideCard = ({
             <div className="ride-card__host-buttons">
               <div
                 onClick={openFinishDialog}
-                className="ride-card__secondary-button ride-card__secondary-button--finish"
+                className={`ride-card__secondary-button ride-card__secondary-button--finish ${
+                  !isPossibleToFinish ? 'ride-card__secondary-button--disabled' : ''
+                }`}
               >
                 <div className="ride-card__finish-button-icon" />
                 Завершить
