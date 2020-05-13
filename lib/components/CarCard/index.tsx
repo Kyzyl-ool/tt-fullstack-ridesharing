@@ -6,6 +6,7 @@ import okSrc from '../../icons/Ok.svg';
 import { UnstyledInput } from '../UnstyledInput/UnstyledInput';
 import { ICar } from 'domain/car';
 import './CarCard.scss';
+import { ColorTile } from 'pages/blocks/CarSelectBlock/blocks/CreateCarDialog/components/ColorTile';
 
 export type CarDataType = {
   id: string;
@@ -74,13 +75,16 @@ export const CarCard: React.FC<ICarCard> = ({
         />
         <UnstyledInput value={color} className={'car-card__color'} name={'color'} placeholder={'Введите цвет'} />
       </form>
-      <div style={{ textAlign: 'center', display: editing ? 'none' : '' }}>
+      <div className="car-card__info" style={{ textAlign: 'center', display: editing ? 'none' : '' }}>
         <p className={'car-card__name'}>{model}</p>
         <p className={'car-card__number'}>{registryNumber}</p>
-        <p className={'car-card__color'}>{color}</p>
+        <div className={'car-card__color'}>
+          <p>{color}</p>
+          <ColorTile color={color} />
+        </div>
       </div>
-      {!editing ? <p className={'car-card__text'}>Пользователи пока не оценивали этот автомобиль</p> : null}
-      <ul>
+      {/* {!editing ? <p className={'car-card__text'}>Пользователи пока не оценивали этот автомобиль</p> : null} */}
+      <ul className="car-card__icons">
         <li className={'car-card__icon'}>
           {editing ? (
             <>

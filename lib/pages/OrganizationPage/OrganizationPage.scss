@@ -49,6 +49,12 @@
     }
   }
 
+  &__info-content {
+    display: flex;
+    flex-direction: column;
+    width: inherit;
+  }
+
   &__info {
     font-family: 'Source Sans Pro', sans-serif;
     font-style: normal;
@@ -69,6 +75,10 @@
     flex-direction: column;
     margin-left: 8px;
     width: 100%;
+  }
+
+  &__last-date {
+    display: flex;
   }
 
   &__address {

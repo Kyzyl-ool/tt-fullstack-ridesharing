@@ -47,6 +47,7 @@ export const CreateCarDialog = ({ onClose, onReady }: ICreateCarDialog) => {
   };
 
   const onFilterColors = (value: string) => {
+    console.log(value);
     const filteredColorsOptions = colorDict.filter(color => color.match(new RegExp(value, 'i')));
     setColorOptions(filteredColorsOptions);
   };
@@ -103,7 +104,7 @@ export const CreateCarDialog = ({ onClose, onReady }: ICreateCarDialog) => {
           id="color"
           placeholderText="Цвет"
           placeholderType="subscript"
-          onChange={(value, isValid) => onFilterColors(isValid ? value : '')}
+          onChange={(value, isValid) => onFilterColors(value)}
           className="create-car-dialog__input"
           defaultValue={creatingCarInfo.color || ''}
           selectionOptions={serializeDict(!_isEmpty(colorOptions) ? colorOptions : [])}

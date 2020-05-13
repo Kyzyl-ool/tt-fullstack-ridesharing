@@ -13,6 +13,8 @@
     margin: 0 24px 0 24px;
     box-sizing: border-box;
     width: 100%;
+    overflow-y: scroll;
+    max-height: 60vh;
   }
 
   &__button {
@@ -29,7 +31,7 @@
 
 .car-card-add-button {
   display: flex;
-  padding: 0 10px;
+  padding: 0 30px;
   color: $ui-gray-color;
   justify-content: flex-start;
   .icon {

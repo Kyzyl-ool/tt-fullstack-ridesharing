@@ -1,0 +1,9 @@
+@import 'lib/styles/colors';
+
+.change-info-dialog {
+  &__text {
+    font-size: 14px;
+    color: $ui-gray-color;
+    margin-top: 0;
+  }
+}

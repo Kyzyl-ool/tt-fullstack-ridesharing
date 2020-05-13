@@ -48,7 +48,7 @@ export const DriverCard = ({
         <b>
           {host.firstName}&nbsp;{host.lastName}
         </b>
-        <i>Могу взять еще {freeSeats} человек</i>
+        <i>Осталось {freeSeats} места</i>
         <span className={'driver-card__text'}>
           <b>{car.model}</b>
         </span>

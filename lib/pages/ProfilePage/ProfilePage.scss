@@ -56,6 +56,17 @@
       margin: auto;
     }
   }
+
+  &__text {
+    font-size: 14px;
+    color: $ui-gray-color;
+    margin-top: 0;
+  }
+
+  &__dialog-header {
+    margin-bottom: 10px;
+    margin-top: 0;
+  }
 }
 
 .user-name {

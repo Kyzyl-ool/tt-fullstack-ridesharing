@@ -6,6 +6,7 @@ import './Dialog.scss';
 interface IDialog {
   redirectTo?: string;
   buttonText?: string;
+  onDone?: () => any;
   onClose: () => any;
   hide: boolean;
   cross?: boolean;
@@ -18,6 +19,7 @@ interface IDialog {
 export const Dialog: React.FC<IDialog> = ({
   children,
   onClose,
+  onDone = null,
   buttonText,
   hide = false,
   cross = true,
@@ -32,7 +34,12 @@ export const Dialog: React.FC<IDialog> = ({
           {children}
 
           {withConfirmButton && (
-            <Button className="dialog__button" filled onClick={onClose} disabled={confirmButtonDisabled}>
+            <Button
+              className="dialog__button"
+              filled
+              onClick={onDone ? onDone : onClose}
+              disabled={confirmButtonDisabled}
+            >
               {buttonText ? buttonText : 'OK'}
             </Button>
           )}

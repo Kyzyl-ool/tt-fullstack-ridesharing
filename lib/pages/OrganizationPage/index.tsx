@@ -21,6 +21,7 @@ import {
 } from 'store/actions/mapActions';
 import { useDispatch } from 'react-redux';
 import { CenteredLoader } from 'components/CenteredLoader';
+import { parseLocationAddress } from 'helpers/parseLocationAddress';
 
 type OrganizationDataType = {
   address: string;
@@ -56,7 +57,6 @@ type OrganizationMembersType = {
 
 export const OrganizationPage: React.FC = props => {
   const { organizationId } = useParams();
-  // const [mapHidden, setMapHidden] = useHiddenMap(false);
   const history = useHistory();
   const [organizationData, setOrganizationData] = useState<OrganizationDataType>(null);
   const [organizationMembers, setOrganizationMembers] = useState<OrganizationMembersType>({
@@ -119,14 +119,16 @@ export const OrganizationPage: React.FC = props => {
                 <div className={'organization-page__main-info'}>
                   <span className="organization-page__name">{organizationData.name}</span>
                   <span className={'organization-page__address-wrapper'}>
-                    <b className={'organization-page__address'}>{organizationData.address}</b>
+                    <b className={'organization-page__address'}>
+                      {parseLocationAddress(organizationData.address).name}
+                    </b>
                   </span>
                 </div>
               </div>
               <div className={'organization-page__info'}>
-                <div className={'flex-row'}>
-                  <div style={{ width: '60%' }}>
-                    <span>Дата последней поездки:</span>
+                <div className={'organization-page__info-content'}>
+                  <div className={'organization-page__last-date'}>
+                    <span>Дата последней поездки: &nbsp;</span>
                     <br />
                     <b>
                       {organizationData.lastRideDatetime !== '-'

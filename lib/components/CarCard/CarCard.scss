@@ -20,20 +20,28 @@
 
   &__name {
     font-weight: 600;
-    font-size: 20px;
+    font-size: 22px;
     line-height: 25px;
   }
 
   &__number {
     font-weight: normal;
-    font-size: 12px;
+    font-size: 14px;
     line-height: 15px;
   }
 
   &__color {
     font-weight: 600;
-    font-size: 12px;
+    font-size: 14px;
     line-height: 15px;
+    display: flex;
+    justify-content: center;
+
+    .color-tile {
+      width: 12px;
+      height: 12px;
+      margin-left: 6px;
+    }
   }
 
   &__text {
@@ -42,6 +50,15 @@
     font-size: 10px;
     line-height: 13px;
     text-align: center;
+    flex: 6;
+  }
+
+  &__icons {
+    flex: 1;
+  }
+
+  &__info {
+    flex: 5;
   }
 
   &__icon {

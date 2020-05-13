@@ -133,6 +133,13 @@ export default class UserModel {
     return res.data;
   };
 
+  static updateUserInfo = async (payload): Promise<IGetUserInfoResponseBody> => {
+    const res = await axios.post('/api/user', {
+      ...payload
+    });
+    return res.data;
+  };
+
   static registerUser = async (registerUserBody: IRegisterUserRequestBody): Promise<{ user_id: number }> => {
     const res = await axios.post('/api/register_user', {
       // eslint-disable-next-line @typescript-eslint/camelcase
