@@ -23,7 +23,7 @@ module.exports = {
   },
   output: {
     publicPath: '/',
-    path: __dirname + '/dist',
+    path: __dirname + '/build',
     filename: '[name].[hash].js'
   },
   devServer: {
@@ -59,7 +59,7 @@ module.exports = {
   module: {
     rules: [
       { test: /\.(tsx|ts)$/, exclude: /node_modules/, loader: ['cache-loader', 'babel-loader'] },
-      { test: /\.js$/, exclude: /node_modules/, use: ['cache-loader', 'babel-loader'] },
+      { test: /\.js$/, exclude: [/node_modules/], use: ['cache-loader', 'babel-loader'] },
       { test: /\.css$/, use: ['style-loader', 'cache-loader', 'css-loader'] },
       { test: /\.scss$/, exclude: /node_modules/, use: ['style-loader', 'cache-loader', 'css-loader', 'sass-loader'] },
       { test: /\.(svg|png|jpg|ico)$/, exclude: [/node_modules/, /-import-icon.svg$/], use: ['file-loader'] },
@@ -88,6 +88,9 @@ module.exports = {
     }),
     new CopyWebpackPlugin([{ from: './public/icons', to: 'public/icons' }]),
     new CopyWebpackPlugin([{ from: './public/manifest.json', to: 'public/manifest.json' }]),
+    new CopyWebpackPlugin([{ from: './public/favicon.ico', to: 'public/favicon.ico' }]),
+    new CopyWebpackPlugin([{ from: './public/ridesharing.svg', to: 'public/ridesharing.svg' }]),
+    new CopyWebpackPlugin([{ from: './public/service-worker.js', to: 'public/service-worker.js' }]),
     new CleanWebpackPlugin(),
     new MiniCssExtractPlugin({ filename: 'app.css' }),
     new webpack.DefinePlugin(envKeys),
