@@ -12,12 +12,6 @@ const composeEnhancers = (window['__REDUX_DEVTOOLS_EXTENSION_COMPOSE__'] as type
 // eslint-disable-next-line @typescript-eslint/no-empty-function
 const store = createStore(rootReducer, composeEnhancers(applyMiddleware(thunk)));
 
-console.log(process.env.NODE_ENV, process.env.PUBLIC_URL, 'INDEX');
-
-window.addEventListener('beforeinstallprompt', e => {
-  console.log(e);
-});
-
 ReactDOM.render(
   <Provider store={store}>
     <App />

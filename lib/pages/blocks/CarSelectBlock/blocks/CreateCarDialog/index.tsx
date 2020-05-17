@@ -32,7 +32,6 @@ export const CreateCarDialog = ({ onClose, onReady }: ICreateCarDialog) => {
   const [modelOptions, setModelOptions] = useState([]);
 
   const onModelSelected = (model: string) => {
-    console.log(model);
     setCreatingCarInfo({ ...creatingCarInfo, model });
     setModelOptions([]);
   };
@@ -47,7 +46,6 @@ export const CreateCarDialog = ({ onClose, onReady }: ICreateCarDialog) => {
   };
 
   const onFilterColors = (value: string) => {
-    console.log(value);
     const filteredColorsOptions = colorDict.filter(color => color.match(new RegExp(value, 'i')));
     setColorOptions(filteredColorsOptions);
   };
