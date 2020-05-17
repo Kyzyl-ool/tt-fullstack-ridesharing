@@ -17,7 +17,7 @@ const envKeys = Object.keys(env).reduce((prev, next) => {
 
 module.exports = {
   mode: process.env.NODE_ENV === 'production' ? 'production' : 'development',
-  devtool: process.env.NODE_ENV === 'development' ? 'inline-source-map' : '',
+  devtool: process.env.NODE_ENV === 'development' ? 'source-map' : '',
   entry: {
     main: './lib/index.tsx'
   },
@@ -100,6 +100,7 @@ module.exports = {
     minimizer: [
       new TerserPlugin({
         parallel: true,
+        sourceMap: process.env.NODE_ENV === 'development',
         terserOptions: {
           ecma: 6
         }

@@ -1,6 +1,7 @@
 import React from 'react';
-import './Avatar.scss';
+import { genereateRandomSequence } from 'helpers/generateRandomSequence';
 import { Mark, markToText } from '../Mark/Mark';
+import './Avatar.scss';
 
 type AvatarSize = 'small' | 'medium' | 'large';
 
@@ -12,15 +13,6 @@ interface IAvatar {
   className?: string;
   shadowed?: boolean;
 }
-
-const genereateRandomSequence = function() {
-  return (
-    '_' +
-    Math.random()
-      .toString(36)
-      .substr(2, 9)
-  );
-};
 
 export const Avatar: React.FC<IAvatar> = ({ src, mark, className, size, subtext, shadowed = false }) => {
   const img = (
