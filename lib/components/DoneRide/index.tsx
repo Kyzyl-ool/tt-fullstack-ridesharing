@@ -1,8 +1,7 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { Avatar } from 'components/Avatar/Avatar';
 import { sampleAvatarSrc } from 'samples/samples';
 import { DotIcon, MapPointIcon } from '../../icons';
-import { format } from 'date-fns';
 import dateFormat from 'date-fns/format';
 import ruLocale from 'date-fns/locale/ru';
 import { Button } from 'components/Button';
@@ -13,19 +12,20 @@ import './DoneRide.scss';
 interface IDoneRideProps {
   ride: IHistoryRide;
   rateId?: any;
+  onRate: (rideId: number) => void;
 }
 
-export const DoneRide: React.FC<IDoneRideProps> = ({ ride, rateId = null }) => {
-  const makeRate = () => {};
+export const DoneRide: React.FC<IDoneRideProps> = ({ ride, rateId = null, onRate }) => {
   const formatDate = dateToFormat =>
     dateFormat(new Date(dateToFormat), 'dd MMM yyyy, hh:mm', {
       locale: ruLocale
     });
+
   return (
     <div className={'done-ride-card shadowed'}>
       <div className={'done-ride-card__left-side'}>
         <div className={'flex-row'}>
-          <Avatar src={ride.host.photoUrl} size={'small'} className={'margins'} />
+          <Avatar src={ride.host.photoUrl || sampleAvatarSrc} size={'small'} className={'margins'} />
           <div className={'flex-column flex-column_center'}>
             <span className={'caption'}>Водитель</span>
             <b className={'done-ride__driver-name'}>
@@ -49,11 +49,11 @@ export const DoneRide: React.FC<IDoneRideProps> = ({ ride, rateId = null }) => {
       <div className={'done-ride-card__divider'} />
       <div className={'done-ride-card__right-side flex-column flex-column_center flex-column_space-evenly'}>
         {rateId ? (
-          <u className={'u-button'} onClick={makeRate}>
+          <u className={'u-button'} onClick={() => onRate(ride.id)}>
             Просмотреть отзыв
           </u>
         ) : (
-          <Button onClick={makeRate} outlined>
+          <Button onClick={() => onRate(ride.id)} outlined>
             <p className="done-ride__leave-review">Оставить отзыв</p>
           </Button>
         )}

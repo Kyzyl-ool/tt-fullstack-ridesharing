@@ -139,4 +139,9 @@ export default class RideModel {
     const res = await axios.post('/api/ride/finish', { id: rideId });
     return res.data;
   };
+
+  static rateRide = async (rate: number, rideId: string) => {
+    const res = await axios.put('/api/ride/rate', { rate, ride: { id: rideId } });
+    return res.data;
+  };
 }
