@@ -3,65 +3,61 @@ import { Avatar } from 'components/Avatar/Avatar';
 import { sampleAvatarSrc } from 'samples/samples';
 import { DotIcon, MapPointIcon } from '../../icons';
 import { format } from 'date-fns';
+import dateFormat from 'date-fns/format';
 import ruLocale from 'date-fns/locale/ru';
-import './DoneRide.scss';
 import { Button } from 'components/Button';
+import { parseLocationAddress } from 'helpers/parseLocationAddress';
+import { IHistoryRide } from 'domain/ride';
+import './DoneRide.scss';
 
-interface IDoneRide {
-  rideId: number;
-  rateId?: string;
-  driver: {
-    firstName: string;
-    lastName: string;
-    avatarSrc: string;
-  };
-  from: string;
-  to: string;
-  date: string; //ISO
-  cost: number;
+interface IDoneRideProps {
+  ride: IHistoryRide;
+  rateId?: any;
 }
 
-export const DoneRide: React.FC<IDoneRide> = props => {
+export const DoneRide: React.FC<IDoneRideProps> = ({ ride, rateId = null }) => {
   const makeRate = () => {};
-
+  const formatDate = dateToFormat =>
+    dateFormat(new Date(dateToFormat), 'dd MMM yyyy, hh:mm', {
+      locale: ruLocale
+    });
   return (
     <div className={'done-ride-card shadowed'}>
       <div className={'done-ride-card__left-side'}>
         <div className={'flex-row'}>
-          <Avatar src={sampleAvatarSrc} size={'small'} className={'margins'} />
+          <Avatar src={ride.host.photoUrl} size={'small'} className={'margins'} />
           <div className={'flex-column flex-column_center'}>
             <span className={'caption'}>Водитель</span>
-            <b className={'driver-name'}>
-              {props.driver.firstName}&nbsp;{props.driver.lastName}
+            <b className={'done-ride__driver-name'}>
+              {ride.host.firstName}&nbsp;{ride.host.lastName}
             </b>
           </div>
         </div>
         <span className={'flex-row'}>
-          <DotIcon size={'small'} />
-          <span className={'from-to-string'}>{props.from}</span>
+          <DotIcon className="done-ride__icon" size={'small'} />
+          <span className={'done-ride__from-to-string'}>{parseLocationAddress(ride.organizationName).name}</span>
         </span>
         <span className={'flex-row'}>
-          <MapPointIcon size={'small'} />
-          <span className={'from-to-string'}>{props.to}</span>
+          <MapPointIcon className="done-ride__icon" size={'small'} />
+          <span className={'done-ride__from-to-string'}>{parseLocationAddress(ride.address).name}</span>
+        </span>
+        <span className={'flex-row'}>
+          <div className={'done-ride__time-icon'} />
+          <span className={'done-ride__date-label'}>{formatDate(ride.startDatetime)}&nbsp;</span>
         </span>
       </div>
       <div className={'done-ride-card__divider'} />
       <div className={'done-ride-card__right-side flex-column flex-column_center flex-column_space-evenly'}>
-        <span className={'date-label'}>
-          {`${format(new Date(props.date), 'do MMM', { locale: ruLocale })}`}&nbsp;
-          {`${format(new Date(props.date), 'HH:mm', { locale: ruLocale })}`}
-        </span>
-        {props.rateId ? (
+        {rateId ? (
           <u className={'u-button'} onClick={makeRate}>
             Просмотреть отзыв
           </u>
         ) : (
           <Button onClick={makeRate} outlined>
-            Оставить отзыв
+            <p className="done-ride__leave-review">Оставить отзыв</p>
           </Button>
         )}
-        <span className={'ride-cost-label'}>Стоимость поездки</span>
-        <b className={'ride-cost-label-numbers'}>{props.cost}₽</b>
+        <b className={'ride-cost-label-numbers'}>{ride.price}₽</b>
       </div>
     </div>
   );

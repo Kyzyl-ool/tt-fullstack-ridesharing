@@ -1,5 +1,5 @@
 import axios from 'axios';
-import { IRideCreationInfo, IRide, IRequest } from 'domain/ride';
+import { IRideCreationInfo, IRide, IRequest, IHistoryRide } from 'domain/ride';
 
 interface IFindRidesRequest {
   organizationId: string;
@@ -33,21 +33,23 @@ export interface IGetActiveRidesResponseBodyEntry {
   submitDatetime: string;
 }
 
-export interface IGetRidesHistoryResponseBodyEntry {
-  host: {
-    firstName: string;
-    id: number;
-    lastName: string;
-    phoneNumber: string;
-    photoUrl: string;
-    rating: number;
-  };
-  id: number;
-  price: number;
-  startOrganizationName: string;
-  stopAddress: string;
-  submitDatetime: string;
-}
+// export interface IGetRidesHistoryResponseBodyEntry {
+//   host: {
+//     firstName: string;
+//     id: number;
+//     lastName: string;
+//     phoneNumber: string;
+//     photoUrl: string;
+//     rating: number;
+//   };
+//   id: number;
+//   price: number;
+//   startOrganizationName: string;
+//   stopAddress: string;
+//   submitDatetime: string;
+// }
+
+export type IGetRidesHistoryResponseBodyEntry = IHistoryRide[];
 
 export interface IHostedRideResponseBodyEntry {
   car: {

@@ -1,4 +1,54 @@
-@import "lib/styles/colors";
+@import 'lib/styles/colors';
+@import 'lib/styles/icons';
+
+.done-ride {
+  &__time-icon {
+    width: 12px;
+    height: 12px;
+    background: $time-icon no-repeat;
+    background-size: contain;
+    margin-right: 8px;
+  }
+
+  &__from-to-string {
+    font-size: 12px;
+    color: $ui-gray-color;
+    font-weight: 600;
+  }
+
+  &__icon {
+    transform: scale(1);
+    min-width: 12px;
+    min-height: 12px;
+    background-size: contain;
+    margin-right: 8px;
+  }
+
+  &__date-label {
+    font-size: 12px;
+    font-family: 'Source Sans Pro', sans-serif;
+    font-style: normal;
+    font-weight: 600;
+    line-height: 13px;
+
+    display: flex;
+    align-items: center;
+    text-align: center;
+
+    color: $ui-gray-color;
+  }
+
+  &__driver-name {
+    font-size: 12px;
+  }
+
+  &__leave-review {
+    font-size: 12px;
+    line-height: 12px;
+    font-weight: bold;
+    color: $ui-primary-color;
+  }
+}
 
 .done-ride-card {
   margin: 8px 0 0 0;
@@ -8,9 +58,12 @@
   padding: 16px 24px 16px 24px;
 
   &__left-side {
-    width: 66%;
+    width: 100%;
     div {
       justify-content: space-evenly;
+    }
+    > .flex-row:last-child {
+      margin-top: 6px;
     }
   }
 
@@ -40,7 +93,7 @@
   font-family: 'Source Sans Pro', sans-serif;
   font-style: normal;
   font-weight: normal;
-  font-size: 6px;
+  font-size: 10px;
   line-height: 8px;
   /* identical to box height */
 
@@ -51,9 +104,7 @@
   /* UI / Gray */
 
   color: #989898;
-
 }
-
 
 .shadowed {
   box-shadow: 0px 4px 4px rgba(0, 0, 0, 0.25);
@@ -75,8 +126,9 @@
     font-family: 'Source Sans Pro', sans-serif;
     font-style: normal;
     font-weight: bold;
-    font-size: 12px;
+    font-size: 14px;
     line-height: 15px;
-    color: #000000;
+    color: $ui-primary-color;
+    margin-top: 8px;
   }
 }
