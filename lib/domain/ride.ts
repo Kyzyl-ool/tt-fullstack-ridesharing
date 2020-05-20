@@ -36,3 +36,8 @@ export interface IRide {
   declineReason?: string;
   fromOrganization: boolean;
 }
+
+export type IHistoryRide = Pick<IRide, 'address' | 'host' | 'id' | 'price' | 'startDatetime' | 'submitDatetime'> & {
+  organizationName: string;
+  stopDatetime: string;
+};

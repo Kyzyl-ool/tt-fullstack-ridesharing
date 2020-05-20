@@ -84,14 +84,13 @@ export const RideCard = ({
   const onDone = () => {
     setIsRejectReasonShown(false);
     setIsSuccessCancelanceShown(false);
-    history.push('/');
+    history.push('/ride/active');
   };
 
   const onCloseFinishDialog = () => {
     setIsSuccessFinishShown(false);
+    history.push('/ride/active');
   };
-
-  // conse onCloseWarning = () => {}
 
   const onCloseCancelDialog = () => {
     setIsSuccessCancelanceShown(false);
