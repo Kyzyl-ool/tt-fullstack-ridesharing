@@ -1,4 +1,4 @@
-@import "lib/styles/colors";
+@import 'lib/styles/colors';
 
 .rides-history-page {
   padding: 24px 32px 80px 32px;
@@ -20,5 +20,90 @@
     /* UI / Gray */
 
     color: #989898;
+  }
+
+  &__rate-window {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: space-between;
+    position: absolute;
+    height: calc(100vh - 100px);
+    width: 100vw;
+    background: $ui-secondary-color;
+    position: fixed;
+    top: 60px;
+    left: 0;
+  }
+
+  &__bad-rates {
+    display: flex;
+    width: 80vw;
+    align-items: center;
+    justify-content: space-evenly;
+  }
+
+  &__ok-rates {
+    display: flex;
+    width: 80vw;
+    align-items: center;
+    justify-content: space-evenly;
+  }
+
+  &__good-rates {
+    display: flex;
+    width: 80vw;
+    align-items: center;
+    justify-content: space-evenly;
+  }
+
+  &__header {
+    display: flex;
+    text-align: center;
+    margin-top: 30px;
+    color: $ui-gray-color;
+  }
+
+  &__dialog {
+    position: fixed;
+    top: 30vh;
+  }
+
+  &__dialog-header {
+    margin-top: 0;
+  }
+
+  &__text {
+    padding: 20px;
+    font-size: 16px;
+    text-align: center;
+    color: $ui-black-color;
+  }
+
+  &__rating-word {
+    font-size: 22px;
+    font-weight: bold;
+    margin: 0;
+    color: $ui-primary-color;
+
+    &--red {
+      color: $ui-error-color;
+    }
+
+    &--yellow {
+      color: #fcba03;
+    }
+
+    &--green {
+      color: $ui-primary-color;
+    }
+
+    &--dark-green {
+      color: $ui-dark-green-color;
+    }
+
+    &--default {
+      color: black;
+    }
   }
 }

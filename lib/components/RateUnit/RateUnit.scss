@@ -1,0 +1,26 @@
+@import 'lib/styles/colors';
+
+.rate-unit {
+  display: flex;
+  width: 44px;
+  height: 44px;
+  align-items: center;
+  justify-content: center;
+  border-radius: 22px;
+  font-weight: bold;
+  font-size: 18px;
+  color: white;
+  box-shadow: 0px 4px 4px rgba(0, 0, 0, 0.25);
+  &--red {
+    background-color: $ui-error-color;
+  }
+  &--yellow {
+    background-color: #fcba03;
+  }
+  &--green {
+    background-color: $ui-primary-color;
+  }
+  &--selected {
+    filter: brightness(70%);
+  }
+}
