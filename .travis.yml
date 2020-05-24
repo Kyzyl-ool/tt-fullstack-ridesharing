@@ -1,16 +1,22 @@
-language: node_js
-node_js:
-  - 10
-
-before_install:
-  - curl -o- -L https://yarnpkg.com/install.sh | bash -s -- --version 1.15.2
-  - export PATH="$HOME/.yarn/bin:$PATH"
-  - yarn install
-
-script: yarn build
-
-cache: yarn
-
-branches:
-  only:
-    - master
+language: generic
+services:
+  - docker
+jobs:
+  include:
+  - stage: deploy
+    name: "docker hub"
+    before_script:
+      - docker pull "$IMAGE_NAME" || true
+      - major=0
+      - version=$major.$TRAVIS_BUILD_NUMBER
+    script:
+      - docker build --pull --cache-from "$IMAGE_NAME" --tag "$IMAGE_NAME" .
+    before_deploy:
+      - echo "$DOCKER_PASSWORD" | docker login -u "$DOCKER_USERNAME" --password-stdin
+      - docker tag "$IMAGE_NAME" "${IMAGE_NAME}:latest"
+      - docker tag "$IMAGE_NAME" "${IMAGE_NAME}:${version}"
+    deploy:
+      provider: script
+      script: docker push "${IMAGE_NAME}:latest" && docker push "${IMAGE_NAME}:${version}"
+      on:
+        all_branches: true
