@@ -9,6 +9,6 @@ COPY . ./
 RUN yarn build --env.MAPBOX_TOKEN="$MAPBOX_TOKEN"
 
 # stage: 2
-FROM nginx
+FROM staticfloat/nginx-certbot
 COPY --from=react-build /app/build /usr/share/nginx/html
 EXPOSE 80
