@@ -4,7 +4,7 @@ COPY package.json /app/
 WORKDIR /app
 RUN yarn --pure-lockfile
 COPY . ./
-RUN yarn build
+RUN yarn build --env.MAPBOX_TOKEN="$MAPBOX_TOKEN"
 
 # stage: 2
 FROM nginx
