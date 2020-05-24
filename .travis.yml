@@ -1,6 +1,8 @@
 language: generic
 services:
   - docker
+env:
+  - MAPBOX_TOKEN=$MAPBOX_TOKEN
 jobs:
   include:
   - stage: deploy
