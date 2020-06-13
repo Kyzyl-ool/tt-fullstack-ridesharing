@@ -64,6 +64,7 @@
       right: 0;
       margin: auto;
     }
+
     color: #ffffff;
   }
 
@@ -191,15 +192,14 @@
   }
 
   &__downtown {
-    background: $downtown no-repeat;
+    background: $downtown no-repeat center;
     width: 100vw;
-    background-size: cover;
     min-height: 326px;
     mix-blend-mode: darken;
   }
 
   &__tandembike {
-    background: $tandembike no-repeat;
+    background: $tandembike no-repeat center;
     width: 100vw;
     min-height: 276px;
     mix-blend-mode: darken;
@@ -214,11 +214,27 @@
   left: 0;
 }
 
+.animated-arrow-icon {
+  animation: 3s ease 0s infinite alternate arrow_down_animation;
+}
+
 @keyframes move_eye {
-  from {
+  0% {
     transform: translateX(0%);
   }
-  to {
-    transform: translateX(-5%);
+  100% {
+    transform: translateX(-1%);
+  }
+}
+
+@keyframes arrow_down_animation {
+  0% {
+    transform: translateY(0%);
+  }
+  50% {
+    transform: translateY(10%);
+  }
+  10% {
+    transform: translateY(0%);
   }
 }
