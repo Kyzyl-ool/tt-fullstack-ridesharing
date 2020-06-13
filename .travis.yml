@@ -1,6 +1,8 @@
 language: generic
 services:
   - docker
+env:
+  - MAPBOX_TOKEN=$MAPBOX_TOKEN
 jobs:
   include:
   - stage: deploy
@@ -10,7 +12,7 @@ jobs:
       - major=0
       - version=$major.$TRAVIS_BUILD_NUMBER
     script:
-      - docker build --pull --cache-from "$IMAGE_NAME" --tag "$IMAGE_NAME" .
+      - docker build --pull --build-arg MAPBOX_TOKEN="$MAPBOX_TOKEN" --cache-from "$IMAGE_NAME" --tag "$IMAGE_NAME" .
     before_deploy:
       - echo "$DOCKER_PASSWORD" | docker login -u "$DOCKER_USERNAME" --password-stdin
       - docker tag "$IMAGE_NAME" "${IMAGE_NAME}:latest"
