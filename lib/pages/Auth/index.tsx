@@ -12,6 +12,7 @@ import { Input } from 'components/Input';
 import './firebaseui-styles.css';
 import { DoubleArrowBlackIcon, DoubleArrowIcon } from '../../icons';
 import { useBackButton } from 'hooks/useBackButton/useBackButton';
+import { updateFirebaseRegistrationToken } from 'models/NotificationsModel';
 
 // Configure Firebase.
 const config = {
@@ -34,8 +35,7 @@ messaging.usePublicVapidKey('BAD9bEd-7agtvjNvcHN7PT-NAg5fjUBXzx9VLpTW6wp5YjR4rT4
 messaging
   .getToken()
   .then(currentToken => {
-    console.log('currentToken');
-    console.log(currentToken);
+    updateFirebaseRegistrationToken(currentToken);
   })
   .catch(err => {
     console.log('An error occurred while retrieving token. ', err);
@@ -45,8 +45,7 @@ messaging.onTokenRefresh(() => {
   messaging
     .getToken()
     .then(refreshedToken => {
-      console.log('Token refreshed');
-      console.log(refreshedToken);
+      updateFirebaseRegistrationToken(refreshedToken);
     })
     .catch(err => {
       console.log('Unable to retrieve refreshed token ', err);

@@ -36,6 +36,7 @@
     "redux": "^4.0.5",
     "redux-thunk": "^2.3.0",
     "semantic-ui-react": "^0.88.2",
+    "swr": "^0.2.3",
     "typescript": "3.6.3"
   },
   "scripts": {
