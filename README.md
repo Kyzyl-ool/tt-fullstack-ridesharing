@@ -1,6 +1,6 @@
 # RideSharing Project
 
-[![Build Status](https://travis-ci.com/Kyzyl-ool/tt-fullstack-ridesharing.svg?token=qKfDJoXrT3bkgeDpja2o&branch=master)](https://travis-ci.com/Kyzyl-ool/tt-fullstack-ridesharing)
+[![Build Status](https://travis-ci.org/Kyzyl-ool/tt-fullstack-ridesharing.svg?branch=master)](https://travis-ci.org/Kyzyl-ool/tt-fullstack-ridesharing)
 
 Продукт доступен по ссылке: http://ridesharing.online
 
