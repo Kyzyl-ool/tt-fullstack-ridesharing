@@ -25,7 +25,8 @@ export const UserPage: React.FC<IUserPage> = props => {
     id: 0,
     lastName: '',
     photoUrl: '',
-    rating: 0
+    rating: 0,
+    about: 'Загрузка...'
   });
   const history = useHistory();
   const { userId } = useParams();
@@ -78,11 +79,7 @@ export const UserPage: React.FC<IUserPage> = props => {
               {userInfo.firstName} {userInfo.lastName}
             </h1>
           </div>
-          <div className={'user-page__about'}>
-            Lorem ipsum dolor sit amet, consectetur adipiscing elit. Eget neque erat interdum ultrices nam metus montes,
-            fusce. Nibh congue amet lacinia elit neque, scelerisque. Volutpat ante sollicitudin in faucibus. Dictum
-            imperdiet velit donec massa, amet magna est.
-          </div>
+          <div className={'user-page__about'}>{userInfo.about}</div>
           <div className="user-page__rating-container">
             Текущий рейтинг:<h4 className="user-page__rating">{userInfo.rating}</h4>
           </div>

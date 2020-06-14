@@ -43,6 +43,7 @@ export interface IGetUserInfoResponseBody {
   lastName: string;
   photoUrl: string;
   rating: number;
+  about: string;
 }
 
 export interface IRegisterUserRequestBody {
