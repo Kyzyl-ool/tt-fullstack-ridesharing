@@ -14,7 +14,6 @@ import { Backdrop } from 'components/Backdrop';
 import IncomingRequestsPage from 'pages/IncomingRequestsPage';
 import { UserPage } from 'pages/UserPage';
 import { PrivateRoute } from 'components/PrivateRoute';
-import { CSSTransition, TransitionGroup } from 'react-transition-group';
 import { UserRequestPage } from 'pages/UserRequestPage';
 import './App.global.scss';
 import './App.scss';

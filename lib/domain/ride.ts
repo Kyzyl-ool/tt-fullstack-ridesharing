@@ -1,6 +1,5 @@
 import { ICar } from './car';
 import { IPassenger, IDriver } from './driver';
-import { IOrganization } from './organization';
 import { ILocation } from './map';
 
 export type IHostAnswer = 'ACCEPTED' | 'NO ANSWER' | 'DECLINED' | null;

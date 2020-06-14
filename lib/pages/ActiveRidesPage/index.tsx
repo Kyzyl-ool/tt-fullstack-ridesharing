@@ -5,7 +5,6 @@ import usePageState from 'hooks/usePageState/usePageState';
 import { Button } from 'components/Button';
 import { DriverCard } from 'components/DriverCard/DriverCard';
 import RideModel, { IGetActiveRidesResponseBodyEntry, IHostedRideResponseBodyEntry } from 'models/RideModel';
-import { useSelector } from 'react-redux';
 import { IRide, IHostAnswer } from 'domain/ride';
 import { RideCard } from 'components/RideCard';
 import './ActiveRidesPage.scss';
@@ -77,21 +76,31 @@ export const ActiveRidesPage: React.FC = props => {
           </div>
           {isLoaded ? (
             <div className={'active-rides-page'}>
-              {currentTab === 'I_AM_PASSENGER' &&
-                activeRides.map(ride => (
-                  <DriverCard
-                    onSelectRide={handleNext}
-                    ride={ride}
-                    driverAnswer={ride.hostAnswer}
-                    key={ride.id}
-                    waiting
-                    shadowed
-                  />
-                ))}
-              {currentTab === 'I_AM_DRIVER' &&
-                activeHostedRides.map(ride => (
-                  <DriverCard key={ride.id} ride={ride} onSelectRide={handleNext} shadowed waiting={false} />
-                ))}
+              {currentTab === 'I_AM_PASSENGER' ? (
+                activeRides.length > 0 ? (
+                  activeRides.map(ride => (
+                    <DriverCard
+                      onSelectRide={handleNext}
+                      ride={ride}
+                      driverAnswer={ride.hostAnswer}
+                      key={ride.id}
+                      waiting
+                      shadowed
+                    />
+                  ))
+                ) : (
+                  <div className="active-rides-page__placeholder-text">У вас еще нет активных поездок.</div>
+                )
+              ) : null}
+              {currentTab === 'I_AM_DRIVER' ? (
+                activeHostedRides.length > 0 ? (
+                  activeHostedRides.map(ride => (
+                    <DriverCard key={ride.id} ride={ride} onSelectRide={handleNext} shadowed waiting={false} />
+                  ))
+                ) : (
+                  <div className="active-rides-page__placeholder-text">Вы ещё не создавали поездок</div>
+                )
+              ) : null}
             </div>
           ) : (
             <CenteredLoader />

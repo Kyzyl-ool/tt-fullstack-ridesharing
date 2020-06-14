@@ -5,15 +5,14 @@ import { BaseLayer } from 'components/BaseLayer/BaseLayer';
 import { Button } from 'components/Button';
 import { useHistory } from 'react-router-dom';
 import StyledFirebaseAuth from 'react-firebaseui/StyledFirebaseAuth';
-import firebase from 'firebase';
+import { initializeApp, auth, messaging as fireMessaging } from '../../firebase';
 import { useDispatch } from 'react-redux';
 import { useAuth } from 'hooks/useAuth';
-import UserModel from 'models/UserModel';
 import { Input } from 'components/Input';
 import './firebaseui-styles.css';
-import { Icon } from 'semantic-ui-react';
 import { DoubleArrowBlackIcon, DoubleArrowIcon } from '../../icons';
 import { useBackButton } from 'hooks/useBackButton/useBackButton';
+import { updateFirebaseRegistrationToken } from 'models/NotificationsModel';
 
 // Configure Firebase.
 const config = {
@@ -26,8 +25,36 @@ const config = {
   appId: '1:992567280786:web:2c7cc8b2bc6a876295524b',
   measurementId: 'G-NR1FBNG3QY'
 };
-firebase.initializeApp(config);
-firebase.auth().useDeviceLanguage();
+const app = initializeApp(config);
+auth().useDeviceLanguage();
+
+const messaging = fireMessaging(app);
+
+// Add the public key generated from the console here.
+messaging.usePublicVapidKey('BAD9bEd-7agtvjNvcHN7PT-NAg5fjUBXzx9VLpTW6wp5YjR4rT4snip7ZlvosekjWfHP3rJXq9I1NHsqoAWK2M8');
+messaging
+  .getToken()
+  .then(currentToken => {
+    updateFirebaseRegistrationToken(currentToken);
+  })
+  .catch(err => {
+    console.log('An error occurred while retrieving token. ', err);
+  });
+// Callback fired if Instance ID token is updated.
+messaging.onTokenRefresh(() => {
+  messaging
+    .getToken()
+    .then(refreshedToken => {
+      updateFirebaseRegistrationToken(refreshedToken);
+    })
+    .catch(err => {
+      console.log('Unable to retrieve refreshed token ', err);
+    });
+});
+
+messaging.onMessage(value => {
+  console.log(value);
+});
 
 export const Auth: React.FC = props => {
   const [pageState, setNext, setPrev, renderForState, goTo] = usePageState([
@@ -70,7 +97,7 @@ export const Auth: React.FC = props => {
     // signInSuccessUrl: '/',
     signInOptions: [
       {
-        provider: firebase.auth.PhoneAuthProvider.PROVIDER_ID,
+        provider: auth.PhoneAuthProvider.PROVIDER_ID,
         defaultCountry: 'RU',
         whitelistedCountries: ['+7'],
         recaptchaParameters: {
@@ -152,7 +179,7 @@ export const Auth: React.FC = props => {
             <span className={'auth-page__footer'}>
               Подробнее о приложении
               <div>
-                <DoubleArrowIcon />
+                <DoubleArrowIcon className="animated-arrow-icon" />
               </div>
             </span>
           </div>
@@ -167,7 +194,7 @@ export const Auth: React.FC = props => {
             <div className={'landing-page__downtown'} />
             <span className={'auth-page__footer auth-page__footer_black'}>
               Как организованы поездки?
-              <DoubleArrowBlackIcon />
+              <DoubleArrowBlackIcon className="animated-arrow-icon" />
             </span>
           </div>
           <div className={'landing-page'}>
@@ -181,7 +208,7 @@ export const Auth: React.FC = props => {
             <div className={'landing-page__tandembike'} />
             <span className={'auth-page__footer auth-page__footer_black'}>
               В начало
-              <div onClick={scrollToTop}>
+              <div onClick={scrollToTop} className="animated-arrow-icon">
                 <DoubleArrowBlackIcon className="landing-page__revert-icon" />
               </div>
             </span>
@@ -197,7 +224,7 @@ export const Auth: React.FC = props => {
             header={<>Авторизация по номеру телефона</>}
             className={'auth-page__base-layer auth-page__base-layer_shadowed auth-page__base-layer--for-auth'}
           >
-            <StyledFirebaseAuth uiConfig={uiConfig} firebaseAuth={firebase.auth()} />
+            <StyledFirebaseAuth uiConfig={uiConfig} firebaseAuth={auth()} />
             <Button className="auth-page__back-button" onClick={setPrev}>
               <b>Назад</b>
             </Button>
