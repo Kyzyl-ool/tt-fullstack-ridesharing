@@ -1,6 +1,5 @@
 import React, { useEffect } from 'react';
 import { Link } from 'react-router-dom';
-import { Backdrop } from '../../components/Backdrop';
 import { Header } from '../../components/Header';
 import { NearestOrganizationLabel } from '../../components/NearestOrganizationLabel';
 import { Button } from '../../components/Button';

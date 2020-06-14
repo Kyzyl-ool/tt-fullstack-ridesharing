@@ -96,6 +96,7 @@ module.exports = environment => {
       new CopyWebpackPlugin([{ from: './public/favicon.ico', to: 'public/favicon.ico' }]),
       new CopyWebpackPlugin([{ from: './public/ridesharing.svg', to: 'public/ridesharing.svg' }]),
       new CopyWebpackPlugin([{ from: './public/service-worker.js', to: 'public/service-worker.js' }]),
+      new CopyWebpackPlugin([{ from: './public/firebase-messaging-sw.js', to: 'firebase-messaging-sw.js' }]),
       new CleanWebpackPlugin(),
       new MiniCssExtractPlugin({ filename: 'app.css' }),
       new webpack.DefinePlugin(envKeys),

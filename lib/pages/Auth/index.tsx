@@ -5,7 +5,7 @@ import { BaseLayer } from 'components/BaseLayer/BaseLayer';
 import { Button } from 'components/Button';
 import { useHistory } from 'react-router-dom';
 import StyledFirebaseAuth from 'react-firebaseui/StyledFirebaseAuth';
-import { initializeApp, auth } from '../../firebase';
+import { initializeApp, auth, messaging as fireMessaging } from '../../firebase';
 import { useDispatch } from 'react-redux';
 import { useAuth } from 'hooks/useAuth';
 import { Input } from 'components/Input';
@@ -24,8 +24,38 @@ const config = {
   appId: '1:992567280786:web:2c7cc8b2bc6a876295524b',
   measurementId: 'G-NR1FBNG3QY'
 };
-initializeApp(config);
+const app = initializeApp(config);
 auth().useDeviceLanguage();
+
+const messaging = fireMessaging(app);
+
+// Add the public key generated from the console here.
+messaging.usePublicVapidKey('BAD9bEd-7agtvjNvcHN7PT-NAg5fjUBXzx9VLpTW6wp5YjR4rT4snip7ZlvosekjWfHP3rJXq9I1NHsqoAWK2M8');
+messaging
+  .getToken()
+  .then(currentToken => {
+    console.log('currentToken');
+    console.log(currentToken);
+  })
+  .catch(err => {
+    console.log('An error occurred while retrieving token. ', err);
+  });
+// Callback fired if Instance ID token is updated.
+messaging.onTokenRefresh(() => {
+  messaging
+    .getToken()
+    .then(refreshedToken => {
+      console.log('Token refreshed');
+      console.log(refreshedToken);
+    })
+    .catch(err => {
+      console.log('Unable to retrieve refreshed token ', err);
+    });
+});
+
+messaging.onMessage(value => {
+  console.log(value);
+});
 
 export const Auth: React.FC = props => {
   const [pageState, setNext, setPrev, renderForState, goTo] = usePageState([

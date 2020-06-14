@@ -13,6 +13,10 @@ export const PrivateRoute: React.FC = ({ children, ...rest }) => {
     const result = await check();
     if (!result) {
       history.push('/auth');
+    } else {
+      Notification.requestPermission().then(value => {
+        console.log(value);
+      });
     }
   };
 
