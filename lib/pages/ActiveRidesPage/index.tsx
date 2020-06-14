@@ -5,7 +5,6 @@ import usePageState from 'hooks/usePageState/usePageState';
 import { Button } from 'components/Button';
 import { DriverCard } from 'components/DriverCard/DriverCard';
 import RideModel, { IGetActiveRidesResponseBodyEntry, IHostedRideResponseBodyEntry } from 'models/RideModel';
-import { useSelector } from 'react-redux';
 import { IRide, IHostAnswer } from 'domain/ride';
 import { RideCard } from 'components/RideCard';
 import './ActiveRidesPage.scss';
