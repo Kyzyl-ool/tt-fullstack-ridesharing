@@ -36,8 +36,7 @@ module.exports = environment => {
       port: 3000,
       proxy: {
         '/api': {
-          target: 'http://tt-ridesharing-backend.herokuapp.com',
-          pathRewrite: { '^/api': '' },
+          target: 'https://ridesharing.online',
           changeOrigin: true
         }
       }

@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useCallback } from 'react';
 import _debounce from 'lodash/debounce';
 import _isEmpty from 'lodash/isEmpty';
 import { Dialog } from 'components/Dialog';
@@ -19,8 +19,6 @@ interface ICreateCarDialog {
 
 const serializeDict = (dict: string[]) => dict.map(elem => ({ id: elem, name: elem }));
 
-const delayedModelSearch = _debounce(async value => await UserModel.searchCarModel(value), 300);
-
 export const CreateCarDialog = ({ onClose, onReady }: ICreateCarDialog) => {
   const [creatingCarInfo, setCreatingCarInfo] = useState<CarInfo>({
     model: '',
@@ -30,6 +28,8 @@ export const CreateCarDialog = ({ onClose, onReady }: ICreateCarDialog) => {
 
   const [colorOptions, setColorOptions] = useState([]);
   const [modelOptions, setModelOptions] = useState([]);
+
+  const modelSearch = useCallback(async value => await UserModel.searchCarModel(value), []);
 
   const onModelSelected = (model: string) => {
     setCreatingCarInfo({ ...creatingCarInfo, model });
@@ -50,10 +50,13 @@ export const CreateCarDialog = ({ onClose, onReady }: ICreateCarDialog) => {
     setColorOptions(filteredColorsOptions);
   };
 
-  const onFilterModels = async (value: string) => {
-    const filteredModelsOptions = await delayedModelSearch(value);
-    setModelOptions(filteredModelsOptions);
-  };
+  const onFilterModels = useCallback(
+    async (value: string) => {
+      const filteredModelsOptions = await modelSearch(value);
+      setModelOptions(filteredModelsOptions);
+    },
+    [modelSearch]
+  );
 
   const onCreatingReady = () => {
     onReady(creatingCarInfo);
@@ -77,7 +80,7 @@ export const CreateCarDialog = ({ onClose, onReady }: ICreateCarDialog) => {
           id="model"
           placeholderText="Модель"
           placeholderType="subscript"
-          onChange={(value, isValid) => onFilterModels(isValid ? value : '')}
+          onChange={value => onFilterModels(value)}
           className="create-car-dialog__input"
           defaultValue={creatingCarInfo.model || ''}
           validate={validators.composeValidators(validators.notEmpty, validators.isString)}
