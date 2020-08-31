@@ -11,6 +11,7 @@
     background: #ffffff;
     border-radius: 5px;
     margin: 8px;
+    padding: 0 30px;
 
     &_add {
       display: flex;
@@ -28,7 +29,7 @@
     min-height: 24px;
     background: $gray-location-icon no-repeat;
     background-size: contain;
-    margin-left: 19px;
+    // margin-left: 19px;
   }
 
   &__info {

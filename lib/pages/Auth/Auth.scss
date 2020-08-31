@@ -1,5 +1,13 @@
 @import 'lib/styles/icons';
 @import 'lib/styles/colors';
+@import 'lib/styles/mixins';
+
+.auth-header {
+  display: flex;
+  @include mobile {
+    display: none;
+  }
+}
 
 .auth-page {
   &__background {
@@ -9,8 +17,6 @@
     width: 2896px;
     height: 100vh;
     animation: 10s ease-in-out 0s infinite alternate move_eye;
-    //position: absolute;
-    //z-index: -1;
   }
 
   &__back-button {
@@ -82,7 +88,6 @@
     font-style: normal;
     font-weight: normal;
     font-size: 12px;
-    //line-height: 13px;
     text-align: center;
     text-transform: uppercase;
 
@@ -146,6 +151,16 @@
       color: $ui-gray-color;
     }
   }
+
+  div#about {
+    background-color: $ui-background-grey-color;
+
+    @include desktop {
+      .landing-page__wrapper {
+        flex-direction: row-reverse;
+      }
+    }
+  }
 }
 
 .landing-page {
@@ -155,9 +170,109 @@
   z-index: 1;
   position: relative;
 
+  &__wrapper {
+    height: 100vh;
+    // padding: 48px 0;
+  }
+
+  @include tab {
+    display: flex;
+
+    &__text {
+      text-align: center;
+      > b {
+        font-size: 32px !important;
+        color: $ui-primary-color;
+      }
+
+      > p {
+        text-align: center;
+        font-size: 24px !important;
+      }
+    }
+  } 
+
+  @include desktop {
+    &__wrapper {
+      display: flex;
+    // flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      height: 80vh;
+    }
+    &__downtown {
+      width: 50vw !important;
+      transform: scale(1.5)
+    }
+
+    &__tandembike {
+      width: 50vw !important;
+      transform: scale(1.5)
+    }
+
+    &__text {
+      text-align: center;
+      width: 50vw;
+      padding-bottom: 50px;
+      > b {
+        font-size: 40px !important;
+        color: $ui-primary-color;
+      }
+
+      > p {
+        text-align: center;
+        font-size: 24px !important;
+      }
+    }
+  } 
+
+  &__landing-header-container {
+    display: flex;
+
+    > nav {
+      padding: 0 16px;
+      color: $ui-primary-color;
+      font-weight: 600;
+      text-transform: uppercase;
+      cursor: pointer;
+    }
+  }
+
+  &__header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    width: 100%;
+
+    p {
+      font-size: 24px;
+      color: $ui-primary-color;
+      font-weight: 700;
+    }
+
+    button {
+      // height: 30px;
+      padding: 4px;
+      border-radius: 8px;
+      background-color: $ui-primary-color;
+      color: $ui-white-color;
+      border: none;
+      width: 80px;
+      font-size: 16px;
+      line-height: 25px;
+      cursor: pointer;
+      font-style: normal;
+      font-family: 'Source Sans Pro', sans-serif;
+
+    }
+  }
+
   &__container {
     height: 100vh;
     overflow-y: scroll;
+    &::-webkit-scrollbar { width: 0 !important };
+    // scrollbar-width: none;
+    // -ms-overflow-style: none;
   }
 
   &__revert-icon {
@@ -166,11 +281,11 @@
 
   &__background {
     background: $background-image no-repeat;
-    background-size: contain;
-    box-sizing: border-box;
+    // background-size: contain;
+    // box-sizing: border-box;
     animation: 10s ease-in-out 0s infinite alternate move_eye;
     height: 100vh;
-    width: 500vw;
+    width: 1000vw;
     position: absolute;
   }
 
@@ -181,9 +296,14 @@
 
   &__text {
     padding: 48px 48px 0 48px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    text-align: center;
 
     b {
       font-size: 20px;
+      color: $ui-primary-color;
     }
 
     p {
@@ -212,6 +332,37 @@
   position: absolute;
   top: 0;
   left: 0;
+}
+
+@include desktop {
+  .auth-page {
+    &__brand {
+      display: flex;
+      flex-direction: column;
+      &:after {
+        content: 'Приложение для поездок c коллегами и студентами твоего вуза!';
+        padding: 40px 0;
+        font-size: 40px;
+        font-weight: 300;
+      }
+    }
+    &__footer {
+      bottom: 86px;
+    }
+  }
+  .landing-page {
+    &__background {
+      animation: none;
+    }
+  }
+}
+
+@include tab {
+  .auth-page {
+    &__footer {
+      bottom: 66px;
+    }
+  }
 }
 
 .animated-arrow-icon {

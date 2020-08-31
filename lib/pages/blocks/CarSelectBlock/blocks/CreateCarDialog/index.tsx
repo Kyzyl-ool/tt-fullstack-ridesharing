@@ -1,14 +1,15 @@
 import React, { useState, useCallback } from 'react';
-import _debounce from 'lodash/debounce';
 import _isEmpty from 'lodash/isEmpty';
 import { Dialog } from 'components/Dialog';
 import { Input, validators } from 'components/Input';
 import { Button } from 'components/Button';
 import { ICar } from 'domain/car';
 import { Select } from 'components/Select';
-import { colorDict, ColorTile } from './components/ColorTile';
+import { ColorTile } from './components/ColorTile';
 import './CreateCarDialog.scss';
 import UserModel from 'models/UserModel';
+import { ColorPicker } from 'components/ColorPicker';
+import { ColorChangeHandler } from 'react-color';
 
 type CarInfo = Omit<ICar, 'id' | 'owner'>;
 
@@ -26,7 +27,6 @@ export const CreateCarDialog = ({ onClose, onReady }: ICreateCarDialog) => {
     color: ''
   });
 
-  const [colorOptions, setColorOptions] = useState([]);
   const [modelOptions, setModelOptions] = useState([]);
 
   const modelSearch = useCallback(async value => await UserModel.searchCarModel(value), []);
@@ -40,14 +40,8 @@ export const CreateCarDialog = ({ onClose, onReady }: ICreateCarDialog) => {
     setCreatingCarInfo({ ...creatingCarInfo, registryNumber });
   };
 
-  const onColorSelected = (color: string) => {
-    setCreatingCarInfo({ ...creatingCarInfo, color });
-    setColorOptions([]);
-  };
-
-  const onFilterColors = (value: string) => {
-    const filteredColorsOptions = colorDict.filter(color => color.match(new RegExp(value, 'i')));
-    setColorOptions(filteredColorsOptions);
+  const handleColorChangeComplete: ColorChangeHandler = color => {
+    setCreatingCarInfo({ ...creatingCarInfo, color: color.hex });
   };
 
   const onFilterModels = useCallback(
@@ -101,23 +95,12 @@ export const CreateCarDialog = ({ onClose, onReady }: ICreateCarDialog) => {
           validate={validators.composeValidators(validators.notEmpty, validators.validRegistryNumber)}
           className="create-car-dialog__input"
         />
-        <Select
-          id="color"
-          placeholderText="Цвет"
-          placeholderType="subscript"
-          onChange={(value, isValid) => onFilterColors(value)}
-          className="create-car-dialog__input"
-          defaultValue={creatingCarInfo.color || ''}
-          selectionOptions={serializeDict(!_isEmpty(colorOptions) ? colorOptions : [])}
-          onSelect={onColorSelected}
-          renderOption={(option, onSelectOption) => (
-            <div onClick={() => onSelectOption(option)} className="create-car-dialog__color-option">
-              <p className="create-car-dialog__color-option-name">{option.name}</p>
-              <ColorTile color={option.name} />
-            </div>
-          )}
-          renderRightAdornment={creatingCarInfo.color ? () => <ColorTile color={creatingCarInfo.color} /> : null}
-        />
+        <ColorPicker onChangeComplete={handleColorChangeComplete}>
+          <div className="create-car-dialog__color-info">
+            <p>Выбрать цвет</p>
+            <ColorTile color={creatingCarInfo.color} />
+          </div>
+        </ColorPicker>
         <Button disabled={!isReady} filled className="create-car-dialog__button" onClick={onCreatingReady}>
           Готово
         </Button>

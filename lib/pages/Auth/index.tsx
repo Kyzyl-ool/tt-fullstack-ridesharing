@@ -13,6 +13,8 @@ import './firebaseui-styles.css';
 import { DoubleArrowBlackIcon, DoubleArrowIcon } from '../../icons';
 import { useBackButton } from 'hooks/useBackButton/useBackButton';
 import { updateFirebaseRegistrationToken } from 'models/NotificationsModel';
+import { LandingHeader } from './landing-header';
+import { LandingHeaderTab } from './landing-header-tab';
 
 // Configure Firebase.
 const config = {
@@ -166,10 +168,24 @@ export const Auth: React.FC = props => {
   return (
     <div className={'auth-page'}>
       <div className={'landing-page__background'} />
+      <LandingHeader>
+        <div className={'landing-page__header'}>
+          {/* <p>Ridesharing</p> */}
+          <p>RIDESHARING</p>
+          <div className="landing-page__landing-header-container">
+            <LandingHeaderTab scrollToId="entry" tabName="Войти" />
+            <LandingHeaderTab scrollToId="what" tabName="О приложении" />
+            <LandingHeaderTab scrollToId="about" tabName="Как пользоваться" />
+          </div>
+          <button onClick={handleNext}>
+            <b>Войти</b>
+          </button>
+        </div>
+      </LandingHeader>
       {renderForState(
         'BEGIN',
         <div className="landing-page__container">
-          <div className="landing-page__auth">
+          <div id="entry" className="landing-page__auth">
             <h1 className={'auth-page__brand'}>Ridesharing</h1>
             <div className={'auth-page__base-layer'}>
               <Button onClick={handleNext}>
@@ -183,35 +199,47 @@ export const Auth: React.FC = props => {
               </div>
             </span>
           </div>
-          <div className={'landing-page'}>
-            <div className={'landing-page__text'}>
-              <b>Что такое Ridesharing?</b>
-              <p>
-                Поиск попутчиков, но только в рамках одного города и среди ваших друзей, коллег, знакомых в одной
-                организации
-              </p>
+          <div id="what" className={'landing-page'}>
+            <div className={'landing-page__wrapper'}>
+              <div className={'landing-page__text'}>
+                <b>Что такое Ridesharing?</b>
+                <p>
+                  Поиск попутчиков, но только в рамках одного города и среди ваших друзей, коллег, знакомых в одной
+                  организации
+                </p>
+                <Button
+                  filled
+                  className="landing-page__button"
+                  onClick={() => document.getElementById('entry').scrollIntoView({ behavior: 'smooth' })}
+                >
+                  Найти попутчика!
+                </Button>
+              </div>
+              <div className={'landing-page__downtown'} />
             </div>
-            <div className={'landing-page__downtown'} />
+
             <span className={'auth-page__footer auth-page__footer_black'}>
               Как организованы поездки?
               <DoubleArrowBlackIcon className="animated-arrow-icon" />
             </span>
           </div>
-          <div className={'landing-page'}>
-            <div className={'landing-page__text'}>
-              <b>Присоединяйтесь к организации</b>
-              <p>Или создайте ее, чтобы организовать круг доверенных лиц</p>
-              <b>Создавайте поездку</b>
-              <p>Можно создать свою или присоединиться к подходящей из существующих</p>
-              <b>Добирайтесь до пункта назначения вместе!</b>
-            </div>
-            <div className={'landing-page__tandembike'} />
-            <span className={'auth-page__footer auth-page__footer_black'}>
-              В начало
-              <div onClick={scrollToTop} className="animated-arrow-icon">
-                <DoubleArrowBlackIcon className="landing-page__revert-icon" />
+          <div id="about" className={'landing-page'}>
+            <div className={'landing-page__wrapper'}>
+              <div className={'landing-page__text'}>
+                <b>Присоединяйтесь к организации</b>
+                <p>Или создайте ее, чтобы организовать круг доверенных лиц</p>
+                <b>Создавайте поездку</b>
+                <p>Можно создать свою или присоединиться к подходящей из существующих</p>
+                <b>Добирайтесь до пункта назначения вместе!</b>
               </div>
-            </span>
+              <div className={'landing-page__tandembike'} />
+              <span className={'auth-page__footer auth-page__footer_black'}>
+                В начало
+                <div onClick={scrollToTop} className="animated-arrow-icon">
+                  <DoubleArrowBlackIcon className="landing-page__revert-icon" />
+                </div>
+              </span>
+            </div>
           </div>
         </div>,
         'appear'
