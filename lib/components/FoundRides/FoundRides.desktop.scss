@@ -1,0 +1,10 @@
+@import 'lib/styles/mixins';
+
+@include desktop {
+    .found-rides {
+        &__container {
+            width: 500px;
+            margin-left: calc(50vw - 215px - 250px);
+        }
+    }
+}

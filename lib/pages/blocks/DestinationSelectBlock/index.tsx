@@ -144,7 +144,7 @@ export const DestinationSelectBlock = ({
         </Header>
       )}
       <Slider visible={visible && !isMapShown} from="top" timeout={400} unmountOnExit>
-        <div>
+        <div className="destination-select-block">
           <div className="destination-select-block__input-form">
             {fromOrganization ? (
               <>

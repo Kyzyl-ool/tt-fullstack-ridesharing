@@ -10,7 +10,10 @@ import { ICar } from 'domain/car';
 import UserModel from 'models/UserModel';
 import { PlusIcon } from '../../../icons';
 import { CreateCarDialog } from './blocks/CreateCarDialog';
+import { isLaptopMatchMedia, isPadMatchMedia } from 'helpers/matchers';
+import { Header } from 'components/Header';
 import './CarSelectBlock.scss';
+import './CarSelectBlock.desktop.scss';
 
 export type CarInfo = Omit<ICar, 'id' | 'owner'>;
 
@@ -45,6 +48,9 @@ export const CarSelectBlock = ({
   const [fetchedCars, setFetchedCars] = useState<ICar[]>(null);
   const [isCreatingNewCar, setIsCreatingNewCar] = useState<boolean>(false);
 
+  const isDesktop = isLaptopMatchMedia();
+  const isTab = isPadMatchMedia();
+
   const onCardClicked = (carId: string) => {
     setSelectedCarId(carId);
     if (onClick) {
@@ -74,6 +80,7 @@ export const CarSelectBlock = ({
 
   return (
     <Fragment>
+      {visible && (isTab || isDesktop) && <Header>Выберите автомобиль</Header>}
       {visible && !hideBackButton && <GoBackArrow onGoBack={onGoBack} className="car-select-block__back-arrow" />}
       <Slider visible={visible} timeout={600} from="bottom" unmountOnExit>
         <BaseLayer

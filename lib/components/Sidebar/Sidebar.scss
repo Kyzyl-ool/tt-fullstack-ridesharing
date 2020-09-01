@@ -64,6 +64,9 @@
 
 @include desktop {
   .rsh-sidebar {
-    position: relative;
+    // position: relative;
+    &__container {
+      padding-left: 80px;
+    }
   }
 }

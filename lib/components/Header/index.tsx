@@ -56,7 +56,7 @@ export const Header = ({
           <div className={headerContentClassNames}>{children}</div>
         </header>
       </Container>
-      {iconType === 'menu' && <Sidebar visible={isSidebarShown} onClose={onSidebarClose} />}
+      <Sidebar visible={isSidebarShown} onClose={onSidebarClose} />
     </Fragment>
   );
 };

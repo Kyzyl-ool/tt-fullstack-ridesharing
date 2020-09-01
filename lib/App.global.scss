@@ -1,4 +1,5 @@
 @import 'lib/styles/colors';
+@import 'lib/styles/mixins';
 
 p,
 div,
@@ -13,4 +14,12 @@ body {
 
 input[type='text'] {
   font-size: 14px;
+}
+
+@include desktop {
+  .rsh-header  {
+    > .rsh-header__icon {
+        display: none;
+    }   
+}
 }

@@ -1,0 +1,13 @@
+@import 'lib/styles/mixins';
+
+@include desktop {
+    .ride-information-block {
+        &__back-arrow {
+            position: relative;
+        }
+        .trip-info__layer {
+            width: 500px;
+            margin-left: calc(50vw - 215px - 250px);
+        }
+    }
+}

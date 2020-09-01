@@ -12,6 +12,7 @@ import { IDestination, ILocation, IDirectedDestination } from 'domain/map';
 import RideModel from 'models/RideModel';
 import { IRide } from 'domain/ride';
 import './JoinRidePage.scss';
+import './JoinRidePage.desktop.scss';
 
 type PageState =
   | 'INITIAL'
@@ -109,7 +110,7 @@ export const JoinRidePage = () => {
   };
 
   return (
-    <div>
+    <div className="join-ride-page">
       {pageState === 'INITIAL' && <InitialRideBlock onInputClick={onStartOrganizationChoosing} />}
       <OrganizationSelectBlock
         visible={pageState === 'ORGANIZATION_CHOOSING'}

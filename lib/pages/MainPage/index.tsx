@@ -5,11 +5,12 @@ import { NearestOrganizationLabel } from '../../components/NearestOrganizationLa
 import { Button } from '../../components/Button';
 import { useBlurredMap, useUserLocation } from 'hooks/mapHooks';
 import './MainPage.scss';
+import './MainPage.desktop.scss';
 
 export const MainPage = () => {
   useBlurredMap(true);
   return (
-    <div>
+    <div className="main-page">
       <Header iconType="menu" onIconClick={() => {}}>
         <div className="main-page__organization-label">
           <NearestOrganizationLabel onClick={() => {}} />

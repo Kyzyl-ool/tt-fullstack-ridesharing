@@ -67,11 +67,7 @@ export default class UserModel {
 
   static login = async (phoneNumber: string, password: string): Promise<boolean> => {
     try {
-      await axios.post(
-        `/api/login`,
-        { login: `${phoneNumber}@ridesharing.online`, password },
-        { withCredentials: true }
-      );
+      await axios.post(`/api/login`, { login: `izrailev@phystech.edu`, password }, { withCredentials: true });
       return true;
     } catch (e) {
       return e.response.data.description === 'Already logged-in';

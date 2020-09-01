@@ -1,7 +1,10 @@
 @import 'lib/styles/colors';
 @import 'lib/styles/icons';
+@import 'lib/styles/mixins';
+
 
 .destination-select-block {
+  max-width: 400px;
   &__header-text {
     width: 100%;
     font-weight: 300;
@@ -95,6 +98,23 @@
 
     > .rsh-input {
       width: 100%;
+    }
+  }
+}
+
+@include desktop {
+  .destination-select-block {
+    display: flex;
+    max-width: 400px;
+    margin-left: calc(50vw - 215px - 200px);
+
+    &__destinations-list {
+      width: 400px;
+      padding: 30px 24px 0 24px;
+    }
+
+    &__input-form {
+      width: 400px;
     }
   }
 }

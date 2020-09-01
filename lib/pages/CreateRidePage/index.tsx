@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, Fragment } from 'react';
 import { Dialog } from 'components/Dialog';
 import { CarSelectBlock } from 'pages/blocks/CarSelectBlock';
 import { InitialRideBlock } from '../blocks/InitialRideBlock';
@@ -9,6 +9,8 @@ import { ILocation, IDestination } from 'domain/map';
 import RideModel from 'models/RideModel';
 import { IRideCreationInfo } from 'domain/ride';
 import { useHistory } from 'react-router-dom';
+import './CreateRidePage.desktop.scss';
+import { Header } from 'components/Header';
 
 type PageState =
   | 'INITIAL'
@@ -103,7 +105,7 @@ export const CreateRidePage = () => {
   const onDialogClose = () => history.push('/');
 
   return (
-    <div>
+    <div className="create-ride-page">
       {pageState === 'INITIAL' && <InitialRideBlock onInputClick={onStartOrganizationChoosing} />}
       <OrganizationSelectBlock
         visible={pageState === 'ORGANIZATION_CHOOSING'}
@@ -136,9 +138,12 @@ export const CreateRidePage = () => {
         rideInfo={rideCreationInfo}
       />
       {pageState === 'DONE' && (
-        <Dialog onClose={onDialogClose} hide={false}>
-          Новая поездка успешно создана. Запросы от пассажиров будут направлены вам push-уведомлением.
-        </Dialog>
+        <Fragment>
+          <Header> </Header>
+          <Dialog className="create-ride-page__done-dialog" onClose={onDialogClose} hide={false}>
+            Новая поездка успешно создана. Запросы от пассажиров будут направлены вам push-уведомлением.
+          </Dialog>
+        </Fragment>
       )}
     </div>
   );

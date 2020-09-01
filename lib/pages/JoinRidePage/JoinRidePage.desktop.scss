@@ -1,0 +1,21 @@
+@import 'lib/styles/mixins';
+
+@include desktop {
+    .rsh-backdrop {
+
+      .organization-select-block__organizations-list {
+          margin-left: calc(50vw - 215px - 250px);
+      }
+
+      .join-ride-page {
+        width: calc(100vw - 431px) !important;
+        margin-left: 431px;
+        position: relative;
+      }
+  
+      .rsh-map {
+        margin-left: 400px;
+        width: calc(100vw - 400px) !important;
+      }
+    }
+  }

@@ -1,0 +1,24 @@
+@import 'lib/styles/mixins';
+
+@include desktop {
+    .rsh-backdrop {
+    //   display: flex;
+    //   align-items: center;
+
+      .main-page {
+        width: calc(100vw - 431px) !important;
+        margin-left: 431px;
+        position: relative;
+
+        &__buttons-group {
+            width: calc(100vw - 431px) !important;
+            margin-left: 431px;
+        }
+      }
+  
+      .rsh-map {
+        margin-left: 400px;
+        width: calc(100vw - 400px) !important;
+      }
+    }
+  }

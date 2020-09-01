@@ -6,9 +6,12 @@ import { DriverCard } from 'components/DriverCard/DriverCard';
 import { Slider } from 'components/Slider';
 import { IRide, IHostAnswer } from 'domain/ride';
 import { GoBackArrow } from 'components/GoBackArrow';
-import './FoundRides.scss';
 import { Button } from 'components/Button';
 import { useHistory } from 'react-router-dom';
+import { Header } from 'components/Header';
+import { isLaptopMatchMedia, isPadMatchMedia } from 'helpers/matchers';
+import './FoundRides.scss';
+import './FoundRides.desktop.scss';
 
 interface IFoundRides {
   rides: IRide[];
@@ -21,6 +24,9 @@ export const FoundRides: React.FC<IFoundRides> = ({ rides, onSendRequest, onSele
   const [selectedRideIndex, setSelectedRideIndex] = useState<number>(null);
   const [selected, setSelected] = useState<boolean>(false);
   const history = useHistory();
+
+  const isDesktop = isLaptopMatchMedia();
+  const isTab = isPadMatchMedia();
 
   const onBackArrowClick = () => {
     if (selected) {
@@ -37,6 +43,7 @@ export const FoundRides: React.FC<IFoundRides> = ({ rides, onSendRequest, onSele
 
   return (
     <div>
+      {(isTab || isDesktop) && <Header> </Header>}
       <GoBackArrow onGoBack={onBackArrowClick} className="found-rides__back-arrow" />
       <Slider visible={selected} timeout={900} unmountOnExit from={'bottom'}>
         <div className="found-rides__container">

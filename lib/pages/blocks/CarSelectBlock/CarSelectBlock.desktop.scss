@@ -1,0 +1,29 @@
+@import 'lib/styles/mixins';
+
+@include desktop {
+    .car-select-block {
+        &__layer {
+            width: 500px;
+            margin-left: calc(50vw - 215px - 250px);
+        }
+        &__cards {
+            overflow-y: hidden;
+        }
+        &__back-arrow {
+            // visibility: hidden;
+            position: relative;
+        }
+        // &__back-arrow::before {
+        //     height: 56px;
+        //     font-size: 16px;;
+        //     visibility: visible;
+        //     border: 1px solid #33a852;
+        //     box-sizing: border-box;
+        //     border-radius: 10px;
+        //     background: #ffffff;
+        //     padding: 24px;
+        //     content: 'Назад';
+        // }
+    }
+}
+
