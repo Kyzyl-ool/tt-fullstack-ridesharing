@@ -263,9 +263,9 @@ export const RideCard = ({
                     })}
                   </b>
                 </div>
-                <u onClick={() => setShow(true)} className={'ride-card-participants-button'}>
+                {/* <u onClick={() => setShow(true)} className={'ride-card-participants-button'}>
                   Пассажиров:&nbsp;<b>{passengers.length}</b>
-                </u>
+                </u> */}
               </div>
             </div>
           </div>
