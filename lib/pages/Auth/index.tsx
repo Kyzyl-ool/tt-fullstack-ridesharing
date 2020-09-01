@@ -3,7 +3,7 @@ import usePageState from 'hooks/usePageState/usePageState';
 import './Auth.scss';
 import { BaseLayer } from 'components/BaseLayer/BaseLayer';
 import { Button } from 'components/Button';
-import { useHistory } from 'react-router-dom';
+import { useHistory, Link } from 'react-router-dom';
 import StyledFirebaseAuth from 'react-firebaseui/StyledFirebaseAuth';
 import { initializeApp, auth, messaging as fireMessaging } from '../../firebase';
 import { useDispatch } from 'react-redux';
@@ -171,7 +171,7 @@ export const Auth: React.FC = props => {
       <LandingHeader>
         <div className={'landing-page__header'}>
           {/* <p>Ridesharing</p> */}
-          <p>RIDESHARING</p>
+          <p onClick={() => goTo('BEGIN')}>RIDESHARING</p>
           <div className="landing-page__landing-header-container">
             <LandingHeaderTab scrollToId="entry" tabName="Войти" />
             <LandingHeaderTab scrollToId="what" tabName="О приложении" />

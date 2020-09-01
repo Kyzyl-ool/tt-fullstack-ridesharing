@@ -14,6 +14,72 @@
  * limitations under the License.
  */
 
+.mdl-card {
+  box-shadow: none !important;
+}
+
+.mdl-textfield__label {
+  font-size: 0px !important;
+  color: white;
+}
+
+.firebaseui-id-page-phone-sign-in-finish .firebaseui-text {
+  font-size: 0px !important;
+  line-height: 16px !important;
+}
+
+.firebaseui-id-page-phone-sign-in-finish .firebaseui-text::before {
+  margin-top: 8px;
+  font-size: 14px;
+  content: 'SMS отправлено на введенный номер. Введите 6-значный код в поле ниже.'; 
+}
+
+.firebaseui-form-actions > .firebaseui-id-secondary-link {
+  font-size: 0px !important;
+}
+
+.firebaseui-form-actions > .firebaseui-id-secondary-link::before {
+  content: 'Отмена';
+  font-size: 16px;
+}
+
+.firebaseui-id-resend-link {
+  font-size: 0 !important;
+}
+
+.firebaseui-id-resend-link::before {
+  font-size: 14px;
+  content: 'Отправить еще раз';
+}
+
+.mdl-textfield__label[for="ui-sign-in-phone-number-input"]::before {
+  content: 'Номер телефона';
+  font-size: 12px;
+}
+
+.mdl-textfield__label[for="ui-sign-in-phone-confirmation-code-input"]::before {
+  content: 'Введите код из SMS';
+  font-size: 12px;
+}
+
+.firebaseui-id-submit.mdl-js-button {
+  font-size: 0 !important;
+}
+
+.firebaseui-id-submit.mdl-js-button::before {
+  content: 'Готово';
+  font-size: 16px;
+}
+
+.firebaseui-phone-tos {
+  font-size: 0 !important;
+}
+
+.firebaseui-phone-tos::before {
+  content: 'После нажатия на кнопку "Готово" на введенный номер придет SMS-сообщение.';
+  font-size: 12px;
+}
+
 .firebaseui-container {
 }
 .firebaseui-container.firebaseui-page-provider-sign-in {
