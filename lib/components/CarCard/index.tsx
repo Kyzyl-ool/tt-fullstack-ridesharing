@@ -42,9 +42,9 @@ export const CarCard: React.FC<ICarCard> = ({
 
   const [editing, setEditing] = useState<boolean>(iediting);
 
-  const handleEdit = () => {
-    setEditing(true);
-  };
+  // const handleEdit = () => {
+  //   setEditing(true);
+  // };
   const handleSubmit = e => {
     e.preventDefault();
     setEditing(false);
@@ -77,15 +77,17 @@ export const CarCard: React.FC<ICarCard> = ({
       </form>
       <div className="car-card__info" style={{ textAlign: 'center', display: editing ? 'none' : '' }}>
         <p className={'car-card__name'}>{model}</p>
-        <p className={'car-card__number'}>{registryNumber}</p>
-        <div className={'car-card__color'}>
-          <p>{color}</p>
-          <ColorTile color={color} />
+        <div className={'car-card__number-container'}>
+          <p className={'car-card__number'}>{registryNumber}</p>
+          <div className={'car-card__color'}>
+            {/* <p>{color}</p> */}
+            <ColorTile color={color} />
+          </div>
         </div>
       </div>
       {/* {!editing ? <p className={'car-card__text'}>Пользователи пока не оценивали этот автомобиль</p> : null} */}
       <ul className="car-card__icons">
-        <li className={'car-card__icon'}>
+        {/* <li className={'car-card__icon'}>
           {editing ? (
             <>
               <label htmlFor={'car-form-submit'}>
@@ -96,7 +98,7 @@ export const CarCard: React.FC<ICarCard> = ({
           ) : (
             <img src={`${penSrc}`} onClick={handleEdit} />
           )}
-        </li>
+        </li> */}
         <li className={'car-card__icon'} onClick={() => onDelete(id)}>
           <img src={trashSrc} />
         </li>

@@ -29,6 +29,22 @@
     left: 0;
   }
 
+  &__color-info {
+    height: fit-content;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+
+    > * {
+      padding: 0 10px;
+    }
+
+    > p {
+      margin: 10px;
+      color: #989898;
+    }
+  }
+
   &__color-option {
     display: flex;
     justify-content: space-between;

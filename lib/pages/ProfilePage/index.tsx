@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useState, useRef } from 'react';
 import Loader from 'react-loader-spinner';
 import usePageState from 'hooks/usePageState/usePageState';
 import { HeaderBackground } from 'components/HeaderBackground';
@@ -18,6 +18,7 @@ import { useDispatch } from 'react-redux';
 import { Dialog } from 'components/Dialog';
 import { ChangeInfoDialog } from './ChangeInfoDialog';
 import './ProfilePage.scss';
+import { useClickOutside } from 'hooks/useClickOutside';
 
 type editVariants = 'NAME' | 'PHONE' | 'ABOUT' | 'EMAIL';
 
@@ -27,6 +28,7 @@ const defaultEdit = {
 };
 
 export const ProfilePage: React.FC = props => {
+  const carBlockRef = useRef(null);
   const [pageState, setNext, setPrev, renderForState, goTo] = usePageState([
     'PROFILE',
     'PROFILE_ORGANIZATIONS',
@@ -44,6 +46,7 @@ export const ProfilePage: React.FC = props => {
   const history = useHistory();
   const dispatch = useDispatch();
   const [myOrganizations, setMyOrganizations] = useState<ILocation[]>();
+  useClickOutside(carBlockRef.current, () => goTo('PROFILE'));
 
   useEffect(() => {
     const getUserData = async () => {
@@ -206,19 +209,22 @@ export const ProfilePage: React.FC = props => {
           Сохранить
         </Button> */}
       </div>
-      <CarSelectBlock
-        onDelete={id => onDeleteCar(id)}
-        onCarInfoChange={onCarInfoChange}
-        onCarSelect={() => {}}
-        onGoBack={() => goTo('PROFILE')}
-        visible={pageState === 'PROFILE_CARS'}
-        onClick={() => {}}
-        hideBackButton
-        withBottomButton={false}
-        withAddNewCarButton
-        headerText={'Ваши автомобили'}
-        withClickableCars={false}
-      />
+      <div ref={carBlockRef}>
+        <CarSelectBlock
+          onDelete={id => onDeleteCar(id)}
+          onCarInfoChange={onCarInfoChange}
+          onCarSelect={() => {}}
+          onGoBack={() => goTo('PROFILE')}
+          visible={pageState === 'PROFILE_CARS'}
+          onClick={() => {}}
+          hideBackButton
+          withBottomButton={false}
+          withAddNewCarButton
+          headerText={'Ваши автомобили'}
+          withClickableCars={false}
+        />
+      </div>
+
       {renderForState(
         'PROFILE_ORGANIZATIONS',
         <LocationsList

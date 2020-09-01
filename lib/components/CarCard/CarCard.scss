@@ -30,18 +30,21 @@
     line-height: 15px;
   }
 
+  &__number-container {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    > * {
+      padding: 0 5px;
+    }
+  }
+
   &__color {
     font-weight: 600;
     font-size: 14px;
     line-height: 15px;
     display: flex;
     justify-content: center;
-
-    .color-tile {
-      width: 12px;
-      height: 12px;
-      margin-left: 6px;
-    }
   }
 
   &__text {
@@ -54,7 +57,8 @@
   }
 
   &__icons {
-    flex: 1;
+    // flex: 1;
+    margin-left: 8px;
   }
 
   &__info {
